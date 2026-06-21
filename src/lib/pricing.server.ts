@@ -202,6 +202,7 @@ export const countryHeaders = [
   "fastly-client-country",
   "x-real-ip-country",
 ];
+export const pricingVaryHeader = [...countryHeaders, "x-akamai-edgescape"].join(", ");
 
 function normalizeCountryCode(countryCode: string | null | undefined) {
   return countryCode?.trim().slice(0, 2).toUpperCase() || "";

@@ -7,8 +7,10 @@ import ProcessStep from "../components/ProcessStep.astro";
 import FAQ from "../components/FAQ.astro";
 import CTASection from "../components/CTASection.astro";
 import { addOns, faqs, localTrust, pricing, processSteps, reasons, services } from "../content/site";
-import { getResolvedPricing } from "../lib/pricing.server";
+import { getResolvedPricing, pricingVaryHeader } from "../lib/pricing.server";
 
+Astro.response.headers.set("Cache-Control", "private, no-store");
+Astro.response.headers.set("Vary", pricingVaryHeader);
 const resolvedPricing = getResolvedPricing(Astro.request);
 const pricingCards = pricing.map((plan) => ({
   ...plan,

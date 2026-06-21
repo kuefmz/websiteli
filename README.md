@@ -79,6 +79,14 @@ The server build is generated in:
 
 Deploy this project to a server-capable Astro host such as Vercel. Static shared hosting cannot run `/api/pricing` or `/api/contact`.
 
+The live domain must return JSON from:
+
+```text
+https://websiteli.ch/api/pricing
+```
+
+If that URL returns a Hostpoint/Apache 404 page, the site is still deployed as static files and geographic pricing cannot work.
+
 ## Geographic Pricing
 
 `/api/pricing` resolves country pricing from these headers, in order:
@@ -111,6 +119,22 @@ Build verification is configured through GitHub Actions in:
 .github/workflows/deploy.yml
 ```
 
+Production Vercel deployment is configured in:
+
+```text
+.github/workflows/deploy-vercel.yml
+```
+
+Required GitHub secrets:
+
+```text
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+```
+
+After the first Vercel deployment, add `websiteli.ch` to the Vercel project and follow the DNS records Vercel shows for the domain. The domain must point to Vercel, not the old static Hostpoint Apache site.
+
 On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
@@ -123,4 +147,6 @@ On every push to the `main` branch, GitHub Actions will:
 npm install              # Install dependencies
 npm run dev              # Start local development
 npm run build            # Build server output into .vercel/output/
+npm run test:pricing     # Build and verify backend pricing behavior
+npm run verify:live      # Verify the deployed domain is running the pricing API
 ```
