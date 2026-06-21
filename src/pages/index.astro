@@ -130,7 +130,14 @@ const addOnCards = addOns.map((item) => ({
 
   <script>
     async function updatePricing() {
-      const response = await fetch("/api/pricing", {
+      const pricingUrl = new URL("/api/pricing", window.location.origin);
+      const market = new URLSearchParams(window.location.search).get("market");
+
+      if (market) {
+        pricingUrl.searchParams.set("market", market);
+      }
+
+      const response = await fetch(pricingUrl, {
         headers: {
           Accept: "application/json",
         },
