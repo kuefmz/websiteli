@@ -253,10 +253,14 @@ const addOnCards = addOns.map((item) => ({
     async function updatePricing() {
       const urlMarket = new URLSearchParams(window.location.search).get("market")?.trim().slice(0, 2).toUpperCase() || "";
       const cachedMarket = getCookie("websiteli_market").trim().slice(0, 2).toUpperCase();
-      let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : cachedMarket;
+      let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : "";
 
       if (!supportedPricingMarkets.has(market)) {
         market = await detectBrowserMarket();
+      }
+
+      if (!supportedPricingMarkets.has(market) && cachedMarket !== "CH") {
+        market = cachedMarket;
       }
 
       if (supportedPricingMarkets.has(market)) {

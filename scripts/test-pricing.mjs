@@ -51,3 +51,9 @@ test("frontend starts with Swiss fallback prices before browser country detectio
   assert.match(index, /from 2,000 CHF/);
   assert.match(index, /from 3,500 CHF/);
 });
+
+test("cached Swiss market does not block browser country detection", async () => {
+  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+
+  assert.match(source, /cachedMarket !== "CH"/);
+});
