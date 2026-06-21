@@ -67,3 +67,18 @@ test("cached Swiss market does not block browser country detection", async () =>
   assert.match(source, /api\.country\.is/);
   assert.match(source, /ipapi\.co/);
 });
+
+test("browser country detection can prefer a VPN country over Swiss lookup noise", async () => {
+  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+
+  assert.match(source, /Promise\.all/);
+  assert.match(source, /firstNonSwissMarket/);
+  assert.match(source, /result\.market !== "CH"/);
+});
+
+test("pricing debug mode renders lookup results on the page", async () => {
+  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+
+  assert.match(source, /data-pricing-debug/);
+  assert.match(source, /lookupResults/);
+});

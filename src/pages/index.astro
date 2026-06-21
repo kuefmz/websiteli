@@ -217,19 +217,22 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
     }
 
     async function detectBrowserMarket() {
-      for (const lookup of marketLookups) {
-        try {
-          const result = await fetchMarketFromLookup(lookup);
-
-          if (result.market) {
-            return result;
+      const results = await Promise.all(
+        marketLookups.map(async (lookup) => {
+          try {
+            return await fetchMarketFromLookup(lookup);
+          } catch {
+            return { market: "", source: lookup.name };
           }
-        } catch {
-          // Try the next lookup service.
-        }
-      }
+        }),
+      );
+      const firstNonSwissMarket = results.find((result) => result.market && result.market !== "CH");
+      const firstSupportedMarket = results.find((result) => result.market);
 
-      return { market: "", source: "" };
+      return {
+        ...(firstNonSwissMarket || firstSupportedMarket || { market: "", source: "" }),
+        results,
+      };
     }
 
     function renderPricing(pricing) {
@@ -245,6 +248,34 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       });
     }
 
+    function renderPricingDebug(details) {
+      let panel = document.querySelector("[data-pricing-debug]");
+
+      if (!(panel instanceof HTMLElement)) {
+        panel = document.createElement("pre");
+        panel.dataset.pricingDebug = "true";
+        panel.style.cssText = [
+          "position:fixed",
+          "left:12px",
+          "right:12px",
+          "bottom:12px",
+          "z-index:9999",
+          "max-height:45vh",
+          "overflow:auto",
+          "margin:0",
+          "padding:12px",
+          "border-radius:8px",
+          "background:#111",
+          "color:#f8f8f8",
+          "font:12px/1.45 monospace",
+          "white-space:pre-wrap",
+        ].join(";");
+        document.body.append(panel);
+      }
+
+      panel.textContent = JSON.stringify(details, null, 2);
+    }
+
     async function updatePricing() {
       const urlParams = new URLSearchParams(window.location.search);
       const urlMarket = normalizeMarket(urlParams.get("market"));
@@ -252,11 +283,13 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       const debugPricing = urlParams.get("pricing_debug") === "1";
       let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : "";
       let source = market ? "url" : "";
+      let lookupResults = [];
 
       if (!supportedPricingMarkets.has(market)) {
         const detected = await detectBrowserMarket();
         market = detected.market;
         source = detected.source;
+        lookupResults = detected.results || [];
       }
 
       if (!supportedPricingMarkets.has(market) && cachedMarket !== "CH") {
@@ -271,12 +304,16 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       renderPricing(getPricingForMarket(market));
 
       if (debugPricing) {
-        console.info("Websiteli pricing", {
+        const debugDetails = {
           market: supportedPricingMarkets.has(market) ? market : pricingData[fallbackKey],
           source: source || "fallback",
           cachedMarket,
           urlMarket,
-        });
+          lookupResults,
+        };
+
+        console.info("Websiteli pricing", debugDetails);
+        renderPricingDebug(debugDetails);
       }
     }
 
