@@ -33,17 +33,6 @@ Astro will print the local preview URL, usually:
 http://localhost:4321/
 ```
 
-To test the contact form with the Google Apps Script endpoint locally, create a `.env` file:
-
-```bash
-PUBLIC_CONTACT_FORM_ENDPOINT="https://script.google.com/macros/s/your-web-app-id/exec"
-PUBLIC_GA_MEASUREMENT_ID="G-TGZY875FGJ"
-PUBLIC_WHATSAPP_URL="https://wa.me/41791234567"
-```
-
-If this value is not set, the form shows a clear message asking visitors to email directly.
-The deployed site requires this value for the contact form to submit to Google Sheets.
-
 ## Project Structure
 
 ```text
@@ -115,14 +104,6 @@ HOSTPOINT_HOST
 HOSTPOINT_USERNAME
 HOSTPOINT_PASSWORD
 HOSTPOINT_TARGET_PATH
-```
-
-Optional GitHub secret for the contact form:
-
-```text
-PUBLIC_CONTACT_FORM_ENDPOINT
-PUBLIC_GA_MEASUREMENT_ID
-PUBLIC_WHATSAPP_URL
 ```
 
 Full deployment instructions are in:

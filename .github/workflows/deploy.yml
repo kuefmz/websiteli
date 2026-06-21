@@ -37,14 +37,6 @@ jobs:
 
       # Build the static Astro website into dist/.
       - name: Build Astro site
-        env:
-          # Optional: public Google Apps Script Web App URL for the contact form.
-          # The legacy PUBLIC_LEAD_FORM_ENDPOINT secret is also supported as a fallback.
-          PUBLIC_CONTACT_FORM_ENDPOINT: ${{ secrets.PUBLIC_CONTACT_FORM_ENDPOINT || secrets.PUBLIC_LEAD_FORM_ENDPOINT }}
-          # Optional: GA4 measurement ID, for example G-XXXXXXXXXX.
-          PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA_MEASUREMENT_ID }}
-          # Optional: WhatsApp URL, for example https://wa.me/41791234567.
-          PUBLIC_WHATSAPP_URL: ${{ secrets.PUBLIC_WHATSAPP_URL }}
         run: npm run build
 
       # Fail early with a clear message if the build did not create the expected output.
@@ -69,9 +61,8 @@ jobs:
           HOSTPOINT_USERNAME: ${{ secrets.HOSTPOINT_USERNAME }}
           HOSTPOINT_PASSWORD: ${{ secrets.HOSTPOINT_PASSWORD }}
           HOSTPOINT_TARGET_PATH: ${{ secrets.HOSTPOINT_TARGET_PATH }}
-          PUBLIC_CONTACT_FORM_ENDPOINT: ${{ secrets.PUBLIC_CONTACT_FORM_ENDPOINT || secrets.PUBLIC_LEAD_FORM_ENDPOINT }}
         run: |
-          for name in HOSTPOINT_HOST HOSTPOINT_USERNAME HOSTPOINT_PASSWORD HOSTPOINT_TARGET_PATH PUBLIC_CONTACT_FORM_ENDPOINT; do
+          for name in HOSTPOINT_HOST HOSTPOINT_USERNAME HOSTPOINT_PASSWORD HOSTPOINT_TARGET_PATH; do
             if [ -z "${!name}" ]; then
               echo "Missing required GitHub secret: ${name}"
               exit 1
