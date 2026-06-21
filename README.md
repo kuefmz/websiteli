@@ -2,11 +2,12 @@
 
 Astro website for **websiteli.ch**, a Swiss web development service for small businesses.
 
-The site uses Astro server output so pricing and contact submissions can be resolved on the backend.
+The site builds as static Astro pages for Hostpoint, with a PHP pricing endpoint for server-side market resolution.
 
 ## Requirements
 
-- Node.js 20 or newer
+- Node.js 20 or newer for local builds
+- PHP support on the Hostpoint server for `/api/pricing.php`
 - npm
 
 This project currently uses Astro 5, which builds successfully with Node 20.
@@ -45,10 +46,10 @@ src/
 public/
   assets/            Static images and public files
 scripts/
-  deploy.sh          Legacy static-host deployment script
+  deploy.sh          Hostpoint static/PHP deployment script
 .github/
   workflows/         GitHub Actions build workflow
-  DEPLOYMENT.md      Hostpoint Node deployment notes
+  DEPLOYMENT.md      Hostpoint PHP deployment notes
 ```
 
 Most homepage text, service items, plan names, process steps, and FAQs can be edited in:
@@ -57,38 +58,38 @@ Most homepage text, service items, plan names, process steps, and FAQs can be ed
 src/content/site.ts
 ```
 
-Country pricing lives in the server-only module:
+Country pricing for the live Hostpoint site lives in the PHP endpoint:
 
 ```text
-src/lib/pricing.server.ts
+public/api/pricing.php
 ```
 
 ## Build
 
-Create the Hostpoint Node production build:
+Create the Hostpoint static/PHP production build:
 
 ```bash
-npm run build:node
+npm run build
 ```
 
-The standalone Node server build is generated in:
+The deployable output is generated in:
 
 ```text
 dist/
 ```
 
-Deploy this project only on Hostpoint if your plan can run a Node.js app/runtime. Static shared hosting cannot run `/api/pricing` or `/api/contact`.
+Deploy `dist/` to Hostpoint. Hostpoint must execute PHP files for `/api/pricing.php`; otherwise pricing will stay on the Swiss fallback.
 The live domain must return JSON from:
 
 ```text
-https://websiteli.ch/api/pricing
+https://websiteli.ch/api/pricing.php
 ```
 
-If that URL returns a Hostpoint/Apache 404 page, the site is still deployed as static files and geographic pricing cannot work.
+If that URL downloads PHP source, returns a 404 page, or returns HTML, PHP is not running for that path.
 
 ## Geographic Pricing
 
-`/api/pricing` resolves country pricing from these headers, in order:
+`/api/pricing.php` resolves country pricing from these headers first:
 
 ```text
 x-vercel-ip-country
@@ -99,12 +100,7 @@ x-forwarded-country
 
 Unsupported or missing countries fall back to Switzerland (`CH`). In local development only, add `?market=HU` or another supported country code to test a market.
 
-Contact form submissions go through `/api/contact`, which resolves the market again on the backend before forwarding the payload. Configure one of these server environment variables for the forwarding endpoint:
-
-```text
-CONTACT_FORM_ENDPOINT
-LEAD_FORM_ENDPOINT
-```
+If no country header is available, the PHP endpoint tries a short server-side IP country lookup using the visitor IP. If that lookup fails or outbound HTTP is blocked, it falls back to Switzerland.
 
 ## Deployment
 
@@ -114,22 +110,20 @@ Build verification is configured through GitHub Actions in:
 .github/workflows/deploy.yml
 ```
 
-This workflow verifies the Node server build. It does not upload to Hostpoint automatically because Hostpoint must first confirm a Node.js app/runtime exists for the plan.
+This workflow verifies the static build and PHP endpoint file. Deployment to Hostpoint still uses the SFTP script.
 
 On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
 2. Run the pricing tests.
-3. Build the standalone Node server.
-4. Verify that `dist/server/entry.mjs` exists.
+3. Verify that `dist/index.html` and `dist/api/pricing.php` exist.
 
 ## Useful Commands
 
 ```bash
 npm install              # Install dependencies
 npm run dev              # Start local development
-npm run build:node       # Build standalone Node server output into dist/
-npm run start:node       # Run the standalone Node server locally
+npm run build            # Build static/PHP output into dist/
 npm run test:pricing     # Build and verify backend pricing behavior
 npm run verify:live      # Verify the deployed domain is running the pricing API
 ```

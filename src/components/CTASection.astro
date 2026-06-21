@@ -1,3 +1,8 @@
+---
+const contactFormEndpoint =
+  import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || import.meta.env.PUBLIC_LEAD_FORM_ENDPOINT || "";
+---
+
 <section class="cta section-shell" id="contact">
   <div class="cta-panel">
     <div>
@@ -7,10 +12,11 @@
     </div>
     <form
       class="contact-form"
-      action="/api/contact"
+      action="#contact"
       method="post"
       enctype="text/plain"
       data-lead-form
+      data-endpoint={contactFormEndpoint}
       novalidate
     >
       <input name="source" type="hidden" value="websiteli.ch" />
@@ -83,6 +89,13 @@
 
     event.preventDefault();
 
+    const endpoint = form.dataset.endpoint;
+
+    if (!endpoint) {
+      if (status) status.textContent = "The form is not connected yet. Please email us directly.";
+      return;
+    }
+
     const payload = {
       name,
       email,
@@ -98,24 +111,14 @@
     if (status) status.textContent = "Sending...";
 
     try {
-      const contactUrl = new URL("/api/contact", window.location.origin);
-      const market = new URLSearchParams(window.location.search).get("market");
-
-      if (market) {
-        contactUrl.searchParams.set("market", market);
-      }
-
-      const response = await fetch(contactUrl, {
+      await fetch(endpoint, {
         method: "POST",
+        mode: "no-cors",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "text/plain;charset=utf-8",
         },
         body: JSON.stringify(payload),
       });
-
-      if (!response.ok) {
-        throw new Error("Contact form request failed");
-      }
 
       form.reset();
       window.trackWebsiteliEvent?.("contact_form_submission", {
