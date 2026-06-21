@@ -112,17 +112,24 @@ Full deployment instructions are in:
 .github/DEPLOYMENT.md
 ```
 
-## Local Deployment Test
+## Local Deployment
 
-Only run this when the Hostpoint environment variables are configured locally:
+Local deployment reads the Hostpoint values from your ignored `.env` file.
+
+Your `.env` must contain:
+
+```text
+HOSTPOINT_HOST="your-hostpoint-sftp-host"
+HOSTPOINT_USERNAME="your-hostpoint-main-account"
+HOSTPOINT_PASSWORD="your-hosting-login-password"
+HOSTPOINT_TARGET_PATH="/home/your-username/www/websiteli.ch"
+```
+
+Then run:
 
 ```bash
-export HOSTPOINT_HOST="your-hostpoint-sftp-host"
-export HOSTPOINT_USERNAME="your-hostpoint-main-account"
-export HOSTPOINT_PASSWORD="your-hosting-login-password"
-export HOSTPOINT_TARGET_PATH="/home/your-username/www/websiteli.ch"
-
 npm run build
+npm run deploy:hostpoint -- --check
 npm run deploy:hostpoint
 ```
 

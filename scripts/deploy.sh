@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+if [[ -f ".env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source ".env"
+  set +a
+  echo "Loaded deployment variables from .env"
+fi
+
 required_vars=(
   HOSTPOINT_HOST
   HOSTPOINT_USERNAME
@@ -18,6 +26,18 @@ done
 if [[ ! -d "dist" ]]; then
   echo "The dist/ folder does not exist. Run npm run build before deploying." >&2
   exit 1
+fi
+
+if [[ "${1:-}" == "--check" ]]; then
+  echo "Deployment configuration looks ready."
+  echo "Host: ${HOSTPOINT_HOST}"
+  echo "Target path: ${HOSTPOINT_TARGET_PATH}"
+  if command -v lftp >/dev/null 2>&1; then
+    echo "lftp is installed."
+  else
+    echo "lftp is not installed. Install it before running a real deployment."
+  fi
+  exit 0
 fi
 
 if ! command -v lftp >/dev/null 2>&1; then

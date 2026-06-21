@@ -248,8 +248,8 @@ textarea {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(390px, 1.1fr);
-  gap: 34px;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(520px, 1.18fr);
+  gap: clamp(44px, 5vw, 84px);
   align-items: center;
   min-height: 94vh;
   padding: 126px 0 64px;
@@ -271,6 +271,10 @@ textarea {
 .hero-media {
   position: relative;
   z-index: 1;
+}
+
+.hero-copy {
+  min-width: 0;
 }
 
 .eyebrow {
@@ -295,6 +299,11 @@ h1 {
   font-size: clamp(3rem, 7.3vw, 6.2rem);
   line-height: 0.95;
   letter-spacing: 0;
+}
+
+.hero h1 {
+  max-width: 540px;
+  font-size: clamp(3rem, 6vw, 5.55rem);
 }
 
 h2 {
@@ -325,7 +334,7 @@ h3 {
 }
 
 .hero-text {
-  max-width: 680px;
+  max-width: 560px;
   font-size: clamp(1.08rem, 2vw, 1.28rem);
 }
 
