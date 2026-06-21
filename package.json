@@ -5,12 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "deploy:hostpoint": "bash scripts/deploy.sh"
+    "build": "astro build"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/vercel": "^9.0.5",
     "astro": "^5.17.2"
   }
 }

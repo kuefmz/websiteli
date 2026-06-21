@@ -2,17 +2,18 @@
 interface Props {
   name: string;
   price: string;
+  priceKey?: string;
   items: string[];
   highlight?: boolean;
 }
 
-const { name, price, items, highlight = false } = Astro.props;
+const { name, price, priceKey, items, highlight = false } = Astro.props;
 ---
 
 <article class:list={["pricing-card", { featured: highlight }]}>
   {highlight && <p class="card-badge">Popular start</p>}
   <h3>{name}</h3>
-  <p class="plan-price">{price}</p>
+  <p class="plan-price" data-price-key={priceKey}>{price}</p>
   <ul>
     {items.map((item) => <li>{item}</li>)}
   </ul>

@@ -1,8 +1,3 @@
----
-const contactFormEndpoint =
-  import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || import.meta.env.PUBLIC_LEAD_FORM_ENDPOINT || "";
----
-
 <section class="cta section-shell" id="contact">
   <div class="cta-panel">
     <div>
@@ -12,11 +7,10 @@ const contactFormEndpoint =
     </div>
     <form
       class="contact-form"
-      action="#contact"
+      action="/api/contact"
       method="post"
       enctype="text/plain"
       data-lead-form
-      data-endpoint={contactFormEndpoint}
       novalidate
     >
       <input name="source" type="hidden" value="websiteli.ch" />
@@ -43,12 +37,12 @@ const contactFormEndpoint =
       <label>
         What do you need?
         <select name="project">
-          <option>Starter Page</option>
-          <option>Business Website</option>
-          <option>Larger Website</option>
-          <option>Website Care</option>
-          <option>Smart tools or automation</option>
-          <option>Something custom</option>
+          <option value="landingPage">Starter Page</option>
+          <option value="businessWebsite">Business Website</option>
+          <option value="premiumWebsite">Larger Website</option>
+          <option value="maintenanceMonthly">Website Care</option>
+          <option value="custom">Smart tools or automation</option>
+          <option value="custom">Something custom</option>
         </select>
       </label>
       <label>
@@ -66,7 +60,6 @@ const contactFormEndpoint =
   const status = document.querySelector("[data-form-status]");
 
   form?.addEventListener("submit", async (event) => {
-    const endpoint = form.dataset.endpoint;
     const submitButton = form.querySelector("button[type='submit']");
     const formData = new FormData(form);
     const name = String(formData.get("name") || "").trim();
@@ -90,37 +83,32 @@ const contactFormEndpoint =
 
     event.preventDefault();
 
-    if (!endpoint) {
-      if (status) status.textContent = "The form is not connected yet. Please email us directly.";
-      return;
-    }
-
     const payload = {
       name,
       email,
       phone: String(formData.get("phone") || "").trim(),
       company: String(formData.get("company") || "").trim(),
-      message: [
-        message,
-        `Project: ${String(formData.get("project") || "")}`,
-      ]
-        .filter(Boolean)
-        .join("\n\n"),
+      project: String(formData.get("project") || "").trim(),
+      message,
       source: String(formData.get("source") || "websiteli.ch"),
+      website: honeypot,
     };
 
     submitButton?.setAttribute("disabled", "true");
     if (status) status.textContent = "Sending...";
 
     try {
-      await fetch(endpoint, {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        mode: "no-cors",
         headers: {
-          "Content-Type": "text/plain;charset=utf-8",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        throw new Error("Contact form request failed");
+      }
 
       form.reset();
       window.trackWebsiteliEvent?.("contact_form_submission", {

@@ -2,7 +2,7 @@
 
 Astro website for **websiteli.ch**, a Swiss web development service for small businesses.
 
-The site is built as a static Astro project and can be deployed to Hostpoint shared hosting by uploading the generated `dist/` folder.
+The site uses Astro server output so pricing and contact submissions can be resolved on the backend.
 
 ## Requirements
 
@@ -45,16 +45,22 @@ src/
 public/
   assets/            Static images and public files
 scripts/
-  deploy.sh          Hostpoint SFTP deployment script
+  deploy.sh          Legacy static-host deployment script
 .github/
-  workflows/         GitHub Actions deployment workflow
-  DEPLOYMENT.md      Hostpoint deployment instructions
+  workflows/         GitHub Actions build workflow
+  DEPLOYMENT.md      Legacy Hostpoint notes
 ```
 
-Most homepage text, service items, prices, process steps, and FAQs can be edited in:
+Most homepage text, service items, plan names, process steps, and FAQs can be edited in:
 
 ```text
 src/content/site.ts
+```
+
+Country pricing lives in the server-only module:
+
+```text
+src/lib/pricing.server.ts
 ```
 
 ## Build
@@ -65,25 +71,41 @@ Create a production build:
 npm run build
 ```
 
-The static website is generated in:
+The server build is generated in:
 
 ```text
-dist/
+.vercel/output/
 ```
 
-Hostpoint should serve the files from `dist/`; it does not need Astro or Node.js on the server.
+Deploy this project to a server-capable Astro host such as Vercel. Static shared hosting cannot run `/api/pricing` or `/api/contact`.
+
+## Geographic Pricing
+
+`/api/pricing` resolves country pricing from these headers, in order:
+
+```text
+x-vercel-ip-country
+cf-ipcountry
+x-country-code
+x-forwarded-country
+```
+
+Unsupported or missing countries fall back to Switzerland (`CH`). In local development only, add `?market=HU` or another supported country code to test a market.
+
+Contact form submissions go through `/api/contact`, which resolves the market again on the backend before forwarding the payload. Configure one of these server environment variables for the forwarding endpoint:
+
+```text
+CONTACT_FORM_ENDPOINT
+LEAD_FORM_ENDPOINT
+```
 
 ## Preview Production Build
 
-After building, preview the production output locally:
-
-```bash
-npm run preview
-```
+The Vercel adapter does not support `astro preview`. Use the Vercel CLI or `npm run dev` for local server testing.
 
 ## Deployment
 
-Deployment is configured through GitHub Actions in:
+Build verification is configured through GitHub Actions in:
 
 ```text
 .github/workflows/deploy.yml
@@ -93,54 +115,12 @@ On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
 2. Build the Astro project.
-3. Verify that `dist/` exists.
-4. Upload `dist/` to Hostpoint over SFTP.
-5. Remove remote files that no longer exist locally.
-
-Required GitHub secrets:
-
-```text
-HOSTPOINT_HOST
-HOSTPOINT_USERNAME
-HOSTPOINT_PASSWORD
-HOSTPOINT_TARGET_PATH
-```
-
-Full deployment instructions are in:
-
-```text
-.github/DEPLOYMENT.md
-```
-
-## Local Deployment
-
-Local deployment reads the Hostpoint values from your ignored `.env` file.
-
-Your `.env` must contain:
-
-```text
-HOSTPOINT_HOST="your-hostpoint-sftp-host"
-HOSTPOINT_USERNAME="your-hostpoint-main-account"
-HOSTPOINT_PASSWORD="your-hosting-login-password"
-HOSTPOINT_TARGET_PATH="/home/your-username/www/websiteli.ch"
-```
-
-Then run:
-
-```bash
-npm run build
-npm run deploy:hostpoint -- --check
-npm run deploy:hostpoint
-```
-
-Be careful: deployment fully synchronizes the target folder. Remote files not present in `dist/` will be deleted.
+3. Verify that `.vercel/output/` exists.
 
 ## Useful Commands
 
 ```bash
 npm install              # Install dependencies
 npm run dev              # Start local development
-npm run build            # Build static site into dist/
-npm run preview          # Preview production build
-npm run deploy:hostpoint # Deploy dist/ to Hostpoint with configured env vars
+npm run build            # Build server output into .vercel/output/
 ```
