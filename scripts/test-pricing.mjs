@@ -30,6 +30,14 @@ test("homepage resolves pricing on the frontend from an obfuscated table", async
   assert.doesNotMatch(combined, /pricing\.php/);
 });
 
+test("pricing source of truth is kept as readable JSON", async () => {
+  const source = JSON.parse(await readFile(join(process.cwd(), "src/content/pricing.json"), "utf8"));
+
+  assert.equal(source.defaultMarket, "CH");
+  assert.equal(source.markets.GB.currency, "GBP");
+  assert.equal(source.markets.GB.landingPage, 900);
+});
+
 test("frontend HTML, JS, and CSS do not contain plain readable country prices", async () => {
   const files = await collectFiles(distDir);
   const frontendFiles = files.filter((file) => /\.(html|js|css)$/.test(file));
@@ -56,4 +64,6 @@ test("cached Swiss market does not block browser country detection", async () =>
   const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
 
   assert.match(source, /cachedMarket !== "CH"/);
+  assert.match(source, /api\.country\.is/);
+  assert.match(source, /ipapi\.co/);
 });
