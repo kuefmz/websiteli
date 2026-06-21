@@ -1,4 +1,4 @@
-name: Build Hostpoint Static App
+name: Deploy Hostpoint Static App
 
 on:
   push:
@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build static site
+  deploy:
+    name: Build and deploy static site
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +36,7 @@ jobs:
         run: |
           test -d dist || (echo "dist/ was not created by npm run build" && exit 1)
           test -f dist/index.html || (echo "dist/index.html is missing" && exit 1)
+          grep -q "pricing_debug" dist/index.html || (echo "dist/index.html does not contain the current pricing script" && exit 1)
           echo "Build output:"
           find dist -maxdepth 3 -type f | sort
 
@@ -45,3 +46,14 @@ jobs:
           name: hostpoint-static-build
           path: dist/
           if-no-files-found: error
+
+      - name: Install deployment tool
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy static site to Hostpoint
+        env:
+          HOSTPOINT_HOST: ${{ secrets.HOSTPOINT_HOST }}
+          HOSTPOINT_USERNAME: ${{ secrets.HOSTPOINT_USERNAME }}
+          HOSTPOINT_PASSWORD: ${{ secrets.HOSTPOINT_PASSWORD }}
+          HOSTPOINT_TARGET_PATH: ${{ secrets.HOSTPOINT_TARGET_PATH }}
+        run: bash scripts/deploy.sh
