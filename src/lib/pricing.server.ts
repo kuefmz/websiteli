@@ -187,7 +187,21 @@ const pricingConfig: PricingConfig = {
   },
 };
 
-const countryHeaders = ["x-vercel-ip-country", "cf-ipcountry", "x-country-code", "x-forwarded-country"];
+export const countryHeaders = [
+  "x-vercel-ip-country",
+  "cf-ipcountry",
+  "x-country-code",
+  "x-forwarded-country",
+  "cloudfront-viewer-country",
+  "x-geo-country",
+  "x-client-country",
+  "x-country",
+  "x-ip-country",
+  "x-appengine-country",
+  "geoip-country-code",
+  "fastly-client-country",
+  "x-real-ip-country",
+];
 
 function normalizeCountryCode(countryCode: string | null | undefined) {
   return countryCode?.trim().slice(0, 2).toUpperCase() || "";
@@ -195,6 +209,22 @@ function normalizeCountryCode(countryCode: string | null | undefined) {
 
 function isSupportedMarket(countryCode: string) {
   return Object.hasOwn(pricingConfig.markets, countryCode);
+}
+
+function getCountryCodeFromAkamaiEdgescape(headerValue: string | null) {
+  const countryCode = headerValue
+    ?.split(",")
+    .map((part) => part.trim().split("="))
+    .find(([key]) => key?.toLowerCase() === "country_code")?.[1];
+
+  return normalizeCountryCode(countryCode);
+}
+
+function getCountryCodeFromRequestMetadata(request: Request) {
+  const metadataCountry = (request as Request & { cf?: { country?: string }; geo?: { country?: string } }).cf?.country
+    || (request as Request & { cf?: { country?: string }; geo?: { country?: string } }).geo?.country;
+
+  return normalizeCountryCode(metadataCountry);
 }
 
 function getDefaultMarket() {
@@ -219,6 +249,18 @@ export function resolveMarketFromRequest(request: Request) {
     if (isSupportedMarket(market)) {
       return market;
     }
+  }
+
+  const akamaiMarket = getCountryCodeFromAkamaiEdgescape(request.headers.get("x-akamai-edgescape"));
+
+  if (isSupportedMarket(akamaiMarket)) {
+    return akamaiMarket;
+  }
+
+  const metadataMarket = getCountryCodeFromRequestMetadata(request);
+
+  if (isSupportedMarket(metadataMarket)) {
+    return metadataMarket;
   }
 
   return getDefaultMarket();
