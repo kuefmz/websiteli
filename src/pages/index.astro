@@ -134,23 +134,110 @@ const addOnCards = addOns.map((item) => ({
   </main>
 
   <script>
-    async function updatePricing() {
-      const pricingUrl = new URL("/api/pricing.php", window.location.origin);
-      const market = new URLSearchParams(window.location.search).get("market");
+    const pricingDataSource = [
+      "eyJkZWZhdWx0TWFya2V0IjoiQ0giLCJtYXJrZXRzIjp7IkNIIjp7ImNvdW50cnkiOiJTd2l0emVybGFu",
+      "ZCIsImN1cnJlbmN5IjoiQ0hGIiwibGFuZGluZ1BhZ2UiOjEwMDAsImJ1c2luZXNzV2Vic2l0ZSI6MjAw",
+      "MCwicHJlbWl1bVdlYnNpdGUiOjM1MDAsInNlb1NldHVwIjo1MDAsIm1haW50ZW5hbmNlTW9udGhseSI6",
+      "MTAwfSwiSFUiOnsiY291bnRyeSI6Ikh1bmdhcnkiLCJjdXJyZW5jeSI6IkhVRiIsImxhbmRpbmdQYWdl",
+      "IjoxNDkwMDAsImJ1c2luZXNzV2Vic2l0ZSI6Mjk5MDAwLCJwcmVtaXVtV2Vic2l0ZSI6NDk5MDAwLCJz",
+      "ZW9TZXR1cCI6OTkwMDAsIm1haW50ZW5hbmNlTW9udGhseSI6MTk5MDB9LCJQTCI6eyJjb3VudHJ5Ijoi",
+      "UG9sYW5kIiwiY3VycmVuY3kiOiJQTE4iLCJsYW5kaW5nUGFnZSI6MjUwMCwiYnVzaW5lc3NXZWJzaXRl",
+      "Ijo0NTAwLCJwcmVtaXVtV2Vic2l0ZSI6ODAwMCwic2VvU2V0dXAiOjEyMDAsIm1haW50ZW5hbmNlTW9u",
+      "dGhseSI6MjUwfSwiVVMiOnsiY291bnRyeSI6IlVuaXRlZCBTdGF0ZXMiLCJjdXJyZW5jeSI6IlVTRCIs",
+      "ImxhbmRpbmdQYWdlIjoxMjAwLCJidXNpbmVzc1dlYnNpdGUiOjI1MDAsInByZW1pdW1XZWJzaXRlIjo0",
+      "NTAwLCJzZW9TZXR1cCI6NzAwLCJtYWludGVuYW5jZU1vbnRobHkiOjE1MH0sIkNBIjp7ImNvdW50cnki",
+      "OiJDYW5hZGEiLCJjdXJyZW5jeSI6IkNBRCIsImxhbmRpbmdQYWdlIjoxNTAwLCJidXNpbmVzc1dlYnNp",
+      "dGUiOjMwMDAsInByZW1pdW1XZWJzaXRlIjo1NTAwLCJzZW9TZXR1cCI6ODUwLCJtYWludGVuYW5jZU1v",
+      "bnRobHkiOjE4MH0sIkFVIjp7ImNvdW50cnkiOiJBdXN0cmFsaWEiLCJjdXJyZW5jeSI6IkFVRCIsImxh",
+      "bmRpbmdQYWdlIjoxODAwLCJidXNpbmVzc1dlYnNpdGUiOjM1MDAsInByZW1pdW1XZWJzaXRlIjo2NTAw",
+      "LCJzZW9TZXR1cCI6OTUwLCJtYWludGVuYW5jZU1vbnRobHkiOjIwMH0sIkJSIjp7ImNvdW50cnkiOiJC",
+      "cmF6aWwiLCJjdXJyZW5jeSI6IkJSTCIsImxhbmRpbmdQYWdlIjoyNTAwLCJidXNpbmVzc1dlYnNpdGUi",
+      "OjUwMDAsInByZW1pdW1XZWJzaXRlIjo5MDAwLCJzZW9TZXR1cCI6MTUwMCwibWFpbnRlbmFuY2VNb250",
+      "aGx5IjozNTB9LCJERSI6eyJjb3VudHJ5IjoiR2VybWFueSIsImN1cnJlbmN5IjoiRVVSIiwibGFuZGlu",
+      "Z1BhZ2UiOjkwMCwiYnVzaW5lc3NXZWJzaXRlIjoxODAwLCJwcmVtaXVtV2Vic2l0ZSI6MzIwMCwic2Vv",
+      "U2V0dXAiOjUwMCwibWFpbnRlbmFuY2VNb250aGx5IjoxMDB9LCJBVCI6eyJjb3VudHJ5IjoiQXVzdHJp",
+      "YSIsImN1cnJlbmN5IjoiRVVSIiwibGFuZGluZ1BhZ2UiOjkwMCwiYnVzaW5lc3NXZWJzaXRlIjoxODAw",
+      "LCJwcmVtaXVtV2Vic2l0ZSI6MzIwMCwic2VvU2V0dXAiOjUwMCwibWFpbnRlbmFuY2VNb250aGx5Ijox",
+      "MDB9LCJGUiI6eyJjb3VudHJ5IjoiRnJhbmNlIiwiY3VycmVuY3kiOiJFVVIiLCJsYW5kaW5nUGFnZSI6",
+      "OTAwLCJidXNpbmVzc1dlYnNpdGUiOjE4MDAsInByZW1pdW1XZWJzaXRlIjozMjAwLCJzZW9TZXR1cCI6",
+      "NTAwLCJtYWludGVuYW5jZU1vbnRobHkiOjEwMH0sIkVTIjp7ImNvdW50cnkiOiJTcGFpbiIsImN1cnJl",
+      "bmN5IjoiRVVSIiwibGFuZGluZ1BhZ2UiOjcwMCwiYnVzaW5lc3NXZWJzaXRlIjoxNDAwLCJwcmVtaXVt",
+      "V2Vic2l0ZSI6MjUwMCwic2VvU2V0dXAiOjQwMCwibWFpbnRlbmFuY2VNb250aGx5Ijo4MH0sIklUIjp7",
+      "ImNvdW50cnkiOiJJdGFseSIsImN1cnJlbmN5IjoiRVVSIiwibGFuZGluZ1BhZ2UiOjcwMCwiYnVzaW5l",
+      "c3NXZWJzaXRlIjoxNDAwLCJwcmVtaXVtV2Vic2l0ZSI6MjUwMCwic2VvU2V0dXAiOjQwMCwibWFpbnRl",
+      "bmFuY2VNb250aGx5Ijo4MH0sIkdCIjp7ImNvdW50cnkiOiJVbml0ZWQgS2luZ2RvbSIsImN1cnJlbmN5",
+      "IjoiR0JQIiwibGFuZGluZ1BhZ2UiOjkwMCwiYnVzaW5lc3NXZWJzaXRlIjoxODAwLCJwcmVtaXVtV2Vi",
+      "c2l0ZSI6MzIwMCwic2VvU2V0dXAiOjUwMCwibWFpbnRlbmFuY2VNb250aGx5IjoxMDB9LCJOTCI6eyJj",
+      "b3VudHJ5IjoiTmV0aGVybGFuZHMiLCJjdXJyZW5jeSI6IkVVUiIsImxhbmRpbmdQYWdlIjo5NTAsImJ1",
+      "c2luZXNzV2Vic2l0ZSI6MTkwMCwicHJlbWl1bVdlYnNpdGUiOjM1MDAsInNlb1NldHVwIjo1NTAsIm1h",
+      "aW50ZW5hbmNlTW9udGhseSI6MTEwfSwiU0UiOnsiY291bnRyeSI6IlN3ZWRlbiIsImN1cnJlbmN5Ijoi",
+      "U0VLIiwibGFuZGluZ1BhZ2UiOjEyMDAwLCJidXNpbmVzc1dlYnNpdGUiOjI0MDAwLCJwcmVtaXVtV2Vi",
+      "c2l0ZSI6NDIwMDAsInNlb1NldHVwIjo3MDAwLCJtYWludGVuYW5jZU1vbnRobHkiOjEyMDB9LCJOTyI6",
+      "eyJjb3VudHJ5IjoiTm9yd2F5IiwiY3VycmVuY3kiOiJOT0siLCJsYW5kaW5nUGFnZSI6MTMwMDAsImJ1",
+      "c2luZXNzV2Vic2l0ZSI6MjYwMDAsInByZW1pdW1XZWJzaXRlIjo0NTAwMCwic2VvU2V0dXAiOjc1MDAs",
+      "Im1haW50ZW5hbmNlTW9udGhseSI6MTMwMH0sIkRLIjp7ImNvdW50cnkiOiJEZW5tYXJrIiwiY3VycmVu",
+      "Y3kiOiJES0siLCJsYW5kaW5nUGFnZSI6ODUwMCwiYnVzaW5lc3NXZWJzaXRlIjoxNzAwMCwicHJlbWl1",
+      "bVdlYnNpdGUiOjMwMDAwLCJzZW9TZXR1cCI6NTAwMCwibWFpbnRlbmFuY2VNb250aGx5Ijo4NTB9LCJS",
+      "TyI6eyJjb3VudHJ5IjoiUm9tYW5pYSIsImN1cnJlbmN5IjoiUk9OIiwibGFuZGluZ1BhZ2UiOjI1MDAs",
+      "ImJ1c2luZXNzV2Vic2l0ZSI6NTAwMCwicHJlbWl1bVdlYnNpdGUiOjkwMDAsInNlb1NldHVwIjoxNTAw",
+      "LCJtYWludGVuYW5jZU1vbnRobHkiOjM1MH0sIkNaIjp7ImNvdW50cnkiOiJDemVjaCBSZXB1YmxpYyIs",
+      "ImN1cnJlbmN5IjoiQ1pLIiwibGFuZGluZ1BhZ2UiOjI1MDAwLCJidXNpbmVzc1dlYnNpdGUiOjUwMDAw",
+      "LCJwcmVtaXVtV2Vic2l0ZSI6ODUwMDAsInNlb1NldHVwIjoxNTAwMCwibWFpbnRlbmFuY2VNb250aGx5",
+      "IjoyNTAwfX19",
+    ];
+    const pricingData = JSON.parse(atob(pricingDataSource.join("")));
+    const marketCollectionKey = atob("bWFya2V0cw==");
+    const fallbackKey = atob("ZGVmYXVsdE1hcmtldA==");
+    const supportedPricingMarkets = new Set(Object.keys(pricingData[marketCollectionKey]));
 
-      if (market) {
-        pricingUrl.searchParams.set("market", market);
-      }
+    function getCookie(name) {
+      return document.cookie
+        .split(";")
+        .map((part) => part.trim())
+        .find((part) => part.startsWith(`${name}=`))
+        ?.split("=")[1] || "";
+    }
 
-      const response = await fetch(pricingUrl, {
+    function setMarketCookie(market) {
+      document.cookie = `websiteli_market=${market}; Max-Age=2592000; Path=/; SameSite=Lax`;
+    }
+
+    function formatPrice(amount, currency) {
+      return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)} ${currency}`;
+    }
+
+    function getPricingForMarket(market) {
+      const resolvedMarket = supportedPricingMarkets.has(market) ? market : pricingData[fallbackKey];
+      const pricing = pricingData[marketCollectionKey][resolvedMarket];
+
+      return {
+        market: resolvedMarket,
+        plans: {
+          landingPage: `from ${formatPrice(pricing.landingPage, pricing.currency)}`,
+          businessWebsite: `from ${formatPrice(pricing.businessWebsite, pricing.currency)}`,
+          premiumWebsite: `from ${formatPrice(pricing.premiumWebsite, pricing.currency)}`,
+          seoSetup: `from ${formatPrice(pricing.seoSetup, pricing.currency)}`,
+          maintenanceMonthly: `from ${formatPrice(pricing.maintenanceMonthly, pricing.currency)}/month`,
+        },
+      };
+    }
+
+    async function detectBrowserMarket() {
+      const response = await fetch("https://ipwho.is/?fields=success,country_code", {
         headers: {
           Accept: "application/json",
         },
       });
 
-      if (!response.ok) return;
+      if (!response.ok) return "";
 
-      const pricing = await response.json();
+      const data = await response.json();
+      const market = typeof data?.country_code === "string" ? data.country_code.trim().slice(0, 2).toUpperCase() : "";
+
+      return data?.success === true && supportedPricingMarkets.has(market) ? market : "";
+    }
+
+    function renderPricing(pricing) {
       const plans = pricing?.plans || {};
 
       document.querySelectorAll("[data-price-key]").forEach((element) => {
@@ -161,6 +248,22 @@ const addOnCards = addOns.map((item) => ({
           element.textContent = price;
         }
       });
+    }
+
+    async function updatePricing() {
+      const urlMarket = new URLSearchParams(window.location.search).get("market")?.trim().slice(0, 2).toUpperCase() || "";
+      const cachedMarket = getCookie("websiteli_market").trim().slice(0, 2).toUpperCase();
+      let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : cachedMarket;
+
+      if (!supportedPricingMarkets.has(market)) {
+        market = await detectBrowserMarket();
+      }
+
+      if (supportedPricingMarkets.has(market)) {
+        setMarketCookie(market);
+      }
+
+      renderPricing(getPricingForMarket(market));
     }
 
     updatePricing().catch(() => {});

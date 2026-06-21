@@ -2,12 +2,11 @@
 
 Astro website for **websiteli.ch**, a Swiss web development service for small businesses.
 
-The site builds as static Astro pages for Hostpoint, with a PHP pricing endpoint for server-side market resolution.
+The site builds as static Astro pages for Hostpoint. Pricing is resolved in the browser from an obfuscated frontend table and the visitor's browser IP country.
 
 ## Requirements
 
 - Node.js 20 or newer for local builds
-- PHP support on the Hostpoint server for `/api/pricing.php`
 - npm
 
 This project currently uses Astro 5, which builds successfully with Node 20.
@@ -46,10 +45,10 @@ src/
 public/
   assets/            Static images and public files
 scripts/
-  deploy.sh          Hostpoint static/PHP deployment script
+  deploy.sh          Hostpoint static deployment script
 .github/
   workflows/         GitHub Actions build workflow
-  DEPLOYMENT.md      Hostpoint PHP deployment notes
+  DEPLOYMENT.md      Hostpoint deployment notes
 ```
 
 Most homepage text, service items, plan names, process steps, and FAQs can be edited in:
@@ -58,15 +57,15 @@ Most homepage text, service items, plan names, process steps, and FAQs can be ed
 src/content/site.ts
 ```
 
-Country pricing for the live Hostpoint site lives in the PHP endpoint:
+Country pricing is embedded in the homepage script in an obfuscated form:
 
 ```text
-public/api/pricing.php
+src/pages/index.astro
 ```
 
 ## Build
 
-Create the Hostpoint static/PHP production build:
+Create the Hostpoint static production build:
 
 ```bash
 npm run build
@@ -78,29 +77,13 @@ The deployable output is generated in:
 dist/
 ```
 
-Deploy `dist/` to Hostpoint. Hostpoint must execute PHP files for `/api/pricing.php`; otherwise pricing will stay on the Swiss fallback.
-The live domain must return JSON from:
-
-```text
-https://websiteli.ch/api/pricing.php
-```
-
-If that URL downloads PHP source, returns a 404 page, or returns HTML, PHP is not running for that path.
+Deploy `dist/` to Hostpoint. No backend or server runtime is required for pricing.
 
 ## Geographic Pricing
 
-`/api/pricing.php` resolves country pricing from these headers first:
+The browser calls `ipwho.is` to detect the visitor's country from their current IP/VPN. Unsupported or missing countries fall back to Switzerland (`CH`). Add `?market=HU` or another supported country code to test a market manually.
 
-```text
-x-vercel-ip-country
-cf-ipcountry
-x-country-code
-x-forwarded-country
-```
-
-Unsupported or missing countries fall back to Switzerland (`CH`). In local development only, add `?market=HU` or another supported country code to test a market.
-
-If no country header is available, the PHP endpoint tries a short server-side IP country lookup using the visitor IP. If that lookup fails or outbound HTTP is blocked, it falls back to Switzerland.
+The selected market code is stored in a `websiteli_market` cookie so repeat visits do not need another lookup.
 
 ## Deployment
 
@@ -110,20 +93,20 @@ Build verification is configured through GitHub Actions in:
 .github/workflows/deploy.yml
 ```
 
-This workflow verifies the static build and PHP endpoint file. Deployment to Hostpoint still uses the SFTP script.
+This workflow verifies the static build. Deployment to Hostpoint still uses the SFTP script.
 
 On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
 2. Run the pricing tests.
-3. Verify that `dist/index.html` and `dist/api/pricing.php` exist.
+3. Verify that `dist/index.html` exists.
 
 ## Useful Commands
 
 ```bash
 npm install              # Install dependencies
 npm run dev              # Start local development
-npm run build            # Build static/PHP output into dist/
-npm run test:pricing     # Build and verify backend pricing behavior
-npm run verify:live      # Verify the deployed domain is running the pricing API
+npm run build            # Build static output into dist/
+npm run test:pricing     # Build and verify frontend pricing behavior
+npm run deploy:hostpoint # Deploy dist/ to Hostpoint
 ```
