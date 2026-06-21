@@ -24,9 +24,11 @@ test("homepage resolves pricing on the frontend from an obfuscated table", async
   const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
   assert.match(combined, /atob/);
-  assert.match(combined, /ipwho\.is/);
+  assert.match(combined, /api\.country\.is/);
+  assert.match(combined, /ipapi\.co/);
   assert.doesNotMatch(combined, /\/api\/pricing/);
   assert.doesNotMatch(combined, /pricing\.php/);
+  assert.doesNotMatch(combined, /ipwho\.is/);
   assert.doesNotMatch(combined, /websiteli_market/);
 });
 

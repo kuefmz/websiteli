@@ -171,11 +171,6 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
         pick: (data) => data?.country,
       },
       {
-        name: "ipwho.is",
-        url: "https://ipwho.is/?fields=success,country_code",
-        pick: (data) => data?.success === true ? data?.country_code : "",
-      },
-      {
         name: "ipapi.co",
         url: "https://ipapi.co/json/",
         pick: (data) => data?.country_code,
