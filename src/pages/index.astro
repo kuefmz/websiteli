@@ -7,18 +7,21 @@ import ProcessStep from "../components/ProcessStep.astro";
 import FAQ from "../components/FAQ.astro";
 import CTASection from "../components/CTASection.astro";
 import { addOns, faqs, localTrust, pricing, processSteps, reasons, services } from "../content/site";
-import { getResolvedPricing, pricingVaryHeader } from "../lib/pricing.server";
 
-Astro.response.headers.set("Cache-Control", "private, no-store");
-Astro.response.headers.set("Vary", pricingVaryHeader);
-const resolvedPricing = getResolvedPricing(Astro.request);
+const fallbackPlans = {
+  landingPage: "from 1,000 CHF",
+  businessWebsite: "from 2,000 CHF",
+  premiumWebsite: "from 3,500 CHF",
+  seoSetup: "from 500 CHF",
+  maintenanceMonthly: "from 100 CHF/month",
+};
 const pricingCards = pricing.map((plan) => ({
   ...plan,
-  price: resolvedPricing.plans[plan.priceKey as keyof typeof resolvedPricing.plans],
+  price: fallbackPlans[plan.priceKey as keyof typeof fallbackPlans],
 }));
 const addOnCards = addOns.map((item) => ({
   ...item,
-  price: "priceKey" in item ? resolvedPricing.plans[item.priceKey as keyof typeof resolvedPricing.plans] : item.price,
+  price: "priceKey" in item ? fallbackPlans[item.priceKey as keyof typeof fallbackPlans] : item.price,
 }));
 ---
 
@@ -132,7 +135,7 @@ const addOnCards = addOns.map((item) => ({
 
   <script>
     async function updatePricing() {
-      const pricingUrl = new URL("/api/pricing", window.location.origin);
+      const pricingUrl = new URL("/api/pricing.php", window.location.origin);
       const market = new URLSearchParams(window.location.search).get("market");
 
       if (market) {

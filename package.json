@@ -6,13 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:node": "astro build",
-    "start:node": "HOST=127.0.0.1 PORT=4321 node dist/server/entry.mjs",
     "test:pricing": "npm run build && node scripts/test-pricing.mjs",
-    "verify:live": "node scripts/verify-live-pricing.mjs"
+    "verify:live": "node scripts/verify-live-pricing.mjs",
+    "deploy:hostpoint": "bash scripts/deploy.sh"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.3",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.17.2"
   }

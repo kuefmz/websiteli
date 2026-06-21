@@ -1,25 +1,10 @@
 import assert from "node:assert/strict";
-import { readdir, readFile } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 
-const chunksDir = join(process.cwd(), "dist/server/chunks");
-const staticDir = join(process.cwd(), "dist/client");
-
-async function findPricingChunk() {
-  const files = await readdir(chunksDir);
-  const chunk = files.find((file) => file.startsWith("pricing.server_") && file.endsWith(".mjs"));
-
-  assert.ok(chunk, "compiled pricing server chunk should exist");
-
-  return join(chunksDir, chunk);
-}
-
-async function getPricingModule() {
-  const pricingChunk = await findPricingChunk();
-
-  return import(`${pricingChunk}?cache=${Date.now()}`);
-}
+const distDir = join(process.cwd(), "dist");
+const phpEndpoint = join(distDir, "api/pricing.php");
 
 async function collectFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -34,96 +19,43 @@ async function collectFiles(dir) {
   return files.flat();
 }
 
-test("resolves requested supported markets from CDN headers", async () => {
-  const { g: getResolvedPricing } = await getPricingModule();
-  const cases = [
-    ["x-vercel-ip-country", "HU", "Hungary", "from 149,000 HUF"],
-    ["cf-ipcountry", "PL", "Poland", "from 2,500 PLN"],
-    ["cloudfront-viewer-country", "US", "United States", "from 1,200 USD"],
-    ["fastly-client-country", "HU", "Hungary", "from 149,000 HUF"],
-  ];
+test("static build includes the PHP pricing endpoint", async () => {
+  const endpointStat = await stat(phpEndpoint);
+  const endpoint = await readFile(phpEndpoint, "utf8");
 
-  for (const [header, countryCode, country, landingPage] of cases) {
-    const pricing = getResolvedPricing(
-      new Request("https://websiteli.ch/api/pricing", {
-        headers: {
-          [header]: countryCode,
-        },
-      }),
-    );
-
-    assert.equal(pricing.market, countryCode);
-    assert.equal(pricing.country, country);
-    assert.equal(pricing.plans.landingPage, landingPage);
-  }
+  assert.equal(endpointStat.isFile(), true);
+  assert.match(endpoint, /\$markets = \[/);
+  assert.match(endpoint, /lookup_country_from_ip/);
+  assert.match(endpoint, /Content-Type: application\/json/);
 });
 
-test("resolves Akamai country_code metadata", async () => {
-  const { g: getResolvedPricing } = await getPricingModule();
-  const pricing = getResolvedPricing(
-    new Request("https://websiteli.ch/api/pricing", {
-      headers: {
-        "x-akamai-edgescape": "georegion=0,country_code=HU,city=Budapest",
-      },
-    }),
-  );
+test("homepage fetches only the resolved PHP pricing endpoint", async () => {
+  const index = await readFile(join(distDir, "index.html"), "utf8");
 
-  assert.equal(pricing.market, "HU");
-  assert.equal(pricing.plans.businessWebsite, "from 299,000 HUF");
+  assert.match(index, /\/api\/pricing\.php/);
+  assert.doesNotMatch(index, /\/api\/pricing"/);
 });
 
-test("falls back to Switzerland for unsupported countries", async () => {
-  const { g: getResolvedPricing } = await getPricingModule();
-  const pricing = getResolvedPricing(
-    new Request("https://websiteli.ch/api/pricing", {
-      headers: {
-        "x-vercel-ip-country": "ZZ",
-      },
-    }),
-  );
+test("frontend HTML, JS, and CSS do not contain the full pricing table", async () => {
+  const files = await collectFiles(distDir);
+  const frontendFiles = files.filter((file) => {
+    if (file.endsWith("pricing.php")) return false;
 
-  assert.equal(pricing.market, "CH");
-  assert.equal(pricing.country, "Switzerland");
-  assert.equal(pricing.plans.landingPage, "from 1,000 CHF");
-});
-
-test("development market override works", async () => {
-  const { g: getResolvedPricing } = await getPricingModule();
-  const pricing = getResolvedPricing(new Request("https://websiteli.ch/api/pricing?market=HU"));
-
-  assert.equal(pricing.market, "HU");
-  assert.equal(pricing.plans.maintenanceMonthly, "from 19,900 HUF/month");
-});
-
-test("production ignores query override and uses backend country signal", async () => {
-  const originalNodeEnv = process.env.NODE_ENV;
-
-  process.env.NODE_ENV = "production";
-
-  try {
-    const { g: getResolvedPricing } = await getPricingModule();
-    const pricing = getResolvedPricing(
-      new Request("https://websiteli.ch/api/pricing?market=HU", {
-        headers: {
-          "x-vercel-ip-country": "US",
-        },
-      }),
-    );
-
-    assert.equal(pricing.market, "US");
-    assert.equal(pricing.plans.landingPage, "from 1,200 USD");
-  } finally {
-    process.env.NODE_ENV = originalNodeEnv;
-  }
-});
-
-test("static client output does not contain the full pricing table", async () => {
-  const files = await collectFiles(staticDir);
-  const combined = (await Promise.all(files.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
+    return /\.(html|js|css)$/.test(file);
+  });
+  const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
   assert.equal(combined.includes("149000"), false);
   assert.equal(combined.includes("299000"), false);
   assert.equal(combined.includes("Hungary"), false);
   assert.equal(combined.includes("defaultMarket"), false);
-  assert.equal(combined.includes("markets"), false);
+  assert.equal(combined.includes("$markets"), false);
+});
+
+test("frontend starts with Swiss fallback prices before PHP response", async () => {
+  const index = await readFile(join(distDir, "index.html"), "utf8");
+
+  assert.match(index, /from 1,000 CHF/);
+  assert.match(index, /from 2,000 CHF/);
+  assert.match(index, /from 3,500 CHF/);
 });

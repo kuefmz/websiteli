@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
 const siteUrl = process.env.SITE_URL || "https://websiteli.ch";
-const pricingUrl = new URL("/api/pricing", siteUrl);
+const pricingUrl = new URL("/api/pricing.php", siteUrl);
 
 async function fetchPricing(headers = {}) {
   const response = await fetch(pricingUrl, { headers });
