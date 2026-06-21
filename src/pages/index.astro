@@ -144,18 +144,6 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
     const fallbackKey = atob("ZGVmYXVsdE1hcmtldA==");
     const supportedPricingMarkets = new Set(Object.keys(pricingData[marketCollectionKey]));
 
-    function getCookie(name) {
-      return document.cookie
-        .split(";")
-        .map((part) => part.trim())
-        .find((part) => part.startsWith(`${name}=`))
-        ?.split("=")[1] || "";
-    }
-
-    function setMarketCookie(market) {
-      document.cookie = `websiteli_market=${market}; Max-Age=2592000; Path=/; SameSite=Lax`;
-    }
-
     function formatPrice(amount, currency) {
       return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)} ${currency}`;
     }
@@ -192,10 +180,27 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
         url: "https://ipapi.co/json/",
         pick: (data) => data?.country_code,
       },
+      {
+        name: "geojs.io",
+        url: "https://get.geojs.io/v1/ip/country.json",
+        pick: (data) => data?.country,
+      },
+      {
+        name: "ipinfo.io",
+        url: "https://ipinfo.io/json",
+        pick: (data) => data?.country,
+      },
+      {
+        name: "cloudflare-trace",
+        url: "https://www.cloudflare.com/cdn-cgi/trace",
+        pick: (data) => data?.match?.(/^loc=([A-Z]{2})$/m)?.[1],
+      },
     ];
 
     function normalizeMarket(value) {
-      return typeof value === "string" ? value.trim().slice(0, 2).toUpperCase() : "";
+      const market = typeof value === "string" ? value.trim().slice(0, 2).toUpperCase() : "";
+
+      return market === "UK" ? "GB" : market;
     }
 
     async function fetchMarketFromLookup(lookup) {
@@ -207,7 +212,8 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       });
 
       if (!response.ok) return { market: "", source: lookup.name };
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await response.json() : await response.text();
       const market = normalizeMarket(lookup.pick(data));
 
       return {
@@ -217,19 +223,22 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
     }
 
     async function detectBrowserMarket() {
-      for (const lookup of marketLookups) {
-        try {
-          const result = await fetchMarketFromLookup(lookup);
-
-          if (result.market) {
-            return result;
+      const results = await Promise.all(
+        marketLookups.map(async (lookup) => {
+          try {
+            return await fetchMarketFromLookup(lookup);
+          } catch {
+            return { market: "", source: lookup.name };
           }
-        } catch {
-          // Try the next lookup service.
-        }
-      }
+        }),
+      );
+      const firstNonSwissMarket = results.find((result) => result.market && result.market !== "CH");
+      const firstSupportedMarket = results.find((result) => result.market);
 
-      return { market: "", source: "" };
+      return {
+        ...(firstNonSwissMarket || firstSupportedMarket || { market: "", source: "" }),
+        results,
+      };
     }
 
     function renderPricing(pricing) {
@@ -245,38 +254,61 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       });
     }
 
+    function renderPricingDebug(details) {
+      let panel = document.querySelector("[data-pricing-debug]");
+
+      if (!(panel instanceof HTMLElement)) {
+        panel = document.createElement("pre");
+        panel.dataset.pricingDebug = "true";
+        panel.style.cssText = [
+          "position:fixed",
+          "left:12px",
+          "right:12px",
+          "bottom:12px",
+          "z-index:9999",
+          "max-height:45vh",
+          "overflow:auto",
+          "margin:0",
+          "padding:12px",
+          "border-radius:8px",
+          "background:#111",
+          "color:#f8f8f8",
+          "font:12px/1.45 monospace",
+          "white-space:pre-wrap",
+        ].join(";");
+        document.body.append(panel);
+      }
+
+      panel.textContent = JSON.stringify(details, null, 2);
+    }
+
     async function updatePricing() {
       const urlParams = new URLSearchParams(window.location.search);
       const urlMarket = normalizeMarket(urlParams.get("market"));
-      const cachedMarket = normalizeMarket(getCookie("websiteli_market"));
       const debugPricing = urlParams.get("pricing_debug") === "1";
       let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : "";
       let source = market ? "url" : "";
+      let lookupResults = [];
 
       if (!supportedPricingMarkets.has(market)) {
         const detected = await detectBrowserMarket();
         market = detected.market;
         source = detected.source;
-      }
-
-      if (!supportedPricingMarkets.has(market) && cachedMarket !== "CH") {
-        market = cachedMarket;
-        source = "cookie";
-      }
-
-      if (supportedPricingMarkets.has(market)) {
-        setMarketCookie(market);
+        lookupResults = detected.results || [];
       }
 
       renderPricing(getPricingForMarket(market));
 
       if (debugPricing) {
-        console.info("Websiteli pricing", {
+        const debugDetails = {
           market: supportedPricingMarkets.has(market) ? market : pricingData[fallbackKey],
           source: source || "fallback",
-          cachedMarket,
           urlMarket,
-        });
+          lookupResults,
+        };
+
+        console.info("Websiteli pricing", debugDetails);
+        renderPricingDebug(debugDetails);
       }
     }
 
