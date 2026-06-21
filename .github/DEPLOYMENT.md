@@ -1,12 +1,12 @@
 # Deployment
 
-This project uses static Astro output plus a PHP endpoint so Hostpoint can run pricing code without a Node.js backend.
+This project uses static Astro output for Hostpoint.
 
-Deploy it to Hostpoint only if PHP execution is enabled for the website. Static file serving alone cannot run the geographic pricing endpoint.
+Pricing is resolved in the browser from an obfuscated frontend table. This is not secret against a determined visitor, but it avoids a plainly readable JSON table and only shows the selected market price in the UI.
 
-Upload the full `dist/` folder, including `dist/api/pricing.php`.
+Upload the full `dist/` folder.
 
-## Hostpoint PHP Pricing
+## Hostpoint Static Deployment
 
 Build the site:
 
@@ -20,12 +20,4 @@ Deploy with the existing SFTP script:
 npm run deploy:hostpoint
 ```
 
-The success test is:
-
-```text
-https://websiteli.ch/api/pricing.php
-```
-
-That URL must return JSON. If it returns PHP source, HTML, or a 404 page, PHP is not running for that path.
-
-The page starts with Swiss fallback prices and updates visible prices after fetching `/api/pricing.php`.
+The page starts with Swiss fallback prices and updates visible prices after browser IP country detection.

@@ -1,4 +1,4 @@
-name: Build Hostpoint Static PHP App
+name: Build Hostpoint Static App
 
 on:
   push:
@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: hostpoint-static-php-build
+  group: hostpoint-static-build
   cancel-in-progress: false
 
 jobs:
   build:
-    name: Build static site with PHP pricing endpoint
+    name: Build static site
     runs-on: ubuntu-latest
 
     steps:
@@ -32,17 +32,16 @@ jobs:
       - name: Test pricing behavior
         run: npm run test:pricing
 
-      - name: Verify Hostpoint static/PHP build output
+      - name: Verify Hostpoint static build output
         run: |
           test -d dist || (echo "dist/ was not created by npm run build" && exit 1)
           test -f dist/index.html || (echo "dist/index.html is missing" && exit 1)
-          test -f dist/api/pricing.php || (echo "dist/api/pricing.php is missing" && exit 1)
           echo "Build output:"
           find dist -maxdepth 3 -type f | sort
 
-      - name: Upload Hostpoint static PHP build artifact
+      - name: Upload Hostpoint static build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hostpoint-static-php-build
+          name: hostpoint-static-build
           path: dist/
           if-no-files-found: error
