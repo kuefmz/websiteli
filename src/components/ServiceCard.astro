@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  index: number;
+}
+
+const { title, description, index } = Astro.props;
+---
+
+<article class="service-card">
+  <span>{String(index).padStart(2, "0")}</span>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</article>

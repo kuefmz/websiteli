@@ -1,0 +1,90 @@
+name: Deploy to Hostpoint
+
+on:
+  # Deploy automatically whenever the main branch receives a new commit.
+  push:
+    branches:
+      - main
+
+  # Allow a manual run from the GitHub Actions tab for a controlled redeploy.
+  workflow_dispatch:
+
+concurrency:
+  # Prevent two deployments from writing to Hostpoint at the same time.
+  group: hostpoint-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy static site
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the repository code into the GitHub Actions runner.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Use Node 20 because the current Astro project builds successfully on it.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Install exactly the dependency versions recorded in package-lock.json.
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the static Astro website into dist/.
+      - name: Build Astro site
+        env:
+          # Optional: public Google Apps Script Web App URL for the contact form.
+          # The legacy PUBLIC_LEAD_FORM_ENDPOINT secret is also supported as a fallback.
+          PUBLIC_CONTACT_FORM_ENDPOINT: ${{ secrets.PUBLIC_CONTACT_FORM_ENDPOINT || secrets.PUBLIC_LEAD_FORM_ENDPOINT }}
+          # Optional: GA4 measurement ID, for example G-XXXXXXXXXX.
+          PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA_MEASUREMENT_ID }}
+          # Optional: WhatsApp URL, for example https://wa.me/41791234567.
+          PUBLIC_WHATSAPP_URL: ${{ secrets.PUBLIC_WHATSAPP_URL }}
+        run: npm run build
+
+      # Fail early with a clear message if the build did not create the expected output.
+      - name: Verify static build output
+        run: |
+          test -d dist || (echo "dist/ was not created by npm run build" && exit 1)
+          test -f dist/index.html || (echo "dist/index.html is missing" && exit 1)
+          echo "Build output:"
+          find dist -maxdepth 2 -type f | sort
+
+      # Install lftp, which provides reliable SFTP mirroring with deletion support.
+      - name: Install deployment tool
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+          lftp --version
+
+      # Check that all required GitHub secrets are present before opening an SFTP connection.
+      - name: Validate deployment secrets
+        env:
+          HOSTPOINT_HOST: ${{ secrets.HOSTPOINT_HOST }}
+          HOSTPOINT_USERNAME: ${{ secrets.HOSTPOINT_USERNAME }}
+          HOSTPOINT_PASSWORD: ${{ secrets.HOSTPOINT_PASSWORD }}
+          HOSTPOINT_TARGET_PATH: ${{ secrets.HOSTPOINT_TARGET_PATH }}
+          PUBLIC_CONTACT_FORM_ENDPOINT: ${{ secrets.PUBLIC_CONTACT_FORM_ENDPOINT || secrets.PUBLIC_LEAD_FORM_ENDPOINT }}
+        run: |
+          for name in HOSTPOINT_HOST HOSTPOINT_USERNAME HOSTPOINT_PASSWORD HOSTPOINT_TARGET_PATH PUBLIC_CONTACT_FORM_ENDPOINT; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required GitHub secret: ${name}"
+              exit 1
+            fi
+          done
+          echo "All required deployment secrets are configured."
+
+      # Mirror dist/ to Hostpoint over SFTP.
+      # The --delete flag removes remote files that no longer exist in dist/.
+      - name: Deploy to Hostpoint via SFTP
+        env:
+          HOSTPOINT_HOST: ${{ secrets.HOSTPOINT_HOST }}
+          HOSTPOINT_USERNAME: ${{ secrets.HOSTPOINT_USERNAME }}
+          HOSTPOINT_PASSWORD: ${{ secrets.HOSTPOINT_PASSWORD }}
+          HOSTPOINT_TARGET_PATH: ${{ secrets.HOSTPOINT_TARGET_PATH }}
+        run: bash scripts/deploy.sh

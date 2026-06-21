@@ -1,0 +1,116 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import PricingCard from "../components/PricingCard.astro";
+import ProcessStep from "../components/ProcessStep.astro";
+import FAQ from "../components/FAQ.astro";
+import CTASection from "../components/CTASection.astro";
+import { addOns, faqs, localTrust, pricing, processSteps, reasons, services } from "../content/site";
+---
+
+<Layout
+  title="Websiteli — Simple Modern Websites for Swiss Businesses"
+  description="Swiss-based developers building clean, modern websites for small businesses. Clear pricing, friendly support, and websites that are ready to grow."
+  canonicalPath="/"
+>
+  <main>
+    <Hero />
+
+    <section class="intro-strip" aria-label="Key promise">
+      <p>Your website should be easy to find, easy to understand, and easy to contact you from.</p>
+    </section>
+
+    <section class="section-shell section-block" id="services">
+      <div class="section-heading">
+        <p class="eyebrow">Services</p>
+        <h2>Everything your business needs to look professional online.</h2>
+        <p>Start with a simple page today and grow into a bigger website later.</p>
+      </div>
+      <div class="service-grid">
+        {services.map((service, index) => <ServiceCard {...service} index={index + 1} />)}
+      </div>
+    </section>
+
+    <section class="section-shell section-block" id="pricing">
+      <div class="section-heading centered">
+        <p class="eyebrow">Pricing</p>
+        <h2>Clear starting prices with room to grow.</h2>
+        <p>We build websites for Swiss businesses that want to look professional online without overcomplicating things.</p>
+      </div>
+      <div class="pricing-grid">
+        {pricing.map((plan) => <PricingCard {...plan} />)}
+      </div>
+      <div class="large-note">
+        <strong>Need something bigger?</strong>
+        <span>More pages, multiple languages, online shops, booking tools, automation, and custom features can be discussed individually.</span>
+      </div>
+    </section>
+
+    <section class="section-shell section-block add-ons">
+      <div class="section-heading">
+        <p class="eyebrow">Useful add-ons</p>
+        <h2>Useful add-ons when you need them.</h2>
+      </div>
+      <div class="addon-grid">
+        {addOns.map((item) => (
+          <article class="addon-card">
+            <h3>{item.title}</h3>
+            <strong>{item.price}</strong>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="why-section">
+      <div class="section-shell why-inner">
+        <div class="section-heading">
+          <p class="eyebrow">Why choose us</p>
+          <h2>Built by Swiss-based developers who keep things simple.</h2>
+        </div>
+        <div class="reason-grid">
+          {reasons.map((reason) => <div>{reason}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell section-block local-trust">
+      <div class="section-heading centered">
+        <p class="eyebrow">Local trust</p>
+        <h2>Practical website help for Swiss small businesses.</h2>
+        <p>Clear pricing, friendly support, and a professional online presence without overcomplicating the process.</p>
+      </div>
+      <div class="trust-grid">
+        {localTrust.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell section-block" id="process">
+      <div class="section-heading centered">
+        <p class="eyebrow">Process</p>
+        <h2>A calm, clear way to get online.</h2>
+      </div>
+      <div class="process-grid">
+        {processSteps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
+      </div>
+    </section>
+
+    <section class="section-shell section-block faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">Questions</p>
+        <h2>Frequently asked questions.</h2>
+      </div>
+      <div class="faq-list">
+        {faqs.map((faq) => <FAQ {...faq} />)}
+      </div>
+    </section>
+
+    <CTASection />
+  </main>
+</Layout>

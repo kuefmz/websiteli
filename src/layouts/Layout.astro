@@ -1,0 +1,123 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath = Astro.url.pathname } = Astro.props;
+const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Websiteli",
+    url: siteUrl.toString(),
+    email: "hello@websiteli.ch",
+    logo: new URL("/assets/websiteli-og.png", siteUrl).toString(),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Websiteli",
+    url: siteUrl.toString(),
+    email: "hello@websiteli.ch",
+    areaServed: {
+      "@type": "Country",
+      name: "Switzerland",
+    },
+    priceRange: "CHF 990 - CHF 2000",
+    description,
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="websiteli.ch" />
+    <meta property="og:locale" content="en_CH" />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    {gaMeasurementId && <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>}
+    {
+      gaMeasurementId && (
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag("js", new Date());
+          gtag("config", gaMeasurementId);
+        </script>
+      )
+    }
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = storedTheme || (prefersDark ? "dark" : "light");
+    </script>
+    <script is:inline>
+      window.trackWebsiteliEvent = function(eventName, params = {}) {
+        if (typeof window.gtag === "function") {
+          window.gtag("event", eventName, params);
+        }
+      };
+
+      document.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target.closest("[data-track-event]") : null;
+        if (!target) return;
+
+        window.trackWebsiteliEvent(target.dataset.trackEvent, {
+          event_category: target.dataset.trackCategory || "engagement",
+          event_label: target.dataset.trackLabel || target.textContent?.trim() || "",
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const pricing = document.querySelector("#pricing");
+        if (!pricing || !("IntersectionObserver" in window)) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              window.trackWebsiteliEvent("pricing_section_view", {
+                event_category: "engagement",
+                event_label: "Pricing",
+              });
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.35 },
+        );
+
+        observer.observe(pricing);
+      });
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

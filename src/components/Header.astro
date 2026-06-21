@@ -1,0 +1,77 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import { navItems } from "../content/site";
+---
+
+<header class="site-header" data-header>
+  <a class="brand" href="#home" aria-label="websiteli.ch home">
+    <span class="brand-mark">w</span>
+    <span>websiteli.ch</span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+
+  <div class="header-actions">
+    <ThemeToggle />
+    <a class="header-quote" href="#contact" data-track-event="quote_button_click" data-track-label="Header quote">Free quote</a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" aria-label="Mobile navigation" data-mobile-nav>
+  {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  <a class="mobile-quote" href="#contact" data-track-event="quote_button_click" data-track-label="Mobile quote">Get a free quote</a>
+</nav>
+
+<script>
+  const header = document.querySelector("[data-header]");
+  const menuToggle = document.querySelector("[data-menu-toggle]");
+  const mobileNav = document.querySelector("[data-mobile-nav]");
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const updateHeader = () => {
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+    const isScrolled = currentScrollY > 12;
+    const isScrollingDown = currentScrollY > lastScrollY;
+    const menuIsOpen = mobileNav?.classList.contains("is-open");
+
+    header.classList.toggle("is-scrolled", isScrolled);
+    header.classList.toggle("is-hidden", isScrolled && isScrollingDown && !menuIsOpen);
+
+    lastScrollY = Math.max(currentScrollY, 0);
+    ticking = false;
+  };
+
+  updateHeader();
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeader);
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
+
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = mobileNav?.classList.toggle("is-open") ?? false;
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    header?.classList.remove("is-hidden");
+  });
+
+  mobileNav?.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement) {
+      mobileNav.classList.remove("is-open");
+      menuToggle?.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>

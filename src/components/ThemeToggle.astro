@@ -1,0 +1,25 @@
+<button class="theme-toggle" type="button" aria-label="Switch colour theme" data-theme-toggle>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 21h6" />
+    <path d="M10 17h4" />
+    <path d="M12 3a6 6 0 0 0-3.7 10.7c.7.6 1.1 1.4 1.2 2.3h5c.1-.9.5-1.7 1.2-2.3A6 6 0 0 0 12 3Z" />
+  </svg>
+</button>
+
+<script>
+  const toggle = document.querySelector("[data-theme-toggle]");
+
+  const updateLabel = () => {
+    const theme = document.documentElement.dataset.theme;
+    toggle?.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  };
+
+  updateLabel();
+
+  toggle?.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("theme", nextTheme);
+    updateLabel();
+  });
+</script>

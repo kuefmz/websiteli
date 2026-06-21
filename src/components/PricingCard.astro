@@ -1,0 +1,20 @@
+---
+interface Props {
+  name: string;
+  price: string;
+  items: string[];
+  highlight?: boolean;
+}
+
+const { name, price, items, highlight = false } = Astro.props;
+---
+
+<article class:list={["pricing-card", { featured: highlight }]}>
+  {highlight && <p class="card-badge">Popular start</p>}
+  <h3>{name}</h3>
+  <p class="plan-price">{price}</p>
+  <ul>
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+  <a class="button card-button" href="#contact" data-track-event="quote_button_click" data-track-label={`Pricing: ${name}`}>Ask about this</a>
+</article>
