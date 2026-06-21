@@ -48,7 +48,7 @@ scripts/
   deploy.sh          Legacy static-host deployment script
 .github/
   workflows/         GitHub Actions build workflow
-  DEPLOYMENT.md      Legacy Hostpoint notes
+  DEPLOYMENT.md      Hostpoint Node deployment notes
 ```
 
 Most homepage text, service items, plan names, process steps, and FAQs can be edited in:
@@ -65,20 +65,19 @@ src/lib/pricing.server.ts
 
 ## Build
 
-Create a production build:
+Create the Hostpoint Node production build:
 
 ```bash
-npm run build
+npm run build:node
 ```
 
-The server build is generated in:
+The standalone Node server build is generated in:
 
 ```text
-.vercel/output/
+dist/
 ```
 
-Deploy this project to a server-capable Astro host such as Vercel. Static shared hosting cannot run `/api/pricing` or `/api/contact`.
-
+Deploy this project only on Hostpoint if your plan can run a Node.js app/runtime. Static shared hosting cannot run `/api/pricing` or `/api/contact`.
 The live domain must return JSON from:
 
 ```text
@@ -107,10 +106,6 @@ CONTACT_FORM_ENDPOINT
 LEAD_FORM_ENDPOINT
 ```
 
-## Preview Production Build
-
-The Vercel adapter does not support `astro preview`. Use the Vercel CLI or `npm run dev` for local server testing.
-
 ## Deployment
 
 Build verification is configured through GitHub Actions in:
@@ -119,34 +114,22 @@ Build verification is configured through GitHub Actions in:
 .github/workflows/deploy.yml
 ```
 
-Production Vercel deployment is configured in:
-
-```text
-.github/workflows/deploy-vercel.yml
-```
-
-Required GitHub secrets:
-
-```text
-VERCEL_TOKEN
-VERCEL_ORG_ID
-VERCEL_PROJECT_ID
-```
-
-After the first Vercel deployment, add `websiteli.ch` to the Vercel project and follow the DNS records Vercel shows for the domain. The domain must point to Vercel, not the old static Hostpoint Apache site.
+This workflow verifies the Node server build. It does not upload to Hostpoint automatically because Hostpoint must first confirm a Node.js app/runtime exists for the plan.
 
 On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
-2. Build the Astro project.
-3. Verify that `.vercel/output/` exists.
+2. Run the pricing tests.
+3. Build the standalone Node server.
+4. Verify that `dist/server/entry.mjs` exists.
 
 ## Useful Commands
 
 ```bash
 npm install              # Install dependencies
 npm run dev              # Start local development
-npm run build            # Build server output into .vercel/output/
+npm run build:node       # Build standalone Node server output into dist/
+npm run start:node       # Run the standalone Node server locally
 npm run test:pricing     # Build and verify backend pricing behavior
 npm run verify:live      # Verify the deployed domain is running the pricing API
 ```

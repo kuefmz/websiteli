@@ -3,8 +3,8 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 
-const chunksDir = join(process.cwd(), ".vercel/output/_functions/chunks");
-const staticDir = join(process.cwd(), ".vercel/output/static");
+const chunksDir = join(process.cwd(), "dist/server/chunks");
+const staticDir = join(process.cwd(), "dist/client");
 
 async function findPricingChunk() {
   const files = await readdir(chunksDir);

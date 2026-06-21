@@ -1,4 +1,4 @@
-name: Build
+name: Build Hostpoint Node App
 
 on:
   push:
@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: build-production
+  group: hostpoint-node-build
   cancel-in-progress: false
 
 jobs:
   build:
-    name: Build server-rendered site
+    name: Build standalone Node server
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +29,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Astro site
-        run: npm run build
+      - name: Test pricing behavior
+        run: npm run test:pricing
 
-      - name: Verify server build output
+      - name: Build Hostpoint Node server
+        run: npm run build:node
+
+      - name: Verify Node server build output
         run: |
           test -d dist || (echo "dist/ was not created by npm run build" && exit 1)
-          test -d .vercel/output || (echo ".vercel/output was not created by npm run build" && exit 1)
-          test -f .vercel/output/config.json || (echo ".vercel/output/config.json is missing" && exit 1)
+          test -f dist/server/entry.mjs || (echo "dist/server/entry.mjs is missing" && exit 1)
+          test -d dist/client || (echo "dist/client is missing" && exit 1)
           echo "Build output:"
-          find .vercel/output -maxdepth 3 -type f | sort
+          find dist -maxdepth 3 -type f | sort
