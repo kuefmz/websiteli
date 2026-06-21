@@ -42,7 +42,7 @@ export const services = [
 export const pricing = [
   {
     name: "Starter Page",
-    price: "CHF 990",
+    priceKey: "landingPage",
     highlight: false,
     items: [
       "One modern landing page",
@@ -54,7 +54,7 @@ export const pricing = [
   },
   {
     name: "Business Website",
-    price: "CHF 1,500",
+    priceKey: "businessWebsite",
     highlight: true,
     items: [
       "Up to 5 pages",
@@ -67,7 +67,7 @@ export const pricing = [
   },
   {
     name: "Larger Website",
-    price: "CHF 2,000",
+    priceKey: "premiumWebsite",
     highlight: false,
     items: [
       "Up to 10 pages",
@@ -79,7 +79,7 @@ export const pricing = [
   },
   {
     name: "Website Care",
-    price: "CHF 50/month",
+    priceKey: "maintenanceMonthly",
     highlight: false,
     items: [
       "Small content updates",
@@ -93,22 +93,22 @@ export const pricing = [
 export const addOns = [
   {
     title: "Online visibility setup",
-    price: "CHF 300",
+    priceKey: "seoSetup",
     description: "We prepare your website so the right people can more easily find your business online.",
   },
   {
     title: "Website insights setup",
-    price: "CHF 250",
+    price: "Request a quote",
     description: "We prepare your website so you can understand which pages people visit and what they care about.",
   },
   {
     title: "Local business setup",
-    price: "CHF 450",
+    price: "Request a quote",
     description: "We help shape your website so nearby customers can quickly understand what you offer.",
   },
   {
     title: "Smart tools and automation",
-    price: "from CHF 500",
+    price: "Request a quote",
     description: "We can add simple forms, small automations, or practical tools that reduce manual work. Larger AI features can be discussed separately.",
   },
 ];
