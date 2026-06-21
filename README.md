@@ -81,9 +81,9 @@ Deploy `dist/` to Hostpoint. No backend or server runtime is required for pricin
 
 ## Geographic Pricing
 
-The browser calls `ipwho.is` to detect the visitor's country from their current IP/VPN. Unsupported or missing countries fall back to Switzerland (`CH`). Add `?market=HU` or another supported country code to test a market manually.
+The browser checks multiple IP lookup services to detect the visitor's country from their current IP/VPN. Unsupported or missing countries fall back to Switzerland (`CH`). Add `?market=HU` or another supported country code to test a market manually.
 
-The selected market code is stored in a `websiteli_market` cookie so repeat visits do not need another lookup.
+The selected market is not cached. Each normal visit uses the current detected country so travelling visitors see local pricing.
 
 ## Deployment
 

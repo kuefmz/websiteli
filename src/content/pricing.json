@@ -4,11 +4,11 @@
     "CH": {
       "country": "Switzerland",
       "currency": "CHF",
-      "landingPage": 1000,
-      "businessWebsite": 2000,
-      "premiumWebsite": 3500,
+      "landingPage": 990,
+      "businessWebsite": 1500,
+      "premiumWebsite": 2500,
       "seoSetup": 500,
-      "maintenanceMonthly": 100
+      "maintenanceMonthly": 50
     },
     "HU": {
       "country": "Hungary",

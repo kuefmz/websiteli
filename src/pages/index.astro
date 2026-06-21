@@ -144,18 +144,6 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
     const fallbackKey = atob("ZGVmYXVsdE1hcmtldA==");
     const supportedPricingMarkets = new Set(Object.keys(pricingData[marketCollectionKey]));
 
-    function getCookie(name) {
-      return document.cookie
-        .split(";")
-        .map((part) => part.trim())
-        .find((part) => part.startsWith(`${name}=`))
-        ?.split("=")[1] || "";
-    }
-
-    function setMarketCookie(market) {
-      document.cookie = `websiteli_market=${market}; Max-Age=2592000; Path=/; SameSite=Lax`;
-    }
-
     function formatPrice(amount, currency) {
       return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)} ${currency}`;
     }
@@ -192,10 +180,27 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
         url: "https://ipapi.co/json/",
         pick: (data) => data?.country_code,
       },
+      {
+        name: "geojs.io",
+        url: "https://get.geojs.io/v1/ip/country.json",
+        pick: (data) => data?.country,
+      },
+      {
+        name: "ipinfo.io",
+        url: "https://ipinfo.io/json",
+        pick: (data) => data?.country,
+      },
+      {
+        name: "cloudflare-trace",
+        url: "https://www.cloudflare.com/cdn-cgi/trace",
+        pick: (data) => data?.match?.(/^loc=([A-Z]{2})$/m)?.[1],
+      },
     ];
 
     function normalizeMarket(value) {
-      return typeof value === "string" ? value.trim().slice(0, 2).toUpperCase() : "";
+      const market = typeof value === "string" ? value.trim().slice(0, 2).toUpperCase() : "";
+
+      return market === "UK" ? "GB" : market;
     }
 
     async function fetchMarketFromLookup(lookup) {
@@ -207,7 +212,8 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
       });
 
       if (!response.ok) return { market: "", source: lookup.name };
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await response.json() : await response.text();
       const market = normalizeMarket(lookup.pick(data));
 
       return {
@@ -279,7 +285,6 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
     async function updatePricing() {
       const urlParams = new URLSearchParams(window.location.search);
       const urlMarket = normalizeMarket(urlParams.get("market"));
-      const cachedMarket = normalizeMarket(getCookie("websiteli_market"));
       const debugPricing = urlParams.get("pricing_debug") === "1";
       let market = supportedPricingMarkets.has(urlMarket) ? urlMarket : "";
       let source = market ? "url" : "";
@@ -292,22 +297,12 @@ const encodedPricingData = Buffer.from(JSON.stringify(pricingTable), "utf8")
         lookupResults = detected.results || [];
       }
 
-      if (!supportedPricingMarkets.has(market) && cachedMarket !== "CH") {
-        market = cachedMarket;
-        source = "cookie";
-      }
-
-      if (supportedPricingMarkets.has(market)) {
-        setMarketCookie(market);
-      }
-
       renderPricing(getPricingForMarket(market));
 
       if (debugPricing) {
         const debugDetails = {
           market: supportedPricingMarkets.has(market) ? market : pricingData[fallbackKey],
           source: source || "fallback",
-          cachedMarket,
           urlMarket,
           lookupResults,
         };

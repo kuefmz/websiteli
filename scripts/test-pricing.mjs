@@ -25,9 +25,9 @@ test("homepage resolves pricing on the frontend from an obfuscated table", async
 
   assert.match(combined, /atob/);
   assert.match(combined, /ipwho\.is/);
-  assert.match(combined, /websiteli_market/);
   assert.doesNotMatch(combined, /\/api\/pricing/);
   assert.doesNotMatch(combined, /pricing\.php/);
+  assert.doesNotMatch(combined, /websiteli_market/);
 });
 
 test("pricing source of truth is kept as readable JSON", async () => {
@@ -60,12 +60,18 @@ test("frontend starts with Swiss fallback prices before browser country detectio
   assert.match(index, /from 3,500 CHF/);
 });
 
-test("cached Swiss market does not block browser country detection", async () => {
+test("pricing does not cache previous market detection", async () => {
   const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+  const files = await collectFiles(distDir);
+  const frontendFiles = files.filter((file) => /\.(html|js|css)$/.test(file));
+  const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
-  assert.match(source, /cachedMarket !== "CH"/);
   assert.match(source, /api\.country\.is/);
   assert.match(source, /ipapi\.co/);
+  assert.match(source, /geojs\.io/);
+  assert.match(source, /cloudflare-trace/);
+  assert.doesNotMatch(source, /getCookie|setMarketCookie|cachedMarket|document\.cookie/);
+  assert.doesNotMatch(combined, /websiteli_market|document\.cookie/);
 });
 
 test("browser country detection can prefer a VPN country over Swiss lookup noise", async () => {
@@ -81,4 +87,10 @@ test("pricing debug mode renders lookup results on the page", async () => {
 
   assert.match(source, /data-pricing-debug/);
   assert.match(source, /lookupResults/);
+});
+
+test("UK country codes normalize to the supported GB market", async () => {
+  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+
+  assert.match(source, /market === "UK" \? "GB" : market/);
 });
