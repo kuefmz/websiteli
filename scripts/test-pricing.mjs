@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 const distDir = join(process.cwd(), "dist");
+const pricingRuntimePath = join(process.cwd(), "src/components/PricingRuntime.astro");
 
 async function collectFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -18,81 +19,94 @@ async function collectFiles(dir) {
   return files.flat();
 }
 
-test("homepage resolves pricing on the frontend from an obfuscated table", async () => {
+async function readDistFile(path) {
+  return readFile(join(distDir, path), "utf8");
+}
+
+test("localized pages include the browser pricing runtime", async () => {
+  const englishHome = await readDistFile("en/index.html");
+
+  assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
+  assert.match(englishHome, /data-package-price="digitalFoundation"/);
+  assert.match(englishHome, /data-package-price="growthSetup"/);
+  assert.match(englishHome, /data-package-price="aiDataUpgrade"/);
+});
+
+test("root page redirects to the localized English site", async () => {
+  const root = await readDistFile("index.html");
+
+  assert.match(root, /content="0;url=\/en\/"/);
+  assert.match(root, /Continue to Websiteli/);
+});
+
+test("pricing source of truth contains supported markets and packages", async () => {
+  const source = JSON.parse(await readFile(join(process.cwd(), "src/config/pricing.json"), "utf8"));
+
+  assert.equal(source.CH.currency, "CHF");
+  assert.equal(source.US.currency, "USD");
+  assert.equal(source.GB.currency, "GBP");
+  assert.equal(source.HU.currency, "HUF");
+  assert.equal(source.PL.currency, "PLN");
+  assert.equal(source.CZ.currency, "CZK");
+  assert.equal(source.DK.currency, "DKK");
+  assert.equal(source.JP.currency, "JPY");
+  assert.equal(source.EU.currency, "EUR");
+  assert.equal(typeof source.CH.packages.digitalFoundation.from, "number");
+  assert.equal(typeof source.CH.packages.growthSetup.from, "number");
+  assert.equal(typeof source.CH.packages.aiDataUpgrade.from, "number");
+});
+
+test("pricing resolves from IP lookups without a user-facing market selector", async () => {
+  const source = await readFile(pricingRuntimePath, "utf8");
   const files = await collectFiles(distDir);
-  const frontendFiles = files.filter((file) => /\.(html|js|css)$/.test(file));
-  const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
-
-  assert.match(combined, /atob/);
-  assert.match(combined, /api\.country\.is/);
-  assert.match(combined, /ipapi\.co/);
-  assert.doesNotMatch(combined, /\/api\/pricing/);
-  assert.doesNotMatch(combined, /pricing\.php/);
-  assert.doesNotMatch(combined, /ipwho\.is/);
-  assert.doesNotMatch(combined, /websiteli_market/);
-});
-
-test("pricing source of truth is kept as readable JSON", async () => {
-  const source = JSON.parse(await readFile(join(process.cwd(), "src/content/pricing.json"), "utf8"));
-
-  assert.equal(source.defaultMarket, "CH");
-  assert.equal(source.markets.GB.currency, "GBP");
-  assert.equal(source.markets.GB.landingPage, 900);
-});
-
-test("frontend HTML, JS, and CSS do not contain plain readable country prices", async () => {
-  const files = await collectFiles(distDir);
-  const frontendFiles = files.filter((file) => /\.(html|js|css)$/.test(file));
-  const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
-
-  assert.equal(combined.includes("149000"), false);
-  assert.equal(combined.includes("299000"), false);
-  assert.equal(combined.includes("Hungary"), false);
-  assert.equal(combined.includes("defaultMarket"), false);
-  assert.equal(combined.includes('"markets"'), false);
-  assert.equal(combined.includes("$markets"), false);
-  assert.equal(combined.includes("pricingConfig"), false);
-});
-
-test("frontend starts with Swiss fallback prices before browser country detection", async () => {
-  const index = await readFile(join(distDir, "index.html"), "utf8");
-
-  assert.match(index, /from 1,000 CHF/);
-  assert.match(index, /from 2,000 CHF/);
-  assert.match(index, /from 3,500 CHF/);
-});
-
-test("pricing does not cache previous market detection", async () => {
-  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
-  const files = await collectFiles(distDir);
-  const frontendFiles = files.filter((file) => /\.(html|js|css)$/.test(file));
+  const frontendFiles = files.filter((file) => /\.(html|js)$/.test(file));
   const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
   assert.match(source, /api\.country\.is/);
   assert.match(source, /ipapi\.co/);
   assert.match(source, /geojs\.io/);
   assert.match(source, /cloudflare-trace/);
-  assert.doesNotMatch(source, /getCookie|setMarketCookie|cachedMarket|document\.cookie/);
+  assert.match(source, /Promise\.all/);
+  assert.doesNotMatch(source, /data-market-select|market_change_select/);
   assert.doesNotMatch(combined, /websiteli_market|document\.cookie/);
 });
 
-test("browser country detection can prefer a VPN country over Swiss lookup noise", async () => {
-  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+test("EU countries and unknown countries map to the correct fallback markets", async () => {
+  const source = await readFile(pricingRuntimePath, "utf8");
+  const pricingConfig = await readFile(join(process.cwd(), "src/config/pricing.ts"), "utf8");
 
-  assert.match(source, /Promise\.all/);
-  assert.match(source, /firstNonSwissMarket/);
-  assert.match(source, /result\.market !== "CH"/);
+  assert.match(source, /getPricingMarketForCountry/);
+  assert.match(source, /pricingData\.euCountryCodes\.includes/);
+  assert.match(source, /return "DEFAULT"/);
+  assert.match(pricingConfig, /"CZ"/);
+  assert.match(pricingConfig, /"DK"/);
+  assert.match(pricingConfig, /"PT"/);
 });
 
-test("pricing debug mode renders lookup results on the page", async () => {
-  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+test("lead forms receive pricing, source, demo, and project metadata", async () => {
+  const contact = await readDistFile("en/contact/index.html");
+  const demo = await readDistFile("en/demos/restaurant/index.html");
+  const project = await readDistFile("en/example-projects/restaurant-visibility/index.html");
 
-  assert.match(source, /data-pricing-debug/);
-  assert.match(source, /lookupResults/);
+  assert.match(contact, /name="pricingMarket"/);
+  assert.match(contact, /name="currency"/);
+  assert.match(contact, /name="priceShown"/);
+  assert.match(contact, /name="relatedDemo"/);
+  assert.match(contact, /name="relatedProject"/);
+  assert.match(contact, /name="sourcePage"/);
+  assert.match(contact, /name="inquiryIntent"/);
+  assert.match(demo, /demo=restaurant/);
+  assert.match(project, /project=restaurant-visibility/);
 });
 
-test("UK country codes normalize to the supported GB market", async () => {
-  const source = await readFile(join(process.cwd(), "src/pages/index.astro"), "utf8");
+test("localized package labels do not leak English package names in Hungarian UI", async () => {
+  const hungarianHome = await readDistFile("hu/index.html");
+  const hungarianContact = await readDistFile("hu/contact/index.html");
 
-  assert.match(source, /market === "UK" \? "GB" : market/);
+  assert.match(hungarianHome, /Digitális alapcsomag/);
+  assert.match(hungarianHome, /Növekedési csomag/);
+  assert.match(hungarianHome, /AI\/adat fejlesztés/);
+  assert.match(hungarianContact, /<option value="digitalFoundation">Digitális alapcsomag<\/option>/);
+  assert.doesNotMatch(hungarianContact, />Digital Foundation<\/option>/);
+  assert.doesNotMatch(hungarianContact, />AI\/Data Upgrade<\/option>/);
 });

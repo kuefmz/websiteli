@@ -36,7 +36,9 @@ jobs:
         run: |
           test -d dist || (echo "dist/ was not created by npm run build" && exit 1)
           test -f dist/index.html || (echo "dist/index.html is missing" && exit 1)
-          grep -q "pricing_debug" dist/index.html || (echo "dist/index.html does not contain the current pricing script" && exit 1)
+          test -f dist/en/index.html || (echo "dist/en/index.html is missing" && exit 1)
+          grep -q "websiteliGetPricingForCountry" dist/en/index.html || (echo "dist/en/index.html does not contain the pricing runtime" && exit 1)
+          grep -q "G-TGZY875FGJ" dist/en/index.html || (echo "dist/en/index.html does not contain the Google Analytics tag" && exit 1)
           echo "Build output:"
           find dist -maxdepth 3 -type f | sort
 
