@@ -1118,6 +1118,7 @@ h3 {
 }
 
 .contact-form label:has(textarea),
+.contact-form .privacy-consent,
 .contact-form button,
 .form-status {
   grid-column: 1 / -1;
@@ -1143,6 +1144,29 @@ h3 {
   min-height: 118px;
   padding: 13px 14px;
   resize: vertical;
+}
+
+.contact-form .privacy-consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  font-weight: 750;
+}
+
+.contact-form .privacy-consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.18em;
+  accent-color: var(--brand);
+}
+
+.contact-form .privacy-consent a {
+  color: var(--brand-strong);
+  font-weight: 850;
 }
 
 .contact-form button:disabled {
@@ -1188,6 +1212,27 @@ h3 {
   font-weight: 800;
 }
 
+.simple-page .policy-section {
+  max-width: 860px;
+  margin-top: 34px;
+}
+
+.simple-page .policy-section h2 {
+  max-width: 780px;
+  margin-bottom: 12px;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  line-height: 1.12;
+}
+
+.simple-page ul {
+  max-width: 780px;
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
 .site-footer {
   display: grid;
   gap: 34px;
@@ -1210,7 +1255,7 @@ h3 {
 
 .footer-links {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(240px, 1.15fr);
   gap: 18px;
 }
 
@@ -1238,6 +1283,90 @@ h3 {
 .footer-links a:hover {
   color: var(--brand-strong);
   font-weight: 850;
+}
+
+.footer-links .whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.footer-links .whatsapp-link svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  fill: #25d366;
+}
+
+.footer-newsletter {
+  min-width: 0;
+}
+
+.footer-newsletter p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.footer-newsletter form {
+  display: grid;
+  gap: 10px;
+}
+
+.footer-newsletter label:not(.website-field) {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.footer-newsletter input[type="email"] {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.footer-newsletter input[type="email"]:focus {
+  border-color: var(--sky);
+  outline: 3px solid color-mix(in srgb, var(--sky) 24%, transparent);
+}
+
+.footer-newsletter .newsletter-consent {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  line-height: 1.45;
+}
+
+.footer-newsletter .newsletter-consent input {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.18em;
+  accent-color: var(--brand);
+}
+
+.footer-newsletter button {
+  width: 100%;
+  min-height: 42px;
+}
+
+.footer-newsletter button:disabled {
+  cursor: progress;
+  opacity: 0.72;
+  transform: none;
+}
+
+.newsletter-status {
+  min-height: 1.25em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
 }
 
 .footer-bottom {
@@ -1374,6 +1503,7 @@ h3 {
   }
 
 .contact-form label:has(textarea),
+  .contact-form .privacy-consent,
   .contact-form button,
   .form-status {
     grid-column: auto;

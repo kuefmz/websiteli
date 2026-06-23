@@ -1,22 +1,202 @@
 {
   "locale": "nl",
   "language": "Nederlands",
-  "seo": {"title": "Websiteli - websites, automatisering en AI voor kleine bedrijven", "description": "Zwitserse digitale pakketten voor Nederlandse bedrijven: website, e-mail, Analytics, Search Console, leads, advertenties, automatisering en AI."},
-  "nav": {"home": "Home", "services": "Diensten", "packages": "Pakketten", "demos": "Demo's", "caseStudies": "Voorbeeldprojecten", "exampleProjects": "Voorbeeldprojecten", "about": "Over ons", "contact": "Contact"},
-  "hero": {"eyebrow": "Zwitserse IT- en AI-agency", "title": "Websites, automatisering en AI-tools voor kleine bedrijven.", "text": "Websiteli helpt Nederlandse mkb-bedrijven, freelancers en lokale dienstverleners met een professionele digitale basis voor zichtbaarheid, leads en slimmere processen.", "primaryCta": "Vraag een gratis digitale audit aan", "secondaryCta": "Bekijk pakketten", "trustLine": "Zwitserse basis - Snelle implementatie - Meertalige ondersteuning"},
-  "badges": ["Zwitserse basis", "AI- en data-engineering", "Snelle implementatie", "Meertalige ondersteuning", "Praktische overdracht"],
-  "intro": "Wij verkopen niet alleen websites. We zetten website, e-mail, meting, zoekzichtbaarheid, formulieren, leads en automatisering samen neer.",
-  "packagesIntro": {"eyebrow": "Kernpakketten", "title": "Drie duidelijke pakketten voor digitale groei.", "text": "Begin met een professionele basis, voeg leads en boekingen toe en automatiseer daarna met data en AI."},
-  "packages": [
-    {"name": "Digital Foundation", "description": "Voor bedrijven die een professionele online aanwezigheid nodig hebben zonder onnodige complexiteit.", "cta": "Bouw je digitale basis", "features": ["Moderne responsive website", "Domein-e-mail instellen", "Google Analytics", "Google Search Console", "Contactformulier", "SEO-basis", "Mobiele optimalisatie", "Technische basisoverdracht"]},
-    {"name": "Growth Setup", "description": "Voor bedrijven die al online zijn maar meer leads, boekingen en zichtbaarheid willen.", "cta": "Start online groei", "highlight": true, "features": ["Alles uit de digitale basis", "Boekingsintegratie", "Optimalisatie Google Business Profile", "Leadformulier", "Nieuwsbrief/contactlijst", "Meta/Facebook Ads-account", "Google Ads-account", "Basis conversietracking", "Landingsecties gericht op groei"]},
-    {"name": "AI/Data Upgrade", "description": "Voor bedrijven die tijd willen besparen, repetitief werk automatiseren en data beter willen begrijpen.", "cta": "Ontdek AI en automatisering", "features": ["Klantenservice-chatbot", "Interne FAQ/zoekassistent", "Analytics-dashboard", "Automatische rapporten", "Lichte workflowautomatisering", "Leadkwalificatie-chatbot", "Data/AI-consultatie"]}
+  "seo": {
+    "title": "Websiteli - websites, automatisering en AI voor MKB",
+    "description": "Digitale pakketten voor MKB-bedrijven: professionele website, lokale vindbaarheid, boekingen, leads, analytics, automatisering en praktische AI."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Diensten",
+    "packages": "Pakketten",
+    "demos": "Demo's",
+    "caseStudies": "Voorbeeldprojecten",
+    "exampleProjects": "Voorbeeldprojecten",
+    "about": "Over ons",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Zwitsers team voor MKB en lokale dienstverleners",
+    "title": "Websites die vertrouwen, aanvragen en boekingen makkelijker maken.",
+    "text": "We helpen MKB-bedrijven, praktijken, restaurants, consultants en lokale dienstverleners met een duidelijke digitale basis: website, vindbaarheid, contactflow, meting en praktische automatisering.",
+    "primaryCta": "Vraag gratis audit aan",
+    "secondaryCta": "Bekijk pakketten",
+    "trustLine": "Zwitserse basis - Praktische uitvoering - Meertalige support"
+  },
+  "badges": [
+    "Zwitserse basis",
+    "AI en data praktisch toegepast",
+    "Snelle implementatie",
+    "Meertalige support",
+    "Heldere overdracht"
   ],
-  "services": {"eyebrow": "Diensten", "title": "Elke dienst hoort bij een duidelijk resultaat.", "text": "Praktische digitale tools met heldere scope en technische uitvoering.", "items": [{"title": "Professionele online aanwezigheid", "description": "Website, e-mail, mobiel, formulieren en SEO-basis met Digital Foundation.", "package": "Digital Foundation"}, {"title": "Leads en boekingen", "description": "Boekingen, lead capture, Google Business Profile, nieuwsbrief en conversies met Growth Setup.", "package": "Growth Setup"}, {"title": "Klaar voor advertenties", "description": "Meta- en Google Ads-accounts met basis tracking.", "package": "Growth Setup"}, {"title": "Automatisering en AI", "description": "Chatbots, assistenten, dashboards, rapporten en workflows met AI/Data Upgrade.", "package": "AI/Data Upgrade"}]},
-  "demos": {"eyebrow": "Demo's", "title": "Voorbeelden voor typische kleine bedrijven.", "text": "Zie hoe een pakket verandert in een concrete klantreis.", "items": [{"title": "Restaurant/café website", "description": "Menu, locatie, reserveringsaanvraag, Google-profiel en snel mobiel contact."}, {"title": "Website voor professionele diensten", "description": "Betrouwbare dienstenpagina's, leadformulier, analytics en SEO-structuur."}, {"title": "AI chatbot/data dashboard", "description": "FAQ-assistent, leadkwalificatie, dashboard en automatische rapporten."}]},
-  "caseStudies": {"eyebrow": "Demo-projecten", "title": "Basis voor toekomstige cases.", "text": "Hier komen doelen, scope, proces en resultaten van echte projecten."},
-  "about": {"eyebrow": "Over ons", "title": "Een kleine Zwitserse agency geleid door twee technische founders.", "text": "Websiteli combineert webontwikkeling, data en AI met praktische uitvoering: duidelijke scope, snelle levering en overdracht die je echt kunt gebruiken."},
-  "outreach": {"headline": "Een praktische digitale basis voor Nederlandse kleine bedrijven.", "pitch": "We helpen website, e-mail, analytics, leads en automatisering in één werkend systeem te verbinden.", "painPoints": ["De website wekt te weinig vertrouwen of levert weinig leads op.", "Meting en contactflow zijn niet duidelijk gekoppeld.", "Repetitief werk kost te veel tijd."], "benefits": ["Professionele start zonder intern IT-team.", "Betere zichtbaarheid en leadflow.", "Later uitbreidbaar met advertenties, dashboards en AI."], "cta": "Plan een kort gesprek", "emailSubject": "Idee voor je digitale setup", "emailDraft": "Hallo, je bedrijf kan mogelijk profiteren van een duidelijkere digitale setup: website, contactflow, analytics en leads in één proces. Websiteli is een Zwitsers team dat kleine bedrijven helpt met websites, automatisering en praktische AI. Zullen we een korte gratis audit doen?"},
-  "contact": {"eyebrow": "Contact", "title": "Vertel ons wat je wilt verbeteren.", "text": "Vraag een gratis digitale audit of een concreet setupplan aan.", "button": "Aanvraag verzenden"},
-  "ui": {"pricingNote": "Prijzen worden automatisch getoond op basis van je locatie. Definitieve offerte na een korte kennismaking.", "coreBadge": "Belangrijk groeipakket", "outreachEyebrow": "Outreach", "painPoints": "Pijnpunten", "benefits": "Voordelen", "heroCardWebsite": "Website", "heroCardLeads": "Klaar voor leads", "heroCardAi": "AI en data", "heroCardUpgrade": "Groeipad", "heroImageLabel": "Websiteli digitale setup", "form": {"website": "Website", "name": "Naam", "email": "E-mail", "phone": "Telefoon", "company": "Bedrijf", "project": "Wat heb je nodig?", "custom": "Iets op maat", "message": "Bericht", "messagePlaceholder": "Vertel over je bedrijf en wat je wilt verbeteren.", "thankYou": "Dank je! We hebben je bericht ontvangen en reageren snel.", "validation": "Vul naam, e-mail en bericht in.", "disconnected": "Het formulier is nog niet gekoppeld. Mail ons direct.", "sending": "Verzenden...", "error": "Er ging iets mis. Mail ons direct."}, "footer": {"contact": "Contact", "pages": "Pagina's", "legal": "Juridisch", "social": "Social", "socialSoon": "Links volgen binnenkort", "rights": "Alle rechten voorbehouden."}}
+  "intro": "We maken niet alleen een website. We verbinden website, formulieren, lokale vindbaarheid, analytics en automatisering tot een basis die meer grip geeft op aanvragen en groei.",
+  "packagesIntro": {
+    "eyebrow": "Kernpakketten",
+    "title": "Drie pakketten voor herkenbare MKB-fases.",
+    "text": "Eerst een betrouwbare basis, daarna meer aanvragen en boekingen, later automatisering waar het echt tijd bespaart."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "Voor bedrijven die een professionele online aanwezigheid nodig hebben zonder onnodige complexiteit.",
+      "cta": "Bouw je digitale basis",
+      "features": [
+        "Moderne responsive website",
+        "Domein-e-mail instellen",
+        "Google analyse",
+        "Google Search Console",
+        "Contactformulier",
+        "SEO-basis",
+        "Mobiele optimalisatie",
+        "Technische basisoverdracht"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "Voor bedrijven die al online zijn maar meer leads, boekingen en zichtbaarheid willen.",
+      "cta": "Start online groei",
+      "highlight": true,
+      "features": [
+        "Alles uit de digitale basis",
+        "Boekingsintegratie",
+        "Optimalisatie Google Business Profile",
+        "Leadformulier",
+        "Nieuwsbrief/contactlijst",
+        "Meta/Facebook Ads-account",
+        "Google Ads-account",
+        "Basis conversietracking",
+        "Landingsecties gericht op groei"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "Voor bedrijven die tijd willen besparen, repetitief werk automatiseren en data beter willen begrijpen.",
+      "cta": "Ontdek AI en automatisering",
+      "features": [
+        "Klantenservice-chatbot",
+        "Interne FAQ/zoekassistent",
+        "analyse-dashboard",
+        "Automatische rapporten",
+        "Lichte workflowautomatisering",
+        "Leadkwalificatie-chatbot",
+        "Data/AI-consultatie"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "Diensten",
+    "title": "Elke dienst hoort bij een duidelijk resultaat.",
+    "text": "Praktische digitale tools met heldere scope en technische uitvoering.",
+    "items": [
+      {
+        "title": "Professionele online aanwezigheid",
+        "description": "Website, e-mail, mobiel, formulieren en SEO-basis met Digitale basis.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leads en boekingen",
+        "description": "Boekingen, leadcapture, Google Business Profile, nieuwsbrief en conversies met Groeipakket.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Klaar voor advertenties",
+        "description": "Meta- en Google Ads-accounts met basis tracking.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automatisering en AI",
+        "description": "Chatbots, assistenten, dashboards, rapporten en werkprocessen met AI- en data-upgrade.",
+        "package": "AI/Data Upgrade"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "Demo's",
+    "title": "Voorbeelden voor typische kleine bedrijven.",
+    "text": "Zie hoe een pakket verandert in een concrete klantreis.",
+    "items": [
+      {
+        "title": "Restaurant/café website",
+        "description": "Menu, locatie, reserveringsaanvraag, Google-profiel en snel mobiel contact."
+      },
+      {
+        "title": "Website voor professionele diensten",
+        "description": "Betrouwbare dienstenpagina's, leadformulier, analytics en SEO-structuur."
+      },
+      {
+        "title": "AI chatbot/data dashboard",
+        "description": "FAQ-assistent, leadkwalificatie, dashboard en automatische rapporten."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Demo-projecten",
+    "title": "Basis voor toekomstige cases.",
+    "text": "Hier komen doelen, scope, proces en resultaten van echte projecten."
+  },
+  "about": {
+    "eyebrow": "Over ons",
+    "title": "Een kleine Zwitserse agency geleid door twee technische founders.",
+    "text": "Websiteli combineert webontwikkeling, data en AI met praktische uitvoering: duidelijke scope, snelle levering en overdracht die je echt kunt gebruiken."
+  },
+  "outreach": {
+    "headline": "Een duidelijke digitale basis voor MKB en lokale diensten.",
+    "pitch": "Voor bedrijven die professioneel willen overkomen, lokaal beter vindbaar willen zijn en willen weten welke kanalen aanvragen opleveren.",
+    "painPoints": [
+      "De website of social presence wekt niet genoeg vertrouwen.",
+      "Aanvragen komen via losse kanalen en opvolging is lastig.",
+      "Er is weinig inzicht in welke pagina’s of campagnes werken."
+    ],
+    "benefits": [
+      "Professionele website met duidelijke propositie en lokale vindbaarheid.",
+      "Formulieren, boekingen en analytics vanaf het begin verbonden.",
+      "Later uitbreidbaar met advertenties, dashboards en AI."
+    ],
+    "cta": "Plan een kort gesprek",
+    "emailSubject": "Idee voor je digitale setup",
+    "emailDraft": "Hallo, jullie bedrijf zou mogelijk baat hebben bij een duidelijkere digitale basis: website, contactflow, lokale vindbaarheid en meting goed verbonden. Websiteli is een Zwitsers team dat praktische websites, automatisering en AI bouwt voor kleinere bedrijven. Zouden jullie een korte gratis digitale audit willen?"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Vertel ons wat je wilt verbeteren.",
+    "text": "Vraag een gratis digitale audit of een concreet setupplan aan.",
+    "button": "Aanvraag verzenden"
+  },
+  "ui": {
+    "pricingNote": "Definitieve offerte na een korte kennismaking.",
+    "coreBadge": "Belangrijk groeipakket",
+    "outreachEyebrow": "Benadering",
+    "painPoints": "Pijnpunten",
+    "benefits": "Voordelen",
+    "heroCardWebsite": "Website",
+    "heroCardLeads": "Klaar voor leads",
+    "heroCardAi": "AI en data",
+    "heroCardUpgrade": "Groeipad",
+    "heroImageLabel": "Websiteli digitale setup",
+    "form": {
+      "website": "Website",
+      "name": "Naam",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "company": "Bedrijf",
+      "project": "Wat heb je nodig?",
+      "custom": "Iets op maat",
+      "message": "Bericht",
+      "messagePlaceholder": "Vertel over je bedrijf en wat je wilt verbeteren.",
+      "thankYou": "Dank je! We hebben je bericht ontvangen en reageren snel.",
+      "validation": "Vul naam, e-mail en bericht in.",
+      "disconnected": "Het formulier is nog niet gekoppeld. Mail ons direct.",
+      "sending": "Verzenden...",
+      "error": "Er ging iets mis. Mail ons direct."
+    },
+    "footer": {
+      "contact": "Contact",
+      "pages": "Pagina's",
+      "legal": "Juridisch",
+      "social": "Social media",
+      "socialSoon": "Links volgen binnenkort",
+      "rights": "Alle rechten voorbehouden."
+    }
+  }
 }

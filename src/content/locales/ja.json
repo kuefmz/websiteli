@@ -1,22 +1,202 @@
 {
   "locale": "ja",
   "language": "日本語",
-  "seo": {"title": "Websiteli - 中小企業向けWebサイト・自動化・AI", "description": "スイス拠点のデジタル導入パッケージ。Webサイト、独自ドメインメール、Analytics、Search Console、リード獲得、広告設定、自動化、AIを支援します。"},
-  "nav": {"home": "ホーム", "services": "サービス", "packages": "パッケージ", "demos": "デモ", "caseStudies": "プロジェクト例", "exampleProjects": "プロジェクト例", "about": "私たちについて", "contact": "お問い合わせ"},
-  "hero": {"eyebrow": "スイス拠点のIT・AIエージェンシー", "title": "中小企業のためのWebサイト、自動化、AIツール。", "text": "Websiteliは、スタートアップ、個人事業主、店舗、サービス事業者に向けて、見込み客獲得と業務効率化につながる実用的なデジタル基盤を構築します。", "primaryCta": "無料デジタル診断を依頼", "secondaryCta": "パッケージを見る", "trustLine": "スイス拠点 - 迅速な実装 - 多言語サポート"},
-  "badges": ["スイス拠点", "AI・データエンジニアリング", "迅速な実装", "多言語サポート", "実用的な引き継ぎ"],
-  "intro": "Webサイトだけを販売するのではありません。Webサイト、メール、計測、検索対策、問い合わせ導線、リード獲得、自動化までを一つの基盤として整えます。",
-  "packagesIntro": {"eyebrow": "主要パッケージ", "title": "事業フェーズに合わせた3つのデジタル導入パッケージ。", "text": "まずは専門的な基盤を整え、次にリードと予約を増やし、必要に応じてAIとデータで自動化します。"},
-  "packages": [
-    {"name": "Digital Foundation", "description": "不要な複雑さを避けながら、専門的なオンライン基盤を整えたい事業者向け。", "cta": "デジタル基盤を作る", "features": ["モダンなレスポンシブWebサイト", "独自ドメインメール設定", "Google Analytics設定", "Google Search Console設定", "問い合わせフォーム", "SEO基本設定", "モバイル最適化", "基本的な技術引き継ぎ"]},
-    {"name": "Growth Setup", "description": "既にオンライン上の基盤があり、より多くの問い合わせ、予約、認知を増やしたい事業者向け。", "cta": "オンライン成長を始める", "highlight": true, "features": ["デジタル基盤の内容すべて", "予約機能の連携", "Google Business Profile最適化", "リード獲得フォーム", "ニュースレター/連絡先リスト設定", "Meta/Facebook広告アカウント設定", "Google広告アカウント設定", "コンバージョン計測の基本", "成長に向けたランディングページ構成"]},
-    {"name": "AI/Data Upgrade", "description": "時間を節約し、反復作業を自動化し、データをより深く理解したい事業者向け。", "cta": "AIと自動化を相談する", "features": ["カスタマーサポート chatbot", "社内FAQ/検索アシスタント", "Analyticsダッシュボード", "自動レポート", "軽量ワークフロー自動化", "リード判定 chatbot", "データ/AIコンサルティング"]}
+  "seo": {
+    "title": "Websiteli - 中小企業向けWebサイト・業務自動化・AI導入",
+    "description": "中小企業、店舗、専門サービス向けに、信頼感のあるWebサイト、問い合わせ導線、アクセス解析、予約、業務自動化、実用的なAI導入を支援します。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "services": "サービス",
+    "packages": "パッケージ",
+    "demos": "デモ",
+    "caseStudies": "プロジェクト例",
+    "exampleProjects": "プロジェクト例",
+    "about": "私たちについて",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "eyebrow": "中小企業向けのスイス拠点デジタル支援チーム",
+    "title": "信頼、問い合わせ、業務効率を整えるWebサイトとAI導入。",
+    "text": "店舗、士業、クリニック、コンサルタント、地域サービス向けに、過度に複雑にせず、顧客が安心して問い合わせできるデジタル基盤を構築します。",
+    "primaryCta": "無料デジタル診断を依頼",
+    "secondaryCta": "パッケージを見る",
+    "trustLine": "スイス拠点 - 丁寧な設計 - 実務に使える引き継ぎ"
+  },
+  "badges": [
+    "スイス拠点",
+    "AI・データ活用",
+    "丁寧な設計",
+    "多言語対応",
+    "実務に使える引き継ぎ"
   ],
-  "services": {"eyebrow": "サービス", "title": "すべてのサービスは明確な成果につながります。", "text": "個別の作業を増やすのではなく、3つのパッケージに沿って実用的なデジタル基盤を構築します。", "items": [{"title": "専門的なオンライン基盤", "description": "Webサイト、メール、モバイル対応、フォーム、SEO基本設定をDigital Foundationで提供します。", "package": "Digital Foundation"}, {"title": "リードと予約の導線", "description": "予約、リード獲得、Google Business Profile、ニュースレター、計測をGrowth Setupで整えます。", "package": "Growth Setup"}, {"title": "広告運用の準備", "description": "MetaとGoogle広告アカウント、基本的な計測基盤を整えます。", "package": "Growth Setup"}, {"title": "自動化とAI", "description": "chatbot、社内アシスタント、ダッシュボード、レポート、ワークフローをAI/Data Upgradeで提供します。", "package": "AI/Data Upgrade"}]},
-  "demos": {"eyebrow": "デモ", "title": "中小企業でよくあるニーズに合わせたデモ。", "text": "パッケージが実際の顧客導線としてどう機能するかを確認できます。", "items": [{"title": "レストラン/カフェWebサイト", "description": "メニュー、所在地、予約依頼、Googleプロフィール、スマホ向け問い合わせ導線。"}, {"title": "専門サービスWebサイト", "description": "信頼感のあるサービスページ、リードフォーム、analytics、SEO構成。"}, {"title": "AI chatbot/data dashboard", "description": "FAQアシスタント、リード判定、ダッシュボード、自動レポート。"}]},
-  "caseStudies": {"eyebrow": "デモプロジェクト", "title": "今後のケーススタディ用の構成。", "text": "実際のプロジェクトの目的、範囲、進め方、成果を掲載していきます。"},
-  "about": {"eyebrow": "私たちについて", "title": "2人の技術系創業者によるスイス拠点の小さなエージェンシー。", "text": "Websiteliは、Web開発、データ、AIを、明確なスコープ、迅速な実装、使いやすい引き継ぎという実務的な形で提供します。"},
-  "outreach": {"headline": "中小企業のための実用的なデジタル基盤。", "pitch": "Webサイト、メール、analytics、問い合わせ導線、リード獲得、自動化を一つの仕組みとして整えます。", "painPoints": ["Webサイトが信頼感や問い合わせにつながっていない。", "アクセス解析や問い合わせ導線が整理されていない。", "反復作業に時間を取られている。"], "benefits": ["社内ITチームなしで専門的な基盤を構築。", "認知、信頼、問い合わせ獲得を改善。", "広告、ダッシュボード、AIへ段階的に拡張可能。"], "cta": "短い相談を予約", "emailSubject": "デジタル基盤改善のご提案", "emailDraft": "こんにちは。貴社のWebサイト、問い合わせ導線、analytics、リード獲得をより分かりやすくつなげることで、デジタル基盤を改善できる可能性があります。Websiteliはスイス拠点のチームとして、中小企業向けにWebサイト、自動化、実用的なAI導入を支援しています。無料の簡単な診断をご希望ですか？"},
-  "contact": {"eyebrow": "お問い合わせ", "title": "改善したい内容を教えてください。", "text": "無料デジタル診断、または具体的な導入プランをご相談ください。", "button": "送信する"},
-  "ui": {"pricingNote": "価格は所在地に基づいて自動表示されます。最終見積もりは短い相談後に確定します。", "coreBadge": "主要成長パッケージ", "outreachEyebrow": "アウトリーチ", "painPoints": "課題", "benefits": "メリット", "heroCardWebsite": "Webサイト", "heroCardLeads": "リード対応", "heroCardAi": "AIとデータ", "heroCardUpgrade": "拡張ステップ", "heroImageLabel": "Websiteliデジタル基盤のビジュアル", "form": {"website": "Webサイト", "name": "お名前", "email": "メール", "phone": "電話番号", "company": "会社名", "project": "必要な内容", "custom": "その他のご相談", "message": "メッセージ", "messagePlaceholder": "事業内容と改善したい点をお知らせください。", "thankYou": "ありがとうございます。メッセージを受け取りました。近日中にご連絡します。", "validation": "お名前、メール、メッセージを入力してください。", "disconnected": "フォームはまだ接続されていません。直接メールでお問い合わせください。", "sending": "送信中...", "error": "送信できませんでした。直接メールでお問い合わせください。"}, "footer": {"contact": "お問い合わせ", "pages": "ページ", "legal": "法的情報", "social": "SNS", "socialSoon": "リンクは近日公開", "rights": "無断転載を禁じます。"}}
+  "intro": "単にWebサイトを作るのではありません。顧客が安心して情報を確認し、問い合わせや予約ができ、事業者が成果を把握できるデジタル基盤を整えます。",
+  "packagesIntro": {
+    "eyebrow": "主要パッケージ",
+    "title": "事業の段階に合わせて、無理なく導入できる3つのパッケージ。",
+    "text": "まず信頼できる基盤を整え、次に問い合わせと予約を増やし、必要になった段階でAIとデータ活用を進めます。"
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "不要な複雑さを避けながら、専門的なオンライン基盤を整えたい事業者向け。",
+      "cta": "デジタル基盤を作る",
+      "features": [
+        "モダンなレスポンシブWebサイト",
+        "独自ドメインメール設定",
+        "Google アクセス解析設定",
+        "Google Search Console設定",
+        "問い合わせフォーム",
+        "SEO基本設定",
+        "モバイル最適化",
+        "基本的な技術引き継ぎ"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "既にオンライン上の基盤があり、より多くの問い合わせ、予約、認知を増やしたい事業者向け。",
+      "cta": "オンライン成長を始める",
+      "highlight": true,
+      "features": [
+        "デジタル基盤の内容すべて",
+        "予約機能の連携",
+        "Google Business Profile最適化",
+        "リード獲得フォーム",
+        "ニュースレター/連絡先リスト設定",
+        "Meta/Facebook広告アカウント設定",
+        "Google広告アカウント設定",
+        "コンバージョン計測の基本",
+        "成長に向けたランディングページ構成"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "時間を節約し、反復作業を自動化し、データをより深く理解したい事業者向け。",
+      "cta": "AIと自動化を相談する",
+      "features": [
+        "カスタマーサポート chatbot",
+        "社内FAQ/検索アシスタント",
+        "アクセス解析ダッシュボード",
+        "自動レポート",
+        "軽量ワークフロー自動化",
+        "リード判定 chatbot",
+        "データ/AIコンサルティング"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "サービス",
+    "title": "すべてのサービスは明確な成果につながります。",
+    "text": "個別の作業を増やすのではなく、3つのパッケージに沿って実用的なデジタル基盤を構築します。",
+    "items": [
+      {
+        "title": "専門的なオンライン基盤",
+        "description": "Webサイト、メール、モバイル対応、フォーム、SEO基本設定をデジタル基盤で提供します。",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "リードと予約の導線",
+        "description": "予約、リード獲得、Google Business Profile、ニュースレター、計測を成長支援パッケージで整えます。",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "広告運用の準備",
+        "description": "MetaとGoogle広告アカウント、基本的な計測基盤を整えます。",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "自動化とAI",
+        "description": "chatbot、社内アシスタント、ダッシュボード、レポート、ワークフローをAI・データ強化で提供します。",
+        "package": "AI/Data Upgrade"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "デモ",
+    "title": "中小企業でよくあるニーズに合わせたデモ。",
+    "text": "パッケージが実際の顧客導線としてどう機能するかを確認できます。",
+    "items": [
+      {
+        "title": "レストラン/カフェWebサイト",
+        "description": "メニュー、所在地、予約依頼、Googleプロフィール、スマホ向け問い合わせ導線。"
+      },
+      {
+        "title": "専門サービスWebサイト",
+        "description": "信頼感のあるサービスページ、リードフォーム、アクセス解析、SEO構成。"
+      },
+      {
+        "title": "AI chatbot/data dashboard",
+        "description": "FAQアシスタント、リード判定、ダッシュボード、自動レポート。"
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "デモプロジェクト",
+    "title": "今後のケーススタディ用の構成。",
+    "text": "実際のプロジェクトの目的、範囲、進め方、成果を掲載していきます。"
+  },
+  "about": {
+    "eyebrow": "私たちについて",
+    "title": "2人の技術系創業者によるスイス拠点の小さなエージェンシー。",
+    "text": "Websiteliは、Web開発、データ、AIを、明確なスコープ、迅速な実装、使いやすい引き継ぎという実務的な形で提供します。"
+  },
+  "outreach": {
+    "headline": "中小企業・専門サービス向けの実用的なデジタル基盤。",
+    "pitch": "信頼感、問い合わせ導線、アクセス解析、業務効率を、無理のない範囲から整えたい事業者向けです。",
+    "painPoints": [
+      "WebサイトやSNSだけでは、事業の信頼感や強みが伝わりにくい。",
+      "問い合わせや予約の流れが分かりにくく、機会損失が起きている。",
+      "アクセス解析や広告の効果が十分に見えていない。"
+    ],
+    "benefits": [
+      "スマートフォンでも分かりやすく、信頼感を高めるWebサイト。",
+      "問い合わせ、予約、計測を一つの導線として整理。",
+      "必要に応じて広告、ダッシュボード、AI導入へ段階的に拡張。"
+    ],
+    "cta": "短い相談を予約",
+    "emailSubject": "デジタル基盤改善のご提案",
+    "emailDraft": "こんにちは。貴社のWebサイト、問い合わせ導線、検索での見つけやすさ、アクセス解析を整理することで、より信頼されるデジタル基盤を作れる可能性があります。Websiteliはスイス拠点のチームとして、中小企業向けにWebサイト、自動化、実用的なAI導入を支援しています。無料の簡単な診断をご希望でしょうか。"
+  },
+  "contact": {
+    "eyebrow": "お問い合わせ",
+    "title": "改善したい内容を教えてください。",
+    "text": "無料デジタル診断、または具体的な導入プランをご相談ください。",
+    "button": "送信する"
+  },
+  "ui": {
+    "pricingNote": "最終見積もりは短い相談後に確定します。",
+    "coreBadge": "主要成長パッケージ",
+    "outreachEyebrow": "アウトリーチ",
+    "painPoints": "課題",
+    "benefits": "メリット",
+    "heroCardWebsite": "Webサイト",
+    "heroCardLeads": "リード対応",
+    "heroCardAi": "AIとデータ",
+    "heroCardUpgrade": "拡張ステップ",
+    "heroImageLabel": "Websiteliデジタル基盤のビジュアル",
+    "form": {
+      "website": "Webサイト",
+      "name": "お名前",
+      "email": "メール",
+      "phone": "電話番号",
+      "company": "会社名",
+      "project": "必要な内容",
+      "custom": "その他のご相談",
+      "message": "メッセージ",
+      "messagePlaceholder": "事業内容と改善したい点をお知らせください。",
+      "thankYou": "ありがとうございます。メッセージを受け取りました。近日中にご連絡します。",
+      "validation": "お名前、メール、メッセージを入力してください。",
+      "disconnected": "フォームはまだ接続されていません。直接メールでお問い合わせください。",
+      "sending": "送信中...",
+      "error": "送信できませんでした。直接メールでお問い合わせください。"
+    },
+    "footer": {
+      "contact": "お問い合わせ",
+      "pages": "ページ",
+      "legal": "法的情報",
+      "social": "SNS",
+      "socialSoon": "リンクは近日公開",
+      "rights": "無断転載を禁じます。"
+    }
+  }
 }
