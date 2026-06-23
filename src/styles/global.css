@@ -176,6 +176,65 @@ textarea {
   align-items: center;
 }
 
+.language-switcher {
+  position: relative;
+}
+
+.language-switcher button {
+  display: grid;
+  min-width: 48px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.language-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: none;
+  min-width: 86px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.language-menu.is-open,
+.language-switcher:hover .language-menu {
+  display: grid;
+}
+
+.language-menu a,
+.mobile-languages a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.language-menu a:hover,
+.language-menu a[aria-current="true"],
+.mobile-languages a:hover {
+  background: color-mix(in srgb, var(--brand) 12%, var(--surface));
+  color: var(--brand-strong);
+}
+
+.mobile-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px;
+}
+
 .header-quote,
 .mobile-quote {
   display: inline-flex;
@@ -248,8 +307,8 @@ textarea {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(360px, 0.82fr) minmax(520px, 1.18fr);
-  gap: clamp(44px, 5vw, 84px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 4vw, 70px);
   align-items: center;
   min-height: 94vh;
   padding: 126px 0 64px;
@@ -275,6 +334,7 @@ textarea {
 
 .hero-copy {
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .eyebrow {
@@ -296,14 +356,16 @@ p {
 h1 {
   max-width: 820px;
   margin-bottom: 22px;
-  font-size: clamp(3rem, 7.3vw, 6.2rem);
+  font-size: clamp(2.7rem, 6.4vw, 5.8rem);
   line-height: 0.95;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hero h1 {
-  max-width: 540px;
-  font-size: clamp(3rem, 6vw, 5.55rem);
+  max-width: min(100%, 620px);
+  font-size: clamp(2.7rem, 5vw, 5rem);
 }
 
 h2 {
@@ -496,6 +558,10 @@ h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.package-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .addon-grid,
 .process-grid,
 .trust-grid {
@@ -580,6 +646,21 @@ h3 {
   line-height: 1.18;
 }
 
+.package-card h3 {
+  color: var(--ink);
+  font-size: 1.35rem;
+  text-transform: none;
+}
+
+.package-price {
+  margin-bottom: 14px;
+}
+
+.package-description {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
 .pricing-card ul {
   display: grid;
   gap: 11px;
@@ -608,6 +689,261 @@ h3 {
 
 .pricing-card .button {
   width: 100%;
+  margin-top: auto;
+}
+
+.service-package {
+  display: inline-flex;
+  margin-top: 18px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sky) 14%, var(--surface));
+  color: color-mix(in srgb, var(--sky) 72%, var(--ink));
+  font-size: 0.78rem;
+}
+
+.badge-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 26px 0 0;
+}
+
+.badge-strip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.pricing-note {
+  max-width: 760px;
+  margin: -10px auto 20px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 760;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.subpage {
+  padding-top: 126px;
+}
+
+.page-hero {
+  padding: 52px 0 36px;
+}
+
+.page-hero h1 {
+  max-width: 980px;
+  font-size: clamp(2.7rem, 6vw, 5.25rem);
+}
+
+.page-hero p:not(.eyebrow) {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1.16rem;
+  line-height: 1.68;
+}
+
+.compact-top {
+  padding-top: 24px;
+}
+
+.demo-grid,
+.outreach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.demo-card,
+.outreach-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 16px 48px rgba(26, 32, 42, 0.07);
+}
+
+.demo-card {
+  overflow: hidden;
+}
+
+.demo-card h3,
+.demo-card p,
+.demo-card a {
+  margin-inline: 22px;
+}
+
+.demo-card p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.solution-card {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.solution-card .card-meta {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.solution-card .compact-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 22px 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-card .compact-list li {
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 820;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.demo-card a {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 24px;
+  margin-top: auto;
+  color: var(--brand-strong);
+  font-weight: 850;
+}
+
+.analysis-card {
+  padding: 22px;
+}
+
+.analysis-card h3,
+.analysis-card p,
+.analysis-card a {
+  margin-inline: 0;
+}
+
+.analysis-badge {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--brand) 42%, var(--line));
+  border-radius: 999px;
+  padding: 7px 11px;
+  color: var(--brand-strong);
+  font-size: 0.75rem;
+  font-weight: 920;
+  line-height: 1.2;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.demo-media {
+  height: 168px;
+  margin-bottom: 22px;
+  background:
+    linear-gradient(135deg, rgba(227, 38, 53, 0.82), rgba(90, 185, 168, 0.72)),
+    url("/assets/swiss-ai-websites-hero.png") center / cover;
+}
+
+.detail-hero {
+  display: grid;
+  gap: 16px;
+}
+
+.button-row,
+.inline-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 20px;
+  padding-bottom: 36px;
+}
+
+.detail-panel {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 16px 48px rgba(26, 32, 42, 0.07);
+}
+
+.detail-panel.wide {
+  grid-column: 1 / -1;
+}
+
+.detail-panel h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.detail-panel p,
+.detail-panel li {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.detail-panel a {
+  color: var(--brand-strong);
+  font-weight: 850;
+}
+
+.feature-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 19px;
+}
+
+.inline-cta {
+  padding-top: 0;
+  padding-bottom: 38px;
+}
+
+.outreach-grid article {
+  padding: 24px;
+}
+
+.outreach-grid ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 19px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.email-draft {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-draft p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.email-draft .button {
   margin-top: auto;
 }
 
@@ -923,10 +1259,16 @@ h3 {
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    gap: 34px;
+  }
+
+  .hero h1,
+  .hero-text {
+    max-width: 860px;
   }
 
   .hero-media,
@@ -936,9 +1278,13 @@ h3 {
 
   .service-grid,
   .pricing-grid,
+  .package-grid,
   .addon-grid,
   .process-grid,
-  .trust-grid {
+  .trust-grid,
+  .demo-grid,
+  .outreach-grid,
+  .detail-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -960,6 +1306,10 @@ h3 {
     display: none;
   }
 
+  .language-switcher {
+    display: none;
+  }
+
   .header-actions {
     justify-content: end;
   }
@@ -971,6 +1321,7 @@ h3 {
   .hero {
     width: min(1160px, calc(100% - 28px));
     padding-top: 112px;
+    gap: 26px;
   }
 
   .hero-actions .button {
@@ -1003,10 +1354,14 @@ h3 {
 
   .service-grid,
   .pricing-grid,
+  .package-grid,
   .addon-grid,
   .process-grid,
   .reason-grid,
   .trust-grid,
+  .demo-grid,
+  .outreach-grid,
+  .detail-layout,
   .contact-form,
   .footer-main,
   .footer-links,
@@ -1026,6 +1381,10 @@ h3 {
 
   .footer-bottom {
     display: grid;
+  }
+
+  .pricing-note {
+    text-align: left;
   }
 }
 

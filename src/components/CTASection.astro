@@ -1,14 +1,61 @@
 ---
+import { getPackageLabels } from "../config/packageLabels";
+
 const contactFormEndpoint =
   import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || import.meta.env.PUBLIC_LEAD_FORM_ENDPOINT || "";
+
+interface Props {
+  content?: any;
+}
+
+const { content } = Astro.props;
+const contact = content?.contact ?? {
+  eyebrow: "Contact",
+  title: "Tell us what you want to build.",
+  text: "We will reply with a simple suggestion and clear next steps.",
+  button: "Send request",
+};
+const packages = content?.packages ?? [
+  { name: "Digital Foundation" },
+  { name: "Growth Setup" },
+  { name: "AI/Data Upgrade" },
+];
+const packageOptions = packages.map((item) => ({
+  name: item.name,
+  key:
+    item.name === "Digital Foundation"
+      ? "digitalFoundation"
+      : item.name === "Growth Setup"
+        ? "growthSetup"
+        : item.name === "AI/Data Upgrade"
+          ? "aiDataUpgrade"
+          : item.name,
+}));
+const localizedPackageNames = getPackageLabels(content?.locale ?? "en");
+const formUi = content?.ui?.form ?? {
+  website: "Website",
+  name: "Name",
+  email: "Email",
+  phone: "Phone",
+  company: "Company",
+  project: "What do you need?",
+  custom: "Something custom",
+  message: "Message",
+  messagePlaceholder: "Tell us about your business and what you would like to improve.",
+  thankYou: "Thank you! We received your message and will get back to you soon.",
+  validation: "Please fill in your name, email, and message.",
+  disconnected: "The form is not connected yet. Please email us directly.",
+  sending: "Sending...",
+  error: "Something went wrong. Please email us directly.",
+};
 ---
 
 <section class="cta section-shell" id="contact">
   <div class="cta-panel">
     <div>
-      <p class="eyebrow">Contact</p>
-      <h2>Tell us what you want to build.</h2>
-      <p>We will reply with a simple suggestion and clear next steps.</p>
+      <p class="eyebrow">{contact.eyebrow}</p>
+      <h2>{contact.title}</h2>
+      <p>{contact.text}</p>
     </div>
     <form
       class="contact-form"
@@ -20,70 +67,123 @@ const contactFormEndpoint =
       novalidate
     >
       <input name="source" type="hidden" value="websiteli.ch" />
+      <input name="locale" type="hidden" value={content?.locale ?? "en"} data-pricing-field="locale" />
+      <input name="country" type="hidden" data-pricing-field="country" />
+      <input name="pricingMarket" type="hidden" data-pricing-field="pricingMarket" />
+      <input name="currency" type="hidden" data-pricing-field="currency" />
+      <input name="packageKey" type="hidden" data-pricing-field="packageKey" />
+      <input name="relatedDemo" type="hidden" data-pricing-field="relatedDemo" />
+      <input name="relatedProject" type="hidden" data-pricing-field="relatedProject" />
+      <input name="sourcePage" type="hidden" data-pricing-field="sourcePage" />
+      <input name="inquiryIntent" type="hidden" data-pricing-field="inquiryIntent" />
+      <input name="priceShown" type="hidden" data-pricing-field="priceShown" />
+      <input name="sourcePath" type="hidden" data-pricing-field="sourcePath" />
+      <input name="currentUrl" type="hidden" data-pricing-field="currentUrl" />
+      <input name="referrer" type="hidden" data-pricing-field="referrer" />
+      <input name="timestamp" type="hidden" data-pricing-field="timestamp" />
+      <input name="userAgent" type="hidden" data-pricing-field="userAgent" />
+      <input name="utm_source" type="hidden" data-pricing-field="utm" data-utm-key="utm_source" />
+      <input name="utm_medium" type="hidden" data-pricing-field="utm" data-utm-key="utm_medium" />
+      <input name="utm_campaign" type="hidden" data-pricing-field="utm" data-utm-key="utm_campaign" />
+      <input name="utm_term" type="hidden" data-pricing-field="utm" data-utm-key="utm_term" />
+      <input name="utm_content" type="hidden" data-pricing-field="utm" data-utm-key="utm_content" />
       <label class="website-field" aria-hidden="true">
-        Website
+        {formUi.website}
         <input name="website" tabindex="-1" autocomplete="off" />
       </label>
       <label>
-        Name
+        {formUi.name}
         <input name="name" autocomplete="name" required />
       </label>
       <label>
-        Email
+        {formUi.email}
         <input name="email" type="email" autocomplete="email" required />
       </label>
       <label>
-        Phone
+        {formUi.phone}
         <input name="phone" type="tel" autocomplete="tel" />
       </label>
       <label>
-        Company
+        {formUi.company}
         <input name="company" autocomplete="organization" />
       </label>
       <label>
-        What do you need?
-        <select name="project">
-          <option value="landingPage">Starter Page</option>
-          <option value="businessWebsite">Business Website</option>
-          <option value="premiumWebsite">Larger Website</option>
-          <option value="maintenanceMonthly">Website Care</option>
-          <option value="custom">Smart tools or automation</option>
-          <option value="custom">Something custom</option>
+        {formUi.project}
+        <select name="project" data-package-select>
+          {packageOptions.map((item) => <option value={item.key}>{localizedPackageNames[item.key] ?? item.name}</option>)}
+          <option value="custom">{formUi.custom}</option>
         </select>
       </label>
       <label>
-        Message
-        <textarea name="message" rows="4" required placeholder="Tell us about your business and what you would like to improve."></textarea>
+        {formUi.message}
+        <textarea name="message" rows="4" required placeholder={formUi.messagePlaceholder}></textarea>
       </label>
-      <button class="button primary" type="submit">Send request</button>
+      <button class="button primary" type="submit">{contact.button}</button>
       <p class="form-status" data-form-status aria-live="polite"></p>
     </form>
   </div>
 </section>
 
-<script>
+<script define:vars={{ formUi }}>
   const form = document.querySelector("[data-lead-form]");
   const status = document.querySelector("[data-form-status]");
+  let formStarted = false;
+
+  function getFormString(formData, key) {
+    return String(formData.get(key) || "").trim();
+  }
+
+  function getUtm(formData) {
+    return {
+      source: getFormString(formData, "utm_source"),
+      medium: getFormString(formData, "utm_medium"),
+      campaign: getFormString(formData, "utm_campaign"),
+      term: getFormString(formData, "utm_term"),
+      content: getFormString(formData, "utm_content"),
+    };
+  }
+
+  form?.addEventListener("input", () => {
+    if (formStarted) return;
+    formStarted = true;
+    window.websiteliUpdateInquiryFields?.();
+    const formData = new FormData(form);
+
+    window.trackWebsiteliEvent?.("contact_form_start", {
+      package_key: getFormString(formData, "packageKey") || getFormString(formData, "project"),
+      locale: getFormString(formData, "locale") || document.documentElement.lang,
+      country: getFormString(formData, "country"),
+      pricing_market: getFormString(formData, "pricingMarket"),
+      currency: getFormString(formData, "currency"),
+      price_shown: getFormString(formData, "priceShown"),
+      source_path: getFormString(formData, "sourcePath") || window.location.pathname,
+      source_page: getFormString(formData, "sourcePage") || window.location.pathname,
+      related_demo: getFormString(formData, "relatedDemo"),
+      related_project: getFormString(formData, "relatedProject"),
+      inquiry_intent: getFormString(formData, "inquiryIntent"),
+    });
+  });
 
   form?.addEventListener("submit", async (event) => {
+    window.websiteliUpdateInquiryFields?.();
     const submitButton = form.querySelector("button[type='submit']");
     const formData = new FormData(form);
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-    const message = String(formData.get("message") || "").trim();
-    const honeypot = String(formData.get("website") || "").trim();
+    const name = getFormString(formData, "name");
+    const email = getFormString(formData, "email");
+    const message = getFormString(formData, "message");
+    const honeypot = getFormString(formData, "website");
 
     if (honeypot) {
       event.preventDefault();
       form.reset();
-      if (status) status.textContent = "Thank you! We received your message and will get back to you soon.";
+      if (status) status.textContent = formUi.thankYou;
       return;
     }
 
     if (!form.checkValidity() || !name || !email || !message) {
       event.preventDefault();
       form.reportValidity();
-      if (status) status.textContent = "Please fill in your name, email, and message.";
+      if (status) status.textContent = formUi.validation;
       return;
     }
 
@@ -92,23 +192,39 @@ const contactFormEndpoint =
     const endpoint = form.dataset.endpoint;
 
     if (!endpoint) {
-      if (status) status.textContent = "The form is not connected yet. Please email us directly.";
+      if (status) status.textContent = formUi.disconnected;
       return;
     }
 
     const payload = {
       name,
       email,
-      phone: String(formData.get("phone") || "").trim(),
-      company: String(formData.get("company") || "").trim(),
-      project: String(formData.get("project") || "").trim(),
+      phone: getFormString(formData, "phone"),
+      company: getFormString(formData, "company"),
+      project: getFormString(formData, "project"),
       message,
-      source: String(formData.get("source") || "websiteli.ch"),
+      source: getFormString(formData, "source") || "websiteli.ch",
       website: honeypot,
+      packageKey: getFormString(formData, "packageKey") || getFormString(formData, "project"),
+      relatedDemo: getFormString(formData, "relatedDemo"),
+      relatedProject: getFormString(formData, "relatedProject"),
+      sourcePage: getFormString(formData, "sourcePage") || window.location.pathname,
+      inquiryIntent: getFormString(formData, "inquiryIntent"),
+      locale: getFormString(formData, "locale") || document.documentElement.lang,
+      country: getFormString(formData, "country"),
+      pricingMarket: getFormString(formData, "pricingMarket"),
+      currency: getFormString(formData, "currency"),
+      priceShown: getFormString(formData, "priceShown"),
+      sourcePath: getFormString(formData, "sourcePath") || window.location.pathname,
+      currentUrl: getFormString(formData, "currentUrl") || window.location.href,
+      referrer: getFormString(formData, "referrer") || document.referrer,
+      utm: getUtm(formData),
+      timestamp: getFormString(formData, "timestamp") || new Date().toISOString(),
+      userAgent: getFormString(formData, "userAgent") || navigator.userAgent,
     };
 
     submitButton?.setAttribute("disabled", "true");
-    if (status) status.textContent = "Sending...";
+    if (status) status.textContent = formUi.sending;
 
     try {
       await fetch(endpoint, {
@@ -121,13 +237,24 @@ const contactFormEndpoint =
       });
 
       form.reset();
-      window.trackWebsiteliEvent?.("contact_form_submission", {
+      window.trackWebsiteliEvent?.("contact_form_submit", {
         event_category: "lead",
         event_label: "Contact form",
+        package_key: payload.packageKey,
+        locale: payload.locale,
+        country: payload.country,
+        pricing_market: payload.pricingMarket,
+        currency: payload.currency,
+        price_shown: payload.priceShown,
+        source_path: payload.sourcePath,
+        source_page: payload.sourcePage,
+        related_demo: payload.relatedDemo,
+        related_project: payload.relatedProject,
+        inquiry_intent: payload.inquiryIntent,
       });
-      if (status) status.textContent = "Thank you! We received your message and will get back to you soon.";
+      if (status) status.textContent = formUi.thankYou;
     } catch (error) {
-      if (status) status.textContent = "Something went wrong. Please email us directly.";
+      if (status) status.textContent = formUi.error;
       console.error(error);
     } finally {
       submitButton?.removeAttribute("disabled");

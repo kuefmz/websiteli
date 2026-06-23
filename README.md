@@ -1,8 +1,8 @@
 # websiteli.ch
 
-Astro website for **websiteli.ch**, a Swiss web development service for small businesses.
+Astro website for **websiteli.ch**, a Swiss digital setup, automation, and AI service for small businesses.
 
-The site builds as static Astro pages for Hostpoint. Pricing is resolved in the browser from an obfuscated frontend table and the visitor's browser IP country.
+The site builds as static Astro pages for Hostpoint. Language routes and pricing are intentionally separate: `/en`, `/de`, `/hu`, `/pl`, `/es`, and `/fr` control copy, while the browser pricing runtime resolves the visitor's market/currency from their IP location.
 
 ## Requirements
 
@@ -38,7 +38,8 @@ http://localhost:4321/
 ```text
 src/
   components/        Reusable Astro components
-  content/site.ts    Editable website content and pricing data
+  config/pricing.json Market-based pricing data
+  content/locales/   Editable localized website content
   layouts/           Shared page layout
   pages/             Astro pages
   styles/            Global CSS
@@ -51,16 +52,16 @@ scripts/
   DEPLOYMENT.md      Hostpoint deployment notes
 ```
 
-Most homepage text, service items, plan names, process steps, and FAQs can be edited in:
+Localized homepage, service, package, demo, about, contact, and outreach copy can be edited in:
 
 ```text
-src/content/site.ts
+src/content/locales/
 ```
 
-Country pricing is embedded in the homepage script in an obfuscated form:
+Market pricing is configured separately from language content:
 
 ```text
-src/pages/index.astro
+src/config/pricing.json
 ```
 
 ## Build
@@ -79,11 +80,31 @@ dist/
 
 Deploy `dist/` to Hostpoint. No backend or server runtime is required for pricing.
 
-## Geographic Pricing
+## Location-Based Pricing
 
-The browser checks multiple IP lookup services to detect the visitor's country from their current IP/VPN. Unsupported or missing countries fall back to Switzerland (`CH`). Add `?market=HU` or another supported country code to test a market manually.
+Pricing is resolved in the browser from `src/config/pricing.json`.
 
-The selected market is not cached. Each normal visit uses the current detected country so travelling visitors see local pricing.
+Resolution order:
+
+1. Deployment-provided country metadata if exposed to the page.
+2. Browser-side IP country lookup services.
+3. `DEFAULT` pricing, which currently uses EUR.
+
+EU countries fall back to the `EU` pricing config unless a dedicated country config exists. Visitors cannot manually change currency; language route and pricing market remain separate.
+
+## Inquiry Tracking
+
+The contact form posts JSON to `PUBLIC_CONTACT_FORM_ENDPOINT` or `PUBLIC_LEAD_FORM_ENDPOINT`. This is expected to be the Google Apps Script / Google Sheets bridge; keep credentials and sheet access inside that backend, not in this repo.
+
+New submissions include the original fields plus metadata columns/keys such as:
+
+```text
+packageKey, locale, country, pricingMarket, currency, priceShown,
+sourcePath, currentUrl, referrer, utm_source, utm_medium, utm_campaign,
+utm_term, utm_content, timestamp, userAgent
+```
+
+If the Google Sheet has fixed columns, add these columns there. Older submissions still work because the frontend still sends the previous core fields.
 
 ## Deployment
 

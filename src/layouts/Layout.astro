@@ -1,19 +1,34 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import PricingRuntime from "../components/PricingRuntime.astro";
 import "../styles/global.css";
 
 interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
+  lang?: string;
+  locale?: string;
+  page?: string;
+  alternates?: { locale: string; href: string }[];
+  content?: any;
 }
 
-const { title, description, canonicalPath = Astro.url.pathname } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  lang = "en",
+  locale = "en",
+  page = "home",
+  alternates = [],
+  content,
+} = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
-const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "G-TGZY875FGJ";
 const structuredData = [
   {
     "@context": "https://schema.org",
@@ -40,19 +55,21 @@ const structuredData = [
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalUrl} />
+    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.href, siteUrl).toString()} />)}
+    {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL("/en/", siteUrl).toString()} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="websiteli.ch" />
-    <meta property="og:locale" content="en_CH" />
+    <meta property="og:locale" content={`${lang}_CH`} />
     <meta property="og:image" content={imageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -116,8 +133,9 @@ const structuredData = [
     <title>{title}</title>
   </head>
   <body>
-    <Header />
+    <Header content={content} locale={locale} page={page} />
     <slot />
-    <Footer />
+    <Footer content={content} locale={locale} />
+    <PricingRuntime />
   </body>
 </html>

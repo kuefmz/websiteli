@@ -1,0 +1,108 @@
+---
+import CTASection from "../../../../components/CTASection.astro";
+import Layout from "../../../../layouts/Layout.astro";
+import { getDemo } from "../../../../content/demos";
+import {
+  exampleProjectSlugs,
+  getExampleProject,
+  getExampleProjectPageContent,
+  type ExampleProjectSlug,
+} from "../../../../content/example-projects";
+import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => exampleProjectSlugs.map((project) => ({ params: { locale, project } })));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const projectSlug = Astro.params.project as ExampleProjectSlug;
+const content = getLocaleContent(locale);
+const projectPage = getExampleProjectPageContent(locale);
+const project = getExampleProject(locale, projectSlug);
+const relatedDemo = getDemo(locale, project.relatedDemo);
+const packageKey = project.recommendedPackage === "Growth Setup" ? "growthSetup" : "aiDataUpgrade";
+const auditUrl = `/${locale}/contact/?package=${packageKey}&project=${project.slug}&demo=${project.relatedDemo}&sourcePage=${encodeURIComponent(Astro.url.pathname)}&intent=free_digital_audit`;
+const callUrl = `/${locale}/contact/?package=${packageKey}&project=${project.slug}&demo=${project.relatedDemo}&sourcePage=${encodeURIComponent(Astro.url.pathname)}&intent=discovery_call`;
+const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/example-projects/${projectSlug}/` }));
+const title = `${project.title} - Websiteli`;
+const description = `${project.disclaimer} ${projectPage.seo.keywords}.`;
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={`/${locale}/example-projects/${projectSlug}/`}
+  lang={locale}
+  locale={locale}
+  page="example-projects"
+  alternates={alternates}
+  content={content}
+>
+  <main class="subpage">
+    <section class="section-shell page-hero detail-hero">
+      <p class="eyebrow">{projectPage.eyebrow}</p>
+      <div class="analysis-badge">{project.badge}</div>
+      <h1>{project.title}</h1>
+      <p>{project.disclaimer}</p>
+      <div class="button-row">
+        <a class="button primary" href={`/${locale}/demos/${project.relatedDemo}/`}>{projectPage.labels.viewDemo}</a>
+        <a class="button secondary" href={auditUrl}>{projectPage.labels.requestAudit}</a>
+      </div>
+    </section>
+
+    <section class="section-shell detail-layout">
+      <article class="detail-panel">
+        <h2>{projectPage.labels.businessType}</h2>
+        <p>{project.businessType}</p>
+      </article>
+      <article class="detail-panel">
+        <h2>{projectPage.labels.recommendedPackage}</h2>
+        <p>{projectPage.packageNames[project.recommendedPackage]}</p>
+      </article>
+      <article class="detail-panel">
+        <h2>{projectPage.labels.currentSituation}</h2>
+        <ul class="feature-list">
+          {project.currentSituation.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      {
+        project.potentialChallenges && (
+          <article class="detail-panel">
+            <h2>{projectPage.labels.potentialChallenges}</h2>
+            <ul class="feature-list">
+              {project.potentialChallenges.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        )
+      }
+      {
+        project.assumptions && (
+          <article class="detail-panel">
+            <h2>{projectPage.labels.assumptions}</h2>
+            <ul class="feature-list">
+              {project.assumptions.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        )
+      }
+      <article class="detail-panel">
+        <h2>{projectPage.labels.illustrativeOpportunity}</h2>
+        <ul class="feature-list">
+          {project.illustrativeOpportunity.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel wide">
+        <h2>{projectPage.labels.relatedDemo}</h2>
+        <p>{relatedDemo.title}</p>
+        <a href={`/${locale}/demos/${relatedDemo.slug}/`}>{projectPage.labels.viewDemo}</a>
+      </article>
+    </section>
+
+    <section class="section-shell inline-cta">
+      <a class="button primary" href={auditUrl}>{projectPage.labels.primaryCta}</a>
+      <a class="button secondary" href={callUrl}>{projectPage.labels.secondaryCta}</a>
+    </section>
+
+    <CTASection content={content} />
+  </main>
+</Layout>

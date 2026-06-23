@@ -1,42 +1,67 @@
 ---
-import { futurePages } from "../content/site";
+interface Props {
+  content?: any;
+  locale?: string;
+}
 
+const { content, locale = "en" } = Astro.props;
 const currentYear = new Date().getFullYear();
 const whatsappUrl = import.meta.env.PUBLIC_WHATSAPP_URL || "/#contact";
+const nav = content?.nav ?? {
+  services: "Services",
+  packages: "Packages",
+  demos: "Demos",
+  exampleProjects: "Example Projects",
+  about: "About",
+  contact: "Contact",
+};
+const exampleProjectsLabel = nav.exampleProjects ?? nav.caseStudies ?? "Example Projects";
+const footerUi = content?.ui?.footer ?? {
+  contact: "Contact",
+  pages: "Pages",
+  legal: "Legal",
+  social: "Social",
+  socialSoon: "Links coming soon",
+  rights: "All rights reserved.",
+};
 ---
 
 <footer class="site-footer">
   <div class="footer-main">
-    <a class="brand" href="/#home" aria-label="websiteli.ch home">
+    <a class="brand" href={`/${locale}/`} aria-label="websiteli.ch home">
       <span class="brand-mark">w</span>
       <span>Websiteli</span>
     </a>
-    <p>Simple, modern websites for Swiss small businesses. Clear pricing, friendly support, and room to grow.</p>
+    <p>{content?.intro ?? "Swiss-based websites, automation and AI tools for small businesses."}</p>
   </div>
 
   <div class="footer-links" aria-label="Footer links">
     <div>
-      <h2>Contact</h2>
+      <h2>{footerUi.contact}</h2>
       <a href="mailto:hello@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">hello@websiteli.ch</a>
       <a href="mailto:jenifer.tabita.ciuciu.kiss@gmail.com" data-track-event="email_click" data-track-label="Footer alternate email">jenifer.tabita.ciuciu.kiss@gmail.com</a>
       <a href={whatsappUrl} data-track-event="whatsapp_click" data-track-label="Footer WhatsApp" rel="noopener">WhatsApp</a>
     </div>
     <div>
-      <h2>Future pages</h2>
-      {futurePages.map((item) => <a href={item.href}>{item.label}</a>)}
+      <h2>{footerUi.pages}</h2>
+      <a href={`/${locale}/services/`}>{nav.services}</a>
+      <a href={`/${locale}/packages/`}>{nav.packages}</a>
+      <a href={`/${locale}/demos/`}>{nav.demos}</a>
+      <a href={`/${locale}/example-projects/`}>{exampleProjectsLabel}</a>
+      <a href={`/${locale}/about/`}>{nav.about}</a>
     </div>
     <div>
-      <h2>Legal</h2>
+      <h2>{footerUi.legal}</h2>
       <a href="/privacy/">Privacy Policy</a>
       <a href="/impressum/">Impressum</a>
     </div>
     <div>
-      <h2>Social</h2>
-      <span>Links coming soon</span>
+      <h2>{footerUi.social}</h2>
+      <span>{footerUi.socialSoon}</span>
     </div>
   </div>
 
   <div class="footer-bottom">
-    <p>© {currentYear} Websiteli. All rights reserved.</p>
+    <p>© {currentYear} Websiteli. {footerUi.rights}</p>
   </div>
 </footer>

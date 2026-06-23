@@ -3,13 +3,16 @@ interface Props {
   title: string;
   description: string;
   index: number;
+  package?: string;
+  displayPackage?: string;
 }
 
-const { title, description, index } = Astro.props;
+const { title, description, index, package: packageName, displayPackage } = Astro.props;
 ---
 
 <article class="service-card">
   <span>{String(index).padStart(2, "0")}</span>
   <h3>{title}</h3>
   <p>{description}</p>
+  {(displayPackage || packageName) && <strong class="service-package">{displayPackage || packageName}</strong>}
 </article>
