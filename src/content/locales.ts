@@ -1,4 +1,4 @@
-import cs from "./locales/cs.json";
+import cz from "./locales/cz.json";
 import da from "./locales/da.json";
 import de from "./locales/de.json";
 import en from "./locales/en.json";
@@ -11,14 +11,14 @@ import nl from "./locales/nl.json";
 import pl from "./locales/pl.json";
 import pt from "./locales/pt.json";
 
-export const localeCodes = ["en", "de", "hu", "pl", "es", "fr", "it", "cs", "pt", "da", "nl", "ja"] as const;
+export const localeCodes = ["en", "de", "hu", "pl", "es", "fr", "it", "cz", "pt", "da", "nl", "ja"] as const;
 export type LocaleCode = (typeof localeCodes)[number];
 
 export const pageSlugs = ["services", "packages", "demos", "example-projects", "about", "contact"] as const;
 export type PageSlug = (typeof pageSlugs)[number];
 
 export const locales = {
-  cs,
+  cz,
   da,
   en,
   de,

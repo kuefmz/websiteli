@@ -1,4 +1,31 @@
-<button class="theme-toggle" type="button" aria-label="Switch colour theme" data-theme-toggle>
+---
+const labels = {
+  en: { colour: "Switch colour theme", dark: "Switch to dark mode", light: "Switch to light mode" },
+  de: { colour: "Farbschema wechseln", dark: "In den dunklen Modus wechseln", light: "In den hellen Modus wechseln" },
+  hu: { colour: "Színtéma váltása", dark: "Váltás sötét módra", light: "Váltás világos módra" },
+  pl: { colour: "Zmień motyw kolorystyczny", dark: "Przełącz na tryb ciemny", light: "Przełącz na tryb jasny" },
+  es: { colour: "Cambiar tema de color", dark: "Cambiar a modo oscuro", light: "Cambiar a modo claro" },
+  fr: { colour: "Changer le thème couleur", dark: "Passer au mode sombre", light: "Passer au mode clair" },
+  it: { colour: "Cambia tema colore", dark: "Passa alla modalità scura", light: "Passa alla modalità chiara" },
+  cz: { colour: "Změnit barevný režim", dark: "Přepnout na tmavý režim", light: "Přepnout na světlý režim" },
+  pt: { colour: "Alterar tema de cor", dark: "Mudar para modo escuro", light: "Mudar para modo claro" },
+  da: { colour: "Skift farvetema", dark: "Skift til mørk tilstand", light: "Skift til lys tilstand" },
+  nl: { colour: "Kleurthema wijzigen", dark: "Overschakelen naar donkere modus", light: "Overschakelen naar lichte modus" },
+  ja: { colour: "配色テーマを切り替える", dark: "ダークモードに切り替える", light: "ライトモードに切り替える" },
+} as const;
+
+const locale = (Astro.props.locale ?? "en") as keyof typeof labels;
+const copy = labels[locale] ?? labels.en;
+---
+
+<button
+  class="theme-toggle"
+  type="button"
+  aria-label={copy.colour}
+  data-theme-toggle
+  data-label-dark={copy.dark}
+  data-label-light={copy.light}
+>
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M9 21h6" />
     <path d="M10 17h4" />
@@ -11,7 +38,10 @@
 
   const updateLabel = () => {
     const theme = document.documentElement.dataset.theme;
-    toggle?.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    toggle?.setAttribute(
+      "aria-label",
+      theme === "dark" ? toggle?.getAttribute("data-label-light") || "" : toggle?.getAttribute("data-label-dark") || "",
+    );
   };
 
   updateLabel();

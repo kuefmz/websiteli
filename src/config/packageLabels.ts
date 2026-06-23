@@ -6,7 +6,7 @@ export const packageLabels = {
   es: { digitalFoundation: "Base digital", growthSetup: "Configuración de crecimiento", aiDataUpgrade: "Mejora de IA y datos" },
   fr: { digitalFoundation: "Base digitale", growthSetup: "Configuration croissance", aiDataUpgrade: "Amélioration IA et données" },
   it: { digitalFoundation: "Base digitale", growthSetup: "Pacchetto crescita", aiDataUpgrade: "Upgrade AI e dati" },
-  cs: { digitalFoundation: "Digitální základ", growthSetup: "Růstový balíček", aiDataUpgrade: "AI a datové rozšíření" },
+  cz: { digitalFoundation: "Digitální základ", growthSetup: "Růstový balíček", aiDataUpgrade: "AI a datové rozšíření" },
   pt: { digitalFoundation: "Base digital", growthSetup: "Pacote de crescimento", aiDataUpgrade: "Upgrade de IA e dados" },
   da: { digitalFoundation: "Digitalt fundament", growthSetup: "Vækstpakke", aiDataUpgrade: "AI- og dataopgradering" },
   nl: { digitalFoundation: "Digitale basis", growthSetup: "Groeipakket", aiDataUpgrade: "AI- en data-upgrade" },

@@ -2,8 +2,8 @@
   "locale": "hu",
   "language": "Magyar",
   "seo": {
-    "title": "Websiteli - weboldal, automatizálás és AI kisvállalkozásoknak",
-    "description": "Svájci alapú digitális csomagok magyar KKV-knak: modern weboldal, céges e-mail, Analytics, Search Console, leadgyűjtés, hirdetési fiókok és AI automatizálás."
+    "title": "Websiteli - weboldalak, automatizálás és AI magyar KKV-knak",
+    "description": "Svájci alapú, gyakorlatias digitális csomagok magyar KKV-knak: weboldal, mérés, keresőoptimalizálás, érdeklődőgyűjtés, automatizálás és AI."
   },
   "nav": {
     "home": "Főoldal",
@@ -16,39 +16,72 @@
     "contact": "Kapcsolat"
   },
   "hero": {
-    "eyebrow": "Svájci IT és AI ügynökség",
-    "title": "Modern weboldalak, automatizálás és AI eszközök kisvállalkozásoknak.",
-    "text": "A Websiteli magyar KKV-knak, szabadúszóknak, éttermeknek és helyi szolgáltatóknak épít teljes digitális alapot. Az egyik alapító magyar, ezért értjük a piacot és a gyakorlati elvárásokat.",
-    "primaryCta": "Ingyenes digitális audit",
+    "eyebrow": "Svájci hátterű digitális partner KKV-knak",
+    "title": "Weboldal és automatizálás, ami nem csak szép, hanem dolgozik is.",
+    "text": "Magyar KKV-knak, szolgáltatóknak, éttermeknek és tanácsadóknak építünk átlátható digitális alapot: bizalmat keltő weboldal, mérhető érdeklődések, egyszerű foglalás és később AI támogatás.",
+    "primaryCta": "Ingyenes digitális audit kérése",
     "secondaryCta": "Csomagok megnézése",
-    "trustLine": "Svájci bázis - Magyar piaci megértés - Gyors kivitelezés"
+    "trustLine": "Svájci szemlélet - Magyar piacismeret - Gyors, tiszta átadás"
   },
-  "badges": ["Svájci bázis", "AI és adatmérnöki tapasztalat", "Gyors megvalósítás", "Többnyelvű támogatás", "Gyakorlati átadás"],
-  "intro": "Nem csak weboldalt készítünk. Összerakjuk a weboldalt, céges e-mailt, mérést, keresési alapokat, kapcsolatfelvételt és a későbbi automatizálást.",
+  "badges": [
+    "Svájci háttér",
+    "AI és adatmérnöki tudás",
+    "KKV-barát megvalósítás",
+    "Magyar nyelvű kommunikáció",
+    "Gyakorlati átadás"
+  ],
+  "intro": "Nem csak weboldalt készítünk. Olyan digitális alapot rakunk össze, amely segít bizalmat építeni, érdeklődőket gyűjteni, mérni az eredményeket és később automatizálni a rutinfeladatokat.",
   "packagesIntro": {
     "eyebrow": "Fő csomagok",
-    "title": "Három egyszerű csomag a digitális fejlődéshez.",
-    "text": "Indulj stabil online alappal, növeld a leadeket, majd automatizálj AI- és adatalapú eszközökkel."
+    "title": "Három csomag magyar KKV-k tipikus növekedési lépéseihez.",
+    "text": "Először legyen profi online alap, utána több érdeklődő és foglalás, majd automatizálás, amikor már megéri."
   },
   "packages": [
     {
       "name": "Digital Foundation",
       "description": "Azoknak, akik professzionális online jelenlétet szeretnének felesleges bonyolítás nélkül.",
       "cta": "Kérem a digitális alapot",
-      "features": ["Modern reszponzív weboldal", "Domain e-mail beállítás", "Google Analytics beállítás", "Google Search Console beállítás", "Kapcsolati űrlap", "SEO alapok", "Mobiloptimalizálás", "Alap technikai átadás"]
+      "features": [
+        "Modern reszponzív weboldal",
+        "Domain e-mail beállítás",
+        "Google analitika beállítás",
+        "Google Search Console beállítás",
+        "Kapcsolati űrlap",
+        "SEO alapok",
+        "Mobiloptimalizálás",
+        "Alap technikai átadás"
+      ]
     },
     {
       "name": "Growth Setup",
       "description": "Azoknak, akiknek már van online jelenlétük, de több megkeresést, foglalást és láthatóságot szeretnének.",
       "cta": "Növekedjünk online",
       "highlight": true,
-      "features": ["Minden a digitális alapcsomagból", "Foglalási integráció", "Google Business Profile optimalizálás", "Leadgyűjtő űrlap", "Hírlevél-/kontaktlista beállítás", "Meta/Facebook hirdetési fiók", "Google Ads fiók", "Konverziókövetési alapok", "Növekedésre épülő landing szekciók"]
+      "features": [
+        "Minden a digitális alapcsomagból",
+        "Foglalási integráció",
+        "Google Business Profile optimalizálás",
+        "Leadgyűjtő űrlap",
+        "Hírlevél-/kontaktlista beállítás",
+        "Meta/Facebook hirdetési fiók",
+        "Google Ads fiók",
+        "Konverziókövetési alapok",
+        "Növekedésre épülő landing szekciók"
+      ]
     },
     {
       "name": "AI/Data Upgrade",
       "description": "Azoknak, akik időt spórolnának, automatizálnának és jobban értenék az adataikat.",
       "cta": "AI és automatizálás",
-      "features": ["Ügyfélszolgálati chatbot", "Belső FAQ-/keresőasszisztens", "Analytics dashboard", "Automatikus riportok", "Könnyű workflow automatizálás", "Leadminősítő chatbot", "Adat-/AI-konzultáció"]
+      "features": [
+        "Ügyfélszolgálati chatbot",
+        "Belső FAQ-/keresőasszisztens",
+        "analitika dashboard",
+        "Automatikus riportok",
+        "Könnyű workflow automatizálás",
+        "Leadminősítő chatbot",
+        "Adat-/AI-konzultáció"
+      ]
     }
   ],
   "services": {
@@ -56,10 +89,26 @@
     "title": "Minden szolgáltatás egy csomaghoz és célhoz kapcsolódik.",
     "text": "Gyakorlati digitális rendszer, nem végtelen ügynökségi feladatlista.",
     "items": [
-      {"title": "Professzionális online jelenlét", "description": "Weboldal, e-mail, mobiloptimalizálás, kapcsolatfelvétel és SEO alapok.", "package": "Digital Foundation"},
-      {"title": "Leadek és foglalások", "description": "Foglalás, lead űrlap, Google Business Profile, hírlevél és konverziós alapok.", "package": "Growth Setup"},
-      {"title": "Hirdetésre kész alap", "description": "Meta és Google Ads fiókok, követési alapok és landing szekciók.", "package": "Growth Setup"},
-      {"title": "Automatizálás és AI", "description": "Chatbotok, belső asszisztensek, dashboardok és automatizált riportok.", "package": "AI/Data Upgrade"}
+      {
+        "title": "Professzionális online jelenlét",
+        "description": "Weboldal, e-mail, mobiloptimalizálás, kapcsolatfelvétel és SEO alapok.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leadek és foglalások",
+        "description": "Foglalás, érdeklődőgyűjtő űrlap, Google Business Profile, hírlevél és konverziós alapok.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Hirdetésre kész alap",
+        "description": "Meta és Google Ads fiókok, követési alapok és landing szekciók.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automatizálás és AI",
+        "description": "Chatbotok, belső asszisztensek, irányítópultok és automatizált riportok.",
+        "package": "AI/Data Upgrade"
+      }
     ]
   },
   "demos": {
@@ -67,9 +116,18 @@
     "title": "Példák tipikus kisvállalkozási helyzetekre.",
     "text": "Nézd meg, hogyan nézhet ki egy konkrét csomag a gyakorlatban.",
     "items": [
-      {"title": "Étterem/kávézó weboldal", "description": "Menü, helyszín, foglalási kérés, Google-profil és gyors mobil kapcsolat."},
-      {"title": "Szolgáltatói weboldal", "description": "Hiteles szolgáltatási oldalak, lead űrlap, analytics és SEO alapok."},
-      {"title": "AI chatbot/adatdashboard", "description": "FAQ asszisztens, leadminősítés, dashboard és automatikus riport."}
+      {
+        "title": "Étterem/kávézó weboldal",
+        "description": "Menü, helyszín, foglalási kérés, Google-profil és gyors mobil kapcsolat."
+      },
+      {
+        "title": "Szolgáltatói weboldal",
+        "description": "Hiteles szolgáltatási oldalak, érdeklődőgyűjtő űrlap, analytics és SEO alapok."
+      },
+      {
+        "title": "AI chatbot/adatdashboard",
+        "description": "FAQ asszisztens, leadminősítés, dashboard és automatikus riport."
+      }
     ]
   },
   "caseStudies": {
@@ -83,13 +141,21 @@
     "text": "A Websiteli egy karcsú, gyakorlati IT/AI műhely. Az egyik alapító magyar, így a magyar vállalkozói piacot is értjük, miközben svájci minőséggel és pontos kivitelezéssel dolgozunk."
   },
   "outreach": {
-    "headline": "Modern digitális alap magyar kisvállalkozásoknak.",
-    "pitch": "Segítünk, hogy weboldal, e-mail, analytics, kapcsolatfelvétel és leadgyűjtés együtt működjön.",
-    "painPoints": ["A weboldal elavult vagy nem hoz megkereséseket.", "Nincs tiszta mérés és követhető online jelenlét.", "Nincs külön IT-csapat a beállításokra."],
-    "benefits": ["Gyors, professzionális online alap.", "Magyar piaci megértés svájci technikai háttérrel.", "Később bővíthető hirdetéssel, automatizálással és AI-val."],
+    "headline": "Gyakorlati digitális alap magyar kisvállalkozásoknak.",
+    "pitch": "Segítünk, hogy a weboldal ne csak névjegykártya legyen, hanem mérhető kapcsolatfelvételi és bizalomépítő eszköz.",
+    "painPoints": [
+      "A Facebook- vagy Instagram-jelenlét önmagában nem elég meggyőző.",
+      "A foglalások és ajánlatkérések kézi üzenetekben vesznek el.",
+      "Nincs tiszta kép arról, honnan jönnek az érdeklődők."
+    ],
+    "benefits": [
+      "Profi online megjelenés reális KKV-költségkerettel.",
+      "Egyszerűbb ajánlatkérés, foglalás és kapcsolattartás.",
+      "Később bővíthető hirdetésekkel, riportokkal és AI automatizálással."
+    ],
     "cta": "Kérj gyors auditot",
     "emailSubject": "Digitális setup ötlet a vállalkozásodnak",
-    "emailDraft": "Szia, úgy látom, a vállalkozásodnak hasznos lehetne egy tisztább digitális setup: weboldal, kapcsolatfelvétel, analytics és leadgyűjtés egy rendszerben. A Websiteli svájci alapú, magyarul is dolgozó csapat. Szeretnél egy rövid, ingyenes digitális auditot?"
+    "emailDraft": "Szia, úgy látom, hogy a vállalkozásod profitálhatna egy tisztább digitális alapból: weboldal, ajánlatkérés/foglalás, mérés és érdeklődőgyűjtés egy rendszerben. A Websiteli svájci hátterű csapatként gyakorlati weboldalakat, automatizálást és AI megoldásokat épít KKV-knak. Érdekelne egy ingyenes rövid digitális audit?"
   },
   "contact": {
     "eyebrow": "Kapcsolat",
@@ -98,7 +164,7 @@
     "button": "Üzenet küldése"
   },
   "ui": {
-    "pricingNote": "Az árak automatikusan a tartózkodási helyedhez igazodnak. A végleges ajánlat rövid konzultáció után készül.",
+    "pricingNote": "A végleges ajánlat rövid konzultáció után készül.",
     "coreBadge": "Fő növekedési csomag",
     "outreachEyebrow": "Megkeresési üzenet",
     "painPoints": "Fájdalompontok",

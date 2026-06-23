@@ -1,9 +1,6 @@
 ---
 import { getPackageLabels } from "../config/packageLabels";
 
-const contactFormEndpoint =
-  import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || import.meta.env.PUBLIC_LEAD_FORM_ENDPOINT || "";
-
 interface Props {
   content?: any;
 }
@@ -32,6 +29,70 @@ const packageOptions = packages.map((item) => ({
           : item.name,
 }));
 const localizedPackageNames = getPackageLabels(content?.locale ?? "en");
+const privacyConsentCopy: Record<string, { label: string; link: string; validation: string }> = {
+  en: {
+    label: "I have read and accept the",
+    link: "Privacy Policy",
+    validation: "Please accept the privacy policy before sending.",
+  },
+  de: {
+    label: "Ich habe gelesen und akzeptiere die",
+    link: "Datenschutzerklärung",
+    validation: "Bitte akzeptieren Sie die Datenschutzerklärung vor dem Absenden.",
+  },
+  hu: {
+    label: "Elolvastam és elfogadom az",
+    link: "adatvédelmi tájékoztatót",
+    validation: "Kérjük, küldés előtt fogadd el az adatvédelmi tájékoztatót.",
+  },
+  pl: {
+    label: "Przeczytałem/am i akceptuję",
+    link: "politykę prywatności",
+    validation: "Zaakceptuj politykę prywatności przed wysłaniem.",
+  },
+  es: {
+    label: "He leído y acepto la",
+    link: "política de privacidad",
+    validation: "Acepta la política de privacidad antes de enviar.",
+  },
+  fr: {
+    label: "J'ai lu et j'accepte la",
+    link: "politique de confidentialité",
+    validation: "Veuillez accepter la politique de confidentialité avant l'envoi.",
+  },
+  it: {
+    label: "Ho letto e accetto la",
+    link: "privacy policy",
+    validation: "Accetta la privacy policy prima di inviare.",
+  },
+  cz: {
+    label: "Přečetl/a jsem si a přijímám",
+    link: "zásady ochrany osobních údajů",
+    validation: "Před odesláním přijměte zásady ochrany osobních údajů.",
+  },
+  pt: {
+    label: "Li e aceito a",
+    link: "política de privacidade",
+    validation: "Aceite a política de privacidade antes de enviar.",
+  },
+  da: {
+    label: "Jeg har læst og accepterer",
+    link: "privatlivspolitikken",
+    validation: "Accepter privatlivspolitikken før du sender.",
+  },
+  nl: {
+    label: "Ik heb gelezen en accepteer het",
+    link: "privacybeleid",
+    validation: "Accepteer het privacybeleid voordat je verzendt.",
+  },
+  ja: {
+    label: "確認し、同意します:",
+    link: "プライバシーポリシー",
+    validation: "送信前にプライバシーポリシーに同意してください。",
+  },
+};
+const privacyUi = privacyConsentCopy[content?.locale ?? "en"] ?? privacyConsentCopy.en;
+const privacyPolicyVersion = "2026-06-24";
 const formUi = content?.ui?.form ?? {
   website: "Website",
   name: "Name",
@@ -63,7 +124,6 @@ const formUi = content?.ui?.form ?? {
       method="post"
       enctype="text/plain"
       data-lead-form
-      data-endpoint={contactFormEndpoint}
       novalidate
     >
       <input name="source" type="hidden" value="websiteli.ch" />
@@ -87,6 +147,7 @@ const formUi = content?.ui?.form ?? {
       <input name="utm_campaign" type="hidden" data-pricing-field="utm" data-utm-key="utm_campaign" />
       <input name="utm_term" type="hidden" data-pricing-field="utm" data-utm-key="utm_term" />
       <input name="utm_content" type="hidden" data-pricing-field="utm" data-utm-key="utm_content" />
+      <input name="privacyPolicyVersion" type="hidden" value={privacyPolicyVersion} />
       <label class="website-field" aria-hidden="true">
         {formUi.website}
         <input name="website" tabindex="-1" autocomplete="off" />
@@ -118,13 +179,19 @@ const formUi = content?.ui?.form ?? {
         {formUi.message}
         <textarea name="message" rows="4" required placeholder={formUi.messagePlaceholder}></textarea>
       </label>
+      <label class="privacy-consent">
+        <input name="privacyPolicyAccepted" type="checkbox" value="yes" required data-privacy-consent />
+        <span>
+          {privacyUi.label} <a href="/privacy/" target="_blank" rel="noopener">{privacyUi.link}</a>.
+        </span>
+      </label>
       <button class="button primary" type="submit">{contact.button}</button>
       <p class="form-status" data-form-status aria-live="polite"></p>
     </form>
   </div>
 </section>
 
-<script define:vars={{ formUi }}>
+<script define:vars={{ formUi, privacyUi }}>
   const form = document.querySelector("[data-lead-form]");
   const status = document.querySelector("[data-form-status]");
   let formStarted = false;
@@ -172,6 +239,7 @@ const formUi = content?.ui?.form ?? {
     const email = getFormString(formData, "email");
     const message = getFormString(formData, "message");
     const honeypot = getFormString(formData, "website");
+    const privacyAccepted = getFormString(formData, "privacyPolicyAccepted") === "yes";
 
     if (honeypot) {
       event.preventDefault();
@@ -180,54 +248,61 @@ const formUi = content?.ui?.form ?? {
       return;
     }
 
-    if (!form.checkValidity() || !name || !email || !message) {
+    if (!form.checkValidity() || !name || !email || !message || !privacyAccepted) {
       event.preventDefault();
       form.reportValidity();
-      if (status) status.textContent = formUi.validation;
+      if (status) status.textContent = privacyAccepted ? formUi.validation : privacyUi.validation;
       return;
     }
 
     event.preventDefault();
 
-    const endpoint = form.dataset.endpoint;
-
-    if (!endpoint) {
-      if (status) status.textContent = formUi.disconnected;
-      return;
-    }
-
+    const detectedCountry = getFormString(formData, "country") || window.websiteliPricing?.country || "";
+    const detectedCurrency = getFormString(formData, "currency") || window.websiteliPricing?.currency || "";
+    const detectedMarket = getFormString(formData, "pricingMarket") || window.websiteliPricing?.pricingMarket || "";
+    const need = getFormString(formData, "project");
+    const utm = getUtm(formData);
     const payload = {
+      type: "form",
       name,
       email,
       phone: getFormString(formData, "phone"),
       company: getFormString(formData, "company"),
-      project: getFormString(formData, "project"),
+      need,
       message,
-      source: getFormString(formData, "source") || "websiteli.ch",
-      website: honeypot,
-      packageKey: getFormString(formData, "packageKey") || getFormString(formData, "project"),
-      relatedDemo: getFormString(formData, "relatedDemo"),
-      relatedProject: getFormString(formData, "relatedProject"),
-      sourcePage: getFormString(formData, "sourcePage") || window.location.pathname,
-      inquiryIntent: getFormString(formData, "inquiryIntent"),
-      locale: getFormString(formData, "locale") || document.documentElement.lang,
-      country: getFormString(formData, "country"),
-      pricingMarket: getFormString(formData, "pricingMarket"),
-      currency: getFormString(formData, "currency"),
-      priceShown: getFormString(formData, "priceShown"),
-      sourcePath: getFormString(formData, "sourcePath") || window.location.pathname,
-      currentUrl: getFormString(formData, "currentUrl") || window.location.href,
-      referrer: getFormString(formData, "referrer") || document.referrer,
-      utm: getUtm(formData),
-      timestamp: getFormString(formData, "timestamp") || new Date().toISOString(),
-      userAgent: getFormString(formData, "userAgent") || navigator.userAgent,
+      metadata: {
+        language: document.documentElement.lang || getFormString(formData, "locale"),
+        country: detectedCountry,
+        currency: detectedCurrency,
+        market: detectedMarket,
+        pageUrl: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        utm_source: utm.source,
+        utm_medium: utm.medium,
+        utm_campaign: utm.campaign,
+        utm_term: utm.term,
+        utm_content: utm.content,
+        source: getFormString(formData, "source") || "websiteli.ch",
+        packageKey: getFormString(formData, "packageKey") || need,
+        relatedDemo: getFormString(formData, "relatedDemo"),
+        relatedProject: getFormString(formData, "relatedProject"),
+        sourcePage: getFormString(formData, "sourcePage") || window.location.pathname,
+        inquiryIntent: getFormString(formData, "inquiryIntent"),
+        priceShown: getFormString(formData, "priceShown"),
+        sourcePath: getFormString(formData, "sourcePath") || window.location.pathname,
+        privacyPolicyAccepted: privacyAccepted,
+        privacyPolicyVersion: getFormString(formData, "privacyPolicyVersion"),
+        privacyPolicyUrl: `${window.location.origin}/privacy/`,
+        timestamp: getFormString(formData, "timestamp") || new Date().toISOString(),
+      },
     };
 
     submitButton?.setAttribute("disabled", "true");
     if (status) status.textContent = formUi.sending;
 
     try {
-      await fetch(endpoint, {
+      await fetch("https://script.google.com/macros/s/AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/exec", {
         method: "POST",
         mode: "no-cors",
         headers: {
@@ -240,17 +315,19 @@ const formUi = content?.ui?.form ?? {
       window.trackWebsiteliEvent?.("contact_form_submit", {
         event_category: "lead",
         event_label: "Contact form",
-        package_key: payload.packageKey,
-        locale: payload.locale,
-        country: payload.country,
-        pricing_market: payload.pricingMarket,
-        currency: payload.currency,
-        price_shown: payload.priceShown,
-        source_path: payload.sourcePath,
-        source_page: payload.sourcePage,
-        related_demo: payload.relatedDemo,
-        related_project: payload.relatedProject,
-        inquiry_intent: payload.inquiryIntent,
+        package_key: payload.metadata.packageKey,
+        locale: payload.metadata.language,
+        country: payload.metadata.country,
+        pricing_market: payload.metadata.market,
+        currency: payload.metadata.currency,
+        price_shown: payload.metadata.priceShown,
+        source_path: payload.metadata.sourcePath,
+        source_page: payload.metadata.sourcePage,
+        related_demo: payload.metadata.relatedDemo,
+        related_project: payload.metadata.relatedProject,
+        inquiry_intent: payload.metadata.inquiryIntent,
+        privacy_policy_accepted: payload.metadata.privacyPolicyAccepted ? "yes" : "no",
+        privacy_policy_version: payload.metadata.privacyPolicyVersion,
       });
       if (status) status.textContent = formUi.thankYou;
     } catch (error) {

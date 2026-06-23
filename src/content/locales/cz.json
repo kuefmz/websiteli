@@ -1,0 +1,202 @@
+{
+  "locale": "cz",
+  "language": "Čeština",
+  "seo": {
+    "title": "Websiteli - weby, automatizace a AI pro malé firmy",
+    "description": "Digitální balíčky pro české firmy: profesionální web, lokální viditelnost, poptávky, rezervace, měření, automatizace a praktická AI."
+  },
+  "nav": {
+    "home": "Domů",
+    "services": "Služby",
+    "packages": "Balíčky",
+    "demos": "Dema",
+    "caseStudies": "Ukázkové projekty",
+    "exampleProjects": "Ukázkové projekty",
+    "about": "O nás",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "eyebrow": "Švýcarský tým pro malé a střední firmy",
+    "title": "Web a automatizace, které pomáhají získávat poptávky.",
+    "text": "Pomáháme službám, restauracím, poradcům a lokálním firmám vytvořit důvěryhodný web, jasné kontaktní cesty, měření výsledků a později praktickou automatizaci.",
+    "primaryCta": "Požádat o bezplatný audit",
+    "secondaryCta": "Zobrazit balíčky",
+    "trustLine": "Švýcarský standard - Praktické řešení - Komunikace pro malé firmy"
+  },
+  "badges": [
+    "Švýcarský standard",
+    "AI a datové inženýrství",
+    "Praktické nasazení",
+    "Srozumitelný rozsah",
+    "Jednoduché předání"
+  ],
+  "intro": "Neděláme jen web. Propojujeme web, formuláře, lokální vyhledávání, analytiku a automatizaci tak, aby firma lépe získávala a zpracovávala poptávky.",
+  "packagesIntro": {
+    "eyebrow": "Hlavní balíčky",
+    "title": "Tři balíčky pro běžné fáze růstu malé firmy.",
+    "text": "Nejdřív profesionální základ, potom více poptávek a rezervací, a nakonec automatizace tam, kde šetří čas."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "Pro firmy, které potřebují profesionální online prezentaci bez zbytečné složitosti.",
+      "cta": "Získat digitální základ",
+      "features": [
+        "Moderní responzivní web",
+        "Nastavení doménového e-mailu",
+        "Google Analytics",
+        "Google Search Console",
+        "Kontaktní formulář",
+        "Základy SEO",
+        "Mobilní optimalizace",
+        "Základní technické předání"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "Pro firmy, které už online jsou, ale chtějí více poptávek, rezervací a viditelnosti.",
+      "cta": "Začít růst online",
+      "highlight": true,
+      "features": [
+        "Vše z digitálního základu",
+        "Integrace rezervací",
+        "Optimalizace Google Business Profile",
+        "Formulář pro leady",
+        "Newsletter / seznam kontaktů",
+        "Účet Meta/Facebook Ads",
+        "Účet Google Ads",
+        "Základy měření konverzí",
+        "Landing sekce zaměřené na růst"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "Pro firmy, které chtějí šetřit čas, automatizovat rutinu a lépe rozumět datům.",
+      "cta": "Prozkoumat AI a automatizaci",
+      "features": [
+        "Chatbot pro zákaznickou podporu",
+        "Interní FAQ/vyhledávací asistent",
+        "Analytics dashboard",
+        "Automatické reporty",
+        "Lehká pracovní postupy automatizace",
+        "Chatbot kvalifikace leadů",
+        "Konzultace data/AI"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "Služby",
+    "title": "Každá služba patří k jasnému výsledku.",
+    "text": "Praktické nástroje, jasný rozsah a technická implementace bez agenturní složitosti.",
+    "items": [
+      {
+        "title": "Profesionální online prezentace",
+        "description": "Web, e-mail, mobil, formuláře a základy SEO v Digitální základ.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leady a rezervace",
+        "description": "Rezervace, sběr leadů, Google Business Profile, newsletter a konverze v Růstový balíček.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Připravenost na reklamu",
+        "description": "Účty Meta a Google Ads se základním sledováním.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automatizace a AI",
+        "description": "Chatboti, asistenti, přehledové panely, reporty a pracovní postupy v AI a datové rozšíření.",
+        "package": "AI/Data Upgrade"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "Dema",
+    "title": "Příklady pro typické malé firmy.",
+    "text": "Podívejte se, jak se balíček promění v konkrétní zákaznickou cestu.",
+    "items": [
+      {
+        "title": "Web restaurace/kavárny",
+        "description": "Menu, poloha, žádost o rezervaci, Google profil a rychlý kontakt."
+      },
+      {
+        "title": "Web profesionálních služeb",
+        "description": "Důvěryhodné stránky služeb, lead formulář, analytics a SEO struktura."
+      },
+      {
+        "title": "AI chatbot/data dashboard",
+        "description": "FAQ asistent, kvalifikace leadů, dashboard a automatické reporty."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Demo projekty",
+    "title": "Místo pro budoucí případové studie.",
+    "text": "Zde budou cíle, rozsah, proces a výsledky reálných projektů."
+  },
+  "about": {
+    "eyebrow": "O nás",
+    "title": "Malá švýcarská agentura vedená dvěma technickými zakladateli.",
+    "text": "Websiteli spojuje webový vývoj, data a AI s praktickým přístupem: jasný rozsah, rychlá realizace a předání, kterému rozumíte."
+  },
+  "outreach": {
+    "headline": "Digitální základ pro lokální firmy a služby.",
+    "pitch": "Pro firmy, které chtějí působit důvěryhodně, být lépe dohledatelné a vědět, odkud chodí poptávky.",
+    "painPoints": [
+      "Web nebo sociální sítě nepůsobí dostatečně profesionálně.",
+      "Poptávky chodí přes různé kanály a chybí přehled.",
+      "Marketingová rozhodnutí se dělají bez jasných dat."
+    ],
+    "benefits": [
+      "Profesionální web s jasnou nabídkou a lokální viditelností.",
+      "Formuláře, rezervace a měření nastavené od začátku.",
+      "Možnost rozšíření o reklamu, dashboardy a AI."
+    ],
+    "cta": "Domluvit krátký hovor",
+    "emailSubject": "Nápad na digitální setup pro vaši firmu",
+    "emailDraft": "Dobrý den, vaše firma by mohla těžit z přehlednějšího digitálního základu: web, kontakt, lokální viditelnost a měření propojené do jednoho systému. Websiteli je švýcarský tým pro praktické weby, automatizaci a AI pro malé firmy. Mohu navrhnout krátký bezplatný digitální audit?"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Řekněte nám, co chcete zlepšit.",
+    "text": "Požádejte o bezplatný digitální audit nebo konkrétní plán nastavení.",
+    "button": "Odeslat poptávku"
+  },
+  "ui": {
+    "pricingNote": "Finální nabídka po krátké konzultaci.",
+    "coreBadge": "Hlavní růstový balíček",
+    "outreachEyebrow": "Oslovení",
+    "painPoints": "Problémy",
+    "benefits": "Výhody",
+    "heroCardWebsite": "Web",
+    "heroCardLeads": "Připraveno na leady",
+    "heroCardAi": "AI a data",
+    "heroCardUpgrade": "Cesta růstu",
+    "heroImageLabel": "Vizuál digitálního setupu Websiteli",
+    "form": {
+      "website": "Web",
+      "name": "Jméno",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "company": "Firma",
+      "project": "Co potřebujete?",
+      "custom": "Vlastní požadavek",
+      "message": "Zpráva",
+      "messagePlaceholder": "Napište nám o své firmě a o tom, co chcete zlepšit.",
+      "thankYou": "Děkujeme! Zprávu jsme obdrželi a brzy se ozveme.",
+      "validation": "Vyplňte prosím jméno, e-mail a zprávu.",
+      "disconnected": "Formulář zatím není připojen. Napište nám prosím přímo e-mailem.",
+      "sending": "Odesílání...",
+      "error": "Něco se pokazilo. Napište nám prosím přímo e-mailem."
+    },
+    "footer": {
+      "contact": "Kontakt",
+      "pages": "Stránky",
+      "legal": "Právní informace",
+      "social": "Sociální sítě",
+      "socialSoon": "Odkazy brzy",
+      "rights": "Všechna práva vyhrazena."
+    }
+  }
+}

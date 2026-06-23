@@ -1,22 +1,202 @@
 {
   "locale": "pt",
   "language": "Português",
-  "seo": {"title": "Websiteli - sites, automação e IA para pequenas empresas", "description": "Pacotes digitais com base na Suíça para pequenas empresas: site moderno, e-mail, Analytics, Search Console, leads, reservas, anúncios e IA."},
-  "nav": {"home": "Início", "services": "Serviços", "packages": "Pacotes", "demos": "Demos", "caseStudies": "Projetos exemplo", "exampleProjects": "Projetos exemplo", "about": "Sobre", "contact": "Contacto"},
-  "hero": {"eyebrow": "Agência suíça de IT e IA", "title": "Sites, automação e ferramentas de IA para pequenas empresas.", "text": "A Websiteli ajuda pequenas empresas, freelancers, restaurantes, turismo e serviços locais a lançar uma presença digital profissional com leads, reservas e dados bem configurados.", "primaryCta": "Pedir auditoria digital gratuita", "secondaryCta": "Ver pacotes", "trustLine": "Base na Suíça - Lançamento rápido - Apoio multilingue"},
-  "badges": ["Base na Suíça", "Experiência em IA e dados", "Implementação rápida", "Apoio multilingue", "Entrega prática"],
-  "intro": "Não fazemos apenas sites. Montamos a base digital: site, e-mail, medição, pesquisa, formulários, leads e automação.",
-  "packagesIntro": {"eyebrow": "Pacotes principais", "title": "Três pacotes claros para lançar e crescer online.", "text": "Comece com uma base profissional, acrescente leads e reservas e depois automatize com dados e IA."},
-  "packages": [
-    {"name": "Digital Foundation", "description": "Para empresas que precisam de presença online profissional sem complexidade desnecessária.", "cta": "Criar a base digital", "features": ["Site moderno responsivo", "Configuração de e-mail de domínio", "Google Analytics", "Google Search Console", "Formulário de contacto", "SEO básico", "Otimização móvel", "Entrega técnica básica"]},
-    {"name": "Growth Setup", "description": "Para empresas que já estão online mas querem mais leads, reservas e visibilidade.", "cta": "Começar a crescer online", "highlight": true, "features": ["Tudo da base digital", "Integração de reservas", "Otimização Google Business Profile", "Formulário de captação de leads", "Newsletter/lista de contactos", "Conta Meta/Facebook Ads", "Conta Google Ads", "Tracking básico de conversões", "Secções landing focadas em crescimento"]},
-    {"name": "AI/Data Upgrade", "description": "Para empresas que querem poupar tempo, automatizar tarefas repetitivas e compreender melhor os dados.", "cta": "Explorar IA e automação", "features": ["Chatbot de apoio ao cliente", "Assistente interno de FAQ/pesquisa", "Dashboard analytics", "Relatórios automáticos", "Automação leve de workflows", "Chatbot de qualificação de leads", "Consultoria dados/IA"]}
+  "seo": {
+    "title": "Websiteli - sites, reservas e IA para pequenos negócios",
+    "description": "Pacotes digitais para pequenos negócios em Portugal: site profissional, visibilidade local, reservas, analytics, leads, automação e IA prática."
+  },
+  "nav": {
+    "home": "Início",
+    "services": "Serviços",
+    "packages": "Pacotes",
+    "demos": "Demos",
+    "caseStudies": "Projetos exemplo",
+    "exampleProjects": "Projetos exemplo",
+    "about": "Sobre",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "eyebrow": "Equipa suíça para pequenos negócios e serviços locais",
+    "title": "Sites que ajudam clientes a confiar, reservar e contactar.",
+    "text": "Criamos bases digitais para restaurantes, alojamento local, consultores, clínicas, beleza, wellness e serviços: site rápido, contacto simples, medição e automação quando faz sentido.",
+    "primaryCta": "Pedir auditoria gratuita",
+    "secondaryCta": "Ver pacotes",
+    "trustLine": "Base na Suíça - Execução prática - Apoio multilingue"
+  },
+  "badges": [
+    "Base na Suíça",
+    "IA e dados aplicados",
+    "Implementação prática",
+    "Apoio multilingue",
+    "Entrega simples"
   ],
-  "services": {"eyebrow": "Serviços", "title": "Cada serviço está ligado a um resultado concreto.", "text": "Menos lista infinita de tarefas, mais infraestrutura digital prática.", "items": [{"title": "Presença online profissional", "description": "Site, e-mail, mobile, formulários e SEO básico no Digital Foundation.", "package": "Digital Foundation"}, {"title": "Leads e reservas", "description": "Reservas, captação de leads, Google Business Profile, newsletter e conversões no Growth Setup.", "package": "Growth Setup"}, {"title": "Preparação para anúncios", "description": "Contas Meta e Google Ads com base de tracking.", "package": "Growth Setup"}, {"title": "Automação e IA", "description": "Chatbots, assistentes, dashboards, relatórios e workflows no AI/Data Upgrade.", "package": "AI/Data Upgrade"}]},
-  "demos": {"eyebrow": "Demos", "title": "Exemplos para pequenas empresas e serviços locais.", "text": "Veja como um pacote se transforma num percurso real para clientes.", "items": [{"title": "Site restaurante/café", "description": "Menu, localização, pedido de reserva, perfil Google e contacto móvel."}, {"title": "Site de serviços profissionais", "description": "Serviços claros, formulário lead, analytics e estrutura SEO."}, {"title": "AI chatbot/data dashboard", "description": "Assistente FAQ, qualificação de leads, dashboard e relatórios automáticos."}]},
-  "caseStudies": {"eyebrow": "Projetos demo", "title": "Base preparada para futuros casos reais.", "text": "Aqui serão publicados objetivos, âmbito, processo e resultados."},
-  "about": {"eyebrow": "Sobre", "title": "Uma pequena agência suíça liderada por dois fundadores técnicos.", "text": "A Websiteli combina desenvolvimento web, dados e IA com execução prática: escopo claro, implementação rápida e entrega fácil de usar."},
-  "outreach": {"headline": "Uma base digital moderna para pequenas empresas portuguesas.", "pitch": "Ajudamos negócios locais a ligar site, e-mail, analytics, contactos e leads num sistema simples.", "painPoints": ["O site não gera contactos nem reservas.", "Falta medição clara de visitas e conversões.", "Tarefas repetitivas consomem demasiado tempo."], "benefits": ["Lançamento rápido com apresentação profissional.", "Mais visibilidade, confiança e captação de clientes.", "Possibilidade de crescer com anúncios, automação e IA."], "cta": "Pedir auditoria gratuita", "emailSubject": "Ideia para melhorar a sua presença digital", "emailDraft": "Olá, o seu negócio poderia beneficiar de uma base digital mais clara: site, contacto, analytics e leads a funcionar em conjunto. A Websiteli é uma equipa com base na Suíça que ajuda pequenas empresas com sites, automação e IA prática. Gostaria de uma auditoria digital gratuita?"},
-  "contact": {"eyebrow": "Contacto", "title": "Conte-nos o que quer melhorar.", "text": "Peça uma auditoria digital gratuita ou um plano de setup.", "button": "Enviar pedido"},
-  "ui": {"pricingNote": "Os preços são apresentados automaticamente com base na sua localização. Orçamento final após uma breve consulta.", "coreBadge": "Pacote principal de crescimento", "outreachEyebrow": "Mensagem de contacto", "painPoints": "Problemas", "benefits": "Benefícios", "heroCardWebsite": "Site", "heroCardLeads": "Pronto para leads", "heroCardAi": "IA e dados", "heroCardUpgrade": "Caminho de evolução", "heroImageLabel": "Visual do setup digital Websiteli", "form": {"website": "Site", "name": "Nome", "email": "E-mail", "phone": "Telefone", "company": "Empresa", "project": "Do que precisa?", "custom": "Pedido personalizado", "message": "Mensagem", "messagePlaceholder": "Fale-nos sobre o seu negócio e o que quer melhorar.", "thankYou": "Obrigado! Recebemos a sua mensagem e responderemos em breve.", "validation": "Preencha o nome, e-mail e mensagem.", "disconnected": "O formulário ainda não está ligado. Envie-nos um e-mail diretamente.", "sending": "A enviar...", "error": "Algo correu mal. Envie-nos um e-mail diretamente."}, "footer": {"contact": "Contacto", "pages": "Páginas", "legal": "Legal", "social": "Social", "socialSoon": "Links em breve", "rights": "Todos os direitos reservados."}}
+  "intro": "Não fazemos apenas sites bonitos. Montamos uma base digital que facilita reservas, pedidos de orçamento, confiança e medição, pronta para crescer com automação e IA.",
+  "packagesIntro": {
+    "eyebrow": "Pacotes principais",
+    "title": "Três pacotes para presença, crescimento e automação.",
+    "text": "Comece com uma base profissional, acrescente reservas e leads, e automatize quando isso poupar tempo real."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "Para empresas que precisam de presença online profissional sem complexidade desnecessária.",
+      "cta": "Criar a base digital",
+      "features": [
+        "Site moderno responsivo",
+        "Configuração de e-mail de domínio",
+        "Google Analytics",
+        "Google Search Console",
+        "Formulário de contacto",
+        "SEO básico",
+        "Otimização móvel",
+        "Entrega técnica básica"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "Para empresas que já estão online mas querem mais leads, reservas e visibilidade.",
+      "cta": "Começar a crescer online",
+      "highlight": true,
+      "features": [
+        "Tudo da base digital",
+        "Integração de reservas",
+        "Otimização Google Business Profile",
+        "Formulário de captação de leads",
+        "Newsletter/lista de contactos",
+        "Conta Meta/Facebook Ads",
+        "Conta Google Ads",
+        "Tracking básico de conversões",
+        "Secções landing focadas em crescimento"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "Para empresas que querem poupar tempo, automatizar tarefas repetitivas e compreender melhor os dados.",
+      "cta": "Explorar IA e automação",
+      "features": [
+        "Chatbot de apoio ao cliente",
+        "Assistente interno de FAQ/pesquisa",
+        "Dashboard analytics",
+        "Relatórios automáticos",
+        "Automação leve de fluxos de trabalho",
+        "Chatbot de qualificação de leads",
+        "Consultoria dados/IA"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "Serviços",
+    "title": "Cada serviço está ligado a um resultado concreto.",
+    "text": "Menos lista infinita de tarefas, mais infraestrutura digital prática.",
+    "items": [
+      {
+        "title": "Presença online profissional",
+        "description": "Site, e-mail, mobile, formulários e SEO básico no Base digital.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leads e reservas",
+        "description": "Reservas, captação de leads, Google Business Profile, newsletter e conversões no Pacote de crescimento.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Preparação para anúncios",
+        "description": "Contas Meta e Google Ads com base de acompanhamento.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automação e IA",
+        "description": "Chatbots, assistentes, dashboards, relatórios e fluxos de trabalho no Upgrade de IA e dados.",
+        "package": "AI/Data Upgrade"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "Demos",
+    "title": "Exemplos para pequenas empresas e serviços locais.",
+    "text": "Veja como um pacote se transforma num percurso real para clientes.",
+    "items": [
+      {
+        "title": "Site restaurante/café",
+        "description": "Menu, localização, pedido de reserva, perfil Google e contacto móvel."
+      },
+      {
+        "title": "Site de serviços profissionais",
+        "description": "Serviços claros, formulário lead, analytics e estrutura SEO."
+      },
+      {
+        "title": "AI chatbot/data dashboard",
+        "description": "Assistente FAQ, qualificação de leads, dashboard e relatórios automáticos."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Projetos demo",
+    "title": "Base preparada para futuros casos reais.",
+    "text": "Aqui serão publicados objetivos, âmbito, processo e resultados."
+  },
+  "about": {
+    "eyebrow": "Sobre",
+    "title": "Uma pequena agência suíça liderada por dois fundadores técnicos.",
+    "text": "A Websiteli combina desenvolvimento web, dados e IA com execução prática: escopo claro, implementação rápida e entrega fácil de usar."
+  },
+  "outreach": {
+    "headline": "Uma base digital clara para negócios locais em Portugal.",
+    "pitch": "Para quem depende de confiança, pesquisa local, reservas e pedidos de contacto simples.",
+    "painPoints": [
+      "O cliente pesquisa no telemóvel e não encontra rápido como reservar ou pedir orçamento.",
+      "Os contactos chegam por vários canais e perdem-se oportunidades.",
+      "Não há medição clara do que gera pedidos."
+    ],
+    "benefits": [
+      "Site pensado para telemóvel, confiança e ação rápida.",
+      "Reservas, formulários, WhatsApp e analytics ligados.",
+      "Base preparada para anúncios, dashboards e IA."
+    ],
+    "cta": "Pedir auditoria gratuita",
+    "emailSubject": "Ideia para melhorar a sua presença digital",
+    "emailDraft": "Olá, o seu negócio poderia beneficiar de uma base digital mais clara: site, reservas/contacto, visibilidade local e medição ligados. A Websiteli é uma equipa suíça que cria sites práticos, automação e IA para pequenos negócios. Gostaria de uma auditoria digital gratuita?"
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Conte-nos o que quer melhorar.",
+    "text": "Peça uma auditoria digital gratuita ou um plano de setup.",
+    "button": "Enviar pedido"
+  },
+  "ui": {
+    "pricingNote": "Orçamento final após uma breve consulta.",
+    "coreBadge": "Pacote principal de crescimento",
+    "outreachEyebrow": "Mensagem de contacto",
+    "painPoints": "Problemas",
+    "benefits": "Benefícios",
+    "heroCardWebsite": "Site",
+    "heroCardLeads": "Pronto para leads",
+    "heroCardAi": "IA e dados",
+    "heroCardUpgrade": "Caminho de evolução",
+    "heroImageLabel": "Visual do setup digital Websiteli",
+    "form": {
+      "website": "Site",
+      "name": "Nome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "company": "Empresa",
+      "project": "Do que precisa?",
+      "custom": "Pedido personalizado",
+      "message": "Mensagem",
+      "messagePlaceholder": "Fale-nos sobre o seu negócio e o que quer melhorar.",
+      "thankYou": "Obrigado! Recebemos a sua mensagem e responderemos em breve.",
+      "validation": "Preencha o nome, e-mail e mensagem.",
+      "disconnected": "O formulário ainda não está ligado. Envie-nos um e-mail diretamente.",
+      "sending": "A enviar...",
+      "error": "Algo correu mal. Envie-nos um e-mail diretamente."
+    },
+    "footer": {
+      "contact": "Contacto",
+      "pages": "Páginas",
+      "legal": "Legal",
+      "social": "Redes sociais",
+      "socialSoon": "Links em breve",
+      "rights": "Todos os direitos reservados."
+    }
+  }
 }

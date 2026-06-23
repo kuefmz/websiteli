@@ -6,7 +6,8 @@ interface Props {
 
 const { content, locale = "en" } = Astro.props;
 const currentYear = new Date().getFullYear();
-const whatsappUrl = import.meta.env.PUBLIC_WHATSAPP_URL || "/#contact";
+const whatsappNumber = "+41 77 265 33 06";
+const whatsappUrl = "https://wa.me/41772653306";
 const nav = content?.nav ?? {
   services: "Services",
   packages: "Packages",
@@ -24,6 +25,156 @@ const footerUi = content?.ui?.footer ?? {
   socialSoon: "Links coming soon",
   rights: "All rights reserved.",
 };
+const legalLinkCopy: Record<string, { privacy: string; impressum: string }> = {
+  en: { privacy: "Privacy Policy", impressum: "Impressum" },
+  de: { privacy: "Datenschutzerklärung", impressum: "Impressum" },
+  hu: { privacy: "Adatvédelmi tájékoztató", impressum: "Impresszum" },
+  pl: { privacy: "Polityka prywatności", impressum: "Impressum" },
+  es: { privacy: "Política de privacidad", impressum: "Aviso legal" },
+  fr: { privacy: "Politique de confidentialité", impressum: "Mentions légales" },
+  it: { privacy: "Privacy policy", impressum: "Note legali" },
+  cz: { privacy: "Zásady ochrany osobních údajů", impressum: "Právní informace" },
+  pt: { privacy: "Política de privacidade", impressum: "Aviso legal" },
+  da: { privacy: "Privatlivspolitik", impressum: "Juridisk information" },
+  nl: { privacy: "Privacybeleid", impressum: "Juridische informatie" },
+  ja: { privacy: "プライバシーポリシー", impressum: "法的情報" },
+};
+const legalLinks = legalLinkCopy[locale] ?? legalLinkCopy.en;
+const newsletterCopy: Record<string, { title: string; text: string; email: string; button: string; consent: string; success: string; validation: string; sending: string; error: string }> = {
+  en: {
+    title: "Newsletter",
+    text: "Get practical website, automation and AI notes from Websiteli.",
+    email: "Email",
+    button: "Subscribe",
+    consent: "I accept the",
+    success: "Thank you! You are subscribed.",
+    validation: "Enter your email and accept the privacy policy.",
+    sending: "Subscribing...",
+    error: "Something went wrong. Please email us directly.",
+  },
+  de: {
+    title: "Newsletter",
+    text: "Praktische Hinweise zu Websites, Automatisierung und KI von Websiteli.",
+    email: "E-Mail",
+    button: "Abonnieren",
+    consent: "Ich akzeptiere die",
+    success: "Vielen Dank! Sie sind angemeldet.",
+    validation: "Bitte E-Mail eingeben und Datenschutzerklärung akzeptieren.",
+    sending: "Wird angemeldet...",
+    error: "Etwas ist schiefgelaufen. Bitte schreiben Sie uns direkt per E-Mail.",
+  },
+  hu: {
+    title: "Hírlevél",
+    text: "Gyakorlati weboldal-, automatizálási és AI tippek a Websitelitől.",
+    email: "E-mail",
+    button: "Feliratkozás",
+    consent: "Elfogadom az",
+    success: "Köszönjük! Feliratkoztál.",
+    validation: "Add meg az e-mail címed és fogadd el az adatvédelmi tájékoztatót.",
+    sending: "Feliratkozás...",
+    error: "Valami hiba történt. Kérjük, írj nekünk közvetlenül e-mailben.",
+  },
+  pl: {
+    title: "Newsletter",
+    text: "Praktyczne wskazówki Websiteli o stronach, automatyzacji i AI.",
+    email: "E-mail",
+    button: "Zapisz się",
+    consent: "Akceptuję",
+    success: "Dziękujemy! Subskrypcja aktywna.",
+    validation: "Podaj e-mail i zaakceptuj politykę prywatności.",
+    sending: "Zapisywanie...",
+    error: "Coś poszło nie tak. Napisz do nas bezpośrednio e-mailem.",
+  },
+  es: {
+    title: "Newsletter",
+    text: "Consejos prácticos de Websiteli sobre webs, automatización e IA.",
+    email: "E-mail",
+    button: "Suscribirme",
+    consent: "Acepto la",
+    success: "Gracias. Te has suscrito.",
+    validation: "Introduce tu e-mail y acepta la política de privacidad.",
+    sending: "Suscribiendo...",
+    error: "Algo salió mal. Escríbenos directamente por e-mail.",
+  },
+  fr: {
+    title: "Newsletter",
+    text: "Conseils pratiques Websiteli sur les sites, l'automatisation et l'IA.",
+    email: "E-mail",
+    button: "S'inscrire",
+    consent: "J'accepte la",
+    success: "Merci! Vous êtes inscrit.",
+    validation: "Saisissez votre e-mail et acceptez la politique de confidentialité.",
+    sending: "Inscription...",
+    error: "Une erreur est survenue. Écrivez-nous directement par e-mail.",
+  },
+  it: {
+    title: "Newsletter",
+    text: "Note pratiche Websiteli su siti, automazione e AI.",
+    email: "E-mail",
+    button: "Iscriviti",
+    consent: "Accetto la",
+    success: "Grazie! Iscrizione completata.",
+    validation: "Inserisci l'e-mail e accetta la privacy policy.",
+    sending: "Iscrizione...",
+    error: "Qualcosa è andato storto. Scrivici direttamente via e-mail.",
+  },
+  cz: {
+    title: "Newsletter",
+    text: "Praktické tipy Websiteli k webům, automatizaci a AI.",
+    email: "E-mail",
+    button: "Přihlásit se",
+    consent: "Souhlasím se",
+    success: "Děkujeme! Odběr je aktivní.",
+    validation: "Zadejte e-mail a přijměte zásady ochrany osobních údajů.",
+    sending: "Přihlašování...",
+    error: "Něco se pokazilo. Napište nám prosím přímo e-mailem.",
+  },
+  pt: {
+    title: "Newsletter",
+    text: "Notas práticas da Websiteli sobre sites, automação e IA.",
+    email: "E-mail",
+    button: "Subscrever",
+    consent: "Aceito a",
+    success: "Obrigado! Subscrição ativa.",
+    validation: "Introduza o e-mail e aceite a política de privacidade.",
+    sending: "A subscrever...",
+    error: "Algo correu mal. Envie-nos um e-mail diretamente.",
+  },
+  da: {
+    title: "Nyhedsbrev",
+    text: "Praktiske Websiteli-noter om websites, automatisering og AI.",
+    email: "E-mail",
+    button: "Tilmeld",
+    consent: "Jeg accepterer",
+    success: "Tak! Du er tilmeldt.",
+    validation: "Indtast din e-mail og accepter privatlivspolitikken.",
+    sending: "Tilmelder...",
+    error: "Noget gik galt. Skriv direkte til os på e-mail.",
+  },
+  nl: {
+    title: "Nieuwsbrief",
+    text: "Praktische Websiteli-notities over websites, automatisering en AI.",
+    email: "E-mail",
+    button: "Abonneren",
+    consent: "Ik accepteer het",
+    success: "Dank je! Je bent ingeschreven.",
+    validation: "Vul je e-mail in en accepteer het privacybeleid.",
+    sending: "Inschrijven...",
+    error: "Er ging iets mis. Mail ons direct.",
+  },
+  ja: {
+    title: "ニュースレター",
+    text: "Webサイト、自動化、AIに関するWebsiteliの実用メモをお届けします。",
+    email: "メール",
+    button: "登録する",
+    consent: "同意します:",
+    success: "ありがとうございます。登録されました。",
+    validation: "メールを入力し、プライバシーポリシーに同意してください。",
+    sending: "登録中...",
+    error: "送信できませんでした。直接メールでお問い合わせください。",
+  },
+};
+const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
 ---
 
 <footer class="site-footer">
@@ -38,9 +189,21 @@ const footerUi = content?.ui?.footer ?? {
   <div class="footer-links" aria-label="Footer links">
     <div>
       <h2>{footerUi.contact}</h2>
-      <a href="mailto:hello@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">hello@websiteli.ch</a>
-      <a href="mailto:jenifer.tabita.ciuciu.kiss@gmail.com" data-track-event="email_click" data-track-label="Footer alternate email">jenifer.tabita.ciuciu.kiss@gmail.com</a>
-      <a href={whatsappUrl} data-track-event="whatsapp_click" data-track-label="Footer WhatsApp" rel="noopener">WhatsApp</a>
+      <a href="mailto:jenifer.ciuciu-kiss@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">jenifer.ciuciu-kiss@websiteli.ch</a>
+      <a
+        class="whatsapp-link"
+        href={whatsappUrl}
+        target="_blank"
+        data-track-event="whatsapp_click"
+        data-track-label="Footer WhatsApp"
+        rel="noopener"
+        aria-label={`WhatsApp ${whatsappNumber}`}
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M16 3.2A12.7 12.7 0 0 0 5.1 22.5L3.8 29l6.7-1.2A12.7 12.7 0 1 0 16 3.2Zm0 2.3a10.4 10.4 0 0 1 8.8 15.9 10.4 10.4 0 0 1-13.9 4l-.4-.2-3.8.7.7-3.7-.2-.4A10.4 10.4 0 0 1 16 5.5Zm-4.3 5.1c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.9c.2.2 2.6 4.1 6.4 5.5 3.2 1.3 3.8 1 4.5.9.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.6.2-1.8-.1-.2-.3-.3-.7-.5l-2.3-1.1c-.3-.1-.6-.2-.8.2-.2.3-.9 1.1-1.1 1.4-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.8-1.7-1-1-1.8-2.1-2-2.5-.2-.3 0-.5.2-.7l.5-.6c.2-.2.2-.3.4-.6.1-.2.1-.4 0-.6l-1.1-2.7c-.3-.8-.6-.7-.8-.7h-.7Z" />
+        </svg>
+        <span>WhatsApp {whatsappNumber}</span>
+      </a>
     </div>
     <div>
       <h2>{footerUi.pages}</h2>
@@ -52,12 +215,32 @@ const footerUi = content?.ui?.footer ?? {
     </div>
     <div>
       <h2>{footerUi.legal}</h2>
-      <a href="/privacy/">Privacy Policy</a>
-      <a href="/impressum/">Impressum</a>
+      <a href="/privacy/">{legalLinks.privacy}</a>
+      <a href="/impressum/">{legalLinks.impressum}</a>
     </div>
     <div>
       <h2>{footerUi.social}</h2>
       <span>{footerUi.socialSoon}</span>
+    </div>
+    <div class="footer-newsletter">
+      <h2>{newsletterUi.title}</h2>
+      <p>{newsletterUi.text}</p>
+      <form data-newsletter-form novalidate>
+        <label class="website-field" aria-hidden="true">
+          Website
+          <input name="website" tabindex="-1" autocomplete="off" />
+        </label>
+        <label>
+          <span>{newsletterUi.email}</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label class="newsletter-consent">
+          <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
+          <span>{newsletterUi.consent} <a href="/privacy/" target="_blank" rel="noopener">{legalLinks.privacy}</a></span>
+        </label>
+        <button class="button secondary" type="submit">{newsletterUi.button}</button>
+        <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+      </form>
     </div>
   </div>
 
@@ -65,3 +248,92 @@ const footerUi = content?.ui?.footer ?? {
     <p>© {currentYear} Websiteli. {footerUi.rights}</p>
   </div>
 </footer>
+
+<script define:vars={{ newsletterUi }}>
+  const newsletterForm = document.querySelector("[data-newsletter-form]");
+  const newsletterStatus = document.querySelector("[data-newsletter-status]");
+
+  function getNewsletterString(formData, key) {
+    return String(formData.get(key) || "").trim();
+  }
+
+  newsletterForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    window.websiteliUpdateInquiryFields?.();
+
+    const formData = new FormData(newsletterForm);
+    const email = getNewsletterString(formData, "email");
+    const honeypot = getNewsletterString(formData, "website");
+    const privacyAccepted = getNewsletterString(formData, "privacyPolicyAccepted") === "yes";
+    const submitButton = newsletterForm.querySelector("button[type='submit']");
+
+    if (honeypot) {
+      newsletterForm.reset();
+      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
+      return;
+    }
+
+    if (!newsletterForm.checkValidity() || !email || !privacyAccepted) {
+      newsletterForm.reportValidity();
+      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.validation;
+      return;
+    }
+
+    const searchParams = new URLSearchParams(location.search);
+    const detectedCountry = window.websiteliPricing?.country || "";
+    const detectedCurrency = window.websiteliPricing?.currency || "";
+    const detectedMarket = window.websiteliPricing?.pricingMarket || "";
+    const payload = {
+      type: "newsletter",
+      email,
+      metadata: {
+        language: document.documentElement.lang,
+        country: detectedCountry,
+        currency: detectedCurrency,
+        market: detectedMarket,
+        pageUrl: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        utm_source: searchParams.get("utm_source"),
+        utm_medium: searchParams.get("utm_medium"),
+        utm_campaign: searchParams.get("utm_campaign"),
+        privacyPolicyAccepted: privacyAccepted,
+        privacyPolicyVersion: "2026-06-24",
+        privacyPolicyUrl: `${window.location.origin}/privacy/`,
+        timestamp: new Date().toISOString(),
+      },
+    };
+
+    submitButton?.setAttribute("disabled", "true");
+    if (newsletterStatus) newsletterStatus.textContent = newsletterUi.sending;
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      newsletterForm.reset();
+      window.trackWebsiteliEvent?.("newsletter_subscribe", {
+        event_category: "lead",
+        event_label: "Newsletter",
+        locale: payload.metadata.language,
+        country: payload.metadata.country,
+        pricing_market: payload.metadata.market,
+        currency: payload.metadata.currency,
+        source_path: window.location.pathname,
+        privacy_policy_accepted: "yes",
+      });
+      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
+    } catch (error) {
+      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.error;
+      console.error(error);
+    } finally {
+      submitButton?.removeAttribute("disabled");
+    }
+  });
+</script>

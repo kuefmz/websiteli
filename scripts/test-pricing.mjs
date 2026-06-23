@@ -88,6 +88,9 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   const demo = await readDistFile("en/demos/restaurant/index.html");
   const project = await readDistFile("en/example-projects/restaurant-visibility/index.html");
 
+  assert.match(contact, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
+  assert.match(contact, /type:\s*"form"/);
+  assert.match(contact, /metadata:\s*\{/);
   assert.match(contact, /name="pricingMarket"/);
   assert.match(contact, /name="currency"/);
   assert.match(contact, /name="priceShown"/);
@@ -97,6 +100,15 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /name="inquiryIntent"/);
   assert.match(demo, /demo=restaurant/);
   assert.match(project, /project=restaurant-visibility/);
+});
+
+test("newsletter signup posts to the static Google Apps Script endpoint", async () => {
+  const englishHome = await readDistFile("en/index.html");
+
+  assert.match(englishHome, /data-newsletter-form/);
+  assert.match(englishHome, /type:\s*"newsletter"/);
+  assert.match(englishHome, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
+  assert.match(englishHome, /privacyPolicyAccepted/);
 });
 
 test("localized package labels do not leak English package names in Hungarian UI", async () => {

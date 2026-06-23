@@ -30,7 +30,7 @@ const packageLabels = getPackageLabels(locale);
         <p>{content.packagesIntro.text}</p>
       </section>
       <section class="section-shell section-block compact-top">
-        <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+        <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
         <div class="pricing-grid package-grid">
           {content.packages.map((item) => {
             const packageKey = packageKeyByName[item.name];
@@ -60,7 +60,7 @@ const packageLabels = getPackageLabels(locale);
         </div>
       </section>
       <section class="section-shell section-block compact-top">
-        <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+        <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
         <div class="pricing-grid package-grid">
           {content.packages.map((item) => {
             const packageKey = packageKeyByName[item.name];

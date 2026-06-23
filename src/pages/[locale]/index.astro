@@ -48,7 +48,7 @@ const packageLabels = getPackageLabels(locale);
         <h2>{content.packagesIntro.title}</h2>
         <p>{content.packagesIntro.text}</p>
       </div>
-      <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+      <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
       <div class="pricing-grid package-grid">
         {content.packages.map((item) => {
           const packageKey = packageKeyByName[item.name];

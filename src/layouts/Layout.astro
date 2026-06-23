@@ -28,14 +28,23 @@ const {
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
-const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "G-TGZY875FGJ";
+const googleTagSnippet = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TGZY875FGJ');
+</script>`;
 const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "hello@websiteli.ch",
+    email: "jenifer.ciuciu-kiss@websiteli.ch",
+    telephone: "+41772653306",
     logo: new URL("/assets/websiteli-og.png", siteUrl).toString(),
   },
   {
@@ -43,7 +52,8 @@ const structuredData = [
     "@type": "LocalBusiness",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "hello@websiteli.ch",
+    email: "jenifer.ciuciu-kiss@websiteli.ch",
+    telephone: "+41772653306",
     areaServed: {
       "@type": "Country",
       name: "Switzerland",
@@ -75,18 +85,7 @@ const structuredData = [
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
-    {gaMeasurementId && <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>}
-    {
-      gaMeasurementId && (
-        <script is:inline define:vars={{ gaMeasurementId }}>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag("js", new Date());
-          gtag("config", gaMeasurementId);
-        </script>
-      )
-    }
+    <Fragment set:html={googleTagSnippet} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
       const storedTheme = localStorage.getItem("theme");

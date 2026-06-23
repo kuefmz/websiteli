@@ -1,22 +1,202 @@
 {
   "locale": "de",
   "language": "Deutsch",
-  "seo": {"title": "Websiteli - Schweizer Websites, Automatisierung und KI für KMU", "description": "Digitale Setup-Pakete aus der Schweiz: Website, E-Mail, Analytics, Search Console, Lead-Erfassung, Ads-Setup, Automatisierung und KI."},
-  "nav": {"home": "Home", "services": "Services", "packages": "Pakete", "demos": "Demos", "caseStudies": "Beispielprojekte", "exampleProjects": "Beispielprojekte", "about": "Über uns", "contact": "Kontakt"},
-  "hero": {"eyebrow": "IT- und KI-Agentur aus der Schweiz", "title": "Verlässliche Websites, Automatisierung und KI-Tools für kleine Unternehmen.", "text": "Websiteli baut klare digitale Grundlagen für Schweizer und deutschsprachige Unternehmen: professioneller Auftritt, saubere Technik, Datenschutzbewusstsein und lokale Unterstützung.", "primaryCta": "Kostenlosen Digital-Check anfragen", "secondaryCta": "Pakete ansehen", "trustLine": "Schweizer Standort - Saubere Umsetzung - Mehrsprachiger Support"},
-  "badges": ["Swiss-based", "AI & Data Engineering", "Schnelle Umsetzung", "Mehrsprachiger Support", "Praktische Übergabe"],
-  "intro": "Wir verkaufen nicht nur Websites. Wir verbinden Website, E-Mail, Messung, Suchmaschinen-Grundlagen und Wachstumswerkzeuge zu einem praktischen Setup.",
-  "packagesIntro": {"eyebrow": "Pakete", "title": "Ein klares digitales Setup für Ihre nächste Phase.", "text": "Starten Sie solide, erweitern Sie um Leads und Buchungen und automatisieren Sie später wiederkehrende Arbeit."},
-  "packages": [
-    {"name": "Digital Foundation", "description": "Für Unternehmen, die einen professionellen Online-Auftritt ohne unnötige Komplexität brauchen.", "cta": "Digitale Grundlage starten", "features": ["Moderne responsive Website", "Domain-E-Mail Setup", "Google Analytics Setup", "Google Search Console Setup", "Kontaktformular", "SEO-Grundlagen", "Mobile Optimierung", "Technische Basis-Übergabe"]},
-    {"name": "Growth Setup", "description": "Für Unternehmen mit Online-Präsenz, die mehr Anfragen, Buchungen und Sichtbarkeit wollen.", "cta": "Online wachsen", "highlight": true, "features": ["Alles aus der digitalen Grundlage", "Buchungsintegration", "Google Business Profile Optimierung", "Lead-Capture Formular", "Newsletter-/Kontaktlisten-Setup", "Meta/Facebook Ads Konto", "Google Ads Konto", "Conversion Tracking Grundlagen", "Wachstumsorientierte Landingpage-Bereiche"]},
-    {"name": "AI/Data Upgrade", "description": "Für Unternehmen, die Zeit sparen, Routinen automatisieren und Daten besser verstehen wollen.", "cta": "KI und Automatisierung erkunden", "features": ["Kundensupport-Chatbot", "Interner FAQ-/Suchassistent", "Analytics Dashboard", "Automatisierte Reports", "Leichte Workflow-Automation", "Lead-Qualifizierungs-Chatbot", "Daten-/KI-Beratung"]}
+  "seo": {
+    "title": "Websiteli - Schweizer Websites, Automatisierung und KI für KMU",
+    "description": "Digitale Grundlagen für Schweizer und deutschsprachige KMU: klare Websites, lokale Sichtbarkeit, Datenschutzbewusstsein, Messung, Automation und KI."
+  },
+  "nav": {
+    "home": "Startseite",
+    "services": "Leistungen",
+    "packages": "Pakete",
+    "demos": "Demos",
+    "caseStudies": "Beispielprojekte",
+    "exampleProjects": "Beispielprojekte",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "eyebrow": "Schweizer IT- und KI-Agentur für KMU",
+    "title": "Digitale Grundlagen, die für Schweizer KMU wirklich funktionieren.",
+    "text": "Websiteli hilft lokalen Dienstleistern, Praxen, Restaurants und Beratungsteams mit seriösen Websites, sauberer Technik, messbaren Anfragen und pragmatischer Automatisierung.",
+    "primaryCta": "Kostenlosen Digital-Check anfragen",
+    "secondaryCta": "Pakete vergleichen",
+    "trustLine": "Schweizer Standort - Klare Offerten - Mehrsprachige Umsetzung"
+  },
+  "badges": [
+    "Schweizer Standort",
+    "KI- und Datenentwicklung",
+    "Klare Offerten",
+    "Mehrsprachige Umsetzung",
+    "Praktische Übergabe"
   ],
-  "services": {"eyebrow": "Services", "title": "Alle Leistungen führen zu einem klaren Ergebnis.", "text": "Kein aufgeblasenes Agenturpaket, sondern eine verlässliche technische Grundlage mit sauberer Umsetzung.", "items": [{"title": "Professioneller Auftritt", "description": "Website, E-Mail, mobile Optimierung, Kontaktformulare und SEO-Basis im Digital Foundation Paket.", "package": "Digital Foundation"}, {"title": "Leads und Buchungen", "description": "Buchungen, Lead-Erfassung, Google Business Profile, Newsletter und Conversion-Basis im Growth Setup.", "package": "Growth Setup"}, {"title": "Bereit für Werbung", "description": "Meta und Google Ads Konten plus pragmatische Tracking-Grundlagen.", "package": "Growth Setup"}, {"title": "Automatisierung und KI", "description": "Chatbots, interne Assistenten, Dashboards, Reports und Workflows im AI/Data Upgrade.", "package": "AI/Data Upgrade"}]},
-  "demos": {"eyebrow": "Demos", "title": "Beispiele für typische KMU-Situationen.", "text": "Sehen Sie, wie aus einem Paket ein konkreter Kundenweg wird.", "items": [{"title": "Restaurant/Café Website", "description": "Menü, Standort, Buchungsanfrage, Google-Profil und schnelle Kontaktaktionen."}, {"title": "Website für Dienstleister", "description": "Vertrauenswürdige Leistungsseiten, Lead-Formular, Analytics und Suchmaschinen-Setup."}, {"title": "KI-Chatbot/Data Dashboard", "description": "FAQ-Assistent, Lead-Qualifizierung, Dashboard und automatische Reports."}]},
-  "caseStudies": {"eyebrow": "Demo-Projekte", "title": "Platzhalter für zukünftige Fallstudien.", "text": "Hier entstehen später Projektseiten mit Ziel, Umfang, Ablauf und Ergebnis."},
-  "about": {"eyebrow": "Über uns", "title": "Eine schlanke Schweizer Agentur von zwei technischen Gründern.", "text": "Websiteli wird von einem ungarischen und einem polnischen Gründer in der Schweiz geführt. Wir arbeiten praktisch, transparent und technisch sauber, ohne wie eine große Agentur aufzutreten."},
-  "outreach": {"headline": "Ein professioneller digitaler Auftritt für Schweizer KMU.", "pitch": "Wir helfen kleinen Unternehmen, Website, Kontaktwege, Analytics und Sichtbarkeit sauber aufzusetzen.", "painPoints": ["Der Online-Auftritt wirkt nicht mehr aktuell.", "Anfragen, Buchungen und Messung sind nicht sauber verbunden.", "Es fehlt lokale, technische Unterstützung."], "benefits": ["Verlässliches Schweizer Setup mit klarem Umfang.", "Professioneller Eindruck und bessere Kontaktwege.", "Später erweiterbar mit Ads, Automatisierung und KI."], "cta": "Kurzes Gespräch buchen", "emailSubject": "Idee für Ihr digitales Setup", "emailDraft": "Guten Tag, ich habe gesehen, dass Ihr Unternehmen von einem klareren digitalen Setup profitieren könnte: Website, Kontaktfluss, Analytics und Sichtbarkeit sauber verbunden. Websiteli ist ein Schweizer Team für praktische Websites, Automatisierung und KI. Darf ich Ihnen einen kostenlosen kurzen Digital-Check vorschlagen?"},
-  "contact": {"eyebrow": "Kontakt", "title": "Sagen Sie uns, was Sie verbessern möchten.", "text": "Fordern Sie einen kostenlosen Digital-Check oder einen konkreten Setup-Plan an.", "button": "Anfrage senden"},
-  "ui": {"pricingNote": "Preise werden automatisch anhand Ihres Standorts angezeigt. Finales Angebot nach kurzer Beratung.", "coreBadge": "Zentrales Wachstumspaket", "outreachEyebrow": "Outreach", "painPoints": "Schmerzpunkte", "benefits": "Vorteile", "heroCardWebsite": "Website", "heroCardLeads": "Leadbereit", "heroCardAi": "KI & Daten", "heroCardUpgrade": "Ausbaupfad", "heroImageLabel": "Websiteli Digital-Setup Visual", "form": {"website": "Website", "name": "Name", "email": "E-Mail", "phone": "Telefon", "company": "Unternehmen", "project": "Was benötigen Sie?", "custom": "Individuelle Anfrage", "message": "Nachricht", "messagePlaceholder": "Erzählen Sie uns kurz von Ihrem Unternehmen und was Sie verbessern möchten.", "thankYou": "Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns bald.", "validation": "Bitte füllen Sie Name, E-Mail und Nachricht aus.", "disconnected": "Das Formular ist noch nicht verbunden. Bitte schreiben Sie uns direkt per E-Mail.", "sending": "Wird gesendet...", "error": "Etwas ist schiefgelaufen. Bitte schreiben Sie uns direkt per E-Mail."}, "footer": {"contact": "Kontakt", "pages": "Seiten", "legal": "Rechtliches", "social": "Social", "socialSoon": "Links folgen bald", "rights": "Alle Rechte vorbehalten."}}
+  "intro": "Wir bauen nicht einfach eine Website. Wir schaffen eine verlässliche digitale Grundlage mit E-Mail, Messung, lokaler Suche, Kontaktwegen und einem Ausbaupfad für Automation und KI.",
+  "packagesIntro": {
+    "eyebrow": "Pakete",
+    "title": "Drei klare Pakete für typische KMU-Phasen.",
+    "text": "Erst Vertrauen und Auffindbarkeit schaffen, dann Anfragen und Buchungen steigern, später wiederkehrende Arbeit automatisieren."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "Für Unternehmen, die einen professionellen Online-Auftritt ohne unnötige Komplexität brauchen.",
+      "cta": "Digitale Grundlage starten",
+      "features": [
+        "Moderne responsive Website",
+        "Domain-E-Mail-Einrichtung",
+        "Google-Analytics-Einrichtung",
+        "Google-Search-Console-Einrichtung",
+        "Kontaktformular",
+        "SEO-Grundlagen",
+        "Mobile Optimierung",
+        "Technische Basis-Übergabe"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "Für Unternehmen mit Online-Präsenz, die mehr Anfragen, Buchungen und Sichtbarkeit wollen.",
+      "cta": "Online wachsen",
+      "highlight": true,
+      "features": [
+        "Alles aus der digitalen Grundlage",
+        "Buchungsintegration",
+        "Google Business Profile Optimierung",
+        "Lead-Erfassungsformular",
+        "Newsletter- und Kontaktlisten-Einrichtung",
+        "Meta/Facebook Ads Konto",
+        "Google Ads Konto",
+        "Conversion-Tracking-Grundlagen",
+        "Wachstumsorientierte Landingpage-Bereiche"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "Für Unternehmen, die Zeit sparen, Routinen automatisieren und Daten besser verstehen wollen.",
+      "cta": "KI und Automatisierung erkunden",
+      "features": [
+        "Kundensupport-Chatbot",
+        "Interner FAQ-/Suchassistent",
+        "Analytics-Dashboard",
+        "Automatisierte Berichte",
+        "Einfache Workflow-Automatisierung",
+        "Lead-Qualifizierungs-Chatbot",
+        "Daten-/KI-Beratung"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "Leistungen",
+    "title": "Alle Leistungen führen zu einem klaren Ergebnis.",
+    "text": "Kein aufgeblasenes Agenturpaket, sondern eine verlässliche technische Grundlage mit sauberer Umsetzung.",
+    "items": [
+      {
+        "title": "Professioneller Auftritt",
+        "description": "Website, E-Mail, mobile Optimierung, Kontaktformulare und SEO-Basis im Digitale Grundlage Paket.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leads und Buchungen",
+        "description": "Buchungen, Lead-Erfassung, Google Business Profile, Newsletter und Conversion-Basis im Wachstums-Setup.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Bereit für Werbung",
+        "description": "Meta und Google Ads Konten plus pragmatische Tracking-Grundlagen.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automatisierung und KI",
+        "description": "Chatbots, interne Assistenten, Dashboards, Berichte und Arbeitsabläufe im KI- und Daten-Upgrade.",
+        "package": "AI/Data Upgrade"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "Demos",
+    "title": "Beispiele für typische KMU-Situationen.",
+    "text": "Sehen Sie, wie aus einem Paket ein konkreter Kundenweg wird.",
+    "items": [
+      {
+        "title": "Restaurant/Café Website",
+        "description": "Menü, Standort, Buchungsanfrage, Google-Profil und schnelle Kontaktaktionen."
+      },
+      {
+        "title": "Website für Dienstleister",
+        "description": "Vertrauenswürdige Leistungsseiten, Lead-Formular, Analytics und Suchmaschinen-Setup."
+      },
+      {
+        "title": "KI-Chatbot / Daten-Dashboard",
+        "description": "FAQ-Assistent, Lead-Qualifizierung, Dashboard und automatische Berichte."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Demo-Projekte",
+    "title": "Platzhalter für zukünftige Fallstudien.",
+    "text": "Hier entstehen später Projektseiten mit Ziel, Umfang, Ablauf und Ergebnis."
+  },
+  "about": {
+    "eyebrow": "Über uns",
+    "title": "Eine schlanke Schweizer Agentur von zwei technischen Gründern.",
+    "text": "Websiteli wird von einem ungarischen und einem polnischen Gründer in der Schweiz geführt. Wir arbeiten praktisch, transparent und technisch sauber, ohne wie eine große Agentur aufzutreten."
+  },
+  "outreach": {
+    "headline": "Ein professioneller digitaler Auftritt für Schweizer KMU.",
+    "pitch": "Für Unternehmen, die online vertrauenswürdig wirken, lokal gefunden werden und Anfragen sauber messen möchten.",
+    "painPoints": [
+      "Die Website wirkt nicht mehr zeitgemäss oder nicht vertrauensbildend genug.",
+      "Anfragen, Buchungen und Messung sind nicht sauber verbunden.",
+      "Es fehlt ein technischer Partner, der klein genug für KMU und sauber genug für Wachstum ist."
+    ],
+    "benefits": [
+      "Seriöser Auftritt mit klarer Struktur und lokaler Suchbasis.",
+      "Messbare Kontaktwege statt nur schöner Seiten.",
+      "Später erweiterbar mit Ads, Dashboards, Automation und KI."
+    ],
+    "cta": "Kurzes Gespräch buchen",
+    "emailSubject": "Idee für Ihr digitales Setup",
+    "emailDraft": "Guten Tag, ich habe gesehen, dass Ihr Unternehmen von einer klareren digitalen Grundlage profitieren könnte: Website, Kontaktfluss, lokale Sichtbarkeit und Messung sauber verbunden. Websiteli ist ein Schweizer Team für praktische Websites, Automatisierung und KI. Darf ich Ihnen einen kostenlosen kurzen Digital-Check vorschlagen?"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Sagen Sie uns, was Sie verbessern möchten.",
+    "text": "Fordern Sie einen kostenlosen Digital-Check oder einen konkreten Setup-Plan an.",
+    "button": "Anfrage senden"
+  },
+  "ui": {
+    "pricingNote": "Finales Angebot nach kurzer Beratung.",
+    "coreBadge": "Zentrales Wachstumspaket",
+    "outreachEyebrow": "Kontaktaufnahme",
+    "painPoints": "Schmerzpunkte",
+    "benefits": "Vorteile",
+    "heroCardWebsite": "Website",
+    "heroCardLeads": "Leadbereit",
+    "heroCardAi": "KI & Daten",
+    "heroCardUpgrade": "Ausbaupfad",
+    "heroImageLabel": "Websiteli Visual für digitales Setup",
+    "form": {
+      "website": "Website",
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "company": "Unternehmen",
+      "project": "Was benötigen Sie?",
+      "custom": "Individuelle Anfrage",
+      "message": "Nachricht",
+      "messagePlaceholder": "Erzählen Sie uns kurz von Ihrem Unternehmen und was Sie verbessern möchten.",
+      "thankYou": "Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns bald.",
+      "validation": "Bitte füllen Sie Name, E-Mail und Nachricht aus.",
+      "disconnected": "Das Formular ist noch nicht verbunden. Bitte schreiben Sie uns direkt per E-Mail.",
+      "sending": "Wird gesendet...",
+      "error": "Etwas ist schiefgelaufen. Bitte schreiben Sie uns direkt per E-Mail."
+    },
+    "footer": {
+      "contact": "Kontakt",
+      "pages": "Seiten",
+      "legal": "Rechtliches",
+      "social": "Soziales",
+      "socialSoon": "Links folgen bald",
+      "rights": "Alle Rechte vorbehalten."
+    }
+  }
 }

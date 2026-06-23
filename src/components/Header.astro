@@ -29,20 +29,35 @@ const navItems = [
 ];
 const quoteHref = `/${locale}/contact/`;
 const switchPage = page === "home" || page in pageNavKeys ? page : "home";
+const headerLabels = {
+  en: { mainNav: "Main navigation", language: "Language switcher", openMenu: "Open menu", mobileNav: "Mobile navigation", home: "websiteli.ch home" },
+  de: { mainNav: "Hauptnavigation", language: "Sprachauswahl", openMenu: "Menü öffnen", mobileNav: "Mobile Navigation", home: "websiteli.ch Startseite" },
+  hu: { mainNav: "Fő navigáció", language: "Nyelvválasztó", openMenu: "Menü megnyitása", mobileNav: "Mobil navigáció", home: "websiteli.ch kezdőlap" },
+  pl: { mainNav: "Nawigacja główna", language: "Wybór języka", openMenu: "Otwórz menu", mobileNav: "Nawigacja mobilna", home: "strona główna websiteli.ch" },
+  es: { mainNav: "Navegación principal", language: "Selector de idioma", openMenu: "Abrir menú", mobileNav: "Navegación móvil", home: "inicio de websiteli.ch" },
+  fr: { mainNav: "Navigation principale", language: "Sélecteur de langue", openMenu: "Ouvrir le menu", mobileNav: "Navigation mobile", home: "accueil websiteli.ch" },
+  it: { mainNav: "Navigazione principale", language: "Selettore lingua", openMenu: "Apri menu", mobileNav: "Navigazione mobile", home: "home websiteli.ch" },
+  cz: { mainNav: "Hlavní navigace", language: "Výběr jazyka", openMenu: "Otevřít menu", mobileNav: "Mobilní navigace", home: "domů websiteli.ch" },
+  pt: { mainNav: "Navegação principal", language: "Seletor de idioma", openMenu: "Abrir menu", mobileNav: "Navegação móvel", home: "início websiteli.ch" },
+  da: { mainNav: "Hovednavigation", language: "Sprogvælger", openMenu: "Åbn menu", mobileNav: "Mobilnavigation", home: "websiteli.ch forside" },
+  nl: { mainNav: "Hoofdnavigatie", language: "Taalkeuze", openMenu: "Menu openen", mobileNav: "Mobiele navigatie", home: "websiteli.ch startpagina" },
+  ja: { mainNav: "メインナビゲーション", language: "言語切り替え", openMenu: "メニューを開く", mobileNav: "モバイルナビゲーション", home: "websiteli.ch ホーム" },
+} as const;
+const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLabels.en;
 ---
 
 <header class="site-header" data-header>
-  <a class="brand" href={`/${locale}/`} aria-label="websiteli.ch home">
+  <a class="brand" href={`/${locale}/`} aria-label={headerCopy.home}>
     <span class="brand-mark">w</span>
     <span>websiteli.ch</span>
   </a>
 
-  <nav class="desktop-nav" aria-label="Main navigation">
+  <nav class="desktop-nav" aria-label={headerCopy.mainNav}>
     {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   </nav>
 
   <div class="header-actions">
-    <div class="language-switcher" aria-label="Language switcher">
+    <div class="language-switcher" aria-label={headerCopy.language}>
       <button type="button" aria-expanded="false" data-language-toggle>{locale.toUpperCase()}</button>
       <div class="language-menu" data-language-menu>
         {
@@ -52,16 +67,16 @@ const switchPage = page === "home" || page in pageNavKeys ? page : "home";
         }
       </div>
     </div>
-    <ThemeToggle />
+    <ThemeToggle locale={locale} />
     <a class="header-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Header quote">{nav.contact}</a>
-    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+    <button class="menu-toggle" type="button" aria-label={headerCopy.openMenu} aria-expanded="false" data-menu-toggle>
       <span></span>
       <span></span>
     </button>
   </div>
 </header>
 
-<nav class="mobile-nav" aria-label="Mobile navigation" data-mobile-nav>
+<nav class="mobile-nav" aria-label={headerCopy.mobileNav} data-mobile-nav>
   {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   <div class="mobile-languages">
     {localeCodes.map((code) => <a href={getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
