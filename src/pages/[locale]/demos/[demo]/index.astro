@@ -1,0 +1,117 @@
+---
+import CTASection from "../../../../components/CTASection.astro";
+import Layout from "../../../../layouts/Layout.astro";
+import { demos as demoConfig } from "../../../../config/demos";
+import { getDemo, getDemoPageContent, demoSlugs, type DemoSlug } from "../../../../content/demos";
+import { getExampleProject } from "../../../../content/example-projects";
+import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => demoSlugs.map((demo) => ({ params: { locale, demo } })));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const demoSlug = Astro.params.demo as DemoSlug;
+const content = getLocaleContent(locale);
+const demoPage = getDemoPageContent(locale);
+const demo = getDemo(locale, demoSlug);
+const relatedProject = getExampleProject(locale, demo.relatedProject);
+const configKey =
+  demoSlug === "local-service"
+    ? "localService"
+    : demoSlug === "ai-assistant"
+      ? "aiAssistant"
+      : demoSlug === "analytics-dashboard"
+        ? "analyticsDashboard"
+        : demoSlug;
+const liveUrl = demoConfig[configKey].liveUrl;
+const contactUrl = `/${locale}/contact/?package=${encodeURIComponent(demo.recommendedPackage === "Growth Setup" ? "growthSetup" : "aiDataUpgrade")}&demo=${demo.slug}&sourcePage=${encodeURIComponent(Astro.url.pathname)}&intent=similar_website`;
+const callUrl = `/${locale}/contact/?package=${encodeURIComponent(demo.recommendedPackage === "Growth Setup" ? "growthSetup" : "aiDataUpgrade")}&demo=${demo.slug}&sourcePage=${encodeURIComponent(Astro.url.pathname)}&intent=discovery_call`;
+const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/demos/${demoSlug}/` }));
+const title = `${demo.title} - Websiteli`;
+const description = `${demo.shortDescription} ${demoPage.seo.keywords}.`;
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={`/${locale}/demos/${demoSlug}/`}
+  lang={locale}
+  locale={locale}
+  page="demos"
+  alternates={alternates}
+  content={content}
+>
+  <main class="subpage">
+    <section class="section-shell page-hero detail-hero">
+      <p class="eyebrow">{demoPage.eyebrow}</p>
+      <h1>{demo.title}</h1>
+      <p>{demo.shortDescription}</p>
+      <div class="button-row">
+        <a
+          class="button primary"
+          href={liveUrl}
+          target="_blank"
+          rel="noopener"
+          data-demo-open
+          data-demo-type={demo.type}
+          data-source-page={Astro.url.pathname}
+        >
+          {demoPage.labels.viewLiveDemo}
+        </a>
+        <a class="button secondary" href={contactUrl}>{demoPage.labels.requestSimilar}</a>
+      </div>
+    </section>
+
+    <section class="section-shell detail-layout">
+      <article class="detail-panel">
+        <h2>{demoPage.labels.for}</h2>
+        <p>{demo.forText}</p>
+      </article>
+      <article class="detail-panel">
+        <h2>{demoPage.labels.recommendedPackage}</h2>
+        <p>{demoPage.packageNames[demo.recommendedPackage]}</p>
+      </article>
+      <article class="detail-panel">
+        <h2>{demoPage.labels.commonChallenges}</h2>
+        <ul class="feature-list">
+          {demo.challenges.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel">
+        <h2>{demoPage.labels.included}</h2>
+        <ul class="feature-list">
+          {demo.included.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel wide">
+        <h2>{demoPage.labels.businessImpact}</h2>
+        <p>{demo.whyItMatters}</p>
+      </article>
+      <article class="detail-panel wide">
+        <h2>{demoPage.labels.viewAnalysis}</h2>
+        <p>{relatedProject.title}</p>
+        <a href={`/${locale}/example-projects/${relatedProject.slug}/`}>{demoPage.labels.viewAnalysis}</a>
+      </article>
+    </section>
+
+    <section class="section-shell inline-cta">
+      <a class="button primary" href={contactUrl}>{demoPage.labels.primaryCta}</a>
+      <a class="button secondary" href={callUrl}>{demoPage.labels.secondaryCta}</a>
+    </section>
+
+    <CTASection content={content} />
+  </main>
+</Layout>
+
+<script define:vars={{ locale }}>
+  document.querySelectorAll("[data-demo-open]").forEach((link) => {
+    link.addEventListener("click", () => {
+      window.trackWebsiteliEvent?.("demo_open", {
+        locale,
+        demo_type: link.dataset.demoType,
+        source_page: link.dataset.sourcePage || window.location.pathname,
+      });
+    });
+  });
+</script>

@@ -1,0 +1,100 @@
+{
+  "locale": "en",
+  "language": "English",
+  "seo": {
+    "title": "Websiteli - Swiss Websites, Automation and AI for Small Businesses",
+    "description": "Swiss-based digital setup packages for small businesses: modern websites, analytics, lead capture, ads setup, automation and practical AI upgrades."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "packages": "Packages",
+    "demos": "Demos",
+    "caseStudies": "Example Projects",
+    "exampleProjects": "Example Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Swiss-based IT and AI agency",
+    "title": "Websites, automation and AI tools for small businesses that want to move faster.",
+    "text": "Websiteli builds complete digital setup packages for international small businesses, startups, freelancers and service providers who need a professional online presence without building an internal IT team.",
+    "primaryCta": "Request a free digital audit",
+    "secondaryCta": "See packages",
+    "trustLine": "Swiss-based - AI and data engineering expertise - Multilingual support"
+  },
+  "badges": ["Swiss-based", "AI & data engineering expertise", "Fast implementation", "Multilingual support", "Practical handover"],
+  "intro": "We do not sell just websites. We set up the digital basics your business needs to look professional, get leads, understand traffic and grow into automation.",
+  "packagesIntro": {
+    "eyebrow": "Core packages",
+    "title": "Choose the right digital setup for your next stage.",
+    "text": "Start with a professional foundation, add growth systems, then upgrade repetitive work with AI and data tools."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "For businesses that need a professional online presence without unnecessary complexity.",
+      "cta": "Get your digital foundation",
+      "features": ["Modern responsive website", "Domain email setup", "Google Analytics setup", "Google Search Console setup", "Contact form", "SEO basics", "Mobile optimization", "Basic technical handover"]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "For businesses that already have some online presence but want more leads, bookings and visibility.",
+      "cta": "Start growing online",
+      "highlight": true,
+      "features": ["Everything in Digital Foundation", "Booking integration", "Google Business Profile optimization", "Lead capture form", "Newsletter/contact list setup", "Meta/Facebook ad account setup", "Google Ads account setup", "Conversion tracking basics", "Growth-focused landing page sections"]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "For businesses that want to save time, automate repetitive work and understand their data better.",
+      "cta": "Explore AI and automation",
+      "features": ["Customer support chatbot", "Internal FAQ/search assistant", "Analytics dashboard", "Automated reports", "Lightweight workflow automation", "Lead qualification chatbot", "Data/AI consultation"]
+    }
+  ],
+  "services": {
+    "eyebrow": "Services",
+    "title": "Every service maps back to a clear business outcome.",
+    "text": "We keep the offer simple so your project does not turn into an endless list of disconnected tasks.",
+    "items": [
+      {"title": "Professional online presence", "description": "Website, domain email, mobile optimization, contact forms and SEO basics through Digital Foundation.", "package": "Digital Foundation"},
+      {"title": "Lead and booking setup", "description": "Booking flows, lead capture, Google Business Profile, newsletter setup and conversion basics through Growth Setup.", "package": "Growth Setup"},
+      {"title": "Advertising readiness", "description": "Meta and Google Ads account setup with practical tracking foundations through Growth Setup.", "package": "Growth Setup"},
+      {"title": "Automation and AI", "description": "Chatbots, internal assistants, dashboards, reporting and workflow automation through AI/Data Upgrade.", "package": "AI/Data Upgrade"}
+    ]
+  },
+  "demos": {
+    "eyebrow": "Demos",
+    "title": "Demo projects for common small-business needs.",
+    "text": "Use these examples to see how a package can become a practical customer journey.",
+    "items": [
+      {"title": "Restaurant/cafe website", "description": "Menu, location, booking request, Google profile basics and mobile-first contact actions."},
+      {"title": "Professional services website", "description": "Credible service pages, lead form, analytics, search setup and conversion-focused structure."},
+      {"title": "AI chatbot/data dashboard", "description": "FAQ assistant, lead qualification, analytics dashboard and recurring report automation."}
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Demo projects",
+    "title": "Case study placeholders ready for real client work.",
+    "text": "These project formats will later become detailed proof pages with goals, scope, timeline and outcomes."
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "A lean Swiss-based agency run by two technical founders.",
+    "text": "Websiteli is built by a Hungarian and a Polish founder based in Switzerland. We combine software engineering, data and AI skills with practical small-business execution: clear scope, fast implementation and a handover you can actually use."
+  },
+  "outreach": {
+    "headline": "A faster digital setup for small businesses ready to look professional.",
+    "pitch": "We help international small businesses launch or improve the practical systems behind a modern online presence.",
+    "painPoints": ["Your website does not clearly convert visitors into leads.", "Analytics and search tools are missing or confusing.", "Manual admin work slows down customer follow-up."],
+    "benefits": ["Launch with website, email, analytics and search basics connected.", "Add booking, lead capture and ad accounts when growth matters.", "Upgrade repetitive work with practical AI and dashboards."],
+    "cta": "Book a quick call",
+    "emailSubject": "Quick digital setup idea for your business",
+    "emailDraft": "Hi, I noticed your business could benefit from a clearer digital setup: website, contact flow, analytics and lead capture working together. Websiteli is a Swiss-based team helping small businesses launch these foundations quickly, then add automation when useful. Would you like a short free digital audit?"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Tell us what you want to improve.",
+    "text": "Request a free digital audit or ask for a setup plan. We will reply with practical next steps.",
+    "button": "Send request"
+  }
+}

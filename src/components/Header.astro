@@ -1,10 +1,38 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
-import { navItems } from "../content/site";
+import { getLocalizedPath, localeCodes, pageNavKeys } from "../content/locales";
+
+interface Props {
+  content?: any;
+  locale?: string;
+  page?: string;
+}
+
+const { content, locale = "en", page = "home" } = Astro.props;
+const nav = content?.nav ?? {
+  home: "Home",
+  services: "Services",
+  packages: "Packages",
+  demos: "Demos",
+  exampleProjects: "Example Projects",
+  about: "About",
+  contact: "Contact",
+};
+const exampleProjectsLabel = nav.exampleProjects ?? nav.caseStudies ?? "Example Projects";
+const navItems = [
+  { label: nav.home, href: `/${locale}/` },
+  { label: nav.services, href: `/${locale}/services/` },
+  { label: nav.packages, href: `/${locale}/packages/` },
+  { label: nav.demos, href: `/${locale}/demos/` },
+  { label: exampleProjectsLabel, href: `/${locale}/example-projects/` },
+  { label: nav.about, href: `/${locale}/about/` },
+];
+const quoteHref = `/${locale}/contact/`;
+const switchPage = page === "home" || page in pageNavKeys ? page : "home";
 ---
 
 <header class="site-header" data-header>
-  <a class="brand" href="#home" aria-label="websiteli.ch home">
+  <a class="brand" href={`/${locale}/`} aria-label="websiteli.ch home">
     <span class="brand-mark">w</span>
     <span>websiteli.ch</span>
   </a>
@@ -14,8 +42,18 @@ import { navItems } from "../content/site";
   </nav>
 
   <div class="header-actions">
+    <div class="language-switcher" aria-label="Language switcher">
+      <button type="button" aria-expanded="false" data-language-toggle>{locale.toUpperCase()}</button>
+      <div class="language-menu" data-language-menu>
+        {
+          localeCodes.map((code) => (
+            <a href={getLocalizedPath(code, switchPage as any)} aria-current={code === locale ? "true" : undefined}>{code.toUpperCase()}</a>
+          ))
+        }
+      </div>
+    </div>
     <ThemeToggle />
-    <a class="header-quote" href="#contact" data-track-event="quote_button_click" data-track-label="Header quote">Free quote</a>
+    <a class="header-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Header quote">{nav.contact}</a>
     <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
       <span></span>
       <span></span>
@@ -25,7 +63,10 @@ import { navItems } from "../content/site";
 
 <nav class="mobile-nav" aria-label="Mobile navigation" data-mobile-nav>
   {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
-  <a class="mobile-quote" href="#contact" data-track-event="quote_button_click" data-track-label="Mobile quote">Get a free quote</a>
+  <div class="mobile-languages">
+    {localeCodes.map((code) => <a href={getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
+  </div>
+  <a class="mobile-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Mobile quote">{nav.contact}</a>
 </nav>
 
 <script>
@@ -73,5 +114,9 @@ import { navItems } from "../content/site";
       mobileNav.classList.remove("is-open");
       menuToggle?.setAttribute("aria-expanded", "false");
     }
+  });
+
+  document.querySelector("[data-language-toggle]")?.addEventListener("click", () => {
+    document.querySelector("[data-language-menu]")?.classList.toggle("is-open");
   });
 </script>

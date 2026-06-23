@@ -1,0 +1,108 @@
+---
+import CTASection from "../../components/CTASection.astro";
+import LocalizedHero from "../../components/LocalizedHero.astro";
+import OutreachBlock from "../../components/OutreachBlock.astro";
+import PackageCard from "../../components/PackageCard.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getPackageLabels } from "../../config/packageLabels";
+import { packageKeyByName } from "../../config/pricing";
+import { getDemoPageContent } from "../../content/demos";
+import { getAlternates, getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../content/locales";
+
+export function getStaticPaths() {
+  return localeCodes.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const content = getLocaleContent(locale);
+const demoContent = getDemoPageContent(locale);
+const contactHref = getLocalizedPath(locale, "contact");
+const packageLabels = getPackageLabels(locale);
+---
+
+<Layout
+  title={content.seo.title}
+  description={content.seo.description}
+  canonicalPath={getLocalizedPath(locale)}
+  lang={locale}
+  locale={locale}
+  page="home"
+  alternates={getAlternates("home")}
+  content={content}
+>
+  <main>
+    <LocalizedHero hero={content.hero} packagesHref={getLocalizedPath(locale, "packages")} contactHref={contactHref} ui={content.ui} />
+
+    <section class="intro-strip" aria-label="Websiteli positioning">
+      <p>{content.intro}</p>
+    </section>
+
+    <section class="section-shell badge-strip" aria-label="Credibility points">
+      {content.badges.map((badge) => <span>{badge}</span>)}
+    </section>
+
+    <section class="section-shell section-block" id="packages">
+      <div class="section-heading centered">
+        <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
+        <h2>{content.packagesIntro.title}</h2>
+        <p>{content.packagesIntro.text}</p>
+      </div>
+      <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+      <div class="pricing-grid package-grid">
+        {content.packages.map((item) => {
+          const packageKey = packageKeyByName[item.name];
+          return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
+        })}
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top" id="services">
+      <div class="section-heading">
+        <p class="eyebrow">{content.services.eyebrow}</p>
+        <h2>{content.services.title}</h2>
+        <p>{content.services.text}</p>
+      </div>
+      <div class="service-grid">
+        {content.services.items.map((service, index) => {
+          const packageKey = service.package ? packageKeyByName[service.package] : undefined;
+          return <ServiceCard {...service} displayPackage={packageKey ? packageLabels[packageKey] : service.package} index={index + 1} />;
+        })}
+      </div>
+    </section>
+
+    <section class="why-section">
+      <div class="section-shell why-inner">
+        <div class="section-heading">
+          <p class="eyebrow">{content.about.eyebrow}</p>
+          <h2>{content.about.title}</h2>
+          <p>{content.about.text}</p>
+        </div>
+        <div class="reason-grid">
+          {content.badges.map((badge) => <div>{badge}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell section-block" id="demos">
+      <div class="section-heading centered">
+        <p class="eyebrow">{demoContent.eyebrow}</p>
+        <h2>{demoContent.title}</h2>
+        <p>{demoContent.text}</p>
+      </div>
+      <div class="demo-grid">
+        {Object.values(demoContent.items).slice(0, 3).map((item) => (
+          <article class="demo-card">
+            <div class="demo-media" aria-hidden="true"></div>
+            <h3>{item.title}</h3>
+            <p>{item.shortDescription}</p>
+            <a href={`/${locale}/demos/${item.slug}/`}>{demoContent.labels.learnMore}</a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
+    <CTASection content={content} />
+  </main>
+</Layout>

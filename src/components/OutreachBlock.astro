@@ -1,0 +1,48 @@
+---
+interface Props {
+  outreach: {
+    headline: string;
+    pitch: string;
+    painPoints: string[];
+    benefits: string[];
+    cta: string;
+    emailSubject: string;
+    emailDraft: string;
+  };
+  contactHref: string;
+  ui?: {
+    outreachEyebrow?: string;
+    painPoints?: string;
+    benefits?: string;
+  };
+}
+
+const { outreach, contactHref, ui } = Astro.props;
+---
+
+<section class="section-shell section-block outreach-block">
+  <div class="section-heading">
+    <p class="eyebrow">{ui?.outreachEyebrow ?? "Outreach"}</p>
+    <h2>{outreach.headline}</h2>
+    <p>{outreach.pitch}</p>
+  </div>
+  <div class="outreach-grid">
+    <article>
+      <h3>{ui?.painPoints ?? "Pain points"}</h3>
+      <ul>
+        {outreach.painPoints.map((item) => <li>{item}</li>)}
+      </ul>
+    </article>
+    <article>
+      <h3>{ui?.benefits ?? "Benefits"}</h3>
+      <ul>
+        {outreach.benefits.map((item) => <li>{item}</li>)}
+      </ul>
+    </article>
+    <article class="email-draft">
+      <h3>{outreach.emailSubject}</h3>
+      <p>{outreach.emailDraft}</p>
+      <a class="button primary" href={contactHref}>{outreach.cta}</a>
+    </article>
+  </div>
+</section>

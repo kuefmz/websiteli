@@ -1,0 +1,55 @@
+---
+interface Props {
+  hero: {
+    eyebrow: string;
+    title: string;
+    text: string;
+    primaryCta: string;
+    secondaryCta: string;
+    trustLine: string;
+  };
+  packagesHref: string;
+  contactHref: string;
+  ui?: {
+    heroCardWebsite?: string;
+    heroCardLeads?: string;
+    heroCardAi?: string;
+    heroCardUpgrade?: string;
+    heroImageLabel?: string;
+  };
+}
+
+const { hero, packagesHref, contactHref, ui } = Astro.props;
+---
+
+<section class="hero section-shell" id="home">
+  <div class="hero-copy">
+    <p class="eyebrow">{hero.eyebrow}</p>
+    <h1>{hero.title}</h1>
+    <p class="hero-text">{hero.text}</p>
+    <div class="hero-actions">
+      <a class="button primary" href={contactHref} data-track-event="hero_audit_click" data-track-label={hero.primaryCta}>{hero.primaryCta}</a>
+      <a class="button secondary" href={packagesHref}>{hero.secondaryCta}</a>
+    </div>
+    <p class="trust-line">{hero.trustLine}</p>
+  </div>
+
+  <div class="hero-media" aria-label={ui?.heroImageLabel ?? "Websiteli digital setup visual"}>
+    <img
+      src="/assets/swiss-ai-websites-hero.png"
+      alt="Modern website panels, analytics and automation tools"
+      width="1672"
+      height="941"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="floating-card card-one">
+      <span>{ui?.heroCardWebsite ?? "Website"}</span>
+      <strong>{ui?.heroCardLeads ?? "Leads ready"}</strong>
+    </div>
+    <div class="floating-card card-two">
+      <span>{ui?.heroCardAi ?? "AI & data"}</span>
+      <strong>{ui?.heroCardUpgrade ?? "Upgrade path"}</strong>
+    </div>
+  </div>
+</section>

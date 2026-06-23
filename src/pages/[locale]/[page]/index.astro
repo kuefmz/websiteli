@@ -1,0 +1,53 @@
+---
+import PageSections from "../../../components/PageSections.astro";
+import Layout from "../../../layouts/Layout.astro";
+import {
+  getAlternates,
+  getLocaleContent,
+  getLocalizedPath,
+  localeCodes,
+  pageNavKeys,
+  pageSlugs,
+  type LocaleCode,
+  type PageSlug,
+} from "../../../content/locales";
+import { getDemoPageContent } from "../../../content/demos";
+import { getExampleProjectPageContent } from "../../../content/example-projects";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => pageSlugs.map((page) => ({ params: { locale, page } })));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const page = Astro.params.page as PageSlug;
+const content = getLocaleContent(locale);
+const demoContent = getDemoPageContent(locale);
+const projectContent = getExampleProjectPageContent(locale);
+const label = content.nav[pageNavKeys[page]] ?? (page === "example-projects" ? projectContent.eyebrow : page);
+const title = page === "demos" ? demoContent.seo.title : page === "example-projects" ? projectContent.seo.title : `${label} - Websiteli`;
+const description =
+  page === "packages"
+    ? content.packagesIntro.text
+    : page === "services"
+      ? content.services.text
+      : page === "demos"
+        ? demoContent.seo.description
+        : page === "example-projects"
+          ? projectContent.seo.description
+          : page === "about"
+            ? content.about.text
+            : content.contact.text;
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={getLocalizedPath(locale, page)}
+  lang={locale}
+  locale={locale}
+  page={page}
+  alternates={getAlternates(page)}
+  content={content}
+>
+  <PageSections content={content} page={page} locale={locale} />
+</Layout>

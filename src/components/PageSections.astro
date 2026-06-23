@@ -1,0 +1,164 @@
+---
+import CTASection from "./CTASection.astro";
+import OutreachBlock from "./OutreachBlock.astro";
+import PackageCard from "./PackageCard.astro";
+import ServiceCard from "./ServiceCard.astro";
+import { packageKeyByName } from "../config/pricing";
+import { getPackageLabels } from "../config/packageLabels";
+import { getDemoPageContent } from "../content/demos";
+import { getExampleProjectPageContent } from "../content/example-projects";
+
+interface Props {
+  content: any;
+  page: "services" | "packages" | "demos" | "example-projects" | "about" | "contact";
+  locale: string;
+}
+
+const { content, page, locale } = Astro.props;
+const contactHref = `/${locale}/contact/`;
+const demoContent = getDemoPageContent(locale as any);
+const projectContent = getExampleProjectPageContent(locale as any);
+const packageLabels = getPackageLabels(locale);
+---
+
+{
+  page === "packages" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
+        <h1>{content.packagesIntro.title}</h1>
+        <p>{content.packagesIntro.text}</p>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+        <div class="pricing-grid package-grid">
+          {content.packages.map((item) => {
+            const packageKey = packageKeyByName[item.name];
+            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
+          })}
+        </div>
+      </section>
+      <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
+    </main>
+  )
+}
+
+{
+  page === "services" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{content.services.eyebrow}</p>
+        <h1>{content.services.title}</h1>
+        <p>{content.services.text}</p>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <div class="service-grid">
+          {content.services.items.map((service, index) => {
+            const packageKey = service.package ? packageKeyByName[service.package] : undefined;
+            return <ServiceCard {...service} displayPackage={packageKey ? packageLabels[packageKey] : service.package} index={index + 1} />;
+          })}
+        </div>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <p class="pricing-note">{content.ui?.pricingNote ?? "Prices are shown automatically for your location. Final quote after a short consultation."}</p>
+        <div class="pricing-grid package-grid">
+          {content.packages.map((item) => {
+            const packageKey = packageKeyByName[item.name];
+            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
+          })}
+        </div>
+      </section>
+    </main>
+  )
+}
+
+{
+  page === "demos" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{demoContent.eyebrow}</p>
+        <h1>{demoContent.title}</h1>
+        <p>{demoContent.text}</p>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <div class="demo-grid">
+          {Object.values(demoContent.items).map((item) => (
+            <article class="demo-card solution-card">
+              <div class="demo-media" aria-hidden="true"></div>
+              <h3>{item.title}</h3>
+              <p>{item.shortDescription}</p>
+              <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong> {demoContent.packageNames[item.recommendedPackage]}</p>
+              <ul class="compact-list">
+                {item.features.map((feature) => <li>{feature}</li>)}
+              </ul>
+              <a href={`/${locale}/demos/${item.slug}/`}>{demoContent.labels.learnMore}</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  )
+}
+
+{
+  page === "example-projects" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{projectContent.eyebrow}</p>
+        <h1>{projectContent.title}</h1>
+        <p>{projectContent.text}</p>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <div class="demo-grid">
+          {Object.values(projectContent.items).map((item) => (
+            <article class="demo-card solution-card analysis-card">
+              <div class="analysis-badge">{item.badge}</div>
+              <h3>{item.title}</h3>
+              <p>{item.disclaimer}</p>
+              <p class="card-meta"><strong>{projectContent.labels.businessType}:</strong> {item.businessType}</p>
+              <p class="card-meta"><strong>{projectContent.labels.recommendedPackage}:</strong> {projectContent.packageNames[item.recommendedPackage]}</p>
+              <a href={`/${locale}/example-projects/${item.slug}/`}>{projectContent.labels.learnMore}</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  )
+}
+
+{
+  page === "about" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{content.about.eyebrow}</p>
+        <h1>{content.about.title}</h1>
+        <p>{content.about.text}</p>
+      </section>
+      <section class="why-section">
+        <div class="section-shell why-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Websiteli</p>
+            <h2>{content.intro}</h2>
+          </div>
+          <div class="reason-grid">
+            {content.badges.map((badge) => <div>{badge}</div>)}
+          </div>
+        </div>
+      </section>
+      <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
+    </main>
+  )
+}
+
+{
+  page === "contact" && (
+    <main class="subpage">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{content.contact.eyebrow}</p>
+        <h1>{content.contact.title}</h1>
+        <p>{content.contact.text}</p>
+      </section>
+      <CTASection content={content} />
+    </main>
+  )
+}

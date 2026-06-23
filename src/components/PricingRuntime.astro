@@ -1,0 +1,303 @@
+---
+import { euCountryCodes, packageKeys, pricing } from "../config/pricing";
+
+const pricingData = {
+  markets: pricing,
+  euCountryCodes,
+  packageKeys,
+};
+---
+
+<script is:inline define:vars={{ pricingData }}>
+  const pricingState = {
+    country: "",
+    pricingMarket: "DEFAULT",
+    currency: "EUR",
+    packages: {},
+  };
+
+  function normalizeCountryCode(countryCode) {
+    if (typeof countryCode !== "string") return "";
+    const normalized = countryCode.trim().toUpperCase();
+
+    if (normalized === "DEFAULT" || normalized === "EU") return normalized;
+
+    return normalized.slice(0, 2);
+  }
+
+  function getPricingMarketForCountry(countryCode) {
+    const normalizedCountry = normalizeCountryCode(countryCode);
+
+    if (normalizedCountry && pricingData.markets[normalizedCountry]) return normalizedCountry;
+    if (pricingData.euCountryCodes.includes(normalizedCountry)) return "EU";
+
+    return "DEFAULT";
+  }
+
+  function getPricingForCountry(countryCode) {
+    const pricingMarket = getPricingMarketForCountry(countryCode);
+
+    return {
+      pricingMarket,
+      pricing: pricingData.markets[pricingMarket] || pricingData.markets.DEFAULT,
+    };
+  }
+
+  function formatPrice(amount, symbol, currency) {
+    const formatted = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount);
+
+    if (["HUF", "PLN", "CZK", "DKK"].includes(currency)) return `${formatted} ${symbol}`;
+    if (symbol.length > 1) return `${symbol} ${formatted}`;
+
+    return `${symbol}${formatted}`;
+  }
+
+  const marketLookups = [
+    {
+      name: "country.is",
+      url: "https://api.country.is/",
+      pick: (data) => data?.country,
+    },
+    {
+      name: "ipapi.co",
+      url: "https://ipapi.co/json/",
+      pick: (data) => data?.country_code,
+    },
+    {
+      name: "geojs.io",
+      url: "https://get.geojs.io/v1/ip/country.json",
+      pick: (data) => data?.country,
+    },
+    {
+      name: "ipinfo.io",
+      url: "https://ipinfo.io/json",
+      pick: (data) => data?.country,
+    },
+    {
+      name: "cloudflare-trace",
+      url: "https://www.cloudflare.com/cdn-cgi/trace",
+      pick: (data) => data?.match?.(/^loc=([A-Z]{2})$/m)?.[1],
+    },
+  ];
+
+  function getDeploymentCountry() {
+    return normalizeCountryCode(
+      document.documentElement.dataset.country ||
+        document.querySelector("meta[name='x-vercel-ip-country']")?.getAttribute("content") ||
+        document.querySelector("meta[name='cf-ipcountry']")?.getAttribute("content") ||
+        document.querySelector("meta[name='x-country']")?.getAttribute("content"),
+    );
+  }
+
+  function hasMarketPrice(countryCode) {
+    const country = normalizeCountryCode(countryCode);
+    return country && getPricingMarketForCountry(country) !== "DEFAULT";
+  }
+
+  async function fetchMarketFromLookup(lookup) {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 1800);
+    let response;
+
+    try {
+      response = await fetch(lookup.url, {
+        cache: "no-store",
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+    } finally {
+      window.clearTimeout(timeout);
+    }
+
+    if (!response.ok) return { country: "", source: lookup.name };
+
+    const contentType = response.headers.get("content-type") || "";
+    const data = contentType.includes("application/json") ? await response.json() : await response.text();
+
+    return {
+      country: normalizeCountryCode(lookup.pick(data)),
+      source: lookup.name,
+    };
+  }
+
+  async function detectBrowserCountry() {
+    const deploymentCountry = getDeploymentCountry();
+
+    if (hasMarketPrice(deploymentCountry)) {
+      return { country: deploymentCountry, source: "deployment-header" };
+    }
+
+    const results = await Promise.all(
+      marketLookups.map(async (lookup) => {
+        try {
+          return await fetchMarketFromLookup(lookup);
+        } catch {
+          return { country: "", source: lookup.name };
+        }
+      }),
+    );
+    const firstPricedCountry = results.find((result) => hasMarketPrice(result.country));
+    const firstCountry = results.find((result) => result.country);
+
+    return firstPricedCountry || firstCountry || { country: "DEFAULT", source: "fallback" };
+  }
+
+  function getPackagePrice(packageKey) {
+    return pricingState.packages?.[packageKey]?.from || "";
+  }
+
+  function updateInquiryFields() {
+    const url = new URL(window.location.href);
+    const packageSelect = document.querySelector("[data-package-select]");
+    const selectedPackageFromForm = packageSelect instanceof HTMLSelectElement ? packageSelect.value : "";
+    const selectedPackage = url.searchParams.get("package") || selectedPackageFromForm || "";
+    const selectedPrice = selectedPackage ? getPackagePrice(selectedPackage) : "";
+    const relatedDemo = url.searchParams.get("demo") || "";
+    const relatedProject = url.searchParams.get("project") || "";
+    const sourcePage = url.searchParams.get("sourcePage") || window.location.pathname;
+    const inquiryIntent = url.searchParams.get("intent") || "";
+
+    document.querySelectorAll("[data-pricing-field]").forEach((field) => {
+      if (!(field instanceof HTMLInputElement)) return;
+
+      const key = field.dataset.pricingField;
+      const utmKey = field.dataset.utmKey;
+
+      if (utmKey) {
+        field.value = url.searchParams.get(utmKey) || "";
+        return;
+      }
+
+      const values = {
+        country: pricingState.country,
+        pricingMarket: pricingState.pricingMarket,
+        currency: pricingState.currency,
+        packageKey: selectedPackage,
+        relatedDemo,
+        relatedProject,
+        sourcePage,
+        inquiryIntent,
+        priceShown: selectedPrice,
+        sourcePath: window.location.pathname,
+        currentUrl: window.location.href,
+        referrer: document.referrer,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+      };
+
+      field.value = values[key] || field.value || "";
+    });
+
+    if (packageSelect instanceof HTMLSelectElement && selectedPackage) {
+      packageSelect.value = selectedPackage;
+    }
+  }
+
+  function renderPricing(countryCode, { track = false, source = "" } = {}) {
+    const resolvedCountry = normalizeCountryCode(countryCode);
+    const { pricingMarket, pricing } = getPricingForCountry(resolvedCountry);
+
+    pricingState.country = resolvedCountry || "DEFAULT";
+    pricingState.pricingMarket = pricingMarket;
+    pricingState.currency = pricing.currency;
+    pricingState.packages = pricing.packages;
+    pricingState.source = source;
+    window.websiteliPricing = pricingState;
+
+    document.querySelectorAll("[data-pricing-market-label]").forEach((element) => {
+      element.textContent = pricingMarket === "DEFAULT" ? "DEFAULT/EU" : pricingMarket;
+    });
+
+    document.querySelectorAll("[data-package-price]").forEach((element) => {
+      const packageKey = element.dataset.packagePrice;
+      const amount = pricing.packages?.[packageKey]?.from;
+
+      if (typeof amount === "number") {
+        element.textContent = `from ${formatPrice(amount, pricing.symbol, pricing.currency)}`;
+        element.dataset.priceShown = String(amount);
+        element.dataset.currency = pricing.currency;
+        element.dataset.pricingMarket = pricingMarket;
+      }
+    });
+
+    document.querySelectorAll("[data-package-card]").forEach((card) => {
+      const packageKey = card.dataset.packageCard;
+      const amount = pricing.packages?.[packageKey]?.from;
+
+      card.dataset.currency = pricing.currency;
+      card.dataset.pricingMarket = pricingMarket;
+      if (typeof amount === "number") card.dataset.priceShown = String(amount);
+    });
+
+    updateInquiryFields();
+
+    if (track) {
+      window.trackWebsiteliEvent?.("market_change", {
+        country: pricingState.country,
+        pricing_market: pricingMarket,
+        currency: pricing.currency,
+        detection_source: source,
+        source_path: window.location.pathname,
+      });
+    }
+  }
+
+  window.websiteliGetPricingForCountry = getPricingForCountry;
+  window.websiteliUpdateInquiryFields = updateInquiryFields;
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const detected = await detectBrowserCountry();
+    renderPricing(detected.country, { track: true, source: detected.source });
+
+    document.querySelectorAll("[data-package-select]").forEach((select) => {
+      select.addEventListener("change", updateInquiryFields);
+    });
+
+    document.querySelectorAll("[data-package-cta]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const packageKey = link.dataset.packageKey;
+        const priceShown = getPackagePrice(packageKey);
+
+        window.trackWebsiteliEvent?.("package_cta_click", {
+          package_key: packageKey,
+          locale: document.documentElement.lang,
+          country: pricingState.country,
+          pricing_market: pricingState.pricingMarket,
+          currency: pricingState.currency,
+          price_shown: priceShown,
+          source_path: window.location.pathname,
+        });
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      const seenPackages = new Set();
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+
+            const packageKey = entry.target.dataset.packageCard;
+            if (!packageKey || seenPackages.has(packageKey)) return;
+            seenPackages.add(packageKey);
+
+            window.trackWebsiteliEvent?.("package_view", {
+              package_key: packageKey,
+              locale: document.documentElement.lang,
+              country: pricingState.country,
+              pricing_market: pricingState.pricingMarket,
+              currency: pricingState.currency,
+              price_shown: getPackagePrice(packageKey),
+              source_path: window.location.pathname,
+            });
+          });
+        },
+        { threshold: 0.45 },
+      );
+
+      document.querySelectorAll("[data-package-card]").forEach((card) => observer.observe(card));
+    }
+  });
+</script>

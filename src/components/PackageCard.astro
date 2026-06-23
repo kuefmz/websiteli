@@ -1,0 +1,37 @@
+---
+interface Props {
+  packageKey: string;
+  name: string;
+  description: string;
+  features: string[];
+  cta: string;
+  displayName?: string;
+  ui?: {
+    coreBadge?: string;
+  };
+  highlight?: boolean;
+  contactHref: string;
+}
+
+const { packageKey, name, displayName = name, description, features, cta, ui, highlight = false, contactHref } = Astro.props;
+const packageContactHref = `${contactHref}?package=${packageKey}`;
+---
+
+<article class:list={["pricing-card", "package-card", { featured: highlight }]} data-package-card={packageKey}>
+  {highlight && <p class="card-badge">{ui?.coreBadge ?? "Core growth package"}</p>}
+  <h3>{displayName}</h3>
+  <p class="plan-price package-price" data-package-price={packageKey}>...</p>
+  <p class="package-description">{description}</p>
+  <ul>
+    {features.map((item) => <li>{item}</li>)}
+  </ul>
+  <a
+    class="button card-button"
+    href={packageContactHref}
+    data-package-cta
+    data-package-key={packageKey}
+    data-track-label={displayName}
+  >
+    {cta}
+  </a>
+</article>

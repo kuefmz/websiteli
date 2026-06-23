@@ -7,7 +7,9 @@ export default defineConfig({
   vite: {
     server: {
       watch: {
-        ignored: ["**/.vercel/**", "**/dist/**", "**/.astro/**", "**/node_modules/**"],
+        usePolling: true,
+        interval: 300,
+        ignored: ["**/.vercel/**", "**/dist/**", "**/.astro/**", "**/node_modules/**", "**/.git/**"],
       },
     },
   },
