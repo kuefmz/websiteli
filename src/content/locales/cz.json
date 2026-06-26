@@ -2,8 +2,8 @@
   "locale": "cz",
   "language": "Čeština",
   "seo": {
-    "title": "Websiteli - weby, automatizace a AI pro malé firmy",
-    "description": "Digitální balíčky pro české firmy: profesionální web, lokální viditelnost, poptávky, rezervace, měření, automatizace a praktická AI."
+    "title": "Websiteli - weby, SEO, automatizace, AI a údržba pro malé firmy",
+    "description": "Balíčky webů, SEO, údržby, leadů, analytiky, automatizace a AI pro malé firmy."
   },
   "nav": {
     "home": "Domů",
@@ -13,14 +13,17 @@
     "caseStudies": "Ukázkové projekty",
     "exampleProjects": "Ukázkové projekty",
     "about": "O nás",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "servicesPricing": "Služby a ceny",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Švýcarský tým pro malé a střední firmy",
-    "title": "Web a automatizace, které pomáhají získávat poptávky.",
-    "text": "Pomáháme službám, restauracím, poradcům a lokálním firmám vytvořit důvěryhodný web, jasné kontaktní cesty, měření výsledků a později praktickou automatizaci.",
+    "title": "Weby, SEO, automatizace a údržba, které pomáhají malým firmám růst.",
+    "text": "Websiteli tvoří a udržuje profesionální weby s viditelností na Google, leady, analytikou a praktickou AI automatizací.",
     "primaryCta": "Požádat o bezplatný audit",
-    "secondaryCta": "Zobrazit balíčky",
+    "secondaryCta": "Zobrazit živá dema",
     "trustLine": "Švýcarský standard - Praktické řešení - Komunikace pro malé firmy"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI a datové inženýrství",
     "Praktické nasazení",
     "Srozumitelný rozsah",
-    "Jednoduché předání"
+    "Jednoduché předání",
+    "Údržba webu"
   ],
-  "intro": "Neděláme jen web. Propojujeme web, formuláře, lokální vyhledávání, analytiku a automatizaci tak, aby firma lépe získávala a zpracovávala poptávky.",
+  "intro": "Neděláme jen web. Budujeme a udržujeme digitální základ pro důvěru, Google viditelnost, leady a automatizaci.",
   "packagesIntro": {
     "eyebrow": "Hlavní balíčky",
     "title": "Tři balíčky pro běžné fáze růstu malé firmy.",
-    "text": "Nejdřív profesionální základ, potom více poptávek a rezervací, a nakonec automatizace tam, kde šetří čas."
+    "text": "Nejdřív profesionální základ, potom více poptávek a rezervací, a nakonec automatizace tam, kde šetří čas. Udržujeme váš web bezpečný, rychlý a aktuální, abyste se mohli soustředit na podnikání."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot kvalifikace leadů",
         "Konzultace data/AI"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Pro firmy, které chtějí klid po spuštění: aktualizace, monitoring, zálohy, malé změny a technická podpora.",
+      "cta": "Udržovat můj web",
+      "features": [
+        "Bezpečnostní aktualizace",
+        "Aktualizace softwaru a závislostí",
+        "Uptime monitoring",
+        "Kontrola nefunkčních odkazů",
+        "Měsíční zálohy",
+        "Optimalizace výkonu",
+        "Malé změny obsahu",
+        "Měsíční analytický report",
+        "Monitoring kontaktních formulářů",
+        "Základní SEO monitoring",
+        "Technická podpora",
+        "Nouzová obnova"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatizace a AI",
         "description": "Chatboti, asistenti, přehledové panely, reporty a pracovní postupy v AI a datové rozšíření.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Údržba webu",
+        "description": "Udržujeme váš web bezpečný, rychlý a aktuální, abyste se mohli soustředit na podnikání.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demo projekty",
-    "title": "Místo pro budoucí případové studie.",
-    "text": "Zde budou cíle, rozsah, proces a výsledky reálných projektů."
+    "title": "Knihovna případových studií k demům",
+    "text": "Analýzy projektů vysvětlují obchodní problém, rozsah, služby a očekávaná zlepšení za každým publikovaným demem."
   },
   "about": {
     "eyebrow": "O nás",
@@ -155,7 +183,7 @@
     ],
     "cta": "Domluvit krátký hovor",
     "emailSubject": "Nápad na digitální setup pro vaši firmu",
-    "emailDraft": "Dobrý den, vaše firma by mohla těžit z přehlednějšího digitálního základu: web, kontakt, lokální viditelnost a měření propojené do jednoho systému. Websiteli je švýcarský tým pro praktické weby, automatizaci a AI pro malé firmy. Mohu navrhnout krátký bezplatný digitální audit?"
+    "emailDraft": "Dobrý den, Websiteli. Mám firmu a mám zájem o profesionální webové stránky. Mohli byste mi prosím sdělit, jaké služby nabízíte a jaké jsou další kroky? Děkuji!"
   },
   "contact": {
     "eyebrow": "Kontakt",
@@ -197,6 +225,9 @@
       "social": "Sociální sítě",
       "socialSoon": "Odkazy brzy",
       "rights": "Všechna práva vyhrazena."
-    }
+    },
+    "maintenancePriceNote": "Měsíční údržba, cena podle trhu po konzultaci.",
+    "featuredDemoCta": "Zobrazit živá dema",
+    "demoCta": "Zobrazit živá dema"
   }
 }

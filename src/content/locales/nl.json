@@ -2,8 +2,8 @@
   "locale": "nl",
   "language": "Nederlands",
   "seo": {
-    "title": "Websiteli - websites, automatisering en AI voor MKB",
-    "description": "Digitale pakketten voor MKB-bedrijven: professionele website, lokale vindbaarheid, boekingen, leads, analytics, automatisering en praktische AI."
+    "title": "Websiteli - Websites, SEO, automatisering, AI en onderhoud voor MKB",
+    "description": "Website-, SEO-, onderhouds-, lead-, analytics-, automatiserings- en AI-pakketten voor MKB."
   },
   "nav": {
     "home": "Home",
@@ -13,14 +13,17 @@
     "caseStudies": "Voorbeeldprojecten",
     "exampleProjects": "Voorbeeldprojecten",
     "about": "Over ons",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blog": "Blog",
+    "servicesPricing": "Diensten en prijzen",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Zwitsers team voor MKB en lokale dienstverleners",
-    "title": "Websites die vertrouwen, aanvragen en boekingen makkelijker maken.",
-    "text": "We helpen MKB-bedrijven, praktijken, restaurants, consultants en lokale dienstverleners met een duidelijke digitale basis: website, vindbaarheid, contactflow, meting en praktische automatisering.",
+    "title": "Websites, SEO, automatisering en onderhoud die MKB-bedrijven helpen groeien.",
+    "text": "Websiteli bouwt en onderhoudt professionele websites met Google-zichtbaarheid, leads, analytics en praktische AI-automatisering.",
     "primaryCta": "Vraag gratis audit aan",
-    "secondaryCta": "Bekijk pakketten",
+    "secondaryCta": "Bekijk live demo’s",
     "trustLine": "Zwitserse basis - Praktische uitvoering - Meertalige support"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI en data praktisch toegepast",
     "Snelle implementatie",
     "Meertalige support",
-    "Heldere overdracht"
+    "Heldere overdracht",
+    "Website-onderhoud"
   ],
-  "intro": "We maken niet alleen een website. We verbinden website, formulieren, lokale vindbaarheid, analytics en automatisering tot een basis die meer grip geeft op aanvragen en groei.",
+  "intro": "We verkopen niet alleen websites. We bouwen en onderhouden de digitale basis voor vertrouwen, Google-zichtbaarheid, leads en automatisering.",
   "packagesIntro": {
     "eyebrow": "Kernpakketten",
     "title": "Drie pakketten voor herkenbare MKB-fases.",
-    "text": "Eerst een betrouwbare basis, daarna meer aanvragen en boekingen, later automatisering waar het echt tijd bespaart."
+    "text": "Eerst een betrouwbare basis, daarna meer aanvragen en boekingen, later automatisering waar het echt tijd bespaart. We houden je website veilig, snel en actueel, zodat jij je op je bedrijf kunt richten."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Leadkwalificatie-chatbot",
         "Data/AI-consultatie"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Voor bedrijven die rust willen na lancering: updates, monitoring, backups, kleine wijzigingen en technische support.",
+      "cta": "Onderhoud mijn website",
+      "features": [
+        "Beveiligingsupdates",
+        "Software- en dependency-updates",
+        "Uptime-monitoring",
+        "Controle op kapotte links",
+        "Maandelijkse backups",
+        "Performance-optimalisatie",
+        "Kleine contentwijzigingen",
+        "Maandelijks analyticsrapport",
+        "Monitoring van contactformulieren",
+        "Basis SEO-monitoring",
+        "Technische support",
+        "Noodherstel"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatisering en AI",
         "description": "Chatbots, assistenten, dashboards, rapporten en werkprocessen met AI- en data-upgrade.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Website-onderhoud",
+        "description": "We houden je website veilig, snel en actueel, zodat jij je op je bedrijf kunt richten.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demo-projecten",
-    "title": "Basis voor toekomstige cases.",
-    "text": "Hier komen doelen, scope, proces en resultaten van echte projecten."
+    "title": "Bibliotheek met demo-cases",
+    "text": "Projectanalyses leggen probleem, scope, diensten en verwachte verbeteringen achter elke gepubliceerde demo uit."
   },
   "about": {
     "eyebrow": "Over ons",
@@ -155,7 +183,7 @@
     ],
     "cta": "Plan een kort gesprek",
     "emailSubject": "Idee voor je digitale setup",
-    "emailDraft": "Hallo, jullie bedrijf zou mogelijk baat hebben bij een duidelijkere digitale basis: website, contactflow, lokale vindbaarheid en meting goed verbonden. Websiteli is een Zwitsers team dat praktische websites, automatisering en AI bouwt voor kleinere bedrijven. Zouden jullie een korte gratis digitale audit willen?"
+    "emailDraft": "Hallo Websiteli, ik heb een bedrijf en ben geïnteresseerd in een professionele website. Kunt u mij laten weten welke mogelijkheden u aanbiedt en wat de volgende stappen zijn? Alvast bedankt!"
   },
   "contact": {
     "eyebrow": "Contact",
@@ -197,6 +225,9 @@
       "social": "Social media",
       "socialSoon": "Links volgen binnenkort",
       "rights": "Alle rechten voorbehouden."
-    }
+    },
+    "maintenancePriceNote": "Maandelijks onderhoud, per markt geprijsd na overleg.",
+    "featuredDemoCta": "Bekijk live demo’s",
+    "demoCta": "Bekijk live demo’s"
   }
 }

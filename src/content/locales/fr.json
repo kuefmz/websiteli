@@ -2,8 +2,8 @@
   "locale": "fr",
   "language": "Français",
   "seo": {
-    "title": "Websiteli - sites, automatisation et IA pour PME",
-    "description": "Solutions digitales pour PME francophones: site professionnel, visibilité locale, analytics, génération de demandes, automatisation et IA pragmatique."
+    "title": "Websiteli - Sites, SEO, automatisation, IA et maintenance pour PME",
+    "description": "Offres de site, SEO, maintenance, génération de leads, analytics, automatisation et IA pour PME."
   },
   "nav": {
     "home": "Accueil",
@@ -13,14 +13,17 @@
     "caseStudies": "Projets exemples",
     "exampleProjects": "Projets exemples",
     "about": "À propos",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blog": "Blog",
+    "servicesPricing": "Services et tarifs",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Agence suisse IT et IA pour PME",
-    "title": "Des sites clairs, mesurables et crédibles pour PME locales.",
-    "text": "Nous aidons restaurants, cabinets, indépendants, prestataires et équipes de conseil à structurer leur présence digitale: site professionnel, parcours de contact, mesure et automatisation utile.",
+    "title": "Sites, SEO, automatisation et maintenance pour aider les PME à grandir.",
+    "text": "Websiteli crée et maintient des sites professionnels avec visibilité Google, capture de leads, analytics et automatisation IA pratique.",
     "primaryCta": "Demander un audit gratuit",
-    "secondaryCta": "Voir les offres",
+    "secondaryCta": "Voir les démos live",
     "trustLine": "Basé en Suisse - Approche structurée - Support multilingue"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "IA et données appliquées",
     "Mise en place structurée",
     "Support multilingue",
-    "Transmission pratique"
+    "Transmission pratique",
+    "Maintenance de site"
   ],
-  "intro": "Nous ne livrons pas seulement un site. Nous mettons en place une base digitale fiable: message clair, contact fluide, visibilité locale, mesure et possibilités d’automatisation.",
+  "intro": "Nous ne livrons pas seulement des sites. Nous créons et maintenons la base digitale pour inspirer confiance, être visible sur Google, générer des leads et automatiser.",
   "packagesIntro": {
     "eyebrow": "Offres",
     "title": "Trois offres pour avancer sans complexité inutile.",
-    "text": "Construire une base crédible, générer plus de demandes, puis automatiser les tâches répétitives lorsque le besoin est réel."
+    "text": "Construire une base crédible, générer plus de demandes, puis automatiser les tâches répétitives lorsque le besoin est réel. Nous gardons votre site sécurisé, rapide et à jour pour que vous puissiez vous concentrer sur votre activité."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot qualification leads",
         "Conseil data/IA"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Pour les entreprises qui veulent être tranquilles après le lancement: mises à jour, monitoring, sauvegardes, petites modifications et support technique.",
+      "cta": "Maintenir mon site",
+      "features": [
+        "Mises à jour de sécurité",
+        "Mises à jour logiciel et dépendances",
+        "Monitoring de disponibilité",
+        "Contrôle des liens cassés",
+        "Sauvegardes mensuelles",
+        "Optimisation performance",
+        "Petites modifications de contenu",
+        "Rapport analytics mensuel",
+        "Monitoring des formulaires",
+        "Monitoring SEO de base",
+        "Support technique",
+        "Récupération d’urgence"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatisation et IA",
         "description": "Chatbots, assistants internes, tableaux de bord, rapports et processus dans Amélioration IA et données.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Maintenance de site",
+        "description": "Nous gardons votre site sécurisé, rapide et à jour pour que vous puissiez vous concentrer sur votre activité.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Projets démo",
-    "title": "Une base pour de futurs cas clients.",
-    "text": "Ces pages présenteront les objectifs, le périmètre, la méthode et les résultats."
+    "title": "Bibliothèque de cas démo",
+    "text": "Les analyses expliquent le problème métier, le périmètre, les services et les améliorations attendues derrière chaque démo publiée."
   },
   "about": {
     "eyebrow": "À propos",
@@ -155,7 +183,7 @@
     ],
     "cta": "Demander un audit gratuit",
     "emailSubject": "Idée pour votre présence digitale",
-    "emailDraft": "Bonjour, votre entreprise pourrait peut-être bénéficier d’une base digitale plus claire: site, parcours de contact, visibilité locale et mesure connectés. Websiteli est une équipe suisse qui crée des sites, automatisations et solutions IA pratiques pour les PME. Souhaitez-vous un court audit digital gratuit?"
+    "emailDraft": "Bonjour Websiteli, je dirige une entreprise et je souhaite créer un site web professionnel. Pourriez-vous m'indiquer les solutions que vous proposez ainsi que les prochaines étapes ? Merci beaucoup !"
   },
   "contact": {
     "eyebrow": "Contact",
@@ -197,6 +225,9 @@
       "social": "Réseaux sociaux",
       "socialSoon": "Liens à venir",
       "rights": "Tous droits réservés."
-    }
+    },
+    "maintenancePriceNote": "Maintenance mensuelle, tarifée selon le marché après consultation.",
+    "featuredDemoCta": "Voir les démos live",
+    "demoCta": "Voir les démos live"
   }
 }

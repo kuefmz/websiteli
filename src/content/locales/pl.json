@@ -2,8 +2,8 @@
   "locale": "pl",
   "language": "Polski",
   "seo": {
-    "title": "Websiteli - strony, automatyzacja i AI dla małych firm",
-    "description": "Praktyczne pakiety cyfrowe dla polskich firm: strona, widoczność lokalna, analityka, leady, rezerwacje, automatyzacja i AI."
+    "title": "Websiteli - Strony, SEO, automatyzacja, AI i utrzymanie dla małych firm",
+    "description": "Pakiety stron, SEO, utrzymania, lead generation, analityki, automatyzacji i AI dla małych firm."
   },
   "nav": {
     "home": "Start",
@@ -13,14 +13,17 @@
     "caseStudies": "Przykładowe projekty",
     "exampleProjects": "Przykładowe projekty",
     "about": "O nas",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "servicesPricing": "Usługi i ceny",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Szwajcarska jakość wdrożenia dla MŚP",
-    "title": "Strony i automatyzacje, które pomagają zdobywać zapytania.",
-    "text": "Budujemy dla polskich usługodawców, restauracji, konsultantów i lokalnych firm cyfrową bazę: wiarygodną stronę, mierzalne leady, prostą rezerwację i gotowość do dalszego wzrostu.",
+    "title": "Strony, SEO, automatyzacja i utrzymanie, które pomagają małym firmom rosnąć.",
+    "text": "Websiteli tworzy i utrzymuje profesjonalne strony z widocznością w Google, leadami, analityką i praktyczną automatyzacją AI.",
     "primaryCta": "Poproś o bezpłatny audyt",
-    "secondaryCta": "Zobacz pakiety",
+    "secondaryCta": "Zobacz live demo",
     "trustLine": "Szwajcarski standard - Praktyczny zakres - Komunikacja po polsku"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI i inżynieria danych",
     "Praktyczne wdrożenie",
     "Komunikacja po polsku",
-    "Proste przekazanie"
+    "Proste przekazanie",
+    "Utrzymanie strony"
   ],
-  "intro": "Nie chodzi o samą stronę. Łączymy stronę, formularze, widoczność w Google, analitykę i automatyzację w system, który pomaga firmie zdobywać i obsługiwać zapytania.",
+  "intro": "Nie sprzedajemy tylko stron. Budujemy i utrzymujemy cyfrowy fundament dla zaufania, widoczności w Google, leadów i automatyzacji.",
   "packagesIntro": {
     "eyebrow": "Pakiety",
     "title": "Trzy pakiety dopasowane do realnych etapów wzrostu MŚP.",
-    "text": "Najpierw profesjonalna baza, potem lepsze zapytania i rezerwacje, a później automatyzacja tam, gdzie faktycznie oszczędza czas."
+    "text": "Najpierw profesjonalna baza, potem lepsze zapytania i rezerwacje, a później automatyzacja tam, gdzie faktycznie oszczędza czas. Dbamy, aby Twoja strona była bezpieczna, szybka i aktualna, a Ty możesz skupić się na firmie."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot kwalifikacji leadów",
         "Konsultacja data/AI"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Dla firm, które chcą spokoju po starcie: aktualizacje, monitoring, kopie zapasowe, drobne zmiany i wsparcie techniczne.",
+      "cta": "Zadbaj o moją stronę",
+      "features": [
+        "Aktualizacje bezpieczeństwa",
+        "Aktualizacje oprogramowania i zależności",
+        "Monitoring dostępności",
+        "Sprawdzanie niedziałających linków",
+        "Miesięczne kopie zapasowe",
+        "Optymalizacja wydajności",
+        "Drobne zmiany treści",
+        "Miesięczny raport analityczny",
+        "Monitoring formularzy kontaktowych",
+        "Podstawowy monitoring SEO",
+        "Wsparcie techniczne",
+        "Awaryjne odzyskiwanie"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatyzacja i AI",
         "description": "Chatboty, asystenci, panele, raporty i procesy pracy w Rozbudowa AI i danych.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Utrzymanie strony",
+        "description": "Dbamy, aby Twoja strona była bezpieczna, szybka i aktualna, a Ty możesz skupić się na firmie.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Projekty demo",
-    "title": "Miejsce na przyszłe case studies.",
-    "text": "Tutaj pojawią się projekty z celami, zakresem, procesem i wynikami."
+    "title": "Biblioteka case studies demo",
+    "text": "Analizy projektów pokazują problem biznesowy, zakres, usługi i oczekiwane usprawnienia za każdą opublikowaną wersją demo."
   },
   "about": {
     "eyebrow": "O nas",
@@ -155,7 +183,7 @@
     ],
     "cta": "Umów szybką rozmowę",
     "emailSubject": "Pomysł na cyfrowy setup dla Twojej firmy",
-    "emailDraft": "Dzień dobry, zauważyłem, że Państwa firma mogłaby skorzystać z bardziej uporządkowanej bazy cyfrowej: strona, kontakt, widoczność lokalna i analityka połączone w jeden system. Websiteli to szwajcarski zespół tworzący praktyczne strony, automatyzacje i rozwiązania AI dla małych firm. Czy mogę zaproponować krótki bezpłatny audyt cyfrowy?"
+    "emailDraft": "Cześć Websiteli, prowadzę firmę i jestem zainteresowany stworzeniem profesjonalnej strony internetowej. Czy mogliby Państwo powiedzieć, jakie opcje oferujecie i jakie byłyby kolejne kroki? Dziękuję!"
   },
   "contact": {
     "eyebrow": "Kontakt",
@@ -197,6 +225,9 @@
       "social": "Media społecznościowe",
       "socialSoon": "Linki wkrótce",
       "rights": "Wszelkie prawa zastrzeżone."
-    }
+    },
+    "maintenancePriceNote": "Miesięczne utrzymanie, wyceniane dla rynku po konsultacji.",
+    "featuredDemoCta": "Zobacz live demo",
+    "demoCta": "Zobacz live demo"
   }
 }

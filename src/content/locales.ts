@@ -10,12 +10,15 @@ import ja from "./locales/ja.json";
 import nl from "./locales/nl.json";
 import pl from "./locales/pl.json";
 import pt from "./locales/pt.json";
+import sk from "./locales/sk.json";
 
-export const localeCodes = ["en", "de", "hu", "pl", "es", "fr", "it", "cz", "pt", "da", "nl", "ja"] as const;
+export const localeCodes = ["en", "de", "hu", "pl", "es", "fr", "it", "cz", "sk", "pt", "da", "nl", "ja"] as const;
 export type LocaleCode = (typeof localeCodes)[number];
 
-export const pageSlugs = ["services", "packages", "demos", "example-projects", "about", "contact"] as const;
+export const pageSlugs = ["services-pricing", "portfolio", "blog", "about", "contact"] as const;
+export const legacyPageSlugs = ["services", "packages", "demos", "example-projects"] as const;
 export type PageSlug = (typeof pageSlugs)[number];
+export type LegacyPageSlug = (typeof legacyPageSlugs)[number];
 
 export const locales = {
   cz,
@@ -30,15 +33,22 @@ export const locales = {
   ja,
   nl,
   pt,
+  sk,
 } as const;
 
 export const pageNavKeys = {
-  services: "services",
-  packages: "packages",
-  demos: "demos",
-  "example-projects": "exampleProjects",
+  "services-pricing": "servicesPricing",
+  portfolio: "portfolio",
+  blog: "blog",
   about: "about",
   contact: "contact",
+} as const;
+
+export const legacyRedirects = {
+  services: "services-pricing",
+  packages: "services-pricing",
+  demos: "portfolio",
+  "example-projects": "portfolio",
 } as const;
 
 export function isLocaleCode(value: string | undefined): value is LocaleCode {
@@ -49,8 +59,9 @@ export function getLocaleContent(locale: LocaleCode) {
   return locales[locale];
 }
 
-export function getLocalizedPath(locale: LocaleCode, page?: PageSlug | "home") {
-  return page && page !== "home" ? `/${locale}/${page}/` : `/${locale}/`;
+export function getLocalizedPath(locale: LocaleCode, page?: PageSlug | LegacyPageSlug | "home") {
+  const resolvedPage = page && page in legacyRedirects ? legacyRedirects[page as LegacyPageSlug] : page;
+  return resolvedPage && resolvedPage !== "home" ? `/${locale}/${resolvedPage}/` : `/${locale}/`;
 }
 
 export function getAlternates(page?: PageSlug | "home") {

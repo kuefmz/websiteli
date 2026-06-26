@@ -15,12 +15,19 @@ interface Props {
 
 const { packageKey, name, displayName = name, description, features, cta, ui, highlight = false, contactHref } = Astro.props;
 const packageContactHref = `${contactHref}?package=${packageKey}`;
+const isMaintenance = packageKey === "websiteMaintenance";
 ---
 
 <article class:list={["pricing-card", "package-card", { featured: highlight }]} data-package-card={packageKey}>
   {highlight && <p class="card-badge">{ui?.coreBadge ?? "Core growth package"}</p>}
   <h3>{displayName}</h3>
-  <p class="plan-price package-price" data-package-price={packageKey}>...</p>
+  {
+    isMaintenance ? (
+      <p class="plan-price package-price maintenance-price-note">{ui?.maintenancePriceNote ?? "Monthly maintenance, priced for your market after consultation."}</p>
+    ) : (
+      <p class="plan-price package-price" data-package-price={packageKey}>...</p>
+    )
+  }
   <p class="package-description">{description}</p>
   <ul>
     {features.map((item) => <li>{item}</li>)}

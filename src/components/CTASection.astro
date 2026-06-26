@@ -26,6 +26,8 @@ const packageOptions = packages.map((item) => ({
         ? "growthSetup"
         : item.name === "AI/Data Upgrade"
           ? "aiDataUpgrade"
+          : item.name === "Website Maintenance"
+            ? "websiteMaintenance"
           : item.name,
 }));
 const localizedPackageNames = getPackageLabels(content?.locale ?? "en");
@@ -69,6 +71,11 @@ const privacyConsentCopy: Record<string, { label: string; link: string; validati
     label: "Přečetl/a jsem si a přijímám",
     link: "zásady ochrany osobních údajů",
     validation: "Před odesláním přijměte zásady ochrany osobních údajů.",
+  },
+  sk: {
+    label: "Prečítal/a som si a prijímam",
+    link: "zásady ochrany osobných údajov",
+    validation: "Pred odoslaním prijmite zásady ochrany osobných údajov.",
   },
   pt: {
     label: "Li e aceito a",

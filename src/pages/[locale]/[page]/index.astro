@@ -5,38 +5,52 @@ import {
   getAlternates,
   getLocaleContent,
   getLocalizedPath,
+  legacyPageSlugs,
+  legacyRedirects,
   localeCodes,
   pageNavKeys,
   pageSlugs,
   type LocaleCode,
   type PageSlug,
+  type LegacyPageSlug,
 } from "../../../content/locales";
 import { getDemoPageContent } from "../../../content/demos";
-import { getExampleProjectPageContent } from "../../../content/example-projects";
+import { getBlogIndexContent } from "../../../content/blog";
 
 export function getStaticPaths() {
-  return localeCodes.flatMap((locale) => pageSlugs.map((page) => ({ params: { locale, page } })));
+  return localeCodes.flatMap((locale) => [...pageSlugs, ...legacyPageSlugs].map((page) => ({ params: { locale, page } })));
 }
 
 const locale = Astro.params.locale as LocaleCode;
-const page = Astro.params.page as PageSlug;
+const requestedPage = Astro.params.page as PageSlug | LegacyPageSlug;
+
+if (requestedPage in legacyRedirects) {
+  return Astro.redirect(getLocalizedPath(locale, requestedPage));
+}
+
+const page = requestedPage as PageSlug;
 const content = getLocaleContent(locale);
 const demoContent = getDemoPageContent(locale);
-const projectContent = getExampleProjectPageContent(locale);
-const label = content.nav[pageNavKeys[page]] ?? (page === "example-projects" ? projectContent.eyebrow : page);
-const title = page === "demos" ? demoContent.seo.title : page === "example-projects" ? projectContent.seo.title : `${label} - Websiteli`;
+const blogContent = getBlogIndexContent(locale);
+const label = content.nav[pageNavKeys[page]] ?? (page === "blog" ? blogContent.eyebrow : page);
+const title =
+  page === "portfolio"
+    ? demoContent.seo.title
+    : page === "blog"
+      ? blogContent.seo.title
+      : page === "services-pricing"
+        ? `${content.nav.servicesPricing ?? "Services & Pricing"} - Websiteli`
+        : `${label} - Websiteli`;
 const description =
-  page === "packages"
+  page === "services-pricing"
     ? content.packagesIntro.text
-    : page === "services"
-      ? content.services.text
-      : page === "demos"
-        ? demoContent.seo.description
-        : page === "example-projects"
-          ? projectContent.seo.description
-          : page === "about"
-            ? content.about.text
-            : content.contact.text;
+    : page === "portfolio"
+      ? demoContent.seo.description
+      : page === "blog"
+        ? blogContent.seo.description
+        : page === "about"
+          ? content.about.text
+          : content.contact.text;
 ---
 
 <Layout

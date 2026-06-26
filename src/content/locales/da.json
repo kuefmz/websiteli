@@ -2,8 +2,8 @@
   "locale": "da",
   "language": "Dansk",
   "seo": {
-    "title": "Websiteli - websites, automatisering og AI til SMV’er",
-    "description": "Digitale pakker til danske SMV’er: professionelt website, lokal synlighed, booking, leads, analyse, automatisering og praktisk AI."
+    "title": "Websiteli - Websites, SEO, automatisering, AI og vedligeholdelse til små virksomheder",
+    "description": "Website-, SEO-, vedligeholdelses-, lead-, analytics-, automatiserings- og AI-pakker til små virksomheder."
   },
   "nav": {
     "home": "Forside",
@@ -13,14 +13,17 @@
     "caseStudies": "Eksempelprojekter",
     "exampleProjects": "Eksempelprojekter",
     "about": "Om os",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "servicesPricing": "Services og priser",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Schweizisk team til SMV’er og lokale services",
-    "title": "Websites der gør det let for kunder at forstå, booke og kontakte dig.",
-    "text": "Vi hjælper restauranter, rådgivere, klinikker, wellness, håndværk og lokale services med et professionelt website, tydelige kontaktflows, måling og enkel automatisering.",
+    "title": "Websites, SEO, automatisering og vedligeholdelse, der hjælper små virksomheder med at vokse.",
+    "text": "Websiteli bygger og vedligeholder professionelle websites med Google-synlighed, leads, analytics og praktisk AI-automatisering.",
     "primaryCta": "Anmod om gratis audit",
-    "secondaryCta": "Se pakker",
+    "secondaryCta": "Se live demoer",
     "trustLine": "Schweizisk base - Praktisk levering - Flersproget support"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI og data i praksis",
     "Praktisk implementering",
     "Flersproget support",
-    "Nem overdragelse"
+    "Nem overdragelse",
+    "Website-vedligeholdelse"
   ],
-  "intro": "Vi bygger ikke bare et website. Vi samler website, kontaktformularer, lokal synlighed, måling og automatisering, så virksomheden kan få flere og bedre henvendelser.",
+  "intro": "Vi sælger ikke kun websites. Vi bygger og vedligeholder den digitale base for tillid, Google-synlighed, leads og automatisering.",
   "packagesIntro": {
     "eyebrow": "Kernepakker",
     "title": "Tre pakker til typiske SMV-behov.",
-    "text": "Først et troværdigt fundament, derefter flere bookinger og leads, og senere automatisering der sparer reel tid."
+    "text": "Først et troværdigt fundament, derefter flere bookinger og leads, og senere automatisering der sparer reel tid. Vi holder dit website sikkert, hurtigt og opdateret, så du kan fokusere på din virksomhed."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Leadkvalificerings-chatbot",
         "Data/AI-rådgivning"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Til virksomheder der vil have ro efter lancering: opdateringer, overvågning, backups, små ændringer og teknisk support.",
+      "cta": "Vedligehold mit website",
+      "features": [
+        "Sikkerhedsopdateringer",
+        "Software- og dependency-opdateringer",
+        "Uptime-overvågning",
+        "Tjek af døde links",
+        "Månedlige backups",
+        "Performanceoptimering",
+        "Små indholdsændringer",
+        "Månedlig analytics-rapport",
+        "Overvågning af kontaktformularer",
+        "Basis SEO-overvågning",
+        "Teknisk support",
+        "Nødgendannelse"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatisering og AI",
         "description": "Chatbots, assistenter, dashboards, rapporter og arbejdsgange med AI- og dataopgradering.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Website-vedligeholdelse",
+        "description": "Vi holder dit website sikkert, hurtigt og opdateret, så du kan fokusere på din virksomhed.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demo-projekter",
-    "title": "Klar struktur til kommende cases.",
-    "text": "Her kommer mål, scope, proces og resultater fra rigtige projekter."
+    "title": "Bibliotek med demo-cases",
+    "text": "Projektanalyser forklarer problem, scope, services og forventede forbedringer bag hver offentliggjort demo."
   },
   "about": {
     "eyebrow": "Om os",
@@ -155,7 +183,7 @@
     ],
     "cta": "Book et kort opkald",
     "emailSubject": "Idé til din digitale opsætning",
-    "emailDraft": "Hej, jeg så at jeres virksomhed måske kunne få værdi af et klarere digitalt fundament: website, kontaktflow, lokal synlighed og måling samlet ét sted. Websiteli er et schweizisk team, der bygger praktiske websites, automatisering og AI til mindre virksomheder. Vil I have en kort gratis digital audit?"
+    "emailDraft": "Hej Websiteli, jeg driver en virksomhed og er interesseret i at få lavet en professionel hjemmeside. Kan I fortælle mig, hvilke muligheder I tilbyder, og hvad de næste skridt vil være? Tak!"
   },
   "contact": {
     "eyebrow": "Kontakt",
@@ -197,6 +225,9 @@
       "social": "Sociale mediere medier",
       "socialSoon": "Links kommer snart",
       "rights": "Alle rettigheder forbeholdes."
-    }
+    },
+    "maintenancePriceNote": "Månedlig vedligeholdelse, prissat efter marked efter samtale.",
+    "featuredDemoCta": "Se live demoer",
+    "demoCta": "Se live demoer"
   }
 }
