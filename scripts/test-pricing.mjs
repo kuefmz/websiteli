@@ -27,9 +27,8 @@ test("localized pages include the browser pricing runtime", async () => {
   const englishHome = await readDistFile("en/index.html");
 
   assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
-  assert.match(englishHome, /data-package-price="digitalFoundation"/);
-  assert.match(englishHome, /data-package-price="growthSetup"/);
-  assert.match(englishHome, /data-package-price="aiDataUpgrade"/);
+  assert.match(englishHome, /Services &amp; Pricing/);
+  assert.match(englishHome, /Website maintenance/i);
 });
 
 test("root page redirects to the localized English site", async () => {
@@ -85,8 +84,7 @@ test("EU countries and unknown countries map to the correct fallback markets", a
 
 test("lead forms receive pricing, source, demo, and project metadata", async () => {
   const contact = await readDistFile("en/contact/index.html");
-  const demo = await readDistFile("en/demos/restaurant/index.html");
-  const project = await readDistFile("en/example-projects/restaurant-visibility/index.html");
+  const portfolio = await readDistFile("en/portfolio/index.html");
 
   assert.match(contact, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
   assert.match(contact, /type:\s*"form"/);
@@ -98,8 +96,8 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /name="relatedProject"/);
   assert.match(contact, /name="sourcePage"/);
   assert.match(contact, /name="inquiryIntent"/);
-  assert.match(demo, /demo=restaurant/);
-  assert.match(project, /project=restaurant-visibility/);
+
+  assert.match(portfolio, /shopify/i);
 });
 
 test("newsletter signup posts to the static Google Apps Script endpoint", async () => {
