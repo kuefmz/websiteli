@@ -11,18 +11,18 @@ const whatsappUrl = "https://wa.me/41772653306";
 const nav = content?.nav ?? {
   services: "Services",
   packages: "Packages",
-  demos: "Demos",
-  exampleProjects: "Example Projects",
+  servicesPricing: "Services & Pricing",
+  portfolio: "Portfolio",
+  blog: "Blog",
   about: "About",
   contact: "Contact",
 };
-const exampleProjectsLabel = nav.exampleProjects ?? nav.caseStudies ?? "Example Projects";
 const footerUi = content?.ui?.footer ?? {
   contact: "Contact",
   pages: "Pages",
   legal: "Legal",
   social: "Social",
-  socialSoon: "Links coming soon",
+  socialSoon: "RSS feed",
   rights: "All rights reserved.",
 };
 const legalLinkCopy: Record<string, { privacy: string; impressum: string }> = {
@@ -34,6 +34,7 @@ const legalLinkCopy: Record<string, { privacy: string; impressum: string }> = {
   fr: { privacy: "Politique de confidentialité", impressum: "Mentions légales" },
   it: { privacy: "Privacy policy", impressum: "Note legali" },
   cz: { privacy: "Zásady ochrany osobních údajů", impressum: "Právní informace" },
+  sk: { privacy: "Zásady ochrany osobných údajov", impressum: "Právne informácie" },
   pt: { privacy: "Política de privacidade", impressum: "Aviso legal" },
   da: { privacy: "Privatlivspolitik", impressum: "Juridisk information" },
   nl: { privacy: "Privacybeleid", impressum: "Juridische informatie" },
@@ -129,6 +130,17 @@ const newsletterCopy: Record<string, { title: string; text: string; email: strin
     sending: "Přihlašování...",
     error: "Něco se pokazilo. Napište nám prosím přímo e-mailem.",
   },
+  sk: {
+    title: "Newsletter",
+    text: "Praktické tipy Websiteli k webom, automatizácii a AI.",
+    email: "E-mail",
+    button: "Prihlásiť sa",
+    consent: "Súhlasím so",
+    success: "Ďakujeme! Odber je aktívny.",
+    validation: "Zadajte e-mail a prijmite zásady ochrany osobných údajov.",
+    sending: "Prihlasovanie...",
+    error: "Niečo sa pokazilo. Napíšte nám prosím priamo e-mailom.",
+  },
   pt: {
     title: "Newsletter",
     text: "Notas práticas da Websiteli sobre sites, automação e IA.",
@@ -189,7 +201,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
   <div class="footer-links" aria-label="Footer links">
     <div>
       <h2>{footerUi.contact}</h2>
-      <a href="mailto:jenifer.ciuciu-kiss@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">jenifer.ciuciu-kiss@websiteli.ch</a>
+      <a href="mailto:info@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">info@websiteli.ch</a>
       <a
         class="whatsapp-link"
         href={whatsappUrl}
@@ -207,10 +219,9 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     </div>
     <div>
       <h2>{footerUi.pages}</h2>
-      <a href={`/${locale}/services/`}>{nav.services}</a>
-      <a href={`/${locale}/packages/`}>{nav.packages}</a>
-      <a href={`/${locale}/demos/`}>{nav.demos}</a>
-      <a href={`/${locale}/example-projects/`}>{exampleProjectsLabel}</a>
+      <a href={`/${locale}/services-pricing/`}>{nav.servicesPricing ?? "Services & Pricing"}</a>
+      <a href={`/${locale}/portfolio/`}>{nav.portfolio ?? "Portfolio"}</a>
+      <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>
     </div>
     <div>
@@ -218,10 +229,10 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <a href="/privacy/">{legalLinks.privacy}</a>
       <a href="/impressum/">{legalLinks.impressum}</a>
     </div>
-    <div>
+    <!-- <div>
       <h2>{footerUi.social}</h2>
-      <span>{footerUi.socialSoon}</span>
-    </div>
+      <a href="/rss.xml">RSS feed</a>
+    </div> -->
     <div class="footer-newsletter">
       <h2>{newsletterUi.title}</h2>
       <p>{newsletterUi.text}</p>

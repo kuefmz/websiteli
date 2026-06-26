@@ -1,0 +1,110 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { getAlternates, getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../../../content/locales";
+import { getBlogIndexContent, getBlogPost, getBlogPosts } from "../../../../content/blog";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) =>
+    getBlogPosts(locale).map((post) => ({
+      params: { locale, slug: post.slug },
+    })),
+  );
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const slug = Astro.params.slug as string;
+const content = getLocaleContent(locale);
+const blogContent = getBlogIndexContent(locale);
+const post = getBlogPost(locale, slug);
+
+if (!post) {
+  return Astro.redirect(getLocalizedPath(locale, "blog"));
+}
+
+const canonicalPath = `/${locale}/blog/${post.slug}/`;
+const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.description,
+  image: new URL(post.featuredImage, siteUrl).toString(),
+  datePublished: post.publishedAt,
+  dateModified: post.updatedAt,
+  author: { "@type": "Organization", name: post.author },
+  publisher: { "@type": "Organization", name: "Websiteli", logo: { "@type": "ImageObject", url: new URL("/assets/websiteli-og.png", siteUrl).toString() } },
+  mainEntityOfPage: new URL(canonicalPath, siteUrl).toString(),
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: content.nav.home, item: new URL(getLocalizedPath(locale), siteUrl).toString() },
+    { "@type": "ListItem", position: 2, name: blogContent.eyebrow, item: new URL(getLocalizedPath(locale, "blog"), siteUrl).toString() },
+    { "@type": "ListItem", position: 3, name: post.title, item: new URL(canonicalPath, siteUrl).toString() },
+  ],
+};
+const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/blog/${post.slug}/` }));
+---
+
+<Layout
+  title={`${post.title} - Websiteli`}
+  description={post.description}
+  canonicalPath={canonicalPath}
+  lang={locale}
+  locale={locale}
+  page="blog"
+  alternates={postAlternates}
+  content={content}
+  schema={[articleSchema, breadcrumbSchema]}
+>
+  <main class="subpage article-page">
+    <article>
+      <header class="section-shell page-hero article-hero">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href={getLocalizedPath(locale)}>{content.nav.home}</a>
+          <span>/</span>
+          <a href={getLocalizedPath(locale, "blog")}>{blogContent.eyebrow}</a>
+        </nav>
+        <p class="eyebrow">{post.category}</p>
+        <h1>{post.title}</h1>
+        <p>{post.description}</p>
+        <div class="blog-meta">
+          <span>{post.author}</span>
+          <span>{post.readingTime}</span>
+          <span>{post.publishedAt}</span>
+        </div>
+      </header>
+      <div class="section-shell article-layout">
+        <aside class="toc" aria-label="Table of contents">
+          <strong>Contents</strong>
+          {post.headings.map((heading) => <a href={`#${heading.toLowerCase().replaceAll(" ", "-").replaceAll(",", "")}`}>{heading}</a>)}
+        </aside>
+        <div class="article-content">
+          <img class="article-image" src={post.featuredImage} alt="Website strategy, analytics and AI automation interface" width="1672" height="941" loading="eager" />
+          {post.body.map((section) => (
+            <section id={section.heading.toLowerCase().replaceAll(" ", "-").replaceAll(",", "")}>
+              <h2>{section.heading}</h2>
+              {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              {section.list && (
+                <ul>
+                  {section.list.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+            </section>
+          ))}
+          <div class="share-row" aria-label="Share article">
+            <a class="button secondary" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(new URL(canonicalPath, siteUrl).toString())}`} target="_blank" rel="noopener">Share on LinkedIn</a>
+            <a class="button secondary" href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(new URL(canonicalPath, siteUrl).toString())}`}>Share by email</a>
+          </div>
+          <section class="related-links" aria-label="Related links">
+            <h2>Related Websiteli pages</h2>
+            <div>
+              {post.related.map((href) => <a href={href.replace("/en/", `/${locale}/`)}>{href.replace("/en/", `/${locale}/`)}</a>)}
+            </div>
+          </section>
+        </div>
+      </div>
+    </article>
+  </main>
+</Layout>

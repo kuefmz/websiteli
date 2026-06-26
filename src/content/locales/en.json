@@ -2,8 +2,8 @@
   "locale": "en",
   "language": "English",
   "seo": {
-    "title": "Websiteli - Swiss Websites, Automation and AI for Small Businesses",
-    "description": "Swiss-based digital setup packages for small businesses: modern websites, analytics, lead capture, ads setup, automation and practical AI upgrades."
+    "title": "Websiteli - Websites, SEO, Automation, AI and Maintenance for Small Businesses",
+    "description": "Swiss-based website, SEO, maintenance, lead generation, analytics, automation and AI packages for small businesses that want more customers and less manual work."
   },
   "nav": {
     "home": "Home",
@@ -13,14 +13,17 @@
     "caseStudies": "Example Projects",
     "exampleProjects": "Example Projects",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blog": "Blog",
+    "servicesPricing": "Services & Pricing",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Swiss-based IT and AI agency",
-    "title": "Websites, automation and AI tools for small businesses that want to move faster.",
-    "text": "Websiteli builds complete digital setup packages for international small businesses, startups, freelancers and service providers who need a professional online presence without building an internal IT team.",
+    "title": "Websites, SEO, automation and maintenance that help small businesses grow.",
+    "text": "Websiteli builds and maintains professional websites with Google visibility, lead capture, analytics and practical AI automation, so customers can find you and contact you faster.",
     "primaryCta": "Request a free digital audit",
-    "secondaryCta": "See packages",
+    "secondaryCta": "See Live Demos",
     "trustLine": "Swiss-based - AI and data engineering expertise - Multilingual support"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI & data engineering expertise",
     "Fast implementation",
     "Multilingual support",
-    "Practical handover"
+    "Practical handover",
+    "Website maintenance"
   ],
-  "intro": "We do not sell just websites. We set up the digital basics your business needs to look professional, get leads, understand traffic and grow into automation.",
+  "intro": "We do not sell just websites. We set up and maintain the digital basics your business needs to look professional, rank on Google, generate leads and grow into automation.",
   "packagesIntro": {
     "eyebrow": "Core packages",
     "title": "Choose the right digital setup for your next stage.",
-    "text": "Start with a professional foundation, add growth systems, then upgrade repetitive work with AI and data tools."
+    "text": "Start with a professional foundation, add growth systems, then upgrade repetitive work with AI and data tools. We keep your website secure, fast and up to date so you can focus on running your business."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Lead qualification chatbot",
         "Data/AI consultation"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "For businesses that want peace of mind after launch: updates, monitoring, backups, small changes and technical support.",
+      "cta": "Keep my website healthy",
+      "features": [
+        "Security updates",
+        "Software and dependency updates",
+        "Uptime monitoring",
+        "Broken link checks",
+        "Monthly backups",
+        "Performance optimization",
+        "Small content changes",
+        "Monthly analytics report",
+        "Contact form monitoring",
+        "Basic SEO monitoring",
+        "Technical support",
+        "Emergency recovery"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automation and AI",
         "description": "Chatbots, internal assistants, dashboards, reporting and workflow automation through AI/Data Upgrade.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Website maintenance",
+        "description": "We keep your website secure, fast and up to date so you can focus on running your business.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demo projects",
-    "title": "Case study placeholders ready for real client work.",
-    "text": "These project formats will later become detailed proof pages with goals, scope, timeline and outcomes."
+    "title": "Live demo case study library",
+    "text": "Project analyses explain the business problem, scope, services and expected improvements behind each published demo."
   },
   "about": {
     "eyebrow": "About",
@@ -155,12 +183,17 @@
     ],
     "cta": "Book a quick call",
     "emailSubject": "Quick digital setup idea for your business",
-    "emailDraft": "Hi, I noticed your business could benefit from a clearer digital setup: website, contact flow, analytics and lead capture working together. Websiteli is a Swiss-based team helping small businesses launch these foundations quickly, then add automation when useful. Would you like a short free digital audit?"
+    "emailDraft": "Hi Websiteli, I run a business and I'm interested in getting a professional website. Could you please let me know what options you offer and what the next steps would be? Thank you!"
   },
   "contact": {
     "eyebrow": "Contact",
     "title": "Tell us what you want to improve.",
     "text": "Request a free digital audit or ask for a setup plan. We will reply with practical next steps.",
     "button": "Send request"
+  },
+  "ui": {
+    "maintenancePriceNote": "Monthly maintenance, priced for your market after consultation.",
+    "featuredDemoCta": "See Live Demos",
+    "demoCta": "See Live Demos"
   }
 }

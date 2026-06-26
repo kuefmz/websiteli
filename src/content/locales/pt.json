@@ -2,8 +2,8 @@
   "locale": "pt",
   "language": "Português",
   "seo": {
-    "title": "Websiteli - sites, reservas e IA para pequenos negócios",
-    "description": "Pacotes digitais para pequenos negócios em Portugal: site profissional, visibilidade local, reservas, analytics, leads, automação e IA prática."
+    "title": "Websiteli - Sites, SEO, automação, IA e manutenção para pequenos negócios",
+    "description": "Pacotes de site, SEO, manutenção, leads, analytics, automação e IA para pequenos negócios."
   },
   "nav": {
     "home": "Início",
@@ -13,14 +13,17 @@
     "caseStudies": "Projetos exemplo",
     "exampleProjects": "Projetos exemplo",
     "about": "Sobre",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "blog": "Blog",
+    "servicesPricing": "Serviços e preços",
+    "portfolio": "Portfólio"
   },
   "hero": {
     "eyebrow": "Equipa suíça para pequenos negócios e serviços locais",
-    "title": "Sites que ajudam clientes a confiar, reservar e contactar.",
-    "text": "Criamos bases digitais para restaurantes, alojamento local, consultores, clínicas, beleza, wellness e serviços: site rápido, contacto simples, medição e automação quando faz sentido.",
+    "title": "Sites, SEO, automação e manutenção para pequenos negócios crescerem.",
+    "text": "A Websiteli cria e mantém sites profissionais com visibilidade no Google, captação de leads, analytics e automação prática com IA.",
     "primaryCta": "Pedir auditoria gratuita",
-    "secondaryCta": "Ver pacotes",
+    "secondaryCta": "Ver demos ao vivo",
     "trustLine": "Base na Suíça - Execução prática - Apoio multilingue"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "IA e dados aplicados",
     "Implementação prática",
     "Apoio multilingue",
-    "Entrega simples"
+    "Entrega simples",
+    "Manutenção de site"
   ],
-  "intro": "Não fazemos apenas sites bonitos. Montamos uma base digital que facilita reservas, pedidos de orçamento, confiança e medição, pronta para crescer com automação e IA.",
+  "intro": "Não criamos apenas sites. Construímos e mantemos a base digital para confiança, visibilidade no Google, leads e automação.",
   "packagesIntro": {
     "eyebrow": "Pacotes principais",
     "title": "Três pacotes para presença, crescimento e automação.",
-    "text": "Comece com uma base profissional, acrescente reservas e leads, e automatize quando isso poupar tempo real."
+    "text": "Comece com uma base profissional, acrescente reservas e leads, e automatize quando isso poupar tempo real. Mantemos o seu site seguro, rápido e atualizado para que se possa focar no negócio."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot de qualificação de leads",
         "Consultoria dados/IA"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Para negócios que querem tranquilidade após o lançamento: atualizações, monitorização, backups, pequenas alterações e suporte técnico.",
+      "cta": "Manter o meu site",
+      "features": [
+        "Atualizações de segurança",
+        "Atualizações de software e dependências",
+        "Monitorização de uptime",
+        "Verificação de links quebrados",
+        "Backups mensais",
+        "Otimização de performance",
+        "Pequenas alterações de conteúdo",
+        "Relatório mensal de analytics",
+        "Monitorização de formulários",
+        "Monitorização SEO básica",
+        "Suporte técnico",
+        "Recuperação de emergência"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automação e IA",
         "description": "Chatbots, assistentes, dashboards, relatórios e fluxos de trabalho no Upgrade de IA e dados.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Manutenção de site",
+        "description": "Mantemos o seu site seguro, rápido e atualizado para que se possa focar no negócio.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Projetos demo",
-    "title": "Base preparada para futuros casos reais.",
-    "text": "Aqui serão publicados objetivos, âmbito, processo e resultados."
+    "title": "Biblioteca de estudos de caso demo",
+    "text": "As análises explicam o problema, âmbito, serviços e melhorias esperadas por trás de cada demo publicada."
   },
   "about": {
     "eyebrow": "Sobre",
@@ -155,7 +183,7 @@
     ],
     "cta": "Pedir auditoria gratuita",
     "emailSubject": "Ideia para melhorar a sua presença digital",
-    "emailDraft": "Olá, o seu negócio poderia beneficiar de uma base digital mais clara: site, reservas/contacto, visibilidade local e medição ligados. A Websiteli é uma equipa suíça que cria sites práticos, automação e IA para pequenos negócios. Gostaria de uma auditoria digital gratuita?"
+    "emailDraft": "Olá, Websiteli. Tenho uma empresa e estou interessado em criar um website profissional. Poderiam informar-me sobre as opções que oferecem e quais seriam os próximos passos? Obrigado!"
   },
   "contact": {
     "eyebrow": "Contacto",
@@ -197,6 +225,9 @@
       "social": "Redes sociais",
       "socialSoon": "Links em breve",
       "rights": "Todos os direitos reservados."
-    }
+    },
+    "maintenancePriceNote": "Manutenção mensal, preço por mercado após consulta.",
+    "featuredDemoCta": "Ver demos ao vivo",
+    "demoCta": "Ver demos ao vivo"
   }
 }

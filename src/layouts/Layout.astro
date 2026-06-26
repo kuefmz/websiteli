@@ -13,6 +13,7 @@ interface Props {
   page?: string;
   alternates?: { locale: string; href: string }[];
   content?: any;
+  schema?: Record<string, any>[];
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   page = "home",
   alternates = [],
   content,
+  schema = [],
 } = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
@@ -43,16 +45,28 @@ const structuredData = [
     "@type": "Organization",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "jenifer.ciuciu-kiss@websiteli.ch",
+    email: "info@websiteli.ch",
     telephone: "+41772653306",
     logo: new URL("/assets/websiteli-og.png", siteUrl).toString(),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Websiteli",
+    url: siteUrl.toString(),
+    inLanguage: lang,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: new URL(`/${locale}/blog/?q={search_term_string}`, siteUrl).toString(),
+      "query-input": "required name=search_term_string",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "jenifer.ciuciu-kiss@websiteli.ch",
+    email: "info@websiteli.ch",
     telephone: "+41772653306",
     areaServed: {
       "@type": "Country",
@@ -61,6 +75,37 @@ const structuredData = [
     priceRange: "Varies by market",
     description,
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Business websites, SEO setup, website maintenance and AI automation",
+    provider: { "@type": "Organization", name: "Websiteli", url: siteUrl.toString() },
+    areaServed: ["Switzerland", "Germany", "Austria", "Czech Republic", "Slovakia", "Hungary", "International"],
+    serviceType: ["Website creation", "Website redesign", "Website maintenance", "Local SEO", "Lead generation", "AI automation", "Business automation"],
+    description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Who owns a Websiteli website?",
+        acceptedAnswer: { "@type": "Answer", text: "The client owns the domain, hosting access, source code, analytics accounts and website assets unless a separate third-party service requires its own terms." },
+      },
+      {
+        "@type": "Question",
+        name: "Does Websiteli offer website maintenance?",
+        acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli offers monthly website maintenance with security updates, monitoring, backups, performance checks, small content changes, analytics reports, SEO monitoring and technical support." },
+      },
+      {
+        "@type": "Question",
+        name: "Can Websiteli help with SEO and Google Business?",
+        acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli sets up technical SEO basics, metadata, Google Analytics, Google Search Console and Google Business Profile support as part of growth-focused packages." },
+      },
+    ],
+  },
+  ...schema,
 ];
 ---
 
@@ -71,7 +116,18 @@ const structuredData = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#e32635" />
+    <meta name="msapplication-TileColor" content="#e32635" />
+    <meta name="msapplication-config" content="/browserconfig.xml?v=2" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+    <link rel="shortcut icon" href="/favicon.ico?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#e32635" />
+    <link rel="manifest" href="/site.webmanifest?v=2" />
     {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.href, siteUrl).toString()} />)}
     {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL("/en/", siteUrl).toString()} />}
     <meta property="og:title" content={title} />

@@ -2,8 +2,8 @@
   "locale": "hu",
   "language": "Magyar",
   "seo": {
-    "title": "Websiteli - weboldalak, automatizálás és AI magyar KKV-knak",
-    "description": "Svájci alapú, gyakorlatias digitális csomagok magyar KKV-knak: weboldal, mérés, keresőoptimalizálás, érdeklődőgyűjtés, automatizálás és AI."
+    "title": "Websiteli - Weboldalak, SEO, automatizálás, AI és karbantartás kisvállalkozásoknak",
+    "description": "Weboldal-, SEO-, karbantartási, leadgenerálási, analitikai, automatizálási és AI csomagok kisvállalkozásoknak."
   },
   "nav": {
     "home": "Főoldal",
@@ -13,14 +13,17 @@
     "caseStudies": "Példaprojektek",
     "exampleProjects": "Példaprojektek",
     "about": "Rólunk",
-    "contact": "Kapcsolat"
+    "contact": "Kapcsolat",
+    "blog": "Blog",
+    "servicesPricing": "Szolgáltatások és árak",
+    "portfolio": "Portfólió"
   },
   "hero": {
     "eyebrow": "Svájci hátterű digitális partner KKV-knak",
-    "title": "Weboldal és automatizálás, ami nem csak szép, hanem dolgozik is.",
-    "text": "Magyar KKV-knak, szolgáltatóknak, éttermeknek és tanácsadóknak építünk átlátható digitális alapot: bizalmat keltő weboldal, mérhető érdeklődések, egyszerű foglalás és később AI támogatás.",
+    "title": "Weboldalak, SEO, automatizálás és karbantartás, amelyek segítik a növekedést.",
+    "text": "A Websiteli professzionális weboldalakat épít és tart karban Google-láthatósággal, leadgyűjtéssel, analitikával és praktikus AI automatizálással.",
     "primaryCta": "Ingyenes digitális audit kérése",
-    "secondaryCta": "Csomagok megnézése",
+    "secondaryCta": "Élő demók",
     "trustLine": "Svájci szemlélet - Magyar piacismeret - Gyors, tiszta átadás"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI és adatmérnöki tudás",
     "KKV-barát megvalósítás",
     "Magyar nyelvű kommunikáció",
-    "Gyakorlati átadás"
+    "Gyakorlati átadás",
+    "Weboldal karbantartás"
   ],
-  "intro": "Nem csak weboldalt készítünk. Olyan digitális alapot rakunk össze, amely segít bizalmat építeni, érdeklődőket gyűjteni, mérni az eredményeket és később automatizálni a rutinfeladatokat.",
+  "intro": "Nem csak weboldalakat készítünk. Felépítjük és karbantartjuk azt a digitális alapot, amely bizalmat, Google-láthatóságot, leadeket és automatizálási lehetőséget ad.",
   "packagesIntro": {
     "eyebrow": "Fő csomagok",
     "title": "Három csomag magyar KKV-k tipikus növekedési lépéseihez.",
-    "text": "Először legyen profi online alap, utána több érdeklődő és foglalás, majd automatizálás, amikor már megéri."
+    "text": "Először legyen profi online alap, utána több érdeklődő és foglalás, majd automatizálás, amikor már megéri. Biztonságosan, gyorsan és naprakészen tartjuk a weboldalad, hogy te az üzletedre figyelhess."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Leadminősítő chatbot",
         "Adat-/AI-konzultáció"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Vállalkozásoknak, amelyek nyugalmat szeretnének indulás után: frissítések, monitoring, mentések, kisebb módosítások és technikai támogatás.",
+      "cta": "Karbantartást kérek",
+      "features": [
+        "Biztonsági frissítések",
+        "Szoftver- és függőségfrissítések",
+        "Uptime monitoring",
+        "Törött linkek ellenőrzése",
+        "Havi mentések",
+        "Teljesítményoptimalizálás",
+        "Kisebb tartalmi módosítások",
+        "Havi analitikai riport",
+        "Kapcsolati űrlap monitoring",
+        "Alap SEO monitoring",
+        "Technikai támogatás",
+        "Vészhelyzeti helyreállítás"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatizálás és AI",
         "description": "Chatbotok, belső asszisztensek, irányítópultok és automatizált riportok.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Weboldal karbantartás",
+        "description": "Biztonságosan, gyorsan és naprakészen tartjuk a weboldalad, hogy te az üzletedre figyelhess.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demóprojektek",
-    "title": "Kész keret későbbi esettanulmányokhoz.",
-    "text": "Ide kerülnek majd a valódi projektek célokkal, folyamattal és eredményekkel."
+    "title": "Élő demó esettanulmány könyvtár",
+    "text": "A projektanalízisek bemutatják az üzleti problémát, a scope-ot, a szolgáltatásokat és a várható javulást minden publikált demó mögött."
   },
   "about": {
     "eyebrow": "Rólunk",
@@ -155,7 +183,7 @@
     ],
     "cta": "Kérj gyors auditot",
     "emailSubject": "Digitális setup ötlet a vállalkozásodnak",
-    "emailDraft": "Szia, úgy látom, hogy a vállalkozásod profitálhatna egy tisztább digitális alapból: weboldal, ajánlatkérés/foglalás, mérés és érdeklődőgyűjtés egy rendszerben. A Websiteli svájci hátterű csapatként gyakorlati weboldalakat, automatizálást és AI megoldásokat épít KKV-knak. Érdekelne egy ingyenes rövid digitális audit?"
+    "emailDraft": "Szia Websiteli! Van egy vállalkozásom, és szeretnék egy professzionális weboldalt készíttetni. Meg tudnátok írni, milyen lehetőségeket kínáltok, és mik lennének a következő lépések? Köszönöm!"
   },
   "contact": {
     "eyebrow": "Kapcsolat",
@@ -197,6 +225,9 @@
       "social": "Közösségi média",
       "socialSoon": "Linkek hamarosan",
       "rights": "Minden jog fenntartva."
-    }
+    },
+    "maintenancePriceNote": "Havi karbantartás, piac szerint konzultáció után árazva.",
+    "featuredDemoCta": "Élő demók",
+    "demoCta": "Élő demók"
   }
 }

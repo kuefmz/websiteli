@@ -10,16 +10,18 @@ interface Props {
   };
   packagesHref: string;
   contactHref: string;
+  demoHref?: string;
   ui?: {
     heroCardWebsite?: string;
     heroCardLeads?: string;
     heroCardAi?: string;
     heroCardUpgrade?: string;
     heroImageLabel?: string;
+    featuredDemoCta?: string;
   };
 }
 
-const { hero, packagesHref, contactHref, ui } = Astro.props;
+const { hero, packagesHref, contactHref, demoHref, ui } = Astro.props;
 ---
 
 <section class="hero section-shell" id="home">
@@ -30,6 +32,7 @@ const { hero, packagesHref, contactHref, ui } = Astro.props;
     <div class="hero-actions">
       <a class="button primary" href={contactHref} data-track-event="hero_audit_click" data-track-label={hero.primaryCta}>{hero.primaryCta}</a>
       <a class="button secondary" href={packagesHref}>{hero.secondaryCta}</a>
+      {demoHref && <a class="button secondary featured-demo-link" href={demoHref}>{ui?.featuredDemoCta ?? "See Shopify demo"}</a>}
     </div>
     <p class="trust-line">{hero.trustLine}</p>
   </div>

@@ -2,8 +2,8 @@
   "locale": "es",
   "language": "Español",
   "seo": {
-    "title": "Websiteli - webs, reservas e IA para negocios locales",
-    "description": "Paquetes digitales para negocios hispanohablantes: web profesional, reservas, SEO local, analítica, captación de clientes, automatización e IA práctica."
+    "title": "Websiteli - Webs, SEO, automatización, IA y mantenimiento para pequeños negocios",
+    "description": "Paquetes de web, SEO, mantenimiento, leads, analítica, automatización e IA para pequeños negocios."
   },
   "nav": {
     "home": "Inicio",
@@ -13,14 +13,17 @@
     "caseStudies": "Proyectos ejemplo",
     "exampleProjects": "Proyectos ejemplo",
     "about": "Equipo",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "blog": "Blog",
+    "servicesPricing": "Servicios y precios",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Agencia suiza para negocios locales y profesionales",
-    "title": "Webs que convierten visitas en reservas, consultas y confianza.",
-    "text": "Ayudamos a restaurantes, clínicas, coaches, turismo, wellness y servicios locales a tener una presencia digital clara: web rápida, contacto fácil, medición y automatización cuando aporta valor.",
+    "title": "Webs, SEO, automatización y mantenimiento para hacer crecer pequeños negocios.",
+    "text": "Websiteli crea y mantiene webs profesionales con visibilidad en Google, captación de leads, analítica y automatización IA práctica.",
     "primaryCta": "Pedir auditoría gratuita",
-    "secondaryCta": "Ver paquetes",
+    "secondaryCta": "Ver demos en vivo",
     "trustLine": "Base en Suiza - Enfoque práctico - Soporte multilingüe"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "IA y datos aplicados",
     "Lanzamiento ágil",
     "Soporte multilingüe",
-    "Entrega fácil de usar"
+    "Entrega fácil de usar",
+    "Mantenimiento web"
   ],
-  "intro": "No hacemos webs para decorar. Creamos una base digital que ayuda a que el cliente encuentre la información, reserve o pregunte sin fricción, y que el negocio pueda medir qué funciona.",
+  "intro": "No vendemos solo webs. Creamos y mantenemos la base digital para confianza, visibilidad en Google, leads y automatización.",
   "packagesIntro": {
     "eyebrow": "Paquetes",
     "title": "Tres paquetes para pasar de presencia básica a crecimiento medible.",
-    "text": "Primero una web que inspire confianza, después captación y reservas, y finalmente automatización para ahorrar tiempo."
+    "text": "Primero una web que inspire confianza, después captación y reservas, y finalmente automatización para ahorrar tiempo. Mantenemos tu web segura, rápida y actualizada para que puedas centrarte en tu negocio."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot de cualificación de leads",
         "Consultoría data/IA"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Para negocios que quieren tranquilidad tras el lanzamiento: actualizaciones, monitorización, copias, pequeños cambios y soporte técnico.",
+      "cta": "Mantener mi web",
+      "features": [
+        "Actualizaciones de seguridad",
+        "Actualizaciones de software y dependencias",
+        "Monitorización de uptime",
+        "Revisión de enlaces rotos",
+        "Copias mensuales",
+        "Optimización de rendimiento",
+        "Pequeños cambios de contenido",
+        "Informe mensual de analítica",
+        "Monitorización de formularios",
+        "Monitorización SEO básica",
+        "Soporte técnico",
+        "Recuperación de emergencia"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatización e IA",
         "description": "Chatbots, asistentes, paneles, informes y flujos con Mejora de IA y datos.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Mantenimiento web",
+        "description": "Mantenemos tu web segura, rápida y actualizada para que puedas centrarte en tu negocio.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Proyectos demo",
-    "title": "Base preparada para futuros casos reales.",
-    "text": "Aquí se publicarán objetivos, alcance, proceso y resultados de cada proyecto."
+    "title": "Biblioteca de casos demo",
+    "text": "Los análisis explican el problema, alcance, servicios y mejoras esperadas detrás de cada demo publicada."
   },
   "about": {
     "eyebrow": "Equipo",
@@ -155,7 +183,7 @@
     ],
     "cta": "Pedir auditoría gratuita",
     "emailSubject": "Idea para mejorar tu presencia digital",
-    "emailDraft": "Hola, vi que tu negocio podría convertir mejor si web, reservas/contacto, visibilidad local y medición estuvieran conectados de forma más clara. Websiteli es un equipo suizo que crea webs prácticas, automatización e IA para pequeños negocios. ¿Te gustaría una auditoría digital gratuita?"
+    "emailDraft": "Hola Websiteli, tengo un negocio y estoy interesado en crear un sitio web profesional. ¿Podrían indicarme qué opciones ofrecen y cuáles serían los siguientes pasos? ¡Muchas gracias!"
   },
   "contact": {
     "eyebrow": "Contacto",
@@ -197,6 +225,9 @@
       "social": "Redes sociales",
       "socialSoon": "Enlaces próximamente",
       "rights": "Todos los derechos reservados."
-    }
+    },
+    "maintenancePriceNote": "Mantenimiento mensual, con precio de mercado tras consulta.",
+    "featuredDemoCta": "Ver demos en vivo",
+    "demoCta": "Ver demos en vivo"
   }
 }

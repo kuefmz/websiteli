@@ -2,8 +2,8 @@
   "locale": "it",
   "language": "Italiano",
   "seo": {
-    "title": "Websiteli - siti, prenotazioni e AI per piccole imprese",
-    "description": "Pacchetti digitali per PMI italiane e ticinesi: sito professionale, visibilità locale, prenotazioni, analytics, lead, automazione e AI pratica."
+    "title": "Websiteli - Siti, SEO, automazione, AI e manutenzione per piccole imprese",
+    "description": "Pacchetti per siti, SEO, manutenzione, lead, analytics, automazione e AI per piccole imprese."
   },
   "nav": {
     "home": "Home",
@@ -13,14 +13,17 @@
     "caseStudies": "Progetti esempio",
     "exampleProjects": "Progetti esempio",
     "about": "Chi siamo",
-    "contact": "Contatto"
+    "contact": "Contatto",
+    "blog": "Blog",
+    "servicesPricing": "Servizi e prezzi",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Team svizzero per PMI, professionisti e attività locali",
-    "title": "Siti chiari che aiutano i clienti a fidarsi, prenotare e contattarti.",
-    "text": "Per ristoranti, studi professionali, consulenti, beauty, wellness e servizi locali creiamo una base digitale concreta: sito veloce, contatti semplici, misurazione e automazioni utili.",
+    "title": "Siti, SEO, automazione e manutenzione per far crescere le piccole imprese.",
+    "text": "Websiteli crea e mantiene siti professionali con visibilità Google, lead generation, analytics e automazione AI pratica.",
     "primaryCta": "Richiedi audit gratuito",
-    "secondaryCta": "Vedi pacchetti",
+    "secondaryCta": "Vedi demo live",
     "trustLine": "Base svizzera - Esecuzione pratica - Supporto multilingue"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "AI e dati applicati",
     "Implementazione pratica",
     "Supporto multilingue",
-    "Consegna semplice"
+    "Consegna semplice",
+    "Manutenzione sito"
   ],
-  "intro": "Non costruiamo solo siti belli. Creiamo una base digitale che facilita contatti, prenotazioni, fiducia e misurazione, pronta per crescere con automazione e AI.",
+  "intro": "Non costruiamo solo siti. Creiamo e manteniamo la base digitale per fiducia, visibilità Google, lead e automazione.",
   "packagesIntro": {
     "eyebrow": "Pacchetti principali",
     "title": "Tre pacchetti per presenza, crescita e automazione.",
-    "text": "Prima una base professionale, poi più contatti e prenotazioni, infine automazioni leggere dove fanno risparmiare tempo."
+    "text": "Prima una base professionale, poi più contatti e prenotazioni, infine automazioni leggere dove fanno risparmiare tempo. Manteniamo il tuo sito sicuro, veloce e aggiornato così puoi concentrarti sul business."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Chatbot qualificazione lead",
         "Consulenza dati/AI"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Per aziende che vogliono tranquillità dopo il lancio: aggiornamenti, monitoraggio, backup, piccole modifiche e supporto tecnico.",
+      "cta": "Mantieni il mio sito",
+      "features": [
+        "Aggiornamenti di sicurezza",
+        "Aggiornamenti software e dipendenze",
+        "Monitoraggio uptime",
+        "Controllo link rotti",
+        "Backup mensili",
+        "Ottimizzazione performance",
+        "Piccole modifiche contenuti",
+        "Report analytics mensile",
+        "Monitoraggio form contatto",
+        "Monitoraggio SEO base",
+        "Supporto tecnico",
+        "Ripristino di emergenza"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automazione e AI",
         "description": "Chatbot, assistenti interni, dashboard, report e flussi di lavoro con Upgrade AI e dati.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Manutenzione sito",
+        "description": "Manteniamo il tuo sito sicuro, veloce e aggiornato così puoi concentrarti sul business.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Progetti demo",
-    "title": "Base pronta per futuri casi studio.",
-    "text": "Qui pubblicheremo obiettivi, ambito, processo e risultati dei progetti."
+    "title": "Libreria di case study demo",
+    "text": "Le analisi spiegano problema, ambito, servizi e miglioramenti attesi dietro ogni demo pubblicata."
   },
   "about": {
     "eyebrow": "Chi siamo",
@@ -155,7 +183,7 @@
     ],
     "cta": "Prenota una chiamata veloce",
     "emailSubject": "Idea per migliorare il tuo setup digitale",
-    "emailDraft": "Buongiorno, ho notato che la sua attività potrebbe beneficiare di una base digitale più chiara: sito, contatti/prenotazioni, visibilità locale e analytics collegati. Websiteli è un team svizzero che crea siti pratici, automazioni e soluzioni AI per piccole imprese. Le interesserebbe un breve audit digitale gratuito?"
+    "emailDraft": "Ciao Websiteli, gestisco un'attività e sono interessato a realizzare un sito web professionale. Potreste indicarmi quali soluzioni offrite e quali sarebbero i prossimi passi? Grazie!"
   },
   "contact": {
     "eyebrow": "Contatto",
@@ -197,6 +225,9 @@
       "social": "Social media",
       "socialSoon": "Link in arrivo",
       "rights": "Tutti i diritti riservati."
-    }
+    },
+    "maintenancePriceNote": "Manutenzione mensile, prezzo per mercato dopo consulenza.",
+    "featuredDemoCta": "Vedi demo live",
+    "demoCta": "Vedi demo live"
   }
 }

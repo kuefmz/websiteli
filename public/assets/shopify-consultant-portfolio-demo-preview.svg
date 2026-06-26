@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#070914"/>
+      <stop offset="0.52" stop-color="#10182b"/>
+      <stop offset="1" stop-color="#05070d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop stop-color="#ffffff"/>
+      <stop offset="0.48" stop-color="#70d6ff"/>
+      <stop offset="1" stop-color="#f7b267"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="236" cy="86" r="270" fill="#2480ff" opacity="0.26"/>
+  <circle cx="1005" cy="152" r="250" fill="#ff7070" opacity="0.18"/>
+  <rect x="80" y="80" width="1040" height="470" rx="36" fill="#ffffff" opacity="0.08" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="120" y="165" fill="#8be9ff" font-family="Arial, sans-serif" font-size="26" font-weight="700">WEBSITELI SHOPIFY PORTFOLIO DEMO</text>
+  <text x="120" y="285" fill="#ffffff" font-family="Arial, sans-serif" font-size="76" font-weight="800">Stop being another</text>
+  <text x="120" y="370" fill="#ffffff" font-family="Arial, sans-serif" font-size="76" font-weight="800">random cold email.</text>
+  <text x="120" y="450" fill="#c3cde0" font-family="Arial, sans-serif" font-size="32">A premium portfolio page for Shopify outreach.</text>
+  <rect x="120" y="490" width="310" height="64" rx="32" fill="url(#accent)"/>
+  <text x="154" y="532" fill="#07101f" font-family="Arial, sans-serif" font-size="24" font-weight="800">Built by Websiteli.ch</text>
+</svg>

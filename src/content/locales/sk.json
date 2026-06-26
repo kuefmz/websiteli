@@ -1,0 +1,233 @@
+{
+  "locale": "sk",
+  "language": "Slovenčina",
+  "seo": {
+    "title": "Websiteli - weby, SEO, automatizácia, AI a údržba pre malé firmy",
+    "description": "Balíčky webov, SEO, údržby, leadov, analytiky, automatizácie a AI pre malé firmy."
+  },
+  "nav": {
+    "home": "Domov",
+    "services": "Služby",
+    "packages": "Balíky",
+    "demos": "Demá",
+    "caseStudies": "Ukážkové projekty",
+    "exampleProjects": "Ukážkové projekty",
+    "blog": "Blog",
+    "about": "O nás",
+    "contact": "Kontakt",
+    "servicesPricing": "Služby a ceny",
+    "portfolio": "Portfólio"
+  },
+  "hero": {
+    "eyebrow": "Švajčiarsky tím pre malé a stredné firmy",
+    "title": "Weby, SEO, automatizácia a údržba, ktoré pomáhajú malým firmám rásť.",
+    "text": "Websiteli tvorí a udržiava profesionálne weby s viditeľnosťou na Google, leadmi, analytikou a praktickou AI automatizáciou.",
+    "primaryCta": "Požiadať o bezplatný audit",
+    "secondaryCta": "Zobraziť živé demá",
+    "trustLine": "Švajčiarsky štandard - Praktické riešenie - Komunikácia pre malé firmy"
+  },
+  "badges": [
+    "Švajčiarsky štandard",
+    "AI a dátové inžinierstvo",
+    "Praktické nasadenie",
+    "Jasný rozsah",
+    "Jednoduché odovzdanie",
+    "Údržba webu"
+  ],
+  "intro": "Nerobíme iba web. Budujeme a udržiavame digitálny základ pre dôveru, Google viditeľnosť, leady a automatizáciu.",
+  "packagesIntro": {
+    "eyebrow": "Hlavné balíky",
+    "title": "Tri balíky pre bežné fázy rastu malej firmy.",
+    "text": "Najprv profesionálny základ, potom viac dopytov a rezervácií, a napokon automatizácia tam, kde šetrí čas. Udržiavame váš web bezpečný, rýchly a aktuálny, aby ste sa mohli sústrediť na podnikanie."
+  },
+  "packages": [
+    {
+      "name": "Digital Foundation",
+      "description": "Pre firmy, ktoré potrebujú profesionálnu online prezentáciu bez zbytočnej zložitosti.",
+      "cta": "Získať digitálny základ",
+      "features": [
+        "Moderný responzívny web",
+        "Nastavenie doménového e-mailu",
+        "Google Analytics",
+        "Google Search Console",
+        "Kontaktný formulár",
+        "Základy SEO",
+        "Mobilná optimalizácia",
+        "Základné technické odovzdanie"
+      ]
+    },
+    {
+      "name": "Growth Setup",
+      "description": "Pre firmy, ktoré už online sú, ale chcú viac dopytov, rezervácií a viditeľnosti.",
+      "cta": "Začať rásť online",
+      "highlight": true,
+      "features": [
+        "Všetko z digitálneho základu",
+        "Integrácia rezervácií",
+        "Optimalizácia Google Business Profile",
+        "Formulár na leady",
+        "Newsletter / zoznam kontaktov",
+        "Účet Meta/Facebook Ads",
+        "Účet Google Ads",
+        "Základy merania konverzií",
+        "Landing sekcie zamerané na rast"
+      ]
+    },
+    {
+      "name": "AI/Data Upgrade",
+      "description": "Pre firmy, ktoré chcú šetriť čas, automatizovať rutinu a lepšie rozumieť dátam.",
+      "cta": "Preskúmať AI a automatizáciu",
+      "features": [
+        "Chatbot pre zákaznícku podporu",
+        "Interný FAQ/vyhľadávací asistent",
+        "Analytics dashboard",
+        "Automatické reporty",
+        "Jednoduchá automatizácia pracovných postupov",
+        "Chatbot na kvalifikáciu leadov",
+        "Konzultácia data/AI"
+      ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Pre firmy, ktoré chcú pokoj po spustení: aktualizácie, monitoring, zálohy, malé zmeny a technická podpora.",
+      "cta": "Udržiavať môj web",
+      "features": [
+        "Bezpečnostné aktualizácie",
+        "Aktualizácie softvéru a závislostí",
+        "Uptime monitoring",
+        "Kontrola nefunkčných odkazov",
+        "Mesačné zálohy",
+        "Optimalizácia výkonu",
+        "Malé zmeny obsahu",
+        "Mesačný analytický report",
+        "Monitoring kontaktných formulárov",
+        "Základný SEO monitoring",
+        "Technická podpora",
+        "Núdzová obnova"
+      ]
+    }
+  ],
+  "services": {
+    "eyebrow": "Služby",
+    "title": "Každá služba smeruje k jasnému obchodnému výsledku.",
+    "text": "Praktické nástroje, jasný rozsah a technická implementácia bez agentúrnej zložitosti.",
+    "items": [
+      {
+        "title": "Profesionálna online prezentácia",
+        "description": "Web, e-mail, mobil, formuláre a základy SEO v balíku Digitálny základ.",
+        "package": "Digital Foundation"
+      },
+      {
+        "title": "Leady a rezervácie",
+        "description": "Rezervácie, zber leadov, Google Business Profile, newsletter a konverzie v rastovom balíku.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Pripravenosť na reklamu",
+        "description": "Účty Meta a Google Ads so základným meraním.",
+        "package": "Growth Setup"
+      },
+      {
+        "title": "Automatizácia a AI",
+        "description": "Chatboti, asistenti, prehľadové panely, reporty a pracovné postupy v AI a dátovom rozšírení.",
+        "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Údržba webu",
+        "description": "Udržiavame váš web bezpečný, rýchly a aktuálny, aby ste sa mohli sústrediť na podnikanie.",
+        "package": "Website Maintenance"
+      }
+    ]
+  },
+  "demos": {
+    "eyebrow": "Demá",
+    "title": "Príklady pre typické malé firmy.",
+    "text": "Pozrite sa, ako sa balík zmení na konkrétnu zákaznícku cestu.",
+    "items": [
+      {
+        "title": "Web reštaurácie/kaviarne",
+        "description": "Menu, poloha, žiadosť o rezerváciu, Google profil a rýchly kontakt."
+      },
+      {
+        "title": "Web profesionálnych služieb",
+        "description": "Dôveryhodné stránky služieb, lead formulár, analytika a SEO štruktúra."
+      },
+      {
+        "title": "AI chatbot / dátový dashboard",
+        "description": "FAQ asistent, kvalifikácia leadov, dashboard a automatické reporty."
+      }
+    ]
+  },
+  "caseStudies": {
+    "eyebrow": "Ukážkové projekty",
+    "title": "Knižnica prípadových štúdií k demám",
+    "text": "Analýzy projektov vysvetľujú obchodný problém, rozsah, služby a očakávané zlepšenia za každým publikovaným demom."
+  },
+  "about": {
+    "eyebrow": "O nás",
+    "title": "Malá švajčiarska agentúra vedená dvoma technickými zakladateľmi.",
+    "text": "Websiteli spája webový vývoj, dáta a AI s praktickým prístupom: jasný rozsah, rýchla realizácia a odovzdanie, ktorému rozumiete."
+  },
+  "outreach": {
+    "headline": "Digitálny základ pre lokálne firmy a služby.",
+    "pitch": "Pre firmy, ktoré chcú pôsobiť dôveryhodne, byť lepšie nájditeľné a vedieť, odkiaľ prichádzajú dopyty.",
+    "painPoints": [
+      "Web alebo sociálne siete nepôsobia dostatočne profesionálne.",
+      "Dopyty chodia cez rôzne kanály a chýba prehľad.",
+      "Marketingové rozhodnutia sa robia bez jasných dát."
+    ],
+    "benefits": [
+      "Profesionálny web s jasnou ponukou a lokálnou viditeľnosťou.",
+      "Formuláre, rezervácie a meranie nastavené od začiatku.",
+      "Možnosť rozšírenia o reklamu, dashboardy a AI."
+    ],
+    "cta": "Dohodnúť krátky hovor",
+    "emailSubject": "Nápad na digitálny setup pre vašu firmu",
+    "emailDraft": "Dobrý deň, Websiteli. Mám firmu a mám záujem o profesionálnu webovú stránku. Mohli by ste mi, prosím, povedať, aké možnosti ponúkate a aké sú ďalšie kroky? Ďakujem!"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Povedzte nám, čo chcete zlepšiť.",
+    "text": "Požiadajte o bezplatný digitálny audit alebo konkrétny plán nastavenia.",
+    "button": "Odoslať dopyt"
+  },
+  "ui": {
+    "pricingNote": "Finálna ponuka po krátkej konzultácii.",
+    "coreBadge": "Hlavný rastový balík",
+    "outreachEyebrow": "Oslovenie",
+    "painPoints": "Problémy",
+    "benefits": "Výhody",
+    "heroCardWebsite": "Web",
+    "heroCardLeads": "Pripravené na leady",
+    "heroCardAi": "AI a dáta",
+    "heroCardUpgrade": "Cesta rastu",
+    "heroImageLabel": "Vizuál digitálneho setupu Websiteli",
+    "form": {
+      "website": "Web",
+      "name": "Meno",
+      "email": "E-mail",
+      "phone": "Telefón",
+      "company": "Firma",
+      "project": "Čo potrebujete?",
+      "custom": "Vlastná požiadavka",
+      "message": "Správa",
+      "messagePlaceholder": "Napíšte nám o svojej firme a o tom, čo chcete zlepšiť.",
+      "thankYou": "Ďakujeme! Správu sme dostali a čoskoro sa ozveme.",
+      "validation": "Vyplňte prosím meno, e-mail a správu.",
+      "disconnected": "Formulár zatiaľ nie je pripojený. Napíšte nám prosím priamo e-mailom.",
+      "sending": "Odosielanie...",
+      "error": "Niečo sa pokazilo. Napíšte nám prosím priamo e-mailom."
+    },
+    "footer": {
+      "contact": "Kontakt",
+      "pages": "Stránky",
+      "legal": "Právne informácie",
+      "social": "Sociálne siete",
+      "socialSoon": "Odkazy čoskoro",
+      "rights": "Všetky práva vyhradené."
+    },
+    "maintenancePriceNote": "Mesačná údržba, cena podľa trhu po konzultácii.",
+    "featuredDemoCta": "Zobraziť živé demá",
+    "demoCta": "Zobraziť živé demá"
+  }
+}

@@ -1,16 +1,19 @@
 ---
 import CTASection from "./CTASection.astro";
+import FAQ from "./FAQ.astro";
 import OutreachBlock from "./OutreachBlock.astro";
 import PackageCard from "./PackageCard.astro";
+import ProcessStep from "./ProcessStep.astro";
 import ServiceCard from "./ServiceCard.astro";
 import { packageKeyByName } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
-import { getDemoPageContent } from "../content/demos";
+import { demoSlugs, getDemoPageContent } from "../content/demos";
 import { getExampleProjectPageContent } from "../content/example-projects";
+import { getBlogIndexContent, getBlogPosts, getBlogRoadmap, getMarketKeywords } from "../content/blog";
 
 interface Props {
   content: any;
-  page: "services" | "packages" | "demos" | "example-projects" | "about" | "contact";
+  page: "services-pricing" | "portfolio" | "blog" | "about" | "contact";
   locale: string;
 }
 
@@ -18,40 +21,57 @@ const { content, page, locale } = Astro.props;
 const contactHref = `/${locale}/contact/`;
 const demoContent = getDemoPageContent(locale as any);
 const projectContent = getExampleProjectPageContent(locale as any);
+const blogContent = getBlogIndexContent(locale as any);
+const blogPosts = getBlogPosts(locale as any);
+const blogRoadmap = getBlogRoadmap();
+const marketKeywords = getMarketKeywords();
 const packageLabels = getPackageLabels(locale);
+const publishedDemoItems = Object.values(demoContent.items).filter((item) => demoSlugs.includes(item.slug as any));
+const processSteps = [
+  {
+    title: "Audit",
+    description: "We clarify the business problem, existing website issues, target customers and the fastest path to a useful result.",
+  },
+  {
+    title: "Build",
+    description: "We create the website, tracking, forms, SEO foundations and integrations needed for leads and visibility.",
+  },
+  {
+    title: "Improve",
+    description: "We monitor performance, maintain the website and add automation where it saves time or improves follow-up.",
+  },
+];
+const faqs = [
+  {
+    question: "Which package should I choose?",
+    answer: "Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+  },
+  {
+    question: "Do clients own their website?",
+    answer: "Yes. Clients should own the domain, source code, analytics, Search Console, Google Business Profile access and website assets.",
+  },
+  {
+    question: "Can Websiteli maintain an existing website?",
+    answer: "Yes. Website Maintenance covers updates, monitoring, backups, small content changes, analytics reports, basic SEO monitoring and technical support.",
+  },
+];
 ---
 
 {
-  page === "packages" && (
+  page === "services-pricing" && (
     <main class="subpage">
       <section class="section-shell page-hero">
-        <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
+        <p class="eyebrow">{content.nav.servicesPricing ?? "Services & Pricing"}</p>
         <h1>{content.packagesIntro.title}</h1>
         <p>{content.packagesIntro.text}</p>
       </section>
-      <section class="section-shell section-block compact-top">
-        <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
-        <div class="pricing-grid package-grid">
-          {content.packages.map((item) => {
-            const packageKey = packageKeyByName[item.name];
-            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
-          })}
-        </div>
-      </section>
-      <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
-    </main>
-  )
-}
 
-{
-  page === "services" && (
-    <main class="subpage">
-      <section class="section-shell page-hero">
-        <p class="eyebrow">{content.services.eyebrow}</p>
-        <h1>{content.services.title}</h1>
-        <p>{content.services.text}</p>
-      </section>
-      <section class="section-shell section-block compact-top">
+      <section class="section-shell section-block compact-top" id="problems">
+        <div class="section-heading">
+          <p class="eyebrow">{content.services.eyebrow}</p>
+          <h2>{content.services.title}</h2>
+          <p>{content.services.text}</p>
+        </div>
         <div class="service-grid">
           {content.services.items.map((service, index) => {
             const packageKey = service.package ? packageKeyByName[service.package] : undefined;
@@ -59,7 +79,28 @@ const packageLabels = getPackageLabels(locale);
           })}
         </div>
       </section>
-      <section class="section-shell section-block compact-top">
+
+      <section class="section-shell inline-cta demo-discovery-cta">
+        <a class="button primary" href={`/${locale}/portfolio/`}>{content.ui?.demoCta ?? "See Live Demos"}</a>
+        <a class="button secondary" href={contactHref}>{content.hero.primaryCta}</a>
+      </section>
+
+      <section class="section-shell section-block compact-top" id="process">
+        <div class="section-heading">
+          <p class="eyebrow">Process</p>
+          <h2>From unclear digital setup to a website that can be measured and improved.</h2>
+        </div>
+        <div class="process-grid">
+          {processSteps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
+        </div>
+      </section>
+
+      <section class="section-shell section-block compact-top" id="pricing">
+        <div class="section-heading">
+          <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
+          <h2>{content.packagesIntro.title}</h2>
+          <p>{content.packagesIntro.text}</p>
+        </div>
         <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
         <div class="pricing-grid package-grid">
           {content.packages.map((item) => {
@@ -68,56 +109,166 @@ const packageLabels = getPackageLabels(locale);
           })}
         </div>
       </section>
+
+      <section class="section-shell section-block compact-top faq-section" id="faq">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions before requesting a consultation.</h2>
+        </div>
+        <div class="faq-list">
+          {faqs.map((item) => <FAQ {...item} />)}
+        </div>
+      </section>
+
+      <CTASection content={content} />
     </main>
   )
 }
 
 {
-  page === "demos" && (
+  page === "portfolio" && (
     <main class="subpage">
       <section class="section-shell page-hero">
-        <p class="eyebrow">{demoContent.eyebrow}</p>
+        <p class="eyebrow">{content.nav.portfolio ?? "Portfolio"}</p>
         <h1>{demoContent.title}</h1>
         <p>{demoContent.text}</p>
       </section>
-      <section class="section-shell section-block compact-top">
-        <div class="demo-grid">
-          {Object.values(demoContent.items).map((item) => (
-            <article class="demo-card solution-card">
-              <div class="demo-media" aria-hidden="true"></div>
-              <h3>{item.title}</h3>
-              <p>{item.shortDescription}</p>
-              <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong> {demoContent.packageNames[item.recommendedPackage]}</p>
-              <ul class="compact-list">
-                {item.features.map((feature) => <li>{feature}</li>)}
-              </ul>
-              <a href={`/${locale}/demos/${item.slug}/`}>{demoContent.labels.learnMore}</a>
+      <section class="section-shell section-block compact-top" id="live-demos">
+        <div class="section-heading">
+          <p class="eyebrow">Live Demos</p>
+          <h2>Interactive websites you can open.</h2>
+          <p>Only published, working demos are shown here. Future demos can be added through the demo content model.</p>
+        </div>
+        <div class="project-grid">
+          {publishedDemoItems.map((item) => (
+            <article class="project-card" itemscope itemtype="https://schema.org/CreativeWork">
+              <a class="project-preview" href={item.websiteUrl ?? `/${locale}/portfolio/`} target={item.websiteUrl ? "_blank" : undefined} rel={item.websiteUrl ? "noopener" : undefined}>
+                <img src={item.previewImage ?? "/assets/swiss-ai-websites-hero.png"} alt={`${item.title} preview`} loading="lazy" width="1200" height="760" itemprop="image" />
+              </a>
+              <div class="project-card-body">
+                <div class="project-meta">
+                  <span>{item.category ?? "Demo"}</span>
+                  {item.industry && <span>{demoContent.labels.industry}: {item.industry}</span>}
+                  {item.country && <span>{demoContent.labels.country}: {item.country}</span>}
+                </div>
+                <h3 itemprop="name">{item.title}</h3>
+                <p itemprop="description">{item.shortDescription}</p>
+                <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong> {demoContent.packageNames[item.recommendedPackage]}</p>
+                {item.servicesProvided && (
+                  <>
+                    <h4>{demoContent.labels.servicesProvided}</h4>
+                    <ul class="compact-list">
+                      {item.servicesProvided.map((service) => <li>{service}</li>)}
+                    </ul>
+                  </>
+                )}
+                <div class="button-row">
+                  {item.websiteUrl && <a class="button primary" href={item.websiteUrl} target="_blank" rel="noopener">{demoContent.labels.visitDemo}</a>}
+                  <a class="button secondary" href={`#case-${item.relatedProject}`}>{demoContent.labels.viewCaseStudy}</a>
+                </div>
+              </div>
             </article>
           ))}
         </div>
       </section>
-    </main>
-  )
-}
 
-{
-  page === "example-projects" && (
-    <main class="subpage">
-      <section class="section-shell page-hero">
-        <p class="eyebrow">{projectContent.eyebrow}</p>
-        <h1>{projectContent.title}</h1>
-        <p>{projectContent.text}</p>
-      </section>
-      <section class="section-shell section-block compact-top">
-        <div class="demo-grid">
+      <section class="section-shell section-block compact-top" id="case-studies">
+        <div class="section-heading">
+          <p class="eyebrow">Illustrative Business Analysis</p>
+          <h2>{projectContent.title}</h2>
+          <p>{projectContent.text}</p>
+        </div>
+        <div class="case-study-grid">
           {Object.values(projectContent.items).map((item) => (
-            <article class="demo-card solution-card analysis-card">
+            <article class="case-study-card analysis-card" id={`case-${item.slug}`}>
               <div class="analysis-badge">{item.badge}</div>
               <h3>{item.title}</h3>
               <p>{item.disclaimer}</p>
               <p class="card-meta"><strong>{projectContent.labels.businessType}:</strong> {item.businessType}</p>
               <p class="card-meta"><strong>{projectContent.labels.recommendedPackage}:</strong> {projectContent.packageNames[item.recommendedPackage]}</p>
-              <a href={`/${locale}/example-projects/${item.slug}/`}>{projectContent.labels.learnMore}</a>
+              <div class="case-study-columns">
+                <div>
+                  <h4>{projectContent.labels.currentSituation}</h4>
+                  <ul>{item.currentSituation.map((point) => <li>{point}</li>)}</ul>
+                </div>
+                {item.potentialChallenges && (
+                  <div>
+                    <h4>{projectContent.labels.potentialChallenges}</h4>
+                    <ul>{item.potentialChallenges.map((point) => <li>{point}</li>)}</ul>
+                  </div>
+                )}
+                <div>
+                  <h4>{projectContent.labels.illustrativeOpportunity}</h4>
+                  <ul>{item.illustrativeOpportunity.map((point) => <li>{point}</li>)}</ul>
+                </div>
+              </div>
+              <a class="button secondary" href={`${contactHref}?project=${item.slug}&sourcePage=/${locale}/portfolio/&intent=case_study_consultation`}>{projectContent.labels.requestAudit}</a>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section class="section-shell inline-cta">
+        <a class="button primary" href={contactHref}>{content.hero.primaryCta}</a>
+        <a class="button secondary" href={`/${locale}/services-pricing/`}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
+      </section>
+    </main>
+  )
+}
+
+{
+  page === "blog" && (
+    <main class="subpage blog-page">
+      <section class="section-shell page-hero">
+        <p class="eyebrow">{blogContent.eyebrow}</p>
+        <h1>{blogContent.title}</h1>
+        <p>{blogContent.text}</p>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <div class="blog-tools" aria-label="Blog filters">
+          <label>
+            <span>{blogContent.searchLabel}</span>
+            <input type="search" placeholder="SEO, AI, restaurant, Google Business" data-blog-search />
+          </label>
+          <div>
+            <span>{blogContent.categoriesLabel}</span>
+            <div class="keyword-clusters">
+              {marketKeywords.slice(0, 8).map((keyword) => <span>{keyword}</span>)}
+            </div>
+          </div>
+        </div>
+        <div class="blog-grid">
+          {blogPosts.map((post) => (
+            <article class="blog-card" data-blog-card data-blog-text={`${post.title} ${post.description} ${post.tags.join(" ")}`}>
+              <img src={post.featuredImage} alt="" loading="lazy" width="836" height="470" />
+              <div>
+                <p class="eyebrow">{blogContent.featured}</p>
+                <h2>{post.title}</h2>
+                <p>{post.excerpt}</p>
+                <div class="blog-meta">
+                  <span>{post.category}</span>
+                  <span>{post.readingTime}</span>
+                  <span>{post.publishedAt}</span>
+                </div>
+                <a class="button primary" href={`/${locale}/blog/${post.slug}/`}>{blogContent.readArticle}</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section class="section-shell section-block compact-top">
+        <div class="section-heading">
+          <p class="eyebrow">SEO roadmap</p>
+          <h2>{blogContent.roadmap}</h2>
+          <p>{blogContent.roadmapIntro}</p>
+        </div>
+        <div class="roadmap-table">
+          {blogRoadmap.map((item) => (
+            <article>
+              <h3>{item.title}</h3>
+              <p><strong>Keyword:</strong> {item.primaryKeyword}</p>
+              <p><strong>Intent:</strong> {item.intent} · <strong>Audience:</strong> {item.audience} · <strong>Competition:</strong> {item.competition}</p>
+              <p>{item.why}</p>
+              <p><strong>Internal links:</strong> {item.links.join(", ")}</p>
             </article>
           ))}
         </div>
@@ -162,3 +313,16 @@ const packageLabels = getPackageLabels(locale);
     </main>
   )
 }
+
+<script>
+  const blogSearch = document.querySelector("[data-blog-search]");
+  const blogCards = Array.from(document.querySelectorAll("[data-blog-card]"));
+
+  blogSearch?.addEventListener("input", () => {
+    const query = blogSearch instanceof HTMLInputElement ? blogSearch.value.trim().toLowerCase() : "";
+    blogCards.forEach((card) => {
+      const text = card instanceof HTMLElement ? card.dataset.blogText?.toLowerCase() ?? "" : "";
+      card.toggleAttribute("hidden", Boolean(query && !text.includes(query)));
+    });
+  });
+</script>

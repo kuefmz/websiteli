@@ -1,0 +1,22 @@
+{
+  "CH": { "monthly": 50, "currency": "CHF", "symbol": "CHF" },
+  "DE": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "AT": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "CZ": { "monthly": 790, "currency": "CZK", "symbol": "Kč" },
+  "SK": { "monthly": 19, "currency": "EUR", "symbol": "€" },
+  "HU": { "monthly": 7900, "currency": "HUF", "symbol": "Ft" },
+  "PL": { "monthly": 99, "currency": "PLN", "symbol": "zł" },
+  "GB": { "monthly": 35, "currency": "GBP", "symbol": "£" },
+  "US": { "monthly": 49, "currency": "USD", "symbol": "$" },
+  "CA": { "monthly": 59, "currency": "CAD", "symbol": "CA$" },
+  "AU": { "monthly": 69, "currency": "AUD", "symbol": "A$" },
+  "FR": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "IT": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "ES": { "monthly": 39, "currency": "EUR", "symbol": "€" },
+  "NL": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "BE": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "RO": { "monthly": 149, "currency": "RON", "symbol": "RON" },
+  "BR": { "monthly": 129, "currency": "BRL", "symbol": "R$" },
+  "EU": { "monthly": 45, "currency": "EUR", "symbol": "€" },
+  "DEFAULT": { "monthly": 45, "currency": "EUR", "symbol": "€" }
+}

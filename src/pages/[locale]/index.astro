@@ -2,11 +2,7 @@
 import CTASection from "../../components/CTASection.astro";
 import LocalizedHero from "../../components/LocalizedHero.astro";
 import OutreachBlock from "../../components/OutreachBlock.astro";
-import PackageCard from "../../components/PackageCard.astro";
-import ServiceCard from "../../components/ServiceCard.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getPackageLabels } from "../../config/packageLabels";
-import { packageKeyByName } from "../../config/pricing";
 import { getDemoPageContent } from "../../content/demos";
 import { getAlternates, getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../content/locales";
 
@@ -18,7 +14,8 @@ const locale = Astro.params.locale as LocaleCode;
 const content = getLocaleContent(locale);
 const demoContent = getDemoPageContent(locale);
 const contactHref = getLocalizedPath(locale, "contact");
-const packageLabels = getPackageLabels(locale);
+const servicesPricingHref = getLocalizedPath(locale, "services-pricing");
+const portfolioHref = getLocalizedPath(locale, "portfolio");
 ---
 
 <Layout
@@ -32,7 +29,12 @@ const packageLabels = getPackageLabels(locale);
   content={content}
 >
   <main>
-    <LocalizedHero hero={content.hero} packagesHref={getLocalizedPath(locale, "packages")} contactHref={contactHref} ui={content.ui} />
+    <LocalizedHero
+      hero={content.hero}
+      packagesHref={getLocalizedPath(locale, "demos")}
+      contactHref={contactHref}
+      ui={content.ui}
+    />
 
     <section class="intro-strip" aria-label="Websiteli positioning">
       <p>{content.intro}</p>
@@ -42,33 +44,28 @@ const packageLabels = getPackageLabels(locale);
       {content.badges.map((badge) => <span>{badge}</span>)}
     </section>
 
-    <section class="section-shell section-block" id="packages">
+    <section class="section-shell section-block" id="services-pricing">
       <div class="section-heading centered">
-        <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
-        <h2>{content.packagesIntro.title}</h2>
-        <p>{content.packagesIntro.text}</p>
-      </div>
-      <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
-      <div class="pricing-grid package-grid">
-        {content.packages.map((item) => {
-          const packageKey = packageKeyByName[item.name];
-          return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
-        })}
-      </div>
-    </section>
-
-    <section class="section-shell section-block compact-top" id="services">
-      <div class="section-heading">
-        <p class="eyebrow">{content.services.eyebrow}</p>
+        <p class="eyebrow">{content.nav.servicesPricing ?? "Services & Pricing"}</p>
         <h2>{content.services.title}</h2>
         <p>{content.services.text}</p>
       </div>
-      <div class="service-grid">
-        {content.services.items.map((service, index) => {
-          const packageKey = service.package ? packageKeyByName[service.package] : undefined;
-          return <ServiceCard {...service} displayPackage={packageKey ? packageLabels[packageKey] : service.package} index={index + 1} />;
-        })}
+      <div class="homepage-summary-grid">
+        {content.services.items.slice(0, 4).map((service) => (
+          <article class="service-card">
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </article>
+        ))}
       </div>
+      <div class="centered-actions section-cta">
+        <a class="button primary" href={servicesPricingHref}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
+      </div>
+    </section>
+
+    <section class="section-shell inline-cta demo-discovery-cta">
+      <a class="button primary" href={portfolioHref}>{content.ui?.demoCta ?? "See Live Demos"}</a>
+      <a class="button secondary" href={servicesPricingHref}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
     </section>
 
     <section class="why-section">
@@ -90,19 +87,16 @@ const packageLabels = getPackageLabels(locale);
         <h2>{demoContent.title}</h2>
         <p>{demoContent.text}</p>
       </div>
-      <div class="demo-grid">
-        {Object.values(demoContent.items).slice(0, 3).map((item) => (
-          <article class="demo-card">
-            <div class="demo-media" aria-hidden="true"></div>
-            <h3>{item.title}</h3>
-            <p>{item.shortDescription}</p>
-            <a href={`/${locale}/demos/${item.slug}/`}>{demoContent.labels.learnMore}</a>
-          </article>
-        ))}
+      <div class="centered-actions">
+        <a class="button primary" href={portfolioHref}>{content.ui?.demoCta ?? "See Live Demos"}</a>
       </div>
     </section>
 
     <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
+    <section class="section-shell inline-cta demo-discovery-cta">
+      <a class="button secondary" href={portfolioHref}>{content.ui?.demoCta ?? "See Live Demos"}</a>
+      <a class="button primary" href={contactHref}>{content.hero.primaryCta}</a>
+    </section>
     <CTASection content={content} />
   </main>
 </Layout>

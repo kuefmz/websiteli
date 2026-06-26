@@ -1,6 +1,6 @@
 import pricing from "./pricing.json";
 
-export const packageKeys = ["digitalFoundation", "growthSetup", "aiDataUpgrade"] as const;
+export const packageKeys = ["digitalFoundation", "growthSetup", "aiDataUpgrade", "websiteMaintenance"] as const;
 export type PackageKey = (typeof packageKeys)[number];
 
 export const euCountryCodes = [
@@ -35,6 +35,7 @@ export const packageKeyByName: Record<string, PackageKey> = {
   "Digital Foundation": "digitalFoundation",
   "Growth Setup": "growthSetup",
   "AI/Data Upgrade": "aiDataUpgrade",
+  "Website Maintenance": "websiteMaintenance",
 };
 
 export function normalizeCountryCode(countryCode: string | undefined | null) {

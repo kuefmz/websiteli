@@ -3,7 +3,11 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://websiteli.ch",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !/\/(?:services|packages|demos|example-projects)(?:\/|$)/.test(new URL(page).pathname),
+    }),
+  ],
   vite: {
     server: {
       watch: {

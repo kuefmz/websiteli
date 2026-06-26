@@ -2,8 +2,8 @@
   "locale": "de",
   "language": "Deutsch",
   "seo": {
-    "title": "Websiteli - Schweizer Websites, Automatisierung und KI für KMU",
-    "description": "Digitale Grundlagen für Schweizer und deutschsprachige KMU: klare Websites, lokale Sichtbarkeit, Datenschutzbewusstsein, Messung, Automation und KI."
+    "title": "Websiteli - Websites, SEO, Automation, KI und Wartung für KMU",
+    "description": "Schweizer Website-, SEO-, Wartungs-, Leadgenerierungs-, Analytics-, Automations- und KI-Pakete für KMU."
   },
   "nav": {
     "home": "Startseite",
@@ -13,14 +13,17 @@
     "caseStudies": "Beispielprojekte",
     "exampleProjects": "Beispielprojekte",
     "about": "Über uns",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "servicesPricing": "Leistungen & Preise",
+    "portfolio": "Portfolio"
   },
   "hero": {
     "eyebrow": "Schweizer IT- und KI-Agentur für KMU",
-    "title": "Digitale Grundlagen, die für Schweizer KMU wirklich funktionieren.",
-    "text": "Websiteli hilft lokalen Dienstleistern, Praxen, Restaurants und Beratungsteams mit seriösen Websites, sauberer Technik, messbaren Anfragen und pragmatischer Automatisierung.",
+    "title": "Websites, SEO, Automation und Wartung, die KMU beim Wachstum helfen.",
+    "text": "Websiteli baut und wartet professionelle Websites mit Google-Sichtbarkeit, Lead-Erfassung, Analytics und pragmatischer KI-Automation.",
     "primaryCta": "Kostenlosen Digital-Check anfragen",
-    "secondaryCta": "Pakete vergleichen",
+    "secondaryCta": "Live-Demos ansehen",
     "trustLine": "Schweizer Standort - Klare Offerten - Mehrsprachige Umsetzung"
   },
   "badges": [
@@ -28,13 +31,14 @@
     "KI- und Datenentwicklung",
     "Klare Offerten",
     "Mehrsprachige Umsetzung",
-    "Praktische Übergabe"
+    "Praktische Übergabe",
+    "Website-Wartung"
   ],
-  "intro": "Wir bauen nicht einfach eine Website. Wir schaffen eine verlässliche digitale Grundlage mit E-Mail, Messung, lokaler Suche, Kontaktwegen und einem Ausbaupfad für Automation und KI.",
+  "intro": "Wir bauen nicht einfach Websites. Wir schaffen und betreuen die digitale Grundlage für Vertrauen, Google-Sichtbarkeit, Leads und spätere Automation.",
   "packagesIntro": {
     "eyebrow": "Pakete",
     "title": "Drei klare Pakete für typische KMU-Phasen.",
-    "text": "Erst Vertrauen und Auffindbarkeit schaffen, dann Anfragen und Buchungen steigern, später wiederkehrende Arbeit automatisieren."
+    "text": "Erst Vertrauen und Auffindbarkeit schaffen, dann Anfragen und Buchungen steigern, später wiederkehrende Arbeit automatisieren. Wir halten Ihre Website sicher, schnell und aktuell, damit Sie sich auf Ihr Geschäft konzentrieren können."
   },
   "packages": [
     {
@@ -82,6 +86,25 @@
         "Lead-Qualifizierungs-Chatbot",
         "Daten-/KI-Beratung"
       ]
+    },
+    {
+      "name": "Website Maintenance",
+      "description": "Für Unternehmen, die nach dem Launch Ruhe möchten: Updates, Monitoring, Backups, kleine Änderungen und technischer Support.",
+      "cta": "Website betreuen lassen",
+      "features": [
+        "Sicherheitsupdates",
+        "Software- und Dependency-Updates",
+        "Uptime-Monitoring",
+        "Broken-Link-Checks",
+        "Monatliche Backups",
+        "Performance-Optimierung",
+        "Kleine Inhaltsänderungen",
+        "Monatlicher Analytics-Bericht",
+        "Kontaktformular-Monitoring",
+        "Basis-SEO-Monitoring",
+        "Technischer Support",
+        "Notfall-Wiederherstellung"
+      ]
     }
   ],
   "services": {
@@ -108,6 +131,11 @@
         "title": "Automatisierung und KI",
         "description": "Chatbots, interne Assistenten, Dashboards, Berichte und Arbeitsabläufe im KI- und Daten-Upgrade.",
         "package": "AI/Data Upgrade"
+      },
+      {
+        "title": "Website-Wartung",
+        "description": "Wir halten Ihre Website sicher, schnell und aktuell, damit Sie sich auf Ihr Geschäft konzentrieren können.",
+        "package": "Website Maintenance"
       }
     ]
   },
@@ -132,8 +160,8 @@
   },
   "caseStudies": {
     "eyebrow": "Demo-Projekte",
-    "title": "Platzhalter für zukünftige Fallstudien.",
-    "text": "Hier entstehen später Projektseiten mit Ziel, Umfang, Ablauf und Ergebnis."
+    "title": "Bibliothek für Demo-Case-Studies",
+    "text": "Projektanalysen erklären Problem, Umfang, Leistungen und erwartete Verbesserungen hinter jeder veröffentlichten Demo."
   },
   "about": {
     "eyebrow": "Über uns",
@@ -155,7 +183,7 @@
     ],
     "cta": "Kurzes Gespräch buchen",
     "emailSubject": "Idee für Ihr digitales Setup",
-    "emailDraft": "Guten Tag, ich habe gesehen, dass Ihr Unternehmen von einer klareren digitalen Grundlage profitieren könnte: Website, Kontaktfluss, lokale Sichtbarkeit und Messung sauber verbunden. Websiteli ist ein Schweizer Team für praktische Websites, Automatisierung und KI. Darf ich Ihnen einen kostenlosen kurzen Digital-Check vorschlagen?"
+    "emailDraft": "Hallo Websiteli, ich betreibe ein Unternehmen und interessiere mich für eine professionelle Website. Könnten Sie mir bitte mitteilen, welche Optionen Sie anbieten und wie die nächsten Schritte aussehen? Vielen Dank!"
   },
   "contact": {
     "eyebrow": "Kontakt",
@@ -197,6 +225,9 @@
       "social": "Soziales",
       "socialSoon": "Links folgen bald",
       "rights": "Alle Rechte vorbehalten."
-    }
+    },
+    "maintenancePriceNote": "Monatliche Wartung, nach Markt und Beratung kalkuliert.",
+    "featuredDemoCta": "Live-Demos ansehen",
+    "demoCta": "Live-Demos ansehen"
   }
 }
