@@ -41,6 +41,7 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
 
   const gtagConfig = {};
   const attribution = window.websiteliGetAttribution?.() || {};
+  const attributionParams = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
   const analyticsPagePath = ${JSON.stringify(analyticsPagePath)};
   if (analyticsPagePath) {
     const analyticsPageUrl = new URL(analyticsPagePath, window.location.origin);
@@ -59,9 +60,13 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
   if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
   if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
   if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
+  Object.entries(attributionParams).forEach(([key, value]) => {
+    if (value) gtagConfig[key] = value;
+  });
   if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
     gtagConfig.debug_mode = true;
   }
+  gtag('set', attributionParams);
   gtag('config', 'G-TGZY875FGJ', gtagConfig);
 </script>`;
 const structuredData = [

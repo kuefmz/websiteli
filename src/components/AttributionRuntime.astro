@@ -99,6 +99,9 @@
 
     function getAnalyticsAttributionParams(attribution = getAttribution()) {
       return {
+        source: attribution.utm_source || "",
+        medium: attribution.utm_medium || "",
+        campaign: attribution.utm_campaign || "",
         utm_source: attribution.utm_source || "",
         utm_medium: attribution.utm_medium || "",
         utm_campaign: attribution.utm_campaign || "",
