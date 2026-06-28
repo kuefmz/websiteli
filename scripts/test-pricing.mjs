@@ -31,6 +31,7 @@ test("localized pages include the browser pricing runtime", async () => {
   assert.match(englishHome, /websiteli_attribution/);
   assert.match(englishHome, /localStorage/);
   assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
+  assert.match(englishHome, /utm_detected/);
   assert.match(englishHome, /campaign_landing/);
   assert.match(englishHome, /websiteliShowAttribution/);
   assert.match(englishHome, /landing_page/);
@@ -80,6 +81,7 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(attribution, /firstTouch/);
   assert.match(attribution, /lastTouch/);
   assert.match(attribution, /window\.localStorage/);
+  assert.match(attribution, /getCurrentAttribution/);
   assert.match(attribution, /source: attribution\.utm_source/);
   assert.match(attribution, /medium: attribution\.utm_medium/);
   assert.match(attribution, /campaign: attribution\.utm_campaign/);
