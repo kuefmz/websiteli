@@ -149,9 +149,34 @@ const structuredData = [
       document.documentElement.dataset.theme = storedTheme || (prefersDark ? "dark" : "light");
     </script>
     <script is:inline>
+      function getWebsiteliEventAttribution() {
+        const attribution = window.websiteliGetAttribution?.() || {};
+
+        return {
+          utm_source: attribution.utm_source || undefined,
+          utm_medium: attribution.utm_medium || undefined,
+          utm_campaign: attribution.utm_campaign || undefined,
+          utm_term: attribution.utm_term || undefined,
+          utm_content: attribution.utm_content || undefined,
+          utm_id: attribution.utm_id || undefined,
+          gclid: attribution.gclid || undefined,
+          gbraid: attribution.gbraid || undefined,
+          wbraid: attribution.wbraid || undefined,
+          fbclid: attribution.fbclid || undefined,
+          msclkid: attribution.msclkid || undefined,
+          landing_page: attribution.landingPage || undefined,
+          attribution_first_seen_at: attribution.firstSeenAt || undefined,
+        };
+      }
+
       window.trackWebsiteliEvent = function(eventName, params = {}) {
+        const eventParams = {
+          ...getWebsiteliEventAttribution(),
+          ...params,
+        };
+
         if (typeof window.gtag === "function") {
-          window.gtag("event", eventName, params);
+          window.gtag("event", eventName, eventParams);
         }
       };
 
