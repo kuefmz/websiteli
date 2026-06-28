@@ -154,6 +154,7 @@ const formUi = content?.ui?.form ?? {
       <input name="utm_campaign" type="hidden" data-pricing-field="utm" data-utm-key="utm_campaign" />
       <input name="utm_term" type="hidden" data-pricing-field="utm" data-utm-key="utm_term" />
       <input name="utm_content" type="hidden" data-pricing-field="utm" data-utm-key="utm_content" />
+      <input name="utm_id" type="hidden" data-pricing-field="utm" data-utm-key="utm_id" />
       <input name="privacyPolicyVersion" type="hidden" value={privacyPolicyVersion} />
       <label class="website-field" aria-hidden="true">
         {formUi.website}
@@ -208,12 +209,16 @@ const formUi = content?.ui?.form ?? {
   }
 
   function getUtm(formData) {
+    const attribution = window.websiteliGetAttribution?.() || {};
+
     return {
-      source: getFormString(formData, "utm_source"),
-      medium: getFormString(formData, "utm_medium"),
-      campaign: getFormString(formData, "utm_campaign"),
-      term: getFormString(formData, "utm_term"),
-      content: getFormString(formData, "utm_content"),
+      source: attribution.utm_source || getFormString(formData, "utm_source"),
+      medium: attribution.utm_medium || getFormString(formData, "utm_medium"),
+      campaign: attribution.utm_campaign || getFormString(formData, "utm_campaign"),
+      term: attribution.utm_term || getFormString(formData, "utm_term"),
+      content: attribution.utm_content || getFormString(formData, "utm_content"),
+      id: attribution.utm_id || getFormString(formData, "utm_id"),
+      attribution,
     };
   }
 
@@ -290,6 +295,14 @@ const formUi = content?.ui?.form ?? {
         utm_campaign: utm.campaign,
         utm_term: utm.term,
         utm_content: utm.content,
+        utm_id: utm.id,
+        gclid: utm.attribution.gclid || "",
+        gbraid: utm.attribution.gbraid || "",
+        wbraid: utm.attribution.wbraid || "",
+        fbclid: utm.attribution.fbclid || "",
+        msclkid: utm.attribution.msclkid || "",
+        landingPage: utm.attribution.landingPage || "",
+        firstSeenAt: utm.attribution.firstSeenAt || "",
         source: getFormString(formData, "source") || "websiteli.ch",
         packageKey: getFormString(formData, "packageKey") || need,
         relatedDemo: getFormString(formData, "relatedDemo"),
@@ -333,6 +346,12 @@ const formUi = content?.ui?.form ?? {
         related_demo: payload.metadata.relatedDemo,
         related_project: payload.metadata.relatedProject,
         inquiry_intent: payload.metadata.inquiryIntent,
+        utm_source: payload.metadata.utm_source,
+        utm_medium: payload.metadata.utm_medium,
+        utm_campaign: payload.metadata.utm_campaign,
+        utm_term: payload.metadata.utm_term,
+        utm_content: payload.metadata.utm_content,
+        utm_id: payload.metadata.utm_id,
         privacy_policy_accepted: payload.metadata.privacyPolicyAccepted ? "yes" : "no",
         privacy_policy_version: payload.metadata.privacyPolicyVersion,
       });

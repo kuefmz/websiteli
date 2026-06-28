@@ -15,6 +15,9 @@ const pricingData = {
     currency: "EUR",
     packages: {},
   };
+  const attributionStorageKey = "websiteli_attribution";
+  const attributionKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id"];
+  const clickIdKeys = ["gclid", "gbraid", "wbraid", "fbclid", "msclkid", "ttclid", "li_fat_id"];
 
   function normalizeCountryCode(countryCode) {
     if (typeof countryCode !== "string") return "";
@@ -148,6 +151,56 @@ const pricingData = {
     return pricingState.packages?.[packageKey]?.from || "";
   }
 
+  function getStoredAttribution() {
+    try {
+      const stored = window.sessionStorage?.getItem(attributionStorageKey);
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function storeAttribution(attribution) {
+    try {
+      window.sessionStorage?.setItem(attributionStorageKey, JSON.stringify(attribution));
+    } catch {
+      // Browsers can disable storage; the current URL still works without it.
+    }
+  }
+
+  function readAttributionFromUrl(url) {
+    const attribution = {};
+
+    [...attributionKeys, ...clickIdKeys].forEach((key) => {
+      const value = url.searchParams.get(key);
+      if (value) attribution[key] = value;
+    });
+
+    url.searchParams.forEach((value, key) => {
+      if (key.toLowerCase().startsWith("utm_") && value) attribution[key] = value;
+    });
+
+    return attribution;
+  }
+
+  function getAttribution() {
+    const url = new URL(window.location.href);
+    const fromUrl = readAttributionFromUrl(url);
+    const stored = getStoredAttribution();
+    const attribution = { ...stored, ...fromUrl };
+
+    if (Object.keys(fromUrl).length > 0) {
+      storeAttribution({
+        ...attribution,
+        landingPage: stored.landingPage || window.location.href,
+        firstSeenAt: stored.firstSeenAt || new Date().toISOString(),
+        lastSeenAt: new Date().toISOString(),
+      });
+    }
+
+    return attribution;
+  }
+
   function updateInquiryFields() {
     const url = new URL(window.location.href);
     const packageSelect = document.querySelector("[data-package-select]");
@@ -158,6 +211,7 @@ const pricingData = {
     const relatedProject = url.searchParams.get("project") || "";
     const sourcePage = url.searchParams.get("sourcePage") || window.location.pathname;
     const inquiryIntent = url.searchParams.get("intent") || "";
+    const attribution = getAttribution();
 
     document.querySelectorAll("[data-pricing-field]").forEach((field) => {
       if (!(field instanceof HTMLInputElement)) return;
@@ -166,7 +220,7 @@ const pricingData = {
       const utmKey = field.dataset.utmKey;
 
       if (utmKey) {
-        field.value = url.searchParams.get(utmKey) || "";
+        field.value = attribution[utmKey] || "";
         return;
       }
 
@@ -246,6 +300,7 @@ const pricingData = {
 
   window.websiteliGetPricingForCountry = getPricingForCountry;
   window.websiteliUpdateInquiryFields = updateInquiryFields;
+  window.websiteliGetAttribution = getAttribution;
 
   document.addEventListener("DOMContentLoaded", async () => {
     const detected = await detectBrowserCountry();

@@ -290,7 +290,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       return;
     }
 
-    const searchParams = new URLSearchParams(location.search);
+    const attribution = window.websiteliGetAttribution?.() || {};
     const detectedCountry = window.websiteliPricing?.country || "";
     const detectedCurrency = window.websiteliPricing?.currency || "";
     const detectedMarket = window.websiteliPricing?.pricingMarket || "";
@@ -305,9 +305,19 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
         pageUrl: window.location.href,
         referrer: document.referrer,
         userAgent: navigator.userAgent,
-        utm_source: searchParams.get("utm_source"),
-        utm_medium: searchParams.get("utm_medium"),
-        utm_campaign: searchParams.get("utm_campaign"),
+        utm_source: attribution.utm_source || "",
+        utm_medium: attribution.utm_medium || "",
+        utm_campaign: attribution.utm_campaign || "",
+        utm_term: attribution.utm_term || "",
+        utm_content: attribution.utm_content || "",
+        utm_id: attribution.utm_id || "",
+        gclid: attribution.gclid || "",
+        gbraid: attribution.gbraid || "",
+        wbraid: attribution.wbraid || "",
+        fbclid: attribution.fbclid || "",
+        msclkid: attribution.msclkid || "",
+        landingPage: attribution.landingPage || "",
+        firstSeenAt: attribution.firstSeenAt || "",
         privacyPolicyAccepted: privacyAccepted,
         privacyPolicyVersion: "2026-06-24",
         privacyPolicyUrl: `${window.location.origin}/privacy/`,
@@ -337,6 +347,9 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
         pricing_market: payload.metadata.market,
         currency: payload.metadata.currency,
         source_path: window.location.pathname,
+        utm_source: payload.metadata.utm_source,
+        utm_medium: payload.metadata.utm_medium,
+        utm_campaign: payload.metadata.utm_campaign,
         privacy_policy_accepted: "yes",
       });
       if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
