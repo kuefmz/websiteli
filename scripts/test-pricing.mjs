@@ -88,6 +88,10 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(layout, /getWebsiteliEventAttribution/);
   assert.match(attribution, /utm_campaign/);
   assert.match(layout, /gtag\('config', 'G-TGZY875FGJ', gtagConfig\)/);
+  assert.match(layout, /page_location = window\.location\.href/);
+  assert.match(layout, /campaign_source/);
+  assert.match(layout, /campaign_medium/);
+  assert.match(layout, /campaign_name/);
   assert.match(layout, /debug_mode/);
   assert.doesNotMatch(layout, /page_view/);
   assert.doesNotMatch(source, /data-market-select|market_change_select/);
