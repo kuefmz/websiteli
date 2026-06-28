@@ -31,6 +31,7 @@ const {
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
+const analyticsPagePath = page === "home" ? "/" : "";
 const googleTagSnippet = `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
 <script>
@@ -40,7 +41,16 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
 
   const gtagConfig = {};
   const attribution = window.websiteliGetAttribution?.() || {};
-  gtagConfig.page_location = window.location.href;
+  const analyticsPagePath = ${JSON.stringify(analyticsPagePath)};
+  if (analyticsPagePath) {
+    const analyticsPageUrl = new URL(analyticsPagePath, window.location.origin);
+    analyticsPageUrl.search = window.location.search;
+    analyticsPageUrl.hash = window.location.hash;
+    gtagConfig.page_path = analyticsPagePath;
+    gtagConfig.page_location = analyticsPageUrl.toString();
+  } else {
+    gtagConfig.page_location = window.location.href;
+  }
   if (attribution.utm_source) gtagConfig.campaign_source = attribution.utm_source;
   if (attribution.utm_medium) gtagConfig.campaign_medium = attribution.utm_medium;
   if (attribution.utm_campaign) gtagConfig.campaign_name = attribution.utm_campaign;
