@@ -80,6 +80,9 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(attribution, /firstTouch/);
   assert.match(attribution, /lastTouch/);
   assert.match(attribution, /window\.localStorage/);
+  assert.match(attribution, /source: attribution\.utm_source/);
+  assert.match(attribution, /medium: attribution\.utm_medium/);
+  assert.match(attribution, /campaign: attribution\.utm_campaign/);
   assert.match(source, /api\.country\.is/);
   assert.match(source, /ipapi\.co/);
   assert.match(source, /geojs\.io/);
@@ -95,6 +98,7 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(layout, /campaign_source/);
   assert.match(layout, /campaign_medium/);
   assert.match(layout, /campaign_name/);
+  assert.match(layout, /gtag\('set', attributionParams\)/);
   assert.match(layout, /debug_mode/);
   assert.doesNotMatch(layout, /page_view/);
   assert.doesNotMatch(source, /data-market-select|market_change_select/);
