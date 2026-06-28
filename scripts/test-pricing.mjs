@@ -45,11 +45,15 @@ test("root page redirects to the localized English site", async () => {
   const demoRedirect = await readDistFile("en/demos/shopify-consultant-portfolio/index.html");
 
   assert.match(root, /new URL\("\/en\/", window\.location\.origin\)/);
+  assert.match(root, /websiteli_redirect_context/);
+  assert.match(root, /referrer: document\.referrer/);
   assert.match(root, /target\.search = window\.location\.search/);
   assert.doesNotMatch(root, /http-equiv="refresh"/);
   assert.match(root, /Continue to Websiteli/);
   assert.match(legacyServices, /target\.search = window\.location\.search/);
+  assert.match(legacyServices, /websiteli_redirect_context/);
   assert.match(demoRedirect, /target\.search = window\.location\.search/);
+  assert.match(demoRedirect, /websiteli_redirect_context/);
 });
 
 test("pricing source of truth contains supported markets and packages", async () => {
@@ -78,6 +82,8 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
   assert.match(attribution, /readAttributionFromUrl/);
+  assert.match(attribution, /readRedirectContext/);
+  assert.match(attribution, /original_referrer/);
   assert.match(attribution, /firstTouch/);
   assert.match(attribution, /lastTouch/);
   assert.match(attribution, /window\.localStorage/);
@@ -100,6 +106,7 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(layout, /campaign_source/);
   assert.match(layout, /campaign_medium/);
   assert.match(layout, /campaign_name/);
+  assert.match(layout, /page_referrer/);
   assert.match(layout, /gtag\('set', attributionParams\)/);
   assert.match(layout, /debug_mode/);
   assert.doesNotMatch(layout, /page_view/);
