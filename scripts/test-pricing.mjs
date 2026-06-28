@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 const distDir = join(process.cwd(), "dist");
 const pricingRuntimePath = join(process.cwd(), "src/components/PricingRuntime.astro");
+const layoutPath = join(process.cwd(), "src/layouts/Layout.astro");
 
 async function collectFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -27,6 +28,9 @@ test("localized pages include the browser pricing runtime", async () => {
   const englishHome = await readDistFile("en/index.html");
 
   assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
+  assert.match(englishHome, /campaign_landing/);
+  assert.match(englishHome, /websiteliShowAttribution/);
+  assert.match(englishHome, /landing_page/);
   assert.match(englishHome, /Services &amp; Pricing/);
   assert.match(englishHome, /Website maintenance/i);
 });
@@ -57,6 +61,7 @@ test("pricing source of truth contains supported markets and packages", async ()
 
 test("pricing resolves from IP lookups without a user-facing market selector", async () => {
   const source = await readFile(pricingRuntimePath, "utf8");
+  const layout = await readFile(layoutPath, "utf8");
   const files = await collectFiles(distDir);
   const frontendFiles = files.filter((file) => /\.(html|js)$/.test(file));
   const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
@@ -66,6 +71,8 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(source, /geojs\.io/);
   assert.match(source, /cloudflare-trace/);
   assert.match(source, /Promise\.all/);
+  assert.match(layout, /getWebsiteliEventAttribution/);
+  assert.match(layout, /utm_campaign/);
   assert.doesNotMatch(source, /data-market-select|market_change_select/);
   assert.doesNotMatch(combined, /websiteli_market|document\.cookie/);
 });

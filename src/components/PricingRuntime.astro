@@ -201,6 +201,33 @@ const pricingData = {
     return attribution;
   }
 
+  function getAnalyticsAttributionParams(attribution = getAttribution()) {
+    return {
+      utm_source: attribution.utm_source || "",
+      utm_medium: attribution.utm_medium || "",
+      utm_campaign: attribution.utm_campaign || "",
+      utm_term: attribution.utm_term || "",
+      utm_content: attribution.utm_content || "",
+      utm_id: attribution.utm_id || "",
+      gclid: attribution.gclid || "",
+      gbraid: attribution.gbraid || "",
+      wbraid: attribution.wbraid || "",
+      fbclid: attribution.fbclid || "",
+      msclkid: attribution.msclkid || "",
+      landing_page: attribution.landingPage || "",
+      attribution_first_seen_at: attribution.firstSeenAt || "",
+    };
+  }
+
+  function hasAttribution(attribution) {
+    return [...attributionKeys, ...clickIdKeys].some((key) => Boolean(attribution[key]));
+  }
+
+  function showAttributionDebug(attribution = getAttribution()) {
+    console.table(getAnalyticsAttributionParams(attribution));
+    return attribution;
+  }
+
   function updateInquiryFields() {
     const url = new URL(window.location.href);
     const packageSelect = document.querySelector("[data-package-select]");
@@ -301,8 +328,20 @@ const pricingData = {
   window.websiteliGetPricingForCountry = getPricingForCountry;
   window.websiteliUpdateInquiryFields = updateInquiryFields;
   window.websiteliGetAttribution = getAttribution;
+  window.websiteliShowAttribution = showAttributionDebug;
 
   document.addEventListener("DOMContentLoaded", async () => {
+    const attribution = getAttribution();
+    if (hasAttribution(attribution)) {
+      window.trackWebsiteliEvent?.("campaign_landing", {
+        event_category: "attribution",
+        event_label: attribution.utm_campaign || attribution.utm_source || attribution.gclid || "campaign",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        ...getAnalyticsAttributionParams(attribution),
+      });
+    }
+
     const detected = await detectBrowserCountry();
     renderPricing(detected.country, { track: true, source: detected.source });
 
