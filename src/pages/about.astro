@@ -1,3 +1,16 @@
----
-return Astro.redirect("/en/about/");
----
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="canonical" href="/en/about/" />
+    <script is:inline>
+      const target = new URL("/en/about/", window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.toString());
+    </script>
+    <title>Websiteli About</title>
+  </head>
+  <body>
+    <a href="/en/about/">Continue to Websiteli About</a>
+  </body>
+</html>

@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 const distDir = join(process.cwd(), "dist");
+const attributionRuntimePath = join(process.cwd(), "src/components/AttributionRuntime.astro");
 const pricingRuntimePath = join(process.cwd(), "src/components/PricingRuntime.astro");
 const layoutPath = join(process.cwd(), "src/layouts/Layout.astro");
 
@@ -27,6 +28,8 @@ async function readDistFile(path) {
 test("localized pages include the browser pricing runtime", async () => {
   const englishHome = await readDistFile("en/index.html");
 
+  assert.match(englishHome, /websiteli_attribution/);
+  assert.match(englishHome, /localStorage/);
   assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
   assert.match(englishHome, /campaign_landing/);
   assert.match(englishHome, /websiteliShowAttribution/);
@@ -37,9 +40,15 @@ test("localized pages include the browser pricing runtime", async () => {
 
 test("root page redirects to the localized English site", async () => {
   const root = await readDistFile("index.html");
+  const legacyServices = await readDistFile("en/services/index.html");
+  const demoRedirect = await readDistFile("en/demos/shopify-consultant-portfolio/index.html");
 
-  assert.match(root, /content="0;url=\/en\/"/);
+  assert.match(root, /new URL\("\/en\/", window\.location\.origin\)/);
+  assert.match(root, /target\.search = window\.location\.search/);
+  assert.doesNotMatch(root, /http-equiv="refresh"/);
   assert.match(root, /Continue to Websiteli/);
+  assert.match(legacyServices, /target\.search = window\.location\.search/);
+  assert.match(demoRedirect, /target\.search = window\.location\.search/);
 });
 
 test("pricing source of truth contains supported markets and packages", async () => {
@@ -60,19 +69,27 @@ test("pricing source of truth contains supported markets and packages", async ()
 });
 
 test("pricing resolves from IP lookups without a user-facing market selector", async () => {
+  const attribution = await readFile(attributionRuntimePath, "utf8");
   const source = await readFile(pricingRuntimePath, "utf8");
   const layout = await readFile(layoutPath, "utf8");
   const files = await collectFiles(distDir);
   const frontendFiles = files.filter((file) => /\.(html|js)$/.test(file));
   const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
 
+  assert.match(attribution, /readAttributionFromUrl/);
+  assert.match(attribution, /firstTouch/);
+  assert.match(attribution, /lastTouch/);
+  assert.match(attribution, /window\.localStorage/);
   assert.match(source, /api\.country\.is/);
   assert.match(source, /ipapi\.co/);
   assert.match(source, /geojs\.io/);
   assert.match(source, /cloudflare-trace/);
   assert.match(source, /Promise\.all/);
   assert.match(layout, /getWebsiteliEventAttribution/);
-  assert.match(layout, /utm_campaign/);
+  assert.match(attribution, /utm_campaign/);
+  assert.match(layout, /gtag\('config', 'G-TGZY875FGJ', gtagConfig\)/);
+  assert.match(layout, /debug_mode/);
+  assert.doesNotMatch(layout, /page_view/);
   assert.doesNotMatch(source, /data-market-select|market_change_select/);
   assert.doesNotMatch(combined, /websiteli_market|document\.cookie/);
 });
@@ -106,7 +123,7 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /name="utm_source"/);
   assert.match(contact, /name="utm_id"/);
   assert.match(contact, /websiteliGetAttribution/);
-  assert.match(contact, /sessionStorage/);
+  assert.match(contact, /first_utm_source/);
   assert.match(contact, /gclid/);
 
   assert.match(portfolio, /shopify/i);

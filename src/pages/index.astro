@@ -4,8 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=/en/" />
     <link rel="canonical" href="/en/" />
+    <script is:inline>
+      const target = new URL("/en/", window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.toString());
+    </script>
     <title>Websiteli</title>
   </head>
   <body>

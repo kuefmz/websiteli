@@ -1,3 +1,16 @@
----
-return Astro.redirect("/en/portfolio/");
----
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="canonical" href="/en/portfolio/" />
+    <script is:inline>
+      const target = new URL("/en/portfolio/", window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.toString());
+    </script>
+    <title>Websiteli Portfolio</title>
+  </head>
+  <body>
+    <a href="/en/portfolio/">Continue to Websiteli Portfolio</a>
+  </body>
+</html>
