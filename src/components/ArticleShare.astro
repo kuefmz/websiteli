@@ -1,0 +1,50 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  image?: string;
+}
+
+const { url, title, image = "" } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const encodedImage = encodeURIComponent(image);
+const shareLinks = [
+  { label: "LinkedIn", short: "in", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+  { label: "Facebook", short: "f", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+  { label: "X", short: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}` },
+  { label: "Pinterest", short: "P", href: `https://www.pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}&media=${encodedImage}` },
+];
+---
+
+<section class="article-share" aria-label="Share article">
+  <h2>Share</h2>
+  <div class="share-buttons">
+    {shareLinks.map((link) => (
+      <a class="share-icon" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${link.label}`} title={link.label} data-track-event="blog_share_click" data-track-label={link.label}>
+        <span aria-hidden="true">{link.short}</span>
+      </a>
+    ))}
+    <button class="share-icon" type="button" data-copy-link={url} aria-label="Copy article link" title="Copy link" data-track-event="blog_share_click" data-track-label="Copy link">
+      <span aria-hidden="true">link</span>
+    </button>
+  </div>
+  <p class="copy-status" data-copy-status aria-live="polite"></p>
+</section>
+
+<script>
+  document.addEventListener("click", async (event) => {
+    const button = event.target instanceof Element ? event.target.closest("[data-copy-link]") : null;
+    if (!(button instanceof HTMLButtonElement)) return;
+
+    const link = button.dataset.copyLink || window.location.href;
+    const status = button.closest(".article-share")?.querySelector("[data-copy-status]");
+    try {
+      await navigator.clipboard.writeText(link);
+      if (status) status.textContent = "Copied";
+    } catch {
+      window.prompt("Copy link", link);
+      if (status) status.textContent = "";
+    }
+  });
+</script>

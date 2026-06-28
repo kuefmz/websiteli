@@ -1,4 +1,4 @@
-import type { LocaleCode } from "./locales";
+import { localeCodes, type LocaleCode } from "./locales";
 
 export type BlogPost = {
   slug: string;
@@ -15,18 +15,10 @@ export type BlogPost = {
   excerpt: string;
   headings: string[];
   related: string[];
+  faqs?: { question: string; answer: string }[];
   body: { heading: string; paragraphs: string[]; list?: string[] }[];
 };
 
-export type BlogRoadmapItem = {
-  title: string;
-  primaryKeyword: string;
-  intent: "Informational" | "Commercial" | "Transactional";
-  audience: string;
-  competition: "Low" | "Medium" | "High";
-  why: string;
-  links: string[];
-};
 
 const marketKeywords = [
   "website creation Switzerland",
@@ -130,90 +122,350 @@ const enPost: BlogPost = {
       ],
     },
   ],
+  faqs: [
+    {
+      question: "Are AI-generated websites bad for business?",
+      answer:
+        "No. AI-generated drafts can be useful, but they should be turned into a maintainable business website with proper ownership, SEO, analytics, performance and conversion tracking.",
+    },
+    {
+      question: "What should I check before using an AI website builder?",
+      answer:
+        "Check domain ownership, hosting access, source code access, analytics, Google Search Console, mobile performance, SEO metadata, form tracking and whether the website can integrate with your business tools.",
+    },
+  ],
 };
 
-const roadmap: BlogRoadmapItem[] = [
-  ["How much does a business website cost in Switzerland?", "business website cost Switzerland", "Commercial", "Swiss small businesses", "Medium", "Pricing searches are close to buying and need transparent expectations.", ["/en/services-pricing/", "/en/contact/"]],
-  ["Why your restaurant website is not getting bookings", "restaurant website bookings", "Commercial", "Restaurants and cafes", "Medium", "Connects website quality directly to reservation revenue.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["Website vs Facebook page for small businesses", "website vs Facebook page small business", "Commercial", "Local business owners", "Medium", "Explains why owned web presence matters beyond social media.", ["/en/services-pricing/", "/en/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/"]],
-  ["How Google Business Profile brings local customers", "Google Business Profile local customers", "Informational", "Local services", "High", "Supports local SEO and GBP optimization demand.", ["/en/services-pricing/", "/en/services-pricing/"]],
-  ["AI automation for restaurants: practical examples", "AI automation for restaurants", "Commercial", "Restaurants", "Low", "Builds authority around automation for operational pain.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["Signs your website is costing you customers", "website costing customers", "Commercial", "Small business owners", "Medium", "High-friction pain point that naturally leads to audit CTA.", ["/en/contact/", "/en/services-pricing/"]],
-  ["Website redesign checklist for small businesses", "website redesign checklist", "Commercial", "Businesses with old websites", "High", "Captures redesign intent and frames Websiteli process.", ["/en/services-pricing/", "/en/contact/"]],
-  ["Landing page vs full website: what does your business need?", "landing page vs website", "Commercial", "Advertisers and startups", "Medium", "Helps package selection and reduces sales friction.", ["/en/services-pricing/", "/en/contact/"]],
-  ["How to rank on Google Maps as a local business", "rank on Google Maps local business", "Informational", "Local service businesses", "High", "Strong local SEO topic tied to GBP services.", ["/en/services-pricing/", "/en/services-pricing/"]],
-  ["Why slow websites lose customers", "slow website loses customers", "Commercial", "All small businesses", "Medium", "Performance topic with clear conversion impact.", ["/en/contact/", "/en/services-pricing/"]],
-  ["Best website structure for consultants", "website for consultants", "Commercial", "Consultants and coaches", "Medium", "Matches consultant demo and portfolio positioning.", ["/en/portfolio/#case-studies", "/en/portfolio/#live-demos"]],
-  ["Shopify vs custom website for service businesses", "Shopify vs custom website", "Commercial", "Consultants and ecommerce service providers", "High", "Captures comparison intent and supports Shopify demo.", ["/en/portfolio/#live-demos", "/en/contact/"]],
-  ["How to collect leads from your website", "website lead generation", "Commercial", "Service businesses", "High", "Core CRO topic that leads to Growth Setup.", ["/en/services-pricing/", "/en/services-pricing/"]],
-  ["What every local business website should include", "local business website checklist", "Commercial", "Local businesses", "Medium", "Broad but high-value checklist topic.", ["/en/services-pricing/", "/en/portfolio/#case-studies"]],
-  ["How to prepare your business for AI search", "AI search optimization for business", "Informational", "Forward-looking SMEs", "Low", "Positions Websiteli around future search behavior.", ["/en/services-pricing/", "/en/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/"]],
-  ["Website developer or website agency: which should you hire?", "website developer vs agency", "Commercial", "Buyers comparing vendors", "Medium", "Answers procurement friction before contact.", ["/en/about/", "/en/contact/"]],
-  ["Professional website checklist for restaurants", "professional restaurant website checklist", "Commercial", "Restaurants", "Low", "Niche page supporting restaurant demo.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["How booking integrations increase restaurant reservations", "booking integration restaurant website", "Commercial", "Restaurants", "Low", "Connects feature to measurable outcome.", ["/en/portfolio/#case-studies", "/en/contact/"]],
-  ["Website audit: what should be checked?", "website audit checklist", "Commercial", "Businesses considering audit", "High", "Directly supports free audit CTA.", ["/en/contact/", "/en/services-pricing/"]],
-  ["Google Analytics for small business websites", "Google Analytics small business website", "Informational", "Small business owners", "Medium", "Explains included analytics setup.", ["/en/services-pricing/", "/en/services-pricing/"]],
-  ["Google Search Console basics for business owners", "Google Search Console business website", "Informational", "Small business owners", "Medium", "Builds trust around technical SEO basics.", ["/en/services-pricing/", "/en/contact/"]],
-  ["Website maintenance: what small businesses actually need", "website maintenance small business", "Commercial", "Existing website owners", "Medium", "Future recurring service angle without overselling.", ["/en/services-pricing/", "/en/contact/"]],
-  ["How landing pages improve Google Ads results", "landing page Google Ads small business", "Commercial", "Advertisers", "High", "Connects ads readiness to conversion pages.", ["/en/services-pricing/", "/en/contact/"]],
-  ["Lead generation website for consultants", "lead generation website consultant", "Commercial", "Consultants", "Medium", "High-fit service niche.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["Why LinkedIn is not enough for consultants", "consultant website LinkedIn", "Commercial", "Consultants", "Low", "Matches pain point in demo content.", ["/en/portfolio/#case-studies", "/en/contact/"]],
-  ["Website ownership: domain, hosting and code explained", "website ownership domain hosting code", "Commercial", "Business owners", "Low", "Extends first AI ownership article.", ["/en/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/", "/en/contact/"]],
-  ["AI chatbot for customer questions: when it makes sense", "AI chatbot customer questions small business", "Commercial", "Service businesses", "Medium", "Supports AI assistant demo.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["How automated reports save management time", "automated reports small business", "Commercial", "Growing SMEs", "Low", "Supports analytics and automation packages.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["Digital transformation for small businesses without enterprise complexity", "digital transformation small business", "Commercial", "SMEs", "High", "Frames Websiteli as pragmatic and approachable.", ["/en/services-pricing/", "/en/about/"]],
-  ["Business automation examples for local companies", "business automation examples small business", "Commercial", "Local companies", "Medium", "Shows practical automation use cases.", ["/en/services-pricing/", "/en/portfolio/#case-studies"]],
-  ["How to improve website conversion rate", "website conversion rate small business", "Commercial", "Website owners", "High", "Core CRO topic tied to audit.", ["/en/contact/", "/en/services-pricing/"]],
-  ["Homepage copy that turns visitors into leads", "homepage copy lead generation", "Informational", "Service businesses", "Medium", "Supports CRO and content positioning.", ["/en/services-pricing/", "/en/contact/"]],
-  ["What is technical SEO for a business website?", "technical SEO business website", "Informational", "Business owners", "High", "Explains invisible value in packages.", ["/en/services-pricing/", "/en/services-pricing/"]],
-  ["How schema markup helps small business SEO", "schema markup small business SEO", "Informational", "SEO-aware owners", "Medium", "Supports technical SEO trust.", ["/en/services-pricing/", "/en/contact/"]],
-  ["Restaurant website SEO: practical local steps", "restaurant website SEO", "Commercial", "Restaurants", "High", "Niche commercial SEO topic.", ["/en/portfolio/#case-studies", "/en/services-pricing/"]],
-  ["Small business website design in Switzerland: what matters", "small business website design Switzerland", "Commercial", "Swiss SMEs", "Medium", "Local market service page support.", ["/en/services-pricing/", "/en/about/"]],
-  ["Website erstellen Schweiz: guide for KMU owners", "Website erstellen Schweiz KMU", "Commercial", "German-speaking Swiss SMEs", "High", "German-language opportunity for Switzerland.", ["/de/services-pricing/", "/de/contact/"]],
-  ["Website erstellen Deutschland: checklist before hiring", "Website erstellen Deutschland", "Commercial", "German SMEs", "High", "DACH keyword expansion.", ["/de/services-pricing/", "/de/contact/"]],
-  ["Website Agentur Österreich: how to choose the right partner", "Website Agentur Österreich", "Commercial", "Austrian SMEs", "High", "DACH commercial comparison topic.", ["/de/services-pricing/", "/de/contact/"]],
-  ["Tvorba webových stránek pro malé firmy", "tvorba webových stránek malé firmy", "Commercial", "Czech SMEs", "Medium", "Czech market entry topic.", ["/cz/services-pricing/", "/cz/contact/"]],
-  ["Tvorba web stránok pre malé firmy", "tvorba web stránok malé firmy", "Commercial", "Slovak SMEs", "Medium", "Slovak market entry topic.", ["/sk/services-pricing/", "/sk/contact/"]],
-  ["Céges weboldal készítés: mit tartalmazzon?", "céges weboldal készítés", "Commercial", "Hungarian SMEs", "High", "Hungarian commercial keyword cluster.", ["/hu/services-pricing/", "/hu/contact/"]],
-  ["How to make a website look trustworthy", "trustworthy business website", "Informational", "All service businesses", "Medium", "Directly supports trust and CRO improvements.", ["/en/services-pricing/", "/en/about/"]],
-  ["Why transparent website pricing builds trust", "transparent website pricing", "Commercial", "Price-sensitive buyers", "Low", "Differentiates packages.", ["/en/services-pricing/", "/en/contact/"]],
-  ["No-subscription websites: when they are better", "website no monthly subscription", "Commercial", "Small businesses", "Low", "Addresses ownership and pricing concerns.", ["/en/services-pricing/", "/en/contact/"]],
-  ["How to brief a website developer", "website developer brief", "Informational", "Ready-to-buy clients", "Medium", "Reduces sales friction before inquiry.", ["/en/contact/", "/en/services-pricing/"]],
-  ["Website performance audit for small businesses", "website performance audit", "Commercial", "Existing website owners", "Medium", "Performance-focused audit funnel.", ["/en/contact/", "/en/services-pricing/"]],
-  ["How to connect website forms to business workflows", "website form automation", "Commercial", "Service teams", "Medium", "Automation intent with practical value.", ["/en/services-pricing/", "/en/portfolio/#case-studies"]],
-  ["How analytics turns website traffic into better decisions", "website analytics decisions", "Informational", "Growing SMEs", "Medium", "Supports analytics dashboard demo.", ["/en/portfolio/#case-studies", "/en/contact/"]],
-  ["The small business guide to owning your digital assets", "own digital assets business", "Commercial", "Business owners", "Low", "Reinforces ownership and trust message.", ["/en/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/", "/en/about/"]],
-].map(([title, primaryKeyword, intent, audience, competition, why, links]) => ({
-  title,
-  primaryKeyword,
-  intent: intent as BlogRoadmapItem["intent"],
-  audience,
-  competition: competition as BlogRoadmapItem["competition"],
-  why,
-  links,
-}));
+type LocalizedPostCopy = Pick<BlogPost, "title" | "description" | "category" | "tags" | "readingTime" | "audience" | "excerpt" | "headings" | "body" | "faqs">;
+
+const localizedPostCopy: Record<LocaleCode, LocalizedPostCopy> = {
+  en: {
+    title: enPost.title,
+    description: enPost.description,
+    category: enPost.category,
+    tags: enPost.tags,
+    readingTime: enPost.readingTime,
+    audience: enPost.audience,
+    excerpt: enPost.excerpt,
+    headings: enPost.headings,
+    body: enPost.body,
+    faqs: enPost.faqs,
+  },
+  de: {
+    title: "Warum KI-generierte Websites für ein echtes Unternehmen nicht genug sind",
+    description:
+      "KI kann Planung und Prototypen beschleunigen. Unternehmen brauchen trotzdem Eigentum, SEO-Grundlagen, Analytics, Performance, Integrationen und wartbaren Code.",
+    category: "Website-Strategie",
+    tags: ["KI-Websites", "Business-Website", "SEO", "Eigentum", "Automatisierung"],
+    readingTime: "8 Min. Lesezeit",
+    audience: "KMU, Berater, Restaurants und lokale Dienstleister",
+    excerpt:
+      "KI ist hilfreich für Tempo, Ideen und Prototypen. Riskant wird es, wenn Domain, Hosting, Code, Analytics oder Suchmaschinen-Setup nicht dem Unternehmen gehören.",
+    headings: ["KI ist ein Werkzeug, kein Fundament", "Wo KI-Websites helfen", "Wo sie zu kurz greifen", "Was jedes Unternehmen besitzen sollte", "Wie Websiteli KI verantwortungsvoll nutzt"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["KI ist ein Werkzeug, kein Fundament", "Wo KI-Websites helfen", "Wo sie zu kurz greifen", "Was jedes Unternehmen besitzen sollte", "Wie Websiteli KI verantwortungsvoll nutzt", "Der bessere nächste Schritt"][index],
+      paragraphs: [
+        "KI kann sehr schnell aus einer Idee einen ersten Entwurf machen. Für ein Unternehmen ist dieser Entwurf aber erst der Anfang, nicht das fertige digitale Asset.",
+        "Entscheidend sind Eigentum, Suchmaschinen-Grundlagen, Ladezeit, messbare Anfragen und die Möglichkeit, den Auftritt später sauber weiterzuentwickeln.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Sind KI-generierte Websites schlecht?", answer: "Nein. Sie sind gute Entwürfe, müssen aber zu einer wartbaren Website mit Eigentum, SEO, Analytics und Tracking ausgebaut werden." },
+      { question: "Was sollte ich prüfen?", answer: "Prüfen Sie Domain, Hosting, Codezugang, Analytics, Search Console, mobile Performance, SEO-Metadaten, Formulartracking und Integrationen." },
+    ],
+  },
+  hu: {
+    title: "Miért nem elég egy AI által generált weboldal egy valódi vállalkozásnak",
+    description:
+      "Az AI gyorsítja a tervezést és a prototípusokat, de egy vállalkozásnak tulajdonjogra, SEO alapokra, analitikára, teljesítményre, integrációkra és karbantartható kódra is szüksége van.",
+    category: "Weboldal stratégia",
+    tags: ["AI weboldalak", "céges weboldal", "SEO", "tulajdonjog", "automatizálás"],
+    readingTime: "8 perc olvasás",
+    audience: "Kisvállalkozások, tanácsadók, éttermek és helyi szolgáltatók",
+    excerpt:
+      "Az AI gyors és hasznos. A kockázat ott kezdődik, amikor a domain, tárhely, forráskód, analitika vagy keresőoptimalizálás nem a vállalkozás kontrollja alatt van.",
+    headings: ["Az AI eszköz, nem üzleti alap", "Miben segít az AI", "Hol kevés önmagában", "Mit kell birtokolnia a vállalkozásnak", "Hogyan használja a Websiteli felelősen az AI-t"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["Az AI eszköz, nem üzleti alap", "Miben segít az AI", "Hol kevés önmagában", "Mit kell birtokolnia a vállalkozásnak", "Hogyan használja a Websiteli felelősen az AI-t", "Jobb következő lépés"][index],
+      paragraphs: [
+        "Az AI gyorsan készít első verziót, szövegötletet és oldalstruktúrát. Egy céges weboldalnál ez csak kiindulópont.",
+        "A valódi értéket a tulajdonjog, a mérhetőség, a kereshetőség, a gyors betöltés és a későbbi fejleszthetőség adja.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Rossz választás az AI weboldal?", answer: "Nem, ha prototípusként kezeljük. Üzleti weboldalként viszont szükséges a tulajdonjog, SEO, analitika és konverziómérés." },
+      { question: "Mit érdemes ellenőrizni?", answer: "Domain, tárhely, forráskód, Analytics, Search Console, mobil teljesítmény, SEO metaadatok, űrlapkövetés és integrációk." },
+    ],
+  },
+  pl: {
+    title: "Dlaczego strony generowane przez AI nie wystarczą prawdziwej firmie",
+    description:
+      "AI przyspiesza planowanie i prototypy, ale firma nadal potrzebuje własności, SEO, analityki, wydajności, integracji i kodu możliwego do utrzymania.",
+    category: "Strategia strony",
+    tags: ["strony AI", "strona firmowa", "SEO", "własność", "automatyzacja"],
+    readingTime: "8 min czytania",
+    audience: "Małe firmy, konsultanci, restauracje i lokalne usługi",
+    excerpt:
+      "AI pomaga szybko zacząć. Ryzyko pojawia się, gdy domena, hosting, kod, analityka lub konfiguracja SEO nie są pod kontrolą firmy.",
+    headings: ["AI to narzędzie, nie fundament", "Gdzie AI pomaga", "Gdzie nie wystarcza", "Co firma powinna posiadać", "Jak Websiteli używa AI odpowiedzialnie"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AI to narzędzie, nie fundament", "Gdzie AI pomaga", "Gdzie nie wystarcza", "Co firma powinna posiadać", "Jak Websiteli używa AI odpowiedzialnie", "Lepszy następny krok"][index],
+      paragraphs: [
+        "AI szybko tworzy pierwszą wersję strony, teksty i pomysły na układ. Dla firmy to dopiero początek pracy.",
+        "Profesjonalna strona musi być własnością firmy, być mierzalna, szybka, widoczna w Google i możliwa do rozbudowy.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Czy strony AI są złe?", answer: "Nie. Są dobre jako szkic, ale finalna strona powinna mieć własność, SEO, analitykę i tracking konwersji." },
+      { question: "Co sprawdzić przed wyborem narzędzia?", answer: "Domenę, hosting, dostęp do kodu, Analytics, Search Console, wydajność mobilną, metadane SEO, formularze i integracje." },
+    ],
+  },
+  es: {
+    title: "Por qué las webs generadas con IA no bastan para un negocio real",
+    description:
+      "La IA acelera la planificación y los prototipos, pero un negocio necesita propiedad, SEO, analítica, rendimiento, integraciones y código mantenible.",
+    category: "Estrategia web",
+    tags: ["webs con IA", "web de negocio", "SEO", "propiedad", "automatización"],
+    readingTime: "8 min de lectura",
+    audience: "Pequeñas empresas, consultores, restaurantes y servicios locales",
+    excerpt:
+      "La IA sirve para avanzar rápido. El riesgo empieza cuando el dominio, hosting, código, analítica o SEO no quedan bajo control del negocio.",
+    headings: ["La IA es una herramienta, no una base", "Dónde ayuda la IA", "Dónde se queda corta", "Qué debe poseer cada negocio", "Cómo Websiteli usa la IA con criterio"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["La IA es una herramienta, no una base", "Dónde ayuda la IA", "Dónde se queda corta", "Qué debe poseer cada negocio", "Cómo Websiteli usa la IA con criterio", "Un mejor siguiente paso"][index],
+      paragraphs: [
+        "La IA puede crear un primer borrador, textos y estructuras en muy poco tiempo. Para una web de empresa, eso solo es el punto de partida.",
+        "Lo importante es tener propiedad, medición, visibilidad en buscadores, buen rendimiento móvil y capacidad de crecer sin bloqueo de proveedor.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "¿Son malas las webs generadas con IA?", answer: "No. Son útiles como borrador, pero deben convertirse en una web mantenible con propiedad, SEO, analítica y seguimiento de conversiones." },
+      { question: "¿Qué debo revisar?", answer: "Dominio, hosting, acceso al código, Analytics, Search Console, rendimiento móvil, metadatos SEO, tracking de formularios e integraciones." },
+    ],
+  },
+  fr: {
+    title: "Pourquoi les sites générés par IA ne suffisent pas à une vraie entreprise",
+    description:
+      "L'IA accélère la planification et les prototypes, mais une entreprise a besoin de propriété, SEO, analytics, performance, intégrations et code maintenable.",
+    category: "Stratégie web",
+    tags: ["sites IA", "site d'entreprise", "SEO", "propriété", "automatisation"],
+    readingTime: "8 min de lecture",
+    audience: "Petites entreprises, consultants, restaurants et services locaux",
+    excerpt:
+      "L'IA aide à aller vite. Le risque commence lorsque le domaine, l'hébergement, le code, les analytics ou le SEO ne sont pas sous le contrôle de l'entreprise.",
+    headings: ["L'IA est un outil, pas une fondation", "Où l'IA aide", "Où elle ne suffit pas", "Ce que chaque entreprise doit posséder", "Comment Websiteli utilise l'IA responsablement"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["L'IA est un outil, pas une fondation", "Où l'IA aide", "Où elle ne suffit pas", "Ce que chaque entreprise doit posséder", "Comment Websiteli utilise l'IA responsablement", "Une meilleure étape suivante"][index],
+      paragraphs: [
+        "L'IA peut créer rapidement une première version, des idées de contenu et une structure de page. Pour une entreprise, ce n'est que le début.",
+        "La valeur vient de la propriété, de la mesure, du SEO, de la vitesse mobile et de la capacité à faire évoluer le site sans dépendance inutile.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Les sites IA sont-ils mauvais?", answer: "Non. Ils sont utiles comme brouillon, mais le site final doit être maintenable, propriétaire, optimisé SEO et mesurable." },
+      { question: "Que faut-il vérifier?", answer: "Domaine, hébergement, accès au code, Analytics, Search Console, performance mobile, métadonnées SEO, suivi des formulaires et intégrations." },
+    ],
+  },
+  it: {
+    title: "Perché i siti generati con AI non bastano a una vera azienda",
+    description:
+      "L'AI accelera pianificazione e prototipi, ma un'azienda ha bisogno di proprietà, SEO, analytics, performance, integrazioni e codice mantenibile.",
+    category: "Strategia web",
+    tags: ["siti AI", "sito aziendale", "SEO", "proprietà", "automazione"],
+    readingTime: "8 min di lettura",
+    audience: "Piccole imprese, consulenti, ristoranti e servizi locali",
+    excerpt:
+      "L'AI aiuta a partire velocemente. Il rischio nasce quando dominio, hosting, codice, analytics o SEO non restano sotto il controllo dell'azienda.",
+    headings: ["L'AI è uno strumento, non una base", "Dove l'AI aiuta", "Dove non basta", "Cosa ogni azienda dovrebbe possedere", "Come Websiteli usa l'AI responsabilmente"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["L'AI è uno strumento, non una base", "Dove l'AI aiuta", "Dove non basta", "Cosa ogni azienda dovrebbe possedere", "Come Websiteli usa l'AI responsabilmente", "Il prossimo passo migliore"][index],
+      paragraphs: [
+        "L'AI può creare rapidamente una bozza, testi e idee di layout. Per un sito aziendale, però, è solo l'inizio.",
+        "Il valore reale arriva da proprietà, misurazione, SEO, velocità mobile e possibilità di far crescere il sito senza blocchi di fornitore.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "I siti AI sono una cattiva scelta?", answer: "No. Sono utili come bozza, ma il sito finale deve avere proprietà, SEO, analytics e tracciamento conversioni." },
+      { question: "Cosa devo controllare?", answer: "Dominio, hosting, accesso al codice, Analytics, Search Console, performance mobile, metadata SEO, form tracking e integrazioni." },
+    ],
+  },
+  cz: {
+    title: "Proč weby generované AI nestačí pro skutečnou firmu",
+    description:
+      "AI zrychlí plánování a prototypy, ale firma potřebuje vlastnictví, SEO základy, analytiku, výkon, integrace a udržovatelný kód.",
+    category: "Strategie webu",
+    tags: ["AI weby", "firemní web", "SEO", "vlastnictví", "automatizace"],
+    readingTime: "8 min čtení",
+    audience: "Malé firmy, konzultanti, restaurace a lokální služby",
+    excerpt:
+      "AI pomáhá s rychlostí a nápady. Riziko začíná, když doména, hosting, kód, analytika nebo SEO nejsou pod kontrolou firmy.",
+    headings: ["AI je nástroj, ne základ podnikání", "Kde AI pomáhá", "Kde nestačí", "Co by měla firma vlastnit", "Jak Websiteli používá AI zodpovědně"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AI je nástroj, ne základ podnikání", "Kde AI pomáhá", "Kde nestačí", "Co by měla firma vlastnit", "Jak Websiteli používá AI zodpovědně", "Lepší další krok"][index],
+      paragraphs: [
+        "AI dokáže rychle vytvořit první návrh, texty a strukturu stránky. U firemního webu je to ale jen začátek.",
+        "Důležité je vlastnictví, měření, SEO, rychlost na mobilu a možnost web bezpečně rozvíjet bez uzamčení u dodavatele.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Jsou AI weby špatné?", answer: "Ne. Jsou užitečné jako návrh, ale finální web musí mít vlastnictví, SEO, analytiku a měření konverzí." },
+      { question: "Co mám zkontrolovat?", answer: "Doménu, hosting, přístup ke kódu, Analytics, Search Console, mobilní výkon, SEO metadata, sledování formulářů a integrace." },
+    ],
+  },
+  sk: {
+    title: "Prečo weby generované AI nestačia pre skutočnú firmu",
+    description:
+      "AI zrýchli plánovanie a prototypy, ale firma potrebuje vlastníctvo, SEO základy, analytiku, výkon, integrácie a udržiavateľný kód.",
+    category: "Stratégia webu",
+    tags: ["AI weby", "firemný web", "SEO", "vlastníctvo", "automatizácia"],
+    readingTime: "8 min čítania",
+    audience: "Malé firmy, konzultanti, reštaurácie a lokálne služby",
+    excerpt:
+      "AI pomáha s rýchlosťou a nápadmi. Riziko začína, keď doména, hosting, kód, analytika alebo SEO nie sú pod kontrolou firmy.",
+    headings: ["AI je nástroj, nie základ podnikania", "Kde AI pomáha", "Kde nestačí", "Čo by mala firma vlastniť", "Ako Websiteli používa AI zodpovedne"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AI je nástroj, nie základ podnikania", "Kde AI pomáha", "Kde nestačí", "Čo by mala firma vlastniť", "Ako Websiteli používa AI zodpovedne", "Lepší ďalší krok"][index],
+      paragraphs: [
+        "AI dokáže rýchlo vytvoriť prvý návrh, texty a štruktúru stránky. Pri firemnom webe je to však iba začiatok.",
+        "Dôležité je vlastníctvo, meranie, SEO, rýchlosť na mobile a možnosť web bezpečne rozvíjať bez závislosti od jedného nástroja.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Sú AI weby zlé?", answer: "Nie. Sú užitočné ako návrh, ale finálny web musí mať vlastníctvo, SEO, analytiku a meranie konverzií." },
+      { question: "Čo mám skontrolovať?", answer: "Doménu, hosting, prístup ku kódu, Analytics, Search Console, mobilný výkon, SEO metadáta, sledovanie formulárov a integrácie." },
+    ],
+  },
+  pt: {
+    title: "Porque sites gerados por IA não chegam para um negócio real",
+    description:
+      "A IA acelera planeamento e protótipos, mas um negócio precisa de propriedade, SEO, analytics, performance, integrações e código sustentável.",
+    category: "Estratégia web",
+    tags: ["sites IA", "site empresarial", "SEO", "propriedade", "automação"],
+    readingTime: "8 min de leitura",
+    audience: "Pequenas empresas, consultores, restaurantes e serviços locais",
+    excerpt:
+      "A IA ajuda a avançar depressa. O risco começa quando domínio, alojamento, código, analytics ou SEO não ficam sob controlo do negócio.",
+    headings: ["A IA é uma ferramenta, não uma base", "Onde a IA ajuda", "Onde fica curta", "O que cada negócio deve possuir", "Como a Websiteli usa IA com responsabilidade"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["A IA é uma ferramenta, não uma base", "Onde a IA ajuda", "Onde fica curta", "O que cada negócio deve possuir", "Como a Websiteli usa IA com responsabilidade", "Um melhor próximo passo"][index],
+      paragraphs: [
+        "A IA cria rapidamente uma primeira versão, textos e ideias de estrutura. Para um site empresarial, isso é apenas o início.",
+        "O valor real está na propriedade, medição, SEO, velocidade móvel e capacidade de evoluir o site sem bloqueio de fornecedor.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Sites com IA são maus?", answer: "Não. São úteis como rascunho, mas o site final precisa de propriedade, SEO, analytics e tracking de conversões." },
+      { question: "O que devo verificar?", answer: "Domínio, alojamento, acesso ao código, Analytics, Search Console, performance móvel, metadados SEO, formulários e integrações." },
+    ],
+  },
+  da: {
+    title: "Hvorfor AI-genererede websites ikke er nok til en rigtig virksomhed",
+    description:
+      "AI kan fremskynde planlægning og prototyper, men en virksomhed har stadig brug for ejerskab, SEO, analytics, performance, integrationer og vedligeholdbar kode.",
+    category: "Website-strategi",
+    tags: ["AI websites", "virksomhedswebsite", "SEO", "ejerskab", "automatisering"],
+    readingTime: "8 min læsning",
+    audience: "Små virksomheder, konsulenter, restauranter og lokale services",
+    excerpt:
+      "AI er nyttigt til fart og ideer. Risikoen starter, når domæne, hosting, kode, analytics eller SEO ikke er under virksomhedens kontrol.",
+    headings: ["AI er et værktøj, ikke et fundament", "Hvor AI hjælper", "Hvor det ikke er nok", "Hvad enhver virksomhed bør eje", "Sådan bruger Websiteli AI ansvarligt"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AI er et værktøj, ikke et fundament", "Hvor AI hjælper", "Hvor det ikke er nok", "Hvad enhver virksomhed bør eje", "Sådan bruger Websiteli AI ansvarligt", "Et bedre næste skridt"][index],
+      paragraphs: [
+        "AI kan hurtigt skabe et første udkast, tekster og sideideer. For et virksomhedswebsite er det kun begyndelsen.",
+        "Den reelle værdi kommer fra ejerskab, måling, SEO, mobil hastighed og mulighed for at udvikle websitet uden leverandørlås.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Er AI-websites dårlige?", answer: "Nej. De er nyttige som udkast, men det færdige website skal have ejerskab, SEO, analytics og konverteringssporing." },
+      { question: "Hvad bør jeg tjekke?", answer: "Domæne, hosting, kodeadgang, Analytics, Search Console, mobil performance, SEO metadata, formularsporing og integrationer." },
+    ],
+  },
+  nl: {
+    title: "Waarom AI-gegenereerde websites niet genoeg zijn voor een echt bedrijf",
+    description:
+      "AI versnelt planning en prototypes, maar een bedrijf heeft eigendom, SEO, analytics, performance, integraties en onderhoudbare code nodig.",
+    category: "Website-strategie",
+    tags: ["AI websites", "bedrijfswebsite", "SEO", "eigendom", "automatisering"],
+    readingTime: "8 min lezen",
+    audience: "Kleine bedrijven, consultants, restaurants en lokale diensten",
+    excerpt:
+      "AI helpt met snelheid en ideeën. Het risico begint wanneer domein, hosting, code, analytics of SEO niet onder controle van het bedrijf staan.",
+    headings: ["AI is een hulpmiddel, geen fundament", "Waar AI helpt", "Waar het tekortschiet", "Wat elk bedrijf zou moeten bezitten", "Hoe Websiteli AI verantwoord gebruikt"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AI is een hulpmiddel, geen fundament", "Waar AI helpt", "Waar het tekortschiet", "Wat elk bedrijf zou moeten bezitten", "Hoe Websiteli AI verantwoord gebruikt", "Een betere volgende stap"][index],
+      paragraphs: [
+        "AI kan snel een eerste versie, teksten en paginastuctuur maken. Voor een bedrijfswebsite is dat alleen het begin.",
+        "Echte waarde komt uit eigendom, meetbaarheid, SEO, mobiele snelheid en de mogelijkheid om de site later uit te bouwen.",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "Zijn AI-websites slecht?", answer: "Nee. Ze zijn nuttig als concept, maar de uiteindelijke site moet eigendom, SEO, analytics en conversietracking hebben." },
+      { question: "Wat moet ik controleren?", answer: "Domein, hosting, toegang tot code, Analytics, Search Console, mobiele performance, SEO metadata, formuliertracking en integraties." },
+    ],
+  },
+  ja: {
+    title: "AI生成サイトだけでは本物のビジネスに足りない理由",
+    description:
+      "AIは企画やプロトタイプを速くしますが、ビジネスには所有権、SEO基盤、分析、表示速度、連携、保守できるコードが必要です。",
+    category: "Webサイト戦略",
+    tags: ["AIサイト", "ビジネスサイト", "SEO", "所有権", "自動化"],
+    readingTime: "約8分",
+    audience: "小規模事業者、コンサルタント、飲食店、地域サービス",
+    excerpt:
+      "AIはスピードとアイデアに役立ちます。問題は、ドメイン、ホスティング、コード、分析、SEO設定を事業者が管理できない場合です。",
+    headings: ["AIは土台ではなく道具", "AIが役立つ場面", "AIだけでは足りない点", "事業者が所有すべきもの", "Websiteliの責任あるAI活用"],
+    body: enPost.body.map((section, index) => ({
+      heading: ["AIは土台ではなく道具", "AIが役立つ場面", "AIだけでは足りない点", "事業者が所有すべきもの", "Websiteliの責任あるAI活用", "次に取るべき一歩"][index],
+      paragraphs: [
+        "AIは最初の案、文章、ページ構成をすばやく作れます。しかしビジネスサイトでは、それは出発点にすぎません。",
+        "重要なのは所有権、計測、SEO、モバイル速度、将来の改善、そして問い合わせや予約につながる仕組みです。",
+      ],
+      list: section.list,
+    })),
+    faqs: [
+      { question: "AI生成サイトは悪い選択ですか？", answer: "いいえ。下書きとしては有用ですが、完成サイトには所有権、SEO、分析、コンバージョン計測が必要です。" },
+      { question: "何を確認すべきですか？", answer: "ドメイン、ホスティング、コードアクセス、Analytics、Search Console、モバイル速度、SEOメタデータ、フォーム計測、外部連携です。" },
+    ],
+  },
+};
+
+const blogPostsByLocale = Object.fromEntries(
+  localeCodes.map((locale) => [
+    locale,
+    [
+      {
+        ...enPost,
+        ...localizedPostCopy[locale],
+      },
+    ],
+  ]),
+) as Record<LocaleCode, BlogPost[]>;
+
 
 export function getBlogIndexContent(locale: LocaleCode) {
-  const localized = {
-    sk: {
-      seo: {
-        title: "Blog o weboch, SEO a automatizácii - Websiteli",
-        description: "Praktické články Websiteli pre slovenské firmy o weboch, SEO, lokálnej viditeľnosti, lead generation a AI automatizácii.",
-      },
-      eyebrow: "Blog",
-      title: "Praktické návody pre firmy, ktoré chcú viac dopytov.",
-      text: "Články o webových stránkach, SEO, lokálnej viditeľnosti, analytike, automatizácii a vlastníctve digitálnych aktív.",
-      featured: "Odporúčaný článok",
-      roadmap: "Plán budúcich článkov",
-      searchLabel: "Hľadať články",
-      categoriesLabel: "Kategórie",
-      readArticle: "Čítať článok",
-      roadmapIntro: "SEO roadmapa prioritizuje témy s obchodným zámerom pre Švajčiarsko, DACH, Česko, Slovensko, Maďarsko a anglický trh.",
-    },
-  };
-
-  return (
-    localized[locale as keyof typeof localized] ?? {
+  const localized: Record<LocaleCode, {
+    seo: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    text: string;
+    featured: string;
+    searchLabel: string;
+    categoriesLabel: string;
+    readArticle: string;
+  }> = {
+    en: {
       seo: {
         title: "Website, SEO and AI Automation Blog - Websiteli",
         description: "Practical Websiteli guides about business websites, SEO, local visibility, lead generation, analytics, ownership and AI automation.",
@@ -222,26 +474,143 @@ export function getBlogIndexContent(locale: LocaleCode) {
       title: "Practical guides for businesses that want more leads.",
       text: "Articles about websites, SEO, local visibility, analytics, automation and owning the digital assets behind your business.",
       featured: "Featured article",
-      roadmap: "Future content roadmap",
       searchLabel: "Search articles",
       categoriesLabel: "Categories",
       readArticle: "Read article",
-      roadmapIntro: "The SEO roadmap prioritizes commercial-intent topics across Switzerland, DACH, Czech Republic, Slovakia, Hungary and English-language markets.",
-    }
-  );
+    },
+    de: {
+      seo: { title: "Website, SEO und KI-Automation Blog - Websiteli", description: "Praktische Websiteli-Artikel zu Websites, SEO, lokaler Sichtbarkeit, Leadgenerierung, Analytics, Eigentum und KI-Automation." },
+      eyebrow: "Blog",
+      title: "Praktische Leitfäden für Unternehmen, die mehr Anfragen wollen.",
+      text: "Artikel über Websites, SEO, lokale Sichtbarkeit, Analytics, Automatisierung und digitale Eigentumsrechte.",
+      featured: "Empfohlener Artikel",
+      searchLabel: "Artikel suchen",
+      categoriesLabel: "Kategorien",
+      readArticle: "Artikel lesen",
+    },
+    hu: {
+      seo: { title: "Weboldal, SEO és AI automatizálás blog - Websiteli", description: "Gyakorlati Websiteli útmutatók céges weboldalakról, SEO-ról, helyi láthatóságról, lead generálásról, analitikáról és AI-ról." },
+      eyebrow: "Blog",
+      title: "Gyakorlati útmutatók több érdeklődőt kereső vállalkozásoknak.",
+      text: "Cikkek weboldalakról, SEO-ról, helyi láthatóságról, analitikáról, automatizálásról és digitális tulajdonról.",
+      featured: "Kiemelt cikk",
+      searchLabel: "Cikkek keresése",
+      categoriesLabel: "Kategóriák",
+      readArticle: "Cikk olvasása",
+    },
+    pl: {
+      seo: { title: "Blog o stronach, SEO i automatyzacji AI - Websiteli", description: "Praktyczne poradniki Websiteli o stronach firmowych, SEO, widoczności lokalnej, leadach, analityce, własności i AI." },
+      eyebrow: "Blog",
+      title: "Praktyczne poradniki dla firm, które chcą więcej zapytań.",
+      text: "Artykuły o stronach, SEO, lokalnej widoczności, analityce, automatyzacji i własności zasobów cyfrowych.",
+      featured: "Polecany artykuł",
+      searchLabel: "Szukaj artykułów",
+      categoriesLabel: "Kategorie",
+      readArticle: "Czytaj artykuł",
+    },
+    es: {
+      seo: { title: "Blog de webs, SEO y automatización con IA - Websiteli", description: "Guías prácticas de Websiteli sobre webs de negocio, SEO, visibilidad local, leads, analítica, propiedad e IA." },
+      eyebrow: "Blog",
+      title: "Guías prácticas para negocios que quieren más clientes potenciales.",
+      text: "Artículos sobre webs, SEO, visibilidad local, analítica, automatización y propiedad digital.",
+      featured: "Artículo destacado",
+      searchLabel: "Buscar artículos",
+      categoriesLabel: "Categorías",
+      readArticle: "Leer artículo",
+    },
+    fr: {
+      seo: { title: "Blog sites web, SEO et automatisation IA - Websiteli", description: "Guides pratiques Websiteli sur sites d'entreprise, SEO, visibilité locale, leads, analytics, propriété et IA." },
+      eyebrow: "Blog",
+      title: "Guides pratiques pour les entreprises qui veulent plus de demandes.",
+      text: "Articles sur les sites, le SEO, la visibilité locale, les analytics, l'automatisation et la propriété numérique.",
+      featured: "Article à la une",
+      searchLabel: "Rechercher des articles",
+      categoriesLabel: "Catégories",
+      readArticle: "Lire l'article",
+    },
+    it: {
+      seo: { title: "Blog su siti web, SEO e automazione AI - Websiteli", description: "Guide pratiche Websiteli su siti aziendali, SEO, visibilità locale, lead generation, analytics, proprietà e AI." },
+      eyebrow: "Blog",
+      title: "Guide pratiche per aziende che vogliono più contatti.",
+      text: "Articoli su siti, SEO, visibilità locale, analytics, automazione e proprietà degli asset digitali.",
+      featured: "Articolo in evidenza",
+      searchLabel: "Cerca articoli",
+      categoriesLabel: "Categorie",
+      readArticle: "Leggi l'articolo",
+    },
+    cz: {
+      seo: { title: "Blog o webech, SEO a AI automatizaci - Websiteli", description: "Praktické návody Websiteli o firemních webech, SEO, lokální viditelnosti, lead generation, analytice, vlastnictví a AI." },
+      eyebrow: "Blog",
+      title: "Praktické návody pro firmy, které chtějí více poptávek.",
+      text: "Články o webech, SEO, lokální viditelnosti, analytice, automatizaci a vlastnictví digitálních aktiv.",
+      featured: "Doporučený článek",
+      searchLabel: "Hledat články",
+      categoriesLabel: "Kategorie",
+      readArticle: "Číst článek",
+    },
+    sk: {
+      seo: { title: "Blog o weboch, SEO a AI automatizácii - Websiteli", description: "Praktické články Websiteli pre slovenské firmy o weboch, SEO, lokálnej viditeľnosti, lead generation, analytike a AI." },
+      eyebrow: "Blog",
+      title: "Praktické návody pre firmy, ktoré chcú viac dopytov.",
+      text: "Články o webových stránkach, SEO, lokálnej viditeľnosti, analytike, automatizácii a vlastníctve digitálnych aktív.",
+      featured: "Odporúčaný článok",
+      searchLabel: "Hľadať články",
+      categoriesLabel: "Kategórie",
+      readArticle: "Čítať článok",
+    },
+    pt: {
+      seo: { title: "Blog de sites, SEO e automação com IA - Websiteli", description: "Guias práticos da Websiteli sobre sites empresariais, SEO, visibilidade local, leads, analytics, propriedade e IA." },
+      eyebrow: "Blog",
+      title: "Guias práticos para negócios que querem mais pedidos.",
+      text: "Artigos sobre sites, SEO, visibilidade local, analytics, automação e propriedade digital.",
+      featured: "Artigo em destaque",
+      searchLabel: "Pesquisar artigos",
+      categoriesLabel: "Categorias",
+      readArticle: "Ler artigo",
+    },
+    da: {
+      seo: { title: "Blog om websites, SEO og AI-automatisering - Websiteli", description: "Praktiske Websiteli-guides om virksomhedswebsites, SEO, lokal synlighed, leads, analytics, ejerskab og AI." },
+      eyebrow: "Blog",
+      title: "Praktiske guides til virksomheder, der vil have flere henvendelser.",
+      text: "Artikler om websites, SEO, lokal synlighed, analytics, automatisering og ejerskab af digitale aktiver.",
+      featured: "Udvalgt artikel",
+      searchLabel: "Søg artikler",
+      categoriesLabel: "Kategorier",
+      readArticle: "Læs artikel",
+    },
+    nl: {
+      seo: { title: "Blog over websites, SEO en AI-automatisering - Websiteli", description: "Praktische Websiteli-gidsen over bedrijfswebsites, SEO, lokale zichtbaarheid, leads, analytics, eigendom en AI." },
+      eyebrow: "Blog",
+      title: "Praktische gidsen voor bedrijven die meer aanvragen willen.",
+      text: "Artikelen over websites, SEO, lokale zichtbaarheid, analytics, automatisering en eigendom van digitale assets.",
+      featured: "Uitgelicht artikel",
+      searchLabel: "Artikelen zoeken",
+      categoriesLabel: "Categorieën",
+      readArticle: "Artikel lezen",
+    },
+    ja: {
+      seo: { title: "Webサイト、SEO、AI自動化ブログ - Websiteli", description: "ビジネスサイト、SEO、地域での見つけやすさ、リード獲得、分析、所有権、AI自動化に関するWebsiteliの実用ガイド。" },
+      eyebrow: "ブログ",
+      title: "問い合わせを増やしたいビジネスのための実用ガイド。",
+      text: "Webサイト、SEO、地域検索、分析、自動化、デジタル資産の所有権に関する記事です。",
+      featured: "注目記事",
+      searchLabel: "記事を検索",
+      categoriesLabel: "カテゴリー",
+      readArticle: "記事を読む",
+    },
+  };
+
+  return localized[locale];
 }
 
-export function getBlogPosts(_locale: LocaleCode) {
-  return [enPost];
+export function getBlogPosts(locale: LocaleCode) {
+  return blogPostsByLocale[locale] ?? [];
 }
 
-export function getBlogPost(_locale: LocaleCode, slug: string) {
-  return slug === enPost.slug ? enPost : undefined;
+export function getBlogPost(locale: LocaleCode, slug: string) {
+  return getBlogPosts(locale).find((post) => post.slug === slug);
 }
 
-export function getBlogRoadmap() {
-  return roadmap;
-}
 
 export function getMarketKeywords() {
   return marketKeywords;
