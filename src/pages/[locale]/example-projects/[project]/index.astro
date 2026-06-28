@@ -8,5 +8,23 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as LocaleCode;
 const project = Astro.params.project as string;
-return Astro.redirect(`/${locale}/portfolio/#case-${project}`);
+const redirectTarget = `/${locale}/portfolio/`;
+const redirectHash = `#case-${project}`;
 ---
+
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="canonical" href={redirectTarget} />
+    <script is:inline define:vars={{ redirectTarget, redirectHash }}>
+      const target = new URL(redirectTarget, window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash || redirectHash;
+      window.location.replace(target.toString());
+    </script>
+    <title>Websiteli Portfolio</title>
+  </head>
+  <body>
+    <a href={`${redirectTarget}${redirectHash}`}>Continue to Websiteli Portfolio</a>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+<script is:inline>
+  (() => {
+    const storageKey = "websiteli_attribution";
+    const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id"];
+    const clickIdKeys = ["gclid", "gbraid", "wbraid", "fbclid", "msclkid", "ttclid", "li_fat_id"];
+    const attributionKeys = [...utmKeys, ...clickIdKeys];
+
+    function readStoredAttribution() {
+      try {
+        const stored = window.localStorage?.getItem(storageKey);
+        return stored ? JSON.parse(stored) : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function writeStoredAttribution(attribution) {
+      try {
+        window.localStorage?.setItem(storageKey, JSON.stringify(attribution));
+      } catch {
+        // Some browsers block storage; URL-based attribution still works.
+      }
+    }
+
+    function readAttributionFromUrl(url = new URL(window.location.href)) {
+      const attribution = {};
+
+      attributionKeys.forEach((key) => {
+        const value = url.searchParams.get(key);
+        if (value) attribution[key] = value;
+      });
+
+      url.searchParams.forEach((value, key) => {
+        if (key.toLowerCase().startsWith("utm_") && value) attribution[key] = value;
+      });
+
+      return attribution;
+    }
+
+    function hasCampaignParams(attribution) {
+      return attributionKeys.some((key) => Boolean(attribution[key]));
+    }
+
+    function captureAttribution() {
+      const now = new Date().toISOString();
+      const stored = readStoredAttribution();
+      const fromUrl = readAttributionFromUrl();
+      const hasUrlAttribution = hasCampaignParams(fromUrl);
+      const next = {
+        ...stored,
+        firstTouch: stored.firstTouch || {},
+        lastTouch: stored.lastTouch || {},
+      };
+
+      if (hasUrlAttribution) {
+        if (!hasCampaignParams(next.firstTouch)) {
+          next.firstTouch = {
+            ...fromUrl,
+            landingPage: window.location.href,
+            firstSeenAt: now,
+          };
+        }
+
+        next.lastTouch = {
+          ...fromUrl,
+          landingPage: window.location.href,
+          lastSeenAt: now,
+        };
+        writeStoredAttribution(next);
+      }
+
+      return {
+        stored: next,
+        current: fromUrl,
+        hasCurrent: hasUrlAttribution,
+      };
+    }
+
+    function getAttribution() {
+      const captured = captureAttribution();
+      const firstTouch = captured.stored.firstTouch || {};
+      const lastTouch = captured.stored.lastTouch || {};
+      const effective = captured.hasCurrent ? captured.current : firstTouch;
+
+      return {
+        ...effective,
+        landingPage: effective.landingPage || firstTouch.landingPage || lastTouch.landingPage || "",
+        firstSeenAt: firstTouch.firstSeenAt || "",
+        lastSeenAt: lastTouch.lastSeenAt || "",
+        first_utm_source: firstTouch.utm_source || "",
+        first_utm_medium: firstTouch.utm_medium || "",
+        first_utm_campaign: firstTouch.utm_campaign || "",
+        first_utm_term: firstTouch.utm_term || "",
+        first_utm_content: firstTouch.utm_content || "",
+        first_gclid: firstTouch.gclid || "",
+        first_fbclid: firstTouch.fbclid || "",
+      };
+    }
+
+    function getAnalyticsAttributionParams(attribution = getAttribution()) {
+      return {
+        utm_source: attribution.utm_source || "",
+        utm_medium: attribution.utm_medium || "",
+        utm_campaign: attribution.utm_campaign || "",
+        utm_term: attribution.utm_term || "",
+        utm_content: attribution.utm_content || "",
+        utm_id: attribution.utm_id || "",
+        gclid: attribution.gclid || "",
+        gbraid: attribution.gbraid || "",
+        wbraid: attribution.wbraid || "",
+        fbclid: attribution.fbclid || "",
+        msclkid: attribution.msclkid || "",
+        landing_page: attribution.landingPage || "",
+        attribution_first_seen_at: attribution.firstSeenAt || "",
+        first_utm_source: attribution.first_utm_source || "",
+        first_utm_medium: attribution.first_utm_medium || "",
+        first_utm_campaign: attribution.first_utm_campaign || "",
+        first_gclid: attribution.first_gclid || "",
+        first_fbclid: attribution.first_fbclid || "",
+      };
+    }
+
+    function showAttributionDebug(attribution = getAttribution()) {
+      console.table(getAnalyticsAttributionParams(attribution));
+      return attribution;
+    }
+
+    const initial = captureAttribution();
+
+    window.websiteliGetAttribution = getAttribution;
+    window.websiteliGetAnalyticsAttributionParams = getAnalyticsAttributionParams;
+    window.websiteliHasAttribution = hasCampaignParams;
+    window.websiteliShowAttribution = showAttributionDebug;
+    window.websiteliInitialAttribution = initial;
+  })();
+</script>

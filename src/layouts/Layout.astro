@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import AttributionRuntime from "../components/AttributionRuntime.astro";
 import PricingRuntime from "../components/PricingRuntime.astro";
 import "../styles/global.css";
 
@@ -37,7 +38,11 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-TGZY875FGJ');
+  const gtagConfig = {};
+  if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
+    gtagConfig.debug_mode = true;
+  }
+  gtag('config', 'G-TGZY875FGJ', gtagConfig);
 </script>`;
 const structuredData = [
   {
@@ -141,6 +146,7 @@ const structuredData = [
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <AttributionRuntime />
     <Fragment set:html={googleTagSnippet} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
@@ -150,23 +156,8 @@ const structuredData = [
     </script>
     <script is:inline>
       function getWebsiteliEventAttribution() {
-        const attribution = window.websiteliGetAttribution?.() || {};
-
-        return {
-          utm_source: attribution.utm_source || undefined,
-          utm_medium: attribution.utm_medium || undefined,
-          utm_campaign: attribution.utm_campaign || undefined,
-          utm_term: attribution.utm_term || undefined,
-          utm_content: attribution.utm_content || undefined,
-          utm_id: attribution.utm_id || undefined,
-          gclid: attribution.gclid || undefined,
-          gbraid: attribution.gbraid || undefined,
-          wbraid: attribution.wbraid || undefined,
-          fbclid: attribution.fbclid || undefined,
-          msclkid: attribution.msclkid || undefined,
-          landing_page: attribution.landingPage || undefined,
-          attribution_first_seen_at: attribution.firstSeenAt || undefined,
-        };
+        const params = window.websiteliGetAnalyticsAttributionParams?.() || {};
+        return Object.fromEntries(Object.entries(params).filter(([, value]) => Boolean(value)));
       }
 
       window.trackWebsiteliEvent = function(eventName, params = {}) {
@@ -174,6 +165,9 @@ const structuredData = [
           ...getWebsiteliEventAttribution(),
           ...params,
         };
+        if (new URLSearchParams(window.location.search).get("debug_mode") === "true") {
+          eventParams.debug_mode = true;
+        }
 
         if (typeof window.gtag === "function") {
           window.gtag("event", eventName, eventParams);

@@ -23,10 +23,7 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as LocaleCode;
 const requestedPage = Astro.params.page as PageSlug | LegacyPageSlug;
-
-if (requestedPage in legacyRedirects) {
-  return Astro.redirect(getLocalizedPath(locale, requestedPage));
-}
+const redirectTarget = requestedPage in legacyRedirects ? getLocalizedPath(locale, requestedPage) : "";
 
 const page = requestedPage as PageSlug;
 const content = getLocaleContent(locale);
@@ -53,15 +50,36 @@ const description =
           : content.contact.text;
 ---
 
-<Layout
-  title={title}
-  description={description}
-  canonicalPath={getLocalizedPath(locale, page)}
-  lang={locale}
-  locale={locale}
-  page={page}
-  alternates={getAlternates(page)}
-  content={content}
->
-  <PageSections content={content} page={page} locale={locale} />
-</Layout>
+{
+  redirectTarget ? (
+    <html lang={locale}>
+      <head>
+        <meta charset="utf-8" />
+        <link rel="canonical" href={redirectTarget} />
+        <script is:inline define:vars={{ redirectTarget }}>
+          const target = new URL(redirectTarget, window.location.origin);
+          target.search = window.location.search;
+          target.hash = window.location.hash;
+          window.location.replace(target.toString());
+        </script>
+        <title>Websiteli</title>
+      </head>
+      <body>
+        <a href={redirectTarget}>Continue to Websiteli</a>
+      </body>
+    </html>
+  ) : (
+    <Layout
+      title={title}
+      description={description}
+      canonicalPath={getLocalizedPath(locale, page)}
+      lang={locale}
+      locale={locale}
+      page={page}
+      alternates={getAlternates(page)}
+      content={content}
+    >
+      <PageSections content={content} page={page} locale={locale} />
+    </Layout>
+  )
+}
