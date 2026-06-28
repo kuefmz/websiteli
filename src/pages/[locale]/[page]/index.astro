@@ -57,6 +57,12 @@ const description =
         <meta charset="utf-8" />
         <link rel="canonical" href={redirectTarget} />
         <script is:inline define:vars={{ redirectTarget }}>
+          try {
+            window.sessionStorage?.setItem("websiteli_redirect_context", JSON.stringify({
+              landingPage: window.location.href,
+              referrer: document.referrer || "",
+            }));
+          } catch {}
           const target = new URL(redirectTarget, window.location.origin);
           target.search = window.location.search;
           target.hash = window.location.hash;

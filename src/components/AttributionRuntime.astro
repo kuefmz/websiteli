@@ -1,6 +1,7 @@
 <script is:inline>
   (() => {
     const storageKey = "websiteli_attribution";
+    const redirectStorageKey = "websiteli_redirect_context";
     const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id"];
     const clickIdKeys = ["gclid", "gbraid", "wbraid", "fbclid", "msclkid", "ttclid", "li_fat_id"];
     const attributionKeys = [...utmKeys, ...clickIdKeys];
@@ -8,6 +9,15 @@
     function readStoredAttribution() {
       try {
         const stored = window.localStorage?.getItem(storageKey);
+        return stored ? JSON.parse(stored) : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function readRedirectContext() {
+      try {
+        const stored = window.sessionStorage?.getItem(redirectStorageKey);
         return stored ? JSON.parse(stored) : {};
       } catch {
         return {};
@@ -44,6 +54,7 @@
     function captureAttribution() {
       const now = new Date().toISOString();
       const stored = readStoredAttribution();
+      const redirectContext = readRedirectContext();
       const fromUrl = readAttributionFromUrl();
       const hasUrlAttribution = hasCampaignParams(fromUrl);
       const next = {
@@ -56,14 +67,16 @@
         if (!hasCampaignParams(next.firstTouch)) {
           next.firstTouch = {
             ...fromUrl,
-            landingPage: window.location.href,
+            landingPage: redirectContext.landingPage || window.location.href,
+            referrer: redirectContext.referrer || document.referrer || "",
             firstSeenAt: now,
           };
         }
 
         next.lastTouch = {
           ...fromUrl,
-          landingPage: window.location.href,
+          landingPage: redirectContext.landingPage || window.location.href,
+          referrer: redirectContext.referrer || document.referrer || "",
           lastSeenAt: now,
         };
         writeStoredAttribution(next);
@@ -80,11 +93,13 @@
       const captured = captureAttribution();
       const firstTouch = captured.stored.firstTouch || {};
       const lastTouch = captured.stored.lastTouch || {};
+      const redirectContext = readRedirectContext();
       const effective = captured.hasCurrent ? captured.current : firstTouch;
 
       return {
         ...effective,
         landingPage: effective.landingPage || firstTouch.landingPage || lastTouch.landingPage || "",
+        referrer: effective.referrer || firstTouch.referrer || lastTouch.referrer || redirectContext.referrer || document.referrer || "",
         firstSeenAt: firstTouch.firstSeenAt || "",
         lastSeenAt: lastTouch.lastSeenAt || "",
         first_utm_source: firstTouch.utm_source || "",
@@ -114,6 +129,7 @@
         fbclid: attribution.fbclid || "",
         msclkid: attribution.msclkid || "",
         landing_page: attribution.landingPage || "",
+        original_referrer: attribution.referrer || "",
         attribution_first_seen_at: attribution.firstSeenAt || "",
         first_utm_source: attribution.first_utm_source || "",
         first_utm_medium: attribution.first_utm_medium || "",

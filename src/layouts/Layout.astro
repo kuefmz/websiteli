@@ -60,6 +60,7 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
   if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
   if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
   if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
+  if (attribution.referrer) gtagConfig.page_referrer = attribution.referrer;
   Object.entries(attributionParams).forEach(([key, value]) => {
     if (value) gtagConfig[key] = value;
   });
