@@ -123,6 +123,10 @@
       };
     }
 
+    function getCurrentAttribution() {
+      return captureAttribution().current || {};
+    }
+
     function showAttributionDebug(attribution = getAttribution()) {
       console.table(getAnalyticsAttributionParams(attribution));
       return attribution;
@@ -131,6 +135,7 @@
     const initial = captureAttribution();
 
     window.websiteliGetAttribution = getAttribution;
+    window.websiteliGetCurrentAttribution = getCurrentAttribution;
     window.websiteliGetAnalyticsAttributionParams = getAnalyticsAttributionParams;
     window.websiteliHasAttribution = hasCampaignParams;
     window.websiteliShowAttribution = showAttributionDebug;

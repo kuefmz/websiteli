@@ -260,14 +260,24 @@ const pricingData = {
   window.websiteliUpdateInquiryFields = updateInquiryFields;
 
   document.addEventListener("DOMContentLoaded", async () => {
-    const attribution = getAttribution();
-    if (hasAttribution(attribution)) {
-      window.trackWebsiteliEvent?.("campaign_landing", {
+    const currentAttribution = window.websiteliGetCurrentAttribution?.() || {};
+    if (hasAttribution(currentAttribution)) {
+      const currentAttributionParams = getAnalyticsAttributionParams(currentAttribution);
+
+      window.trackWebsiteliEvent?.("utm_detected", {
         event_category: "attribution",
-        event_label: attribution.utm_campaign || attribution.utm_source || attribution.gclid || "campaign",
+        event_label: currentAttribution.utm_campaign || currentAttribution.utm_source || currentAttribution.gclid || "campaign",
         page_location: window.location.href,
         page_path: window.location.pathname,
-        ...getAnalyticsAttributionParams(attribution),
+        ...currentAttributionParams,
+      });
+
+      window.trackWebsiteliEvent?.("campaign_landing", {
+        event_category: "attribution",
+        event_label: currentAttribution.utm_campaign || currentAttribution.utm_source || currentAttribution.gclid || "campaign",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        ...currentAttributionParams,
       });
     }
 
