@@ -39,6 +39,16 @@ const googleTagSnippet = `<!-- Google tag (gtag.js) -->
   gtag('js', new Date());
 
   const gtagConfig = {};
+  const attribution = window.websiteliGetAttribution?.() || {};
+  gtagConfig.page_location = window.location.href;
+  if (attribution.utm_source) gtagConfig.campaign_source = attribution.utm_source;
+  if (attribution.utm_medium) gtagConfig.campaign_medium = attribution.utm_medium;
+  if (attribution.utm_campaign) gtagConfig.campaign_name = attribution.utm_campaign;
+  if (attribution.utm_id) gtagConfig.campaign_id = attribution.utm_id;
+  if (attribution.utm_term) gtagConfig.campaign_term = attribution.utm_term;
+  if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
+  if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
+  if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
   if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
     gtagConfig.debug_mode = true;
   }
