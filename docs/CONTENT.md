@@ -1,0 +1,138 @@
+# Content Strategy
+
+Websiteli content should educate small businesses while moving qualified readers toward consultation or newsletter signup.
+
+## Core Themes
+
+- Business website ownership.
+- Professional websites versus social-only or AI-only presence.
+- SEO and Google visibility.
+- Analytics and measurable lead generation.
+- Practical AI and automation for small businesses.
+- Website maintenance and long-term reliability.
+- Local business conversion paths: reservations, quote requests, booked calls, forms, newsletters.
+
+## Tone Of Voice
+
+- Practical and direct.
+- Calmly authoritative, not buzzword-heavy.
+- Business-result oriented.
+- Avoid framing Websiteli as merely an AI website generator.
+- Emphasize ownership, maintainability, analytics, SEO, and conversion.
+
+## Blog Strategy
+
+Source: `src/content/blog.ts`.
+
+Current published article:
+
+- `why-ai-generated-websites-are-not-enough-for-a-real-business`
+
+Every blog post must:
+
+- Exist for every `localeCode`.
+- Have localized title, description, category, tags, reading time, excerpt, headings, body, and FAQs where applicable.
+- Include CTAs through the article template, not by duplicating markup in post content.
+- Include related links to internal conversion pages.
+- Avoid public future-roadmap sections.
+
+## Demo Sites
+
+Source: `src/content/demos/index.ts`.
+
+- `allDemoSlugs` contains possible/demo model entries.
+- `demoSlugs` controls published demos.
+- Current published demo: `shopify-consultant-portfolio`.
+
+Do not publish a demo by adding content alone; add it to `demoSlugs` only when the demo is ready and QA'd.
+
+## Example Projects
+
+Source: `src/content/example-projects/index.ts`.
+
+Example projects are illustrative business opportunity analyses, not real client case studies. Keep disclaimers visible and accurate.
+
+Current project slugs:
+
+- `restaurant-visibility`
+- `consultant-lead-generation`
+- `cold-outreach-verifiable-brand`
+- `ai-customer-assistant`
+- `analytics-visibility`
+
+## Calls To Action
+
+Primary CTAs:
+
+- Contact/consultation request.
+- Package CTAs from pricing cards.
+
+Secondary CTAs:
+
+- Newsletter signup.
+- Demo visits.
+- WhatsApp/email.
+- Blog sharing.
+
+Blog CTA implementation is centralized in `ArticleCTA.astro`. Lead form implementation is centralized in `CTASection.astro`.
+
+## Newsletter
+
+Newsletter form lives in the footer and is present on pages using `Layout.astro`. Article CTAs link to `#newsletter`. Keep newsletter copy localized in `Footer.astro` unless it is refactored into a content registry.
+
+## Internal Linking Strategy
+
+- Homepage links to services/pricing, portfolio, contact, and demos.
+- Services/pricing links to portfolio and contact.
+- Portfolio links demos to illustrative analyses and contact.
+- Blog articles link to services/pricing, portfolio, contact, and newsletter.
+- Article related links should use `/en/` in content and be localized by article template replacement unless more robust per-locale links are introduced.
+
+## Content Templates
+
+Blog post fields:
+
+```ts
+{
+  slug,
+  title,
+  description,
+  category,
+  tags,
+  featuredImage,
+  author,
+  publishedAt,
+  updatedAt,
+  readingTime,
+  audience,
+  excerpt,
+  headings,
+  related,
+  faqs,
+  body,
+}
+```
+
+Demo content fields are defined by `DemoContent` in `src/content/demos/index.ts`.
+
+Example project fields are defined by `ExampleProjectContent` in `src/content/example-projects/index.ts`.
+
+## Writing Guidelines
+
+- Use one clear H1 per page.
+- Use H2s to answer concrete business questions.
+- Put value proposition in supporting copy, not vague headlines.
+- Avoid unsupported promises about rankings or revenue.
+- Do not invent client results; use illustrative language unless real proof is available.
+- Include a next step in every major page.
+- Maintain local-market wording where relevant.
+
+## Content QA
+
+Before publishing new content:
+
+- Verify every supported locale has explicit content.
+- Verify metadata and schema use localized values.
+- Verify links resolve.
+- Verify CTAs work and are not visually overpowering.
+- Verify no unpublished roadmap/future ideas are shown to visitors.

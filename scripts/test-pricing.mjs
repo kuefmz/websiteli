@@ -153,11 +153,34 @@ test("newsletter signup posts to the static Google Apps Script endpoint", async 
   const englishHome = await readDistFile("en/index.html");
 
   assert.match(englishHome, /data-newsletter-form/);
+  assert.match(englishHome, /id="newsletter"/);
   assert.match(englishHome, /type:\s*"newsletter"/);
   assert.match(englishHome, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
   assert.match(englishHome, /privacyPolicyAccepted/);
   assert.match(englishHome, /utm_content/);
   assert.match(englishHome, /landingPage/);
+});
+
+test("blog is localized and article pages include conversion and sharing UX", async () => {
+  const englishBlog = await readDistFile("en/blog/index.html");
+  const germanArticle = await readDistFile("de/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
+  const frenchArticle = await readDistFile("fr/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
+  const japaneseArticle = await readDistFile("ja/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
+
+  assert.doesNotMatch(englishBlog, /Future content roadmap|SEO roadmap/i);
+  assert.match(germanArticle, /Warum KI-generierte Websites/);
+  assert.match(frenchArticle, /Pourquoi les sites générés par IA/);
+  assert.match(japaneseArticle, /AI生成サイトだけでは/);
+  assert.match(germanArticle, /property="og:type" content="article"/);
+  assert.match(germanArticle, /https:\/\/www\.linkedin\.com\/sharing\/share-offsite\/\?url=/);
+  assert.match(germanArticle, /https:\/\/www\.facebook\.com\/sharer\/sharer\.php/);
+  assert.match(germanArticle, /https:\/\/twitter\.com\/intent\/tweet/);
+  assert.match(germanArticle, /https:\/\/www\.pinterest\.com\/pin\/create\/button/);
+  assert.match(germanArticle, /data-copy-link=/);
+  assert.match(germanArticle, /blog_consultation_click/);
+  assert.match(germanArticle, /#newsletter/);
+  assert.match(germanArticle, /data-reading-progress/);
+  assert.match(germanArticle, /"@type":"FAQPage"/);
 });
 
 test("localized package labels do not leak English package names in Hungarian UI", async () => {

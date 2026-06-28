@@ -1,0 +1,39 @@
+---
+import type { LocaleCode } from "../content/locales";
+
+interface Props {
+  locale: LocaleCode;
+  variant?: "inline" | "final" | "sidebar" | "mobile";
+}
+
+const { locale, variant = "inline" } = Astro.props;
+const copy: Record<LocaleCode, { title: string; text: string; primary: string; secondary: string }> = {
+  en: { title: "Want a website that is fast, measurable and yours?", text: "Book a practical website consultation and we will look at ownership, SEO, analytics and conversion tracking together.", primary: "Book a consultation", secondary: "Get the newsletter" },
+  de: { title: "Soll Ihre Website schnell, messbar und wirklich Ihre sein?", text: "Buchen Sie eine praktische Website-Beratung zu Eigentum, SEO, Analytics und Conversion-Tracking.", primary: "Beratung buchen", secondary: "Newsletter erhalten" },
+  hu: { title: "Gyors, mérhető és valóban saját weboldalt szeretnél?", text: "Foglalj gyakorlati konzultációt tulajdonjogról, SEO-ról, analitikáról és konverziómérésről.", primary: "Konzultáció foglalása", secondary: "Hírlevél" },
+  pl: { title: "Chcesz szybką, mierzalną i naprawdę własną stronę?", text: "Umów praktyczną konsultację o własności, SEO, analityce i śledzeniu konwersji.", primary: "Umów konsultację", secondary: "Newsletter" },
+  es: { title: "¿Quieres una web rápida, medible y tuya?", text: "Reserva una consultoría práctica sobre propiedad, SEO, analítica y seguimiento de conversiones.", primary: "Reservar consulta", secondary: "Newsletter" },
+  fr: { title: "Vous voulez un site rapide, mesurable et vraiment à vous?", text: "Réservez une consultation pratique sur la propriété, le SEO, les analytics et le suivi des conversions.", primary: "Réserver une consultation", secondary: "Newsletter" },
+  it: { title: "Vuoi un sito veloce, misurabile e davvero tuo?", text: "Prenota una consulenza pratica su proprietà, SEO, analytics e tracciamento conversioni.", primary: "Prenota una consulenza", secondary: "Newsletter" },
+  cz: { title: "Chcete rychlý, měřitelný a opravdu vlastní web?", text: "Rezervujte si praktickou konzultaci o vlastnictví, SEO, analytice a měření konverzí.", primary: "Rezervovat konzultaci", secondary: "Newsletter" },
+  sk: { title: "Chcete rýchly, merateľný a naozaj vlastný web?", text: "Rezervujte si praktickú konzultáciu o vlastníctve, SEO, analytike a meraní konverzií.", primary: "Rezervovať konzultáciu", secondary: "Newsletter" },
+  pt: { title: "Quer um site rápido, mensurável e realmente seu?", text: "Marque uma consulta prática sobre propriedade, SEO, analytics e tracking de conversões.", primary: "Marcar consulta", secondary: "Newsletter" },
+  da: { title: "Vil du have et hurtigt, målbart website, som er dit?", text: "Book en praktisk konsultation om ejerskab, SEO, analytics og konverteringssporing.", primary: "Book konsultation", secondary: "Nyhedsbrev" },
+  nl: { title: "Wil je een snelle, meetbare website die echt van jou is?", text: "Plan een praktische consultatie over eigendom, SEO, analytics en conversietracking.", primary: "Consultatie boeken", secondary: "Nieuwsbrief" },
+  ja: { title: "速く、計測でき、自社で所有できるサイトが必要ですか？", text: "所有権、SEO、分析、コンバージョン計測について実用的に相談できます。", primary: "相談を予約", secondary: "ニュースレター" },
+};
+
+const text = copy[locale];
+const contactHref = `/${locale}/contact/?sourcePage=/${locale}/blog/&intent=blog_consultation`;
+---
+
+<aside class={`article-cta article-cta-${variant}`} aria-label={text.title}>
+  <div>
+    <h2>{text.title}</h2>
+    <p>{text.text}</p>
+  </div>
+  <div class="article-cta-actions">
+    <a class="button primary" href={contactHref} data-track-event="blog_consultation_click" data-track-label={`Article CTA ${variant}`}>{text.primary}</a>
+    <a class="button secondary" href="#newsletter" data-track-event="blog_newsletter_click" data-track-label={`Article CTA ${variant}`}>{text.secondary}</a>
+  </div>
+</aside>

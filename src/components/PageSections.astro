@@ -9,7 +9,7 @@ import { packageKeyByName } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { demoSlugs, getDemoPageContent } from "../content/demos";
 import { getExampleProjectPageContent } from "../content/example-projects";
-import { getBlogIndexContent, getBlogPosts, getBlogRoadmap, getMarketKeywords } from "../content/blog";
+import { getBlogIndexContent, getBlogPosts, getMarketKeywords } from "../content/blog";
 
 interface Props {
   content: any;
@@ -23,7 +23,6 @@ const demoContent = getDemoPageContent(locale as any);
 const projectContent = getExampleProjectPageContent(locale as any);
 const blogContent = getBlogIndexContent(locale as any);
 const blogPosts = getBlogPosts(locale as any);
-const blogRoadmap = getBlogRoadmap();
 const marketKeywords = getMarketKeywords();
 const packageLabels = getPackageLabels(locale);
 const publishedDemoItems = Object.values(demoContent.items).filter((item) => demoSlugs.includes(item.slug as any));
@@ -251,24 +250,6 @@ const faqs = [
                 </div>
                 <a class="button primary" href={`/${locale}/blog/${post.slug}/`}>{blogContent.readArticle}</a>
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section class="section-shell section-block compact-top">
-        <div class="section-heading">
-          <p class="eyebrow">SEO roadmap</p>
-          <h2>{blogContent.roadmap}</h2>
-          <p>{blogContent.roadmapIntro}</p>
-        </div>
-        <div class="roadmap-table">
-          {blogRoadmap.map((item) => (
-            <article>
-              <h3>{item.title}</h3>
-              <p><strong>Keyword:</strong> {item.primaryKeyword}</p>
-              <p><strong>Intent:</strong> {item.intent} · <strong>Audience:</strong> {item.audience} · <strong>Competition:</strong> {item.competition}</p>
-              <p>{item.why}</p>
-              <p><strong>Internal links:</strong> {item.links.join(", ")}</p>
             </article>
           ))}
         </div>

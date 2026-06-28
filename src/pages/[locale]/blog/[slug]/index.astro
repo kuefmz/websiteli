@@ -1,6 +1,8 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
-import { getAlternates, getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../../../content/locales";
+import ArticleCTA from "../../../../components/ArticleCTA.astro";
+import ArticleShare from "../../../../components/ArticleShare.astro";
+import { getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../../../content/locales";
 import { getBlogIndexContent, getBlogPost, getBlogPosts } from "../../../../content/blog";
 
 export function getStaticPaths() {
@@ -21,19 +23,41 @@ if (!post) {
   return Astro.redirect(getLocalizedPath(locale, "blog"));
 }
 
+const allPosts = getBlogPosts(locale);
+const postIndex = allPosts.findIndex((item) => item.slug === post.slug);
+const previousPost = postIndex > 0 ? allPosts[postIndex - 1] : undefined;
+const nextPost = postIndex >= 0 && postIndex < allPosts.length - 1 ? allPosts[postIndex + 1] : undefined;
 const canonicalPath = `/${locale}/blog/${post.slug}/`;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const imageUrl = new URL(post.featuredImage, siteUrl).toString();
+const headingId = (heading: string) =>
+  heading
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+const articleUi = {
+  contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "ja" ? "目次" : "Contents",
+  related: locale === "de" ? "Verwandte Websiteli-Seiten" : locale === "hu" ? "Kapcsolódó Websiteli oldalak" : locale === "fr" ? "Pages Websiteli liées" : locale === "es" ? "Páginas relacionadas de Websiteli" : locale === "it" ? "Pagine Websiteli correlate" : locale === "ja" ? "関連Websiteliページ" : "Related Websiteli pages",
+  previous: locale === "de" ? "Vorheriger Artikel" : locale === "hu" ? "Előző cikk" : locale === "fr" ? "Article précédent" : locale === "es" ? "Artículo anterior" : locale === "it" ? "Articolo precedente" : locale === "ja" ? "前の記事" : "Previous article",
+  next: locale === "de" ? "Nächster Artikel" : locale === "hu" ? "Következő cikk" : locale === "fr" ? "Article suivant" : locale === "es" ? "Artículo siguiente" : locale === "it" ? "Articolo successivo" : locale === "ja" ? "次の記事" : "Next article",
+};
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.title,
   description: post.description,
-  image: new URL(post.featuredImage, siteUrl).toString(),
+  image: imageUrl,
   datePublished: post.publishedAt,
   dateModified: post.updatedAt,
   author: { "@type": "Organization", name: post.author },
   publisher: { "@type": "Organization", name: "Websiteli", logo: { "@type": "ImageObject", url: new URL("/assets/websiteli-og.png", siteUrl).toString() } },
-  mainEntityOfPage: new URL(canonicalPath, siteUrl).toString(),
+  mainEntityOfPage: canonicalUrl,
+  articleSection: post.category,
+  keywords: post.tags.join(", "),
+  inLanguage: locale,
 };
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -41,9 +65,20 @@ const breadcrumbSchema = {
   itemListElement: [
     { "@type": "ListItem", position: 1, name: content.nav.home, item: new URL(getLocalizedPath(locale), siteUrl).toString() },
     { "@type": "ListItem", position: 2, name: blogContent.eyebrow, item: new URL(getLocalizedPath(locale, "blog"), siteUrl).toString() },
-    { "@type": "ListItem", position: 3, name: post.title, item: new URL(canonicalPath, siteUrl).toString() },
+    { "@type": "ListItem", position: 3, name: post.title, item: canonicalUrl },
   ],
 };
+const faqSchema = post.faqs?.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: post.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    }
+  : undefined;
 const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/blog/${post.slug}/` }));
 ---
 
@@ -54,10 +89,12 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
   lang={locale}
   locale={locale}
   page="blog"
+  ogType="article"
   alternates={postAlternates}
   content={content}
-  schema={[articleSchema, breadcrumbSchema]}
+  schema={[articleSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
+  <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
   <main class="subpage article-page">
     <article>
       <header class="section-shell page-hero article-hero">
@@ -74,31 +111,44 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
           <span>{post.readingTime}</span>
           <span>{post.publishedAt}</span>
         </div>
+        <div class="article-tags" aria-label="Article tags">
+          {post.tags.map((tag) => <span>{tag}</span>)}
+        </div>
       </header>
       <div class="section-shell article-layout">
-        <aside class="toc" aria-label="Table of contents">
-          <strong>Contents</strong>
-          {post.headings.map((heading) => <a href={`#${heading.toLowerCase().replaceAll(" ", "-").replaceAll(",", "")}`}>{heading}</a>)}
+        <aside class="article-sidebar">
+          <nav class="toc" aria-label="Table of contents">
+            <strong>{articleUi.contents}</strong>
+            {post.headings.map((heading) => <a href={`#${headingId(heading)}`}>{heading}</a>)}
+          </nav>
+          <ArticleCTA locale={locale} variant="sidebar" />
         </aside>
         <div class="article-content">
           <img class="article-image" src={post.featuredImage} alt="Website strategy, analytics and AI automation interface" width="1672" height="941" loading="eager" />
-          {post.body.map((section) => (
-            <section id={section.heading.toLowerCase().replaceAll(" ", "-").replaceAll(",", "")}>
-              <h2>{section.heading}</h2>
-              {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-              {section.list && (
-                <ul>
-                  {section.list.map((item) => <li>{item}</li>)}
-                </ul>
-              )}
-            </section>
+          {post.body.map((section, index) => (
+            <>
+              <section id={headingId(section.heading)}>
+                <h2>{section.heading}</h2>
+                {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                {section.list && (
+                  <ul>
+                    {section.list.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+              </section>
+              {index === 2 && <ArticleCTA locale={locale} variant="inline" />}
+            </>
           ))}
-          <div class="share-row" aria-label="Share article">
-            <a class="button secondary" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(new URL(canonicalPath, siteUrl).toString())}`} target="_blank" rel="noopener">Share on LinkedIn</a>
-            <a class="button secondary" href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(new URL(canonicalPath, siteUrl).toString())}`}>Share by email</a>
-          </div>
+          <ArticleCTA locale={locale} variant="final" />
+          <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} />
+          {(previousPost || nextPost) && (
+            <nav class="article-nav" aria-label="Article navigation">
+              {previousPost && <a href={`/${locale}/blog/${previousPost.slug}/`}><span>{articleUi.previous}</span>{previousPost.title}</a>}
+              {nextPost && <a href={`/${locale}/blog/${nextPost.slug}/`}><span>{articleUi.next}</span>{nextPost.title}</a>}
+            </nav>
+          )}
           <section class="related-links" aria-label="Related links">
-            <h2>Related Websiteli pages</h2>
+            <h2>{articleUi.related}</h2>
             <div>
               {post.related.map((href) => <a href={href.replace("/en/", `/${locale}/`)}>{href.replace("/en/", `/${locale}/`)}</a>)}
             </div>
@@ -106,5 +156,24 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
         </div>
       </div>
     </article>
+    <ArticleCTA locale={locale} variant="mobile" />
   </main>
 </Layout>
+
+<script>
+  const readingProgress = document.querySelector("[data-reading-progress]");
+  const article = document.querySelector(".article-content");
+
+  function updateReadingProgress() {
+    if (!(readingProgress instanceof HTMLElement) || !(article instanceof HTMLElement)) return;
+
+    const articleTop = article.offsetTop;
+    const articleHeight = Math.max(article.scrollHeight - window.innerHeight, 1);
+    const progress = Math.min(Math.max((window.scrollY - articleTop) / articleHeight, 0), 1);
+    readingProgress.style.transform = `scaleX(${progress})`;
+  }
+
+  updateReadingProgress();
+  document.addEventListener("scroll", updateReadingProgress, { passive: true });
+  window.addEventListener("resize", updateReadingProgress);
+</script>

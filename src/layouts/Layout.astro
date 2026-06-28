@@ -12,6 +12,7 @@ interface Props {
   lang?: string;
   locale?: string;
   page?: string;
+  ogType?: "website" | "article";
   alternates?: { locale: string; href: string }[];
   content?: any;
   schema?: Record<string, any>[];
@@ -24,6 +25,7 @@ const {
   lang = "en",
   locale = "en",
   page = "home",
+  ogType = "website",
   alternates = [],
   content,
   schema = [],
@@ -163,7 +165,7 @@ const structuredData = [
     {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL("/en/", siteUrl).toString()} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="websiteli.ch" />
     <meta property="og:locale" content={`${lang}_CH`} />
