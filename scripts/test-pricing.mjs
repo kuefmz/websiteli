@@ -96,6 +96,11 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /name="relatedProject"/);
   assert.match(contact, /name="sourcePage"/);
   assert.match(contact, /name="inquiryIntent"/);
+  assert.match(contact, /name="utm_source"/);
+  assert.match(contact, /name="utm_id"/);
+  assert.match(contact, /websiteliGetAttribution/);
+  assert.match(contact, /sessionStorage/);
+  assert.match(contact, /gclid/);
 
   assert.match(portfolio, /shopify/i);
 });
@@ -107,6 +112,8 @@ test("newsletter signup posts to the static Google Apps Script endpoint", async 
   assert.match(englishHome, /type:\s*"newsletter"/);
   assert.match(englishHome, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
   assert.match(englishHome, /privacyPolicyAccepted/);
+  assert.match(englishHome, /utm_content/);
+  assert.match(englishHome, /landingPage/);
 });
 
 test("localized package labels do not leak English package names in Hungarian UI", async () => {
