@@ -20,10 +20,9 @@ if (!post) {
   return Astro.redirect(getLocalizedPath(locale, "blog"));
 }
 
-const articleHtml = renderBlogMarkdown(post.body);
+const articleHtml = renderBlogMarkdown(post.body, locale);
 const allPosts = await getBlogPosts(locale);
 const postIndex = allPosts.findIndex((item) => item.slug === post.slug);
-const previousPost = postIndex > 0 ? allPosts[postIndex - 1] : undefined;
 const nextPost = postIndex >= 0 && postIndex < allPosts.length - 1 ? allPosts[postIndex + 1] : undefined;
 const canonicalLocale = post.isFallback ? "en" : locale;
 const canonicalPath = `/${canonicalLocale}/blog/${post.slug}/`;
@@ -32,24 +31,42 @@ const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(post.featuredImage, siteUrl).toString();
 const articleUi = {
   contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "ja" ? "目次" : "Contents",
-  related: locale === "de" ? "Verwandte Websiteli-Seiten" : locale === "hu" ? "Kapcsolódó Websiteli oldalak" : locale === "fr" ? "Pages Websiteli liées" : locale === "es" ? "Páginas relacionadas de Websiteli" : locale === "it" ? "Pagine Websiteli correlate" : locale === "ja" ? "関連Websiteliページ" : "Related Websiteli pages",
-  previous: locale === "de" ? "Vorheriger Artikel" : locale === "hu" ? "Előző cikk" : locale === "fr" ? "Article précédent" : locale === "es" ? "Artículo anterior" : locale === "it" ? "Articolo precedente" : locale === "ja" ? "前の記事" : "Previous article",
+  summary: locale === "de" ? "Artikelzusammenfassung" : locale === "hu" ? "Cikk összefoglaló" : locale === "fr" ? "Résumé de l'article" : locale === "es" ? "Resumen del artículo" : locale === "it" ? "Riassunto dell'articolo" : locale === "ja" ? "記事の要約" : "Article summary",
+  takeaways: locale === "de" ? "Wichtigste Erkenntnisse" : locale === "hu" ? "Fő tanulságok" : locale === "fr" ? "Points clés" : locale === "es" ? "Puntos clave" : locale === "it" ? "Punti chiave" : locale === "ja" ? "重要ポイント" : "Key takeaways",
+  references: locale === "de" ? "Referenzen" : locale === "hu" ? "Hivatkozások" : locale === "fr" ? "Références" : locale === "es" ? "Referencias" : locale === "it" ? "Riferimenti" : locale === "ja" ? "参考リンク" : "References",
+  updated: locale === "de" ? "Aktualisiert" : locale === "hu" ? "Frissítve" : locale === "fr" ? "Mis à jour" : locale === "es" ? "Actualizado" : locale === "it" ? "Aggiornato" : locale === "ja" ? "更新日" : "Updated",
+  published: locale === "de" ? "Veröffentlicht" : locale === "hu" ? "Közzétéve" : locale === "fr" ? "Publié" : locale === "es" ? "Publicado" : locale === "it" ? "Pubblicato" : locale === "ja" ? "公開日" : "Published",
+  imageCaption: locale === "de" ? "Visuelle Zusammenfassung des Artikels und seiner Website-Strategie." : locale === "hu" ? "A cikk és a weboldal-stratégia vizuális összefoglalója." : locale === "fr" ? "Résumé visuel de l'article et de sa stratégie de site web." : locale === "es" ? "Resumen visual del artículo y su estrategia web." : locale === "it" ? "Sintesi visiva dell'articolo e della strategia del sito." : locale === "ja" ? "記事とウェブサイト戦略の視覚的な要約。" : "Visual summary of the article and its website strategy.",
   next: locale === "de" ? "Nächster Artikel" : locale === "hu" ? "Következő cikk" : locale === "fr" ? "Article suivant" : locale === "es" ? "Artículo siguiente" : locale === "it" ? "Articolo successivo" : locale === "ja" ? "次の記事" : "Next article",
+};
+const authorSchema = { "@type": "Person", name: post.author, affiliation: { "@type": "Organization", name: "Websiteli", url: siteUrl.toString() } };
+const imageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  url: imageUrl,
+  contentUrl: imageUrl,
+  caption: articleUi.imageCaption,
+  width: 1536,
+  height: 1024,
 };
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.title,
   description: post.description,
-  image: imageUrl,
+  image: imageSchema,
+  thumbnailUrl: imageUrl,
   datePublished: post.publishedAt,
   dateModified: post.updatedAt,
-  author: { "@type": "Organization", name: post.author },
+  author: authorSchema,
   publisher: { "@type": "Organization", name: "Websiteli", logo: { "@type": "ImageObject", url: new URL("/assets/websiteli-og.png", siteUrl).toString() } },
   mainEntityOfPage: canonicalUrl,
   articleSection: post.category,
   keywords: post.tags.join(", "),
   inLanguage: post.sourceLocale,
+  about: post.tags.map((tag) => ({ "@type": "Thing", name: tag })),
+  audience: { "@type": "Audience", audienceType: post.audience },
+  abstract: post.summary.join(" "),
 };
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -72,6 +89,7 @@ const faqSchema = post.faqs?.length
     }
   : undefined;
 const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/blog/${post.slug}/` }));
+const personSchema = { "@context": "https://schema.org", ...authorSchema };
 ---
 
 <Layout
@@ -82,9 +100,10 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
   locale={locale}
   page="blog"
   ogType="article"
+  image={post.featuredImage}
   alternates={postAlternates}
   content={content}
-  schema={[articleSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])]}
+  schema={[articleSchema, breadcrumbSchema, imageSchema, personSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
   <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
   <main class="subpage article-page">
@@ -99,9 +118,9 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
         <h1>{post.title}</h1>
         <p>{post.description}</p>
         <div class="blog-meta">
-          <span>{post.author}</span>
           <span>{post.readingTime}</span>
-          <span>{post.publishedAt}</span>
+          <span>{articleUi.published}: <time datetime={post.publishedAt}>{post.publishedAt}</time></span>
+          <span>{articleUi.updated}: <time datetime={post.updatedAt}>{post.updatedAt}</time></span>
         </div>
         <div class="article-tags" aria-label="Article tags">
           {post.tags.map((tag) => <span>{tag}</span>)}
@@ -111,37 +130,70 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
         <aside class="article-sidebar">
           <nav class="toc" aria-label="Table of contents">
             <strong>{articleUi.contents}</strong>
-            {post.headings.map((heading) => <a href={`#${getHeadingId(heading)}`}>{heading}</a>)}
+            {post.headings.map((heading) => <a href={`#${getHeadingId(heading)}`} data-toc-link>{heading}</a>)}
           </nav>
           <ArticleCTA locale={locale} variant="sidebar" />
         </aside>
         <div class="article-content">
-          <img class="article-image" src={post.featuredImage} alt="Website strategy, analytics and AI automation interface" width="1536" height="1024" loading="eager" />
+          <figure class="article-figure">
+            <a href={post.featuredImage} target="_blank" rel="noopener noreferrer" aria-label="Open article image">
+              <img class="article-image" src={post.featuredImage} alt={`${post.title} - ${post.category}`} width="1536" height="1024" loading="eager" />
+            </a>
+            <figcaption>{articleUi.imageCaption}</figcaption>
+          </figure>
+          <section class="article-ai-summary" aria-labelledby="article-summary">
+            <h2 id="article-summary">{articleUi.summary}</h2>
+            <ul>
+              {post.summary.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+          <section class="article-key-takeaways" aria-labelledby="key-takeaways">
+            <h2 id="key-takeaways">{articleUi.takeaways}</h2>
+            <ul>
+              {post.keyTakeaways.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
           <Fragment set:html={articleHtml} />
           <ArticleCTA locale={locale} variant="final" />
           <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} />
-          {(previousPost || nextPost) && (
+          {nextPost && (
             <nav class="article-nav" aria-label="Article navigation">
-              {previousPost && <a href={`/${locale}/blog/${previousPost.slug}/`}><span>{articleUi.previous}</span>{previousPost.title}</a>}
-              {nextPost && <a href={`/${locale}/blog/${nextPost.slug}/`}><span>{articleUi.next}</span>{nextPost.title}</a>}
+              <a href={`/${locale}/blog/${nextPost.slug}/`}><span>{articleUi.next}</span>{nextPost.title}</a>
             </nav>
           )}
-          <section class="related-links" aria-label="Related links">
-            <h2>{articleUi.related}</h2>
-            <div>
-              {post.related.map((href) => <a href={href.replace("/en/", `/${locale}/`)}>{href.replace("/en/", `/${locale}/`)}</a>)}
-            </div>
-          </section>
+          {post.references.length > 0 && (
+            <section class="article-references" aria-label={articleUi.references}>
+              <h2>{articleUi.references}</h2>
+              <ul>
+                {post.references.map((reference) => (
+                  <li>
+                    <a href={reference.href} target="_blank" rel="noopener noreferrer">
+                      <span aria-hidden="true">↗</span>
+                      <strong>{reference.title}</strong>
+                      <small>{reference.publisher}</small>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </div>
     </article>
-    <ArticleCTA locale={locale} variant="mobile" />
   </main>
 </Layout>
 
 <script>
   const readingProgress = document.querySelector("[data-reading-progress]");
   const article = document.querySelector(".article-content");
+  const tocLinks = Array.from(document.querySelectorAll("[data-toc-link]"));
+  const tocTargets = tocLinks
+    .map((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return null;
+      const target = document.querySelector(decodeURIComponent(link.hash));
+      return target instanceof HTMLElement ? { link, target } : null;
+    })
+    .filter(Boolean);
 
   function updateReadingProgress() {
     if (!(readingProgress instanceof HTMLElement) || !(article instanceof HTMLElement)) return;
@@ -152,7 +204,33 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
     readingProgress.style.transform = `scaleX(${progress})`;
   }
 
+  function updateActiveToc() {
+    let active;
+    tocTargets.forEach((item) => {
+      if (item.target.getBoundingClientRect().top < 150) active = item;
+    });
+    tocLinks.forEach((link) => link.removeAttribute("aria-current"));
+    active?.link.setAttribute("aria-current", "true");
+  }
+
+  document.addEventListener("click", async (event) => {
+    const button = event.target instanceof Element ? event.target.closest("[data-copy-code]") : null;
+    if (!(button instanceof HTMLButtonElement)) return;
+    const code = button.closest("[data-code-block]")?.querySelector("code")?.textContent ?? "";
+    try {
+      await navigator.clipboard.writeText(code);
+      button.textContent = "Copied";
+      window.setTimeout(() => (button.textContent = "Copy"), 1400);
+    } catch {
+      window.prompt("Copy code", code);
+    }
+  });
+
   updateReadingProgress();
-  document.addEventListener("scroll", updateReadingProgress, { passive: true });
+  updateActiveToc();
+  document.addEventListener("scroll", () => {
+    updateReadingProgress();
+    updateActiveToc();
+  }, { passive: true });
   window.addEventListener("resize", updateReadingProgress);
 </script>

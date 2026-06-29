@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  prompts: string[];
+}
+
+const { title, text, prompts } = Astro.props;
+const chatGptUrl = "https://chatgpt.com/";
+---
+
+<section class="ask-chatgpt" aria-labelledby="ask-chatgpt-title">
+  <div class="ask-chatgpt-heading">
+    <span class="ask-chatgpt-logo" aria-hidden="true">◇</span>
+    <h2 id="ask-chatgpt-title">{title}</h2>
+    <p>{text}</p>
+  </div>
+  <ul>
+    {prompts.map((prompt) => (
+      <li>
+        <a href={`${chatGptUrl}?q=${encodeURIComponent(prompt)}`} target="_blank" rel="noopener noreferrer" data-track-event="ask_chatgpt_prompt_click" data-track-label={prompt}>
+          {prompt}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -17,6 +17,10 @@ export type BlogPost = {
   readingTime: string;
   audience: string;
   excerpt: string;
+  summary: string[];
+  keyTakeaways: string[];
+  chatGptPrompts: string[];
+  references: { title: string; publisher: string; href: string }[];
   headings: string[];
   body: string;
   related: string[];
@@ -59,6 +63,132 @@ function getMarkdownHeadings(body: string) {
     .filter((heading): heading is string => Boolean(heading));
 }
 
+function stripMarkdown(value: string) {
+  return value
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .trim();
+}
+
+function getLeadParagraphs(body: string, limit = 3) {
+  return body
+    .split(/\n{2,}/)
+    .map((block) => stripMarkdown(block.replace(/^#{2,3}\s+/, "")))
+    .filter((block) => block && !block.startsWith("- "))
+    .slice(0, limit);
+}
+
+function getFirstListItems(body: string, limit = 4) {
+  return body
+    .split("\n")
+    .map((line) => line.match(/^-\s+(.+)$/)?.[1])
+    .filter((item): item is string => Boolean(item))
+    .map(stripMarkdown)
+    .slice(0, limit);
+}
+
+function getAudienceSummary(translation: BlogPostSource["translations"]["en"]) {
+  const labels: Partial<Record<LocaleCode, string>> = {
+    en: "Audience",
+    de: "Zielgruppe",
+    hu: "Célközönség",
+    pl: "Odbiorcy",
+    es: "Audiencia",
+    fr: "Public cible",
+    it: "Pubblico",
+    cz: "Cílová skupina",
+    sk: "Cieľová skupina",
+    pt: "Público",
+    da: "Målgruppe",
+    nl: "Doelgroep",
+    ja: "対象読者",
+  };
+
+  return `${labels[translation.language] ?? labels.en}: ${translation.audience}.`;
+}
+
+function getDefaultSummary(source: BlogPostSource, translation: BlogPostSource["translations"]["en"]) {
+  const leadParagraphs = getLeadParagraphs(translation.body, 2);
+  const listItems = getFirstListItems(translation.body, 4);
+  const summary = [
+    translation.description,
+    translation.excerpt,
+    getAudienceSummary(translation),
+    ...leadParagraphs,
+    ...listItems.map((item) => `Important point: ${item}.`),
+  ];
+
+  return Array.from(new Set(summary.map(stripMarkdown).filter(Boolean))).slice(0, 8);
+}
+
+function getDefaultKeyTakeaways(translation: BlogPostSource["translations"]["en"]) {
+  const headings = getMarkdownHeadings(translation.body).slice(0, 6);
+  const listItems = getFirstListItems(translation.body, 6);
+  const takeaways = [
+    ...headings.map((heading) => `Focus on ${stripMarkdown(heading).toLowerCase()}.`),
+    ...listItems,
+  ];
+
+  return Array.from(new Set(takeaways.map(stripMarkdown).filter(Boolean))).slice(0, 7);
+}
+
+function getDefaultChatGptPrompts(translation: BlogPostSource["translations"]["en"]) {
+  const title = translation.title;
+  const normalizedTags = translation.tags.join(" ").toLowerCase();
+
+  if (normalizedTags.includes("seo") || title.toLowerCase().includes("seo")) {
+    return [
+      `Based on "${title}", how can I apply these SEO recommendations to my own small business website?`,
+      `Create a practical SEO checklist from the article "${title}".`,
+      `What SEO mistakes should I avoid after reading "${title}"?`,
+    ];
+  }
+
+  if (normalizedTags.includes("ai") || title.toLowerCase().includes("ai")) {
+    return [
+      `Explain the article "${title}" for a beginner business owner.`,
+      `Based on "${title}", compare AI website builders with a professionally owned website setup.`,
+      `What would an implementation plan look like for the advice in "${title}"?`,
+    ];
+  }
+
+  return [
+    `Based on "${title}", what should I improve first on my business website?`,
+    `Turn the article "${title}" into a step-by-step checklist for a small business.`,
+    `What mistakes should I avoid after reading "${title}"?`,
+  ];
+}
+
+function getDefaultReferences(translation: BlogPostSource["translations"]["en"]) {
+  const topic = `${translation.title} ${translation.description} ${translation.tags.join(" ")}`.toLowerCase();
+  const references = [
+    ...(topic.includes("seo") || topic.includes("google") || topic.includes("search")
+      ? [
+          { title: "Search Engine Optimization Starter Guide", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/fundamentals/seo-starter-guide" },
+          { title: "Creating helpful, reliable, people-first content", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content" },
+        ]
+      : []),
+    ...(topic.includes("performance") || topic.includes("speed") || topic.includes("mobile") || topic.includes("website")
+      ? [
+          { title: "Web performance", publisher: "MDN Web Docs", href: "https://developer.mozilla.org/en-US/docs/Learn/Performance" },
+          { title: "Core Web Vitals", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/appearance/core-web-vitals" },
+        ]
+      : []),
+    ...(topic.includes("ai")
+      ? [
+          { title: "OpenAI Documentation", publisher: "OpenAI", href: "https://platform.openai.com/docs" },
+          { title: "Claude Documentation", publisher: "Anthropic", href: "https://docs.anthropic.com/" },
+        ]
+      : []),
+    ...(topic.includes("accessibility") || topic.includes("navigation")
+      ? [{ title: "Web Accessibility Initiative", publisher: "W3C", href: "https://www.w3.org/WAI/" }]
+      : []),
+  ];
+
+  return references.slice(0, 4);
+}
+
 function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
   const translation = source.translations[locale] ?? source.translations[DEFAULT_LOCALE];
   const isFallback = !source.translations[locale] && locale !== DEFAULT_LOCALE;
@@ -76,6 +206,10 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
     readingTime: translation.readingTime,
     audience: translation.audience,
     excerpt: translation.excerpt,
+    summary: translation.summary?.length ? translation.summary : getDefaultSummary(source, translation),
+    keyTakeaways: translation.keyTakeaways?.length ? translation.keyTakeaways : getDefaultKeyTakeaways(translation),
+    chatGptPrompts: translation.chatGptPrompts?.length ? translation.chatGptPrompts : getDefaultChatGptPrompts(translation),
+    references: translation.references?.length ? translation.references : getDefaultReferences(translation),
     headings: getMarkdownHeadings(translation.body),
     body: translation.body,
     related: source.related,
@@ -109,6 +243,23 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
+function escapeHtmlAttribute(value: string) {
+  return escapeHtml(value).replace(/'/g, "&#39;");
+}
+
+function renderInlineMarkdown(value: string, locale: LocaleCode = DEFAULT_LOCALE) {
+  const escaped = escapeHtml(value);
+
+  return escaped
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label: string, href: string) => {
+      const safeHref = href.trim().replace(/^\/en\//, `/${locale}/`);
+      if (!safeHref.startsWith("/") && !safeHref.startsWith("https://websiteli.ch")) return label;
+
+      return `<a href="${escapeHtmlAttribute(safeHref)}">${label}</a>`;
+    });
+}
+
 export function getHeadingId(heading: string) {
   return heading
     .toLowerCase()
@@ -118,30 +269,78 @@ export function getHeadingId(heading: string) {
     .replace(/^-|-$/g, "");
 }
 
-export function renderBlogMarkdown(markdown: string) {
+export function renderBlogMarkdown(markdown: string, locale: LocaleCode = DEFAULT_LOCALE) {
   const html: string[] = [];
   let paragraph: string[] = [];
   let list: string[] = [];
+  let codeBlock: { language: string; lines: string[] } | undefined;
+  let skipFaq = false;
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
-    html.push(`<p>${escapeHtml(paragraph.join(" "))}</p>`);
+    html.push(`<p>${renderInlineMarkdown(paragraph.join(" "), locale)}</p>`);
     paragraph = [];
   };
   const flushList = () => {
     if (!list.length) return;
-    html.push(`<ul>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`);
+    html.push(`<ul>${list.map((item) => `<li>${renderInlineMarkdown(item, locale)}</li>`).join("")}</ul>`);
     list = [];
+  };
+  const flushCodeBlock = () => {
+    if (!codeBlock) return;
+    const code = escapeHtml(codeBlock.lines.join("\n"));
+    const language = escapeHtmlAttribute(codeBlock.language || "text");
+    html.push(`<figure class="code-block" data-code-block><figcaption><span>${language}</span><button type="button" data-copy-code>Copy</button></figcaption><pre><code class="language-${language}">${code}</code></pre></figure>`);
+    codeBlock = undefined;
   };
 
   markdown.split(/\r?\n/).forEach((line) => {
-    const heading = line.match(/^##\s+(.+)$/)?.[1]?.trim();
-    const listItem = line.match(/^-\s+(.+)$/)?.[1]?.trim();
+    const codeFence = line.match(/^```(\w+)?\s*$/);
+    if (codeFence) {
+      if (codeBlock) {
+        flushCodeBlock();
+      } else {
+        flushParagraph();
+        flushList();
+        codeBlock = { language: codeFence[1] ?? "text", lines: [] };
+      }
+      return;
+    }
 
-    if (heading) {
+    if (codeBlock) {
+      codeBlock.lines.push(line);
+      return;
+    }
+
+    const heading = line.match(/^##\s+(.+)$/)?.[1]?.trim();
+    const subheading = line.match(/^###\s+(.+)$/)?.[1]?.trim();
+    const listItem = line.match(/^-\s+(.+)$/)?.[1]?.trim();
+    const callout = line.match(/^>\s*\[!(TIP|BEST PRACTICE|IMPORTANT|WARNING|EXAMPLE)\]\s*(.*)$/i);
+
+    if (skipFaq) {
+      if (heading) skipFaq = false;
+      else return;
+    }
+
+    if (heading || subheading) {
       flushParagraph();
       flushList();
-      html.push(`<h2 id="${getHeadingId(heading)}">${escapeHtml(heading)}</h2>`);
+      const headingText = heading ?? subheading ?? "";
+      if (/^faq$|frequently asked questions|gyakori kérdések|preguntas frecuentes|よくある質問/i.test(headingText)) {
+        skipFaq = true;
+        return;
+      }
+      const level = heading ? "h2" : "h3";
+      html.push(`<${level} id="${getHeadingId(headingText)}">${renderInlineMarkdown(headingText, locale)}</${level}>`);
+      return;
+    }
+
+    if (callout) {
+      flushParagraph();
+      flushList();
+      const label = callout[1].toLowerCase().replace(/\s+/g, "-");
+      const text = callout[2]?.trim() || callout[1];
+      html.push(`<aside class="article-callout article-callout-${label}"><strong>${escapeHtml(callout[1])}</strong><p>${renderInlineMarkdown(text, locale)}</p></aside>`);
       return;
     }
 
@@ -163,6 +362,7 @@ export function renderBlogMarkdown(markdown: string) {
 
   flushParagraph();
   flushList();
+  flushCodeBlock();
 
   return html.join("");
 }

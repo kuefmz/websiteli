@@ -9,6 +9,10 @@ export type BlogPostTranslation = {
   readingTime: string;
   audience: string;
   excerpt: string;
+  summary?: string[];
+  keyTakeaways?: string[];
+  chatGptPrompts?: string[];
+  references?: { title: string; publisher: string; href: string }[];
   faqs: { question: string; answer: string }[];
   body: string;
 };

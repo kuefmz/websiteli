@@ -111,7 +111,7 @@ Blog articles should include:
 - Unique localized meta title and description.
 - Clean slug.
 - Localized H1 and headings.
-- Reading time, publication date, updated date, author.
+- Reading time, publication date, updated date, and structured author metadata.
 - Tags and category.
 - Sticky TOC and progress bar.
 - Inline and bottom conversion CTAs.
