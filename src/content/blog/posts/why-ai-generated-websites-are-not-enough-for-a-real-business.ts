@@ -3,7 +3,7 @@ import type { BlogPostSource } from "../types";
 export default {
   "slug": "why-ai-generated-websites-are-not-enough-for-a-real-business",
   "published": true,
-  "image": "/assets/swiss-ai-websites-hero.png",
+  "image": "/assets/blog/why-ai-generated-websites-are-not-enough.png",
   "author": "Websiteli",
   "date": "2026-06-26",
   "updated": "2026-06-26",

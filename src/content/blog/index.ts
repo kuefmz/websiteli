@@ -1,6 +1,7 @@
 import { localeCodes, type LocaleCode } from "../locales";
 import smallBusinessWebsite from "./posts/small-business-website";
 import whyAiGeneratedWebsitesAreNotEnough from "./posts/why-ai-generated-websites-are-not-enough-for-a-real-business";
+import businsessWebsiteFreatures from "./posts/business-website-features";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -26,7 +27,7 @@ export type BlogPost = {
 };
 
 const DEFAULT_LOCALE: LocaleCode = "en";
-const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough];
+const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures];
 
 const marketKeywords = [
   "website creation Switzerland",

@@ -3,7 +3,7 @@ import type { BlogPostSource } from "../types";
 export default {
   "slug": "small-business-website",
   "published": true,
-  "image": "/assets/swiss-ai-websites-hero.png",
+  "image": "/assets/blog/small-business-website.png",
   "author": "Websiteli",
   "date": "2026-06-29",
   "updated": "2026-06-29",

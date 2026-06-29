@@ -32,6 +32,7 @@ Current published article:
 
 - `why-ai-generated-websites-are-not-enough-for-a-real-business`
 - `small-business-website`
+- `business-website-features`
 
 Every blog post must:
 
