@@ -22,19 +22,27 @@ Websiteli content should educate small businesses while moving qualified readers
 
 ## Blog Strategy
 
-Source: `src/content/blog.ts`.
+Source files:
+
+- Blog loader/helpers: `src/content/blog/index.ts`
+- Blog post files: `src/content/blog/posts/{post-slug}.ts`
+- Blog types: `src/content/blog/types.ts`
 
 Current published article:
 
 - `why-ai-generated-websites-are-not-enough-for-a-real-business`
+- `small-business-website`
 
 Every blog post must:
 
-- Exist for every `localeCode`.
-- Have localized title, description, category, tags, reading time, excerpt, headings, body, and FAQs where applicable.
+- Exist as one post file under `src/content/blog/posts/{slug}.ts`.
+- Keep all locale versions inside that file's `translations` object.
+- Have localized title, description, category, tags, reading time, excerpt, body, and FAQs for every supported locale.
 - Include CTAs through the article template, not by duplicating markup in post content.
 - Include related links to internal conversion pages.
 - Avoid public future-roadmap sections.
+
+English remains the source/default language for writing. Current published posts should include every supported locale in the same post file, so public localized routes render translated content rather than falling back.
 
 ## Demo Sites
 
@@ -88,30 +96,45 @@ Newsletter form lives in the footer and is present on pages using `Layout.astro`
 - Blog articles link to services/pricing, portfolio, contact, and newsletter.
 - Article related links should use `/en/` in content and be localized by article template replacement unless more robust per-locale links are introduced.
 
-## Content Templates
+## Adding A Blog Post
 
-Blog post fields:
+Create a new post source file:
+
+`src/content/blog/posts/my-post-slug.ts`
+
+Use this structure:
 
 ```ts
-{
-  slug,
-  title,
-  description,
-  category,
-  tags,
-  featuredImage,
-  author,
-  publishedAt,
-  updatedAt,
-  readingTime,
-  audience,
-  excerpt,
-  headings,
-  related,
-  faqs,
-  body,
-}
+import type { BlogPostSource } from "../types";
+
+export default {
+  slug: "my-post-slug",
+  published: true,
+  image: "/assets/swiss-ai-websites-hero.png",
+  author: "Websiteli",
+  date: "2026-06-29",
+  updated: "2026-06-29",
+  related: ["/en/services-pricing/", "/en/contact/"],
+  translations: {
+    en: {
+      title: "My English Blog Post",
+      description: "A short SEO description for search and social previews.",
+      category: "Website Strategy",
+      tags: ["website", "SEO"],
+      language: "en",
+      readingTime: "7 min read",
+      audience: "Small business owners",
+      excerpt: "Short summary used on the blog listing card.",
+      faqs: [{ question: "Example question?", answer: "Example answer." }],
+      body: `## First section
+
+Write the article body here.`,
+    },
+  },
+} satisfies BlogPostSource;
 ```
+
+To add translations, add more locale keys to the same `translations` object. Keep the top-level `slug` shared across all languages.
 
 Demo content fields are defined by `DemoContent` in `src/content/demos/index.ts`.
 
@@ -131,7 +154,8 @@ Example project fields are defined by `ExampleProjectContent` in `src/content/ex
 
 Before publishing new content:
 
-- Verify every supported locale has explicit content.
+- Verify the English source post exists and has required frontmatter.
+- Verify the post file includes every supported locale key in `translations`.
 - Verify metadata and schema use localized values.
 - Verify links resolve.
 - Verify CTAs work and are not visually overpowering.

@@ -1,7 +1,7 @@
 import { getBlogPosts } from "../content/blog";
 
 export async function GET({ site }: { site: URL }) {
-  const posts = getBlogPosts("en" as any);
+  const posts = await getBlogPosts("en" as any);
   const items = posts
     .map((post) => {
       const url = new URL(`/en/blog/${post.slug}/`, site).toString();

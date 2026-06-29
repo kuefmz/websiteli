@@ -6,9 +6,10 @@ interface Props {
   content?: any;
   locale?: string;
   page?: string;
+  languageLinks?: { locale: string; href: string }[];
 }
 
-const { content, locale = "en", page = "home" } = Astro.props;
+const { content, locale = "en", page = "home", languageLinks = [] } = Astro.props;
 const nav = content?.nav ?? {
   home: "Home",
   servicesPricing: "Services & Pricing",
@@ -27,6 +28,7 @@ const navItems = [
 const quoteHref = `/${locale}/contact/`;
 const demosHref = `/${locale}/portfolio/`;
 const switchPage = page === "home" || page in pageNavKeys ? page : "home";
+const languageLinkByLocale = new Map(languageLinks.map((item) => [item.locale, item.href]));
 const headerLabels = {
   en: { mainNav: "Main navigation", language: "Language switcher", openMenu: "Open menu", mobileNav: "Mobile navigation", home: "websiteli.ch home" },
   de: { mainNav: "Hauptnavigation", language: "Sprachauswahl", openMenu: "Menü öffnen", mobileNav: "Mobile Navigation", home: "websiteli.ch Startseite" },
@@ -61,7 +63,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
       <div class="language-menu" data-language-menu>
         {
           localeCodes.map((code) => (
-            <a href={getLocalizedPath(code, switchPage as any)} aria-current={code === locale ? "true" : undefined}>{code.toUpperCase()}</a>
+            <a href={languageLinkByLocale.get(code) ?? getLocalizedPath(code, switchPage as any)} aria-current={code === locale ? "true" : undefined}>{code.toUpperCase()}</a>
           ))
         }
       </div>
@@ -79,7 +81,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
 <nav class="mobile-nav" aria-label={headerCopy.mobileNav} data-mobile-nav>
   {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
   <div class="mobile-languages">
-    {localeCodes.map((code) => <a href={getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
+    {localeCodes.map((code) => <a href={languageLinkByLocale.get(code) ?? getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
   </div>
   <a class="mobile-demo" href={demosHref} data-track-event="demo_nav_click" data-track-label="Mobile demos">{content?.ui?.demoCta ?? "See Live Demos"}</a>
   <a class="mobile-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Mobile quote">{nav.contact}</a>

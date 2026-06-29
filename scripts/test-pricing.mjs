@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { extname, join, relative, resolve } from "node:path";
 import { test } from "node:test";
 
 const distDir = join(process.cwd(), "dist");
@@ -23,6 +23,86 @@ async function collectFiles(dir) {
 
 async function readDistFile(path) {
   return readFile(join(distDir, path), "utf8");
+}
+
+function decodeHtmlAttribute(value) {
+  return value
+    .replace(/&amp;|&#38;/g, "&")
+    .replace(/&quot;|&#34;/g, '"')
+    .replace(/&apos;|&#39;/g, "'")
+    .replace(/&lt;|&#60;/g, "<")
+    .replace(/&gt;|&#62;/g, ">");
+}
+
+function getPagePath(file) {
+  const pagePath = `/${relative(distDir, file).replace(/\\/g, "/")}`;
+
+  return pagePath.endsWith("/index.html") ? pagePath.replace(/index\.html$/, "") : pagePath;
+}
+
+function getTargetFilePath(pathname) {
+  const normalizedPath = pathname === "/" ? "/index.html" : pathname;
+  const filePath = extname(normalizedPath) ? normalizedPath : `${normalizedPath.replace(/\/$/, "")}/index.html`;
+  const resolved = resolve(distDir, filePath.replace(/^\//, ""));
+
+  assert.ok(resolved.startsWith(resolve(distDir)), `Resolved link escapes dist: ${pathname}`);
+
+  return resolved;
+}
+
+function getHtmlReferences(html) {
+  const references = [];
+  const attributePattern = /\b(?:href|src|action)=["']([^"']+)["']/gi;
+  const srcsetPattern = /\bsrcset=["']([^"']+)["']/gi;
+  let match;
+
+  while ((match = attributePattern.exec(html))) {
+    references.push(decodeHtmlAttribute(match[1]));
+  }
+
+  while ((match = srcsetPattern.exec(html))) {
+    decodeHtmlAttribute(match[1])
+      .split(",")
+      .map((candidate) => candidate.trim().split(/\s+/)[0])
+      .filter(Boolean)
+      .forEach((candidate) => references.push(candidate));
+  }
+
+  return references;
+}
+
+function getAnchors(html) {
+  const anchors = new Set();
+  const anchorPattern = /\b(?:id|name)=["']([^"']+)["']/gi;
+  let match;
+
+  while ((match = anchorPattern.exec(html))) {
+    anchors.add(decodeHtmlAttribute(match[1]));
+  }
+
+  return anchors;
+}
+
+function getInternalUrl(rawReference, sourceFile) {
+  const reference = rawReference.trim();
+
+  if (
+    !reference ||
+    reference.startsWith("mailto:") ||
+    reference.startsWith("tel:") ||
+    reference.startsWith("data:") ||
+    reference.startsWith("javascript:") ||
+    reference.startsWith("//")
+  ) {
+    return null;
+  }
+
+  const sourceUrl = new URL(getPagePath(sourceFile), "https://websiteli.ch");
+  const url = new URL(reference, sourceUrl);
+
+  if (url.origin !== "https://websiteli.ch") return null;
+
+  return url;
 }
 
 test("localized pages include the browser pricing runtime", async () => {
@@ -127,6 +207,7 @@ test("EU countries and unknown countries map to the correct fallback markets", a
 });
 
 test("lead forms receive pricing, source, demo, and project metadata", async () => {
+  const englishHome = await readDistFile("en/index.html");
   const contact = await readDistFile("en/contact/index.html");
   const portfolio = await readDistFile("en/portfolio/index.html");
 
@@ -145,8 +226,11 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /websiteliGetAttribution/);
   assert.match(contact, /first_utm_source/);
   assert.match(contact, /gclid/);
+  assert.match(contact, /<option value="digitalAudit">Digital Audit<\/option>/);
 
+  assert.match(englishHome, /package=digitalAudit/);
   assert.match(portfolio, /shopify/i);
+  assert.match(portfolio, /package=digitalAudit(?:&amp;|&#38;)project=/);
 });
 
 test("newsletter signup posts to the static Google Apps Script endpoint", async () => {
@@ -166,11 +250,22 @@ test("blog is localized and article pages include conversion and sharing UX", as
   const germanArticle = await readDistFile("de/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
   const frenchArticle = await readDistFile("fr/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
   const japaneseArticle = await readDistFile("ja/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/index.html");
+  const smallBusinessArticle = await readDistFile("en/blog/small-business-website/index.html");
+  const germanSmallBusinessArticle = await readDistFile("de/blog/small-business-website/index.html");
+  const hungarianSmallBusinessArticle = await readDistFile("hu/blog/small-business-website/index.html");
 
   assert.doesNotMatch(englishBlog, /Future content roadmap|SEO roadmap/i);
+  assert.match(englishBlog, /How to Create a Small Business Website That Generates Customers/);
   assert.match(germanArticle, /Warum KI-generierte Websites/);
   assert.match(frenchArticle, /Pourquoi les sites générés par IA/);
   assert.match(japaneseArticle, /AI生成サイトだけでは/);
+  assert.match(smallBusinessArticle, /small business website/i);
+  assert.match(smallBusinessArticle, /Small Business Website That Generates Customers/);
+  assert.match(smallBusinessArticle, /contact your business/);
+  assert.doesNotMatch(smallBusinessArticle, /بسهولة/);
+  assert.match(germanSmallBusinessArticle, /Small-Business-Website/);
+  assert.match(hungarianSmallBusinessArticle, /Hogyan készíts kisvállalati weboldalt/);
+  assert.match(hungarianSmallBusinessArticle, /<link rel="canonical" href="https:\/\/websiteli\.ch\/hu\/blog\/small-business-website\/">/);
   assert.match(germanArticle, /property="og:type" content="article"/);
   assert.match(germanArticle, /https:\/\/www\.linkedin\.com\/sharing\/share-offsite\/\?url=/);
   assert.match(germanArticle, /https:\/\/www\.facebook\.com\/sharer\/sharer\.php/);
@@ -190,7 +285,51 @@ test("localized package labels do not leak English package names in Hungarian UI
   assert.match(hungarianHome, /Digitális alapcsomag/);
   assert.match(hungarianHome, /Növekedési csomag/);
   assert.match(hungarianHome, /AI\/adat fejlesztés/);
+  assert.match(hungarianHome, /package=digitalAudit/);
+  assert.match(hungarianContact, /<option value="digitalAudit">Digitális audit<\/option>/);
   assert.match(hungarianContact, /<option value="digitalFoundation">Digitális alapcsomag<\/option>/);
+  assert.doesNotMatch(hungarianContact, />Digital Audit<\/option>/);
   assert.doesNotMatch(hungarianContact, />Digital Foundation<\/option>/);
   assert.doesNotMatch(hungarianContact, />AI\/Data Upgrade<\/option>/);
+});
+
+test("built pages do not contain broken internal links or anchors", async () => {
+  const files = await collectFiles(distDir);
+  const fileSet = new Set(files.map((file) => resolve(file)));
+  const htmlFiles = files.filter((file) => file.endsWith(".html"));
+  const htmlCache = new Map();
+  const failures = [];
+
+  for (const file of htmlFiles) {
+    const html = await readFile(file, "utf8");
+    const references = getHtmlReferences(html);
+
+    for (const reference of references) {
+      const url = getInternalUrl(reference, file);
+      if (!url) continue;
+
+      const targetFile = getTargetFilePath(url.pathname);
+
+      if (!fileSet.has(targetFile)) {
+        failures.push(`${relative(distDir, file)} -> ${reference} missing ${relative(distDir, targetFile)}`);
+        continue;
+      }
+
+      if (!url.hash || !targetFile.endsWith(".html")) continue;
+
+      const anchor = decodeURIComponent(url.hash.slice(1));
+      if (!anchor) continue;
+
+      if (!htmlCache.has(targetFile)) {
+        htmlCache.set(targetFile, await readFile(targetFile, "utf8"));
+      }
+
+      const anchors = getAnchors(htmlCache.get(targetFile));
+      if (!anchors.has(anchor)) {
+        failures.push(`${relative(distDir, file)} -> ${reference} missing anchor #${anchor}`);
+      }
+    }
+  }
+
+  assert.deepEqual(failures, []);
 });

@@ -112,16 +112,17 @@ flowchart TD
 
 ## Blog Architecture
 
-Core file: `src/content/blog.ts`.
+Core files: `src/content/blog/index.ts`, `src/content/blog/types.ts`, and `src/content/blog/posts/{slug}.ts`.
 
-- `BlogPost` type includes slug, title, description, category, tags, image, author, dates, reading time, audience, excerpt, headings, related links, optional FAQs, and body sections.
-- `blogPostsByLocale` is generated from localized post copy for every `localeCode`.
-- `getBlogPosts(locale)` returns only that locale's posts.
-- `getBlogPost(locale, slug)` resolves a post for that locale.
+- `BlogPost` type includes slug, title, description, category, tags, image, author, dates, reading time, audience, excerpt, headings parsed from body Markdown, related links, optional FAQs, locale metadata, and body content.
+- Each blog post is one TypeScript source file in `src/content/blog/posts/{slug}.ts`.
+- Each post file contains all languages in a `translations` object.
+- `getBlogPosts(locale)` resolves the requested locale from each post's `translations`.
+- `getBlogPost(locale, slug)` resolves the requested post and locale.
 - Blog index content is localized in `getBlogIndexContent(locale)`.
-- Article route `src/pages/[locale]/blog/[slug]/index.astro` renders localized metadata, BlogPosting/Breadcrumb/FAQ schema, article UX, CTAs, sharing, and related links.
+- Article route `src/pages/[locale]/blog/[slug]/index.astro` renders metadata, BlogPosting/Breadcrumb/FAQ schema, article body, CTAs, sharing, and related links.
 
-Important rule: do not silently fall back to English for blog articles in production. Add missing translations explicitly.
+Important rule: one file per post. Add translations inside that post file rather than creating per-locale folders.
 
 ## Forms
 
@@ -161,15 +162,16 @@ GA config:
 Source of truth:
 
 - `src/config/pricing.json`: price values, markets, currencies.
-- `src/config/pricing.ts`: package keys, EU country list, market fallback logic.
+- `src/config/pricing.ts`: stable package keys, package-name mapping, EU country list, market fallback logic.
 - `src/config/packageLabels.ts`: localized package labels.
 
 Runtime:
 
 - `PricingRuntime.astro` checks deployment country metadata first, then lookup APIs (`country.is`, `ipapi.co`, `geojs.io`, `ipinfo.io`, Cloudflare trace).
 - First priced result wins; otherwise fallback country or `DEFAULT`.
-- Prices are rendered into `[data-package-price]` and `[data-package-card]`.
+- Prices are rendered into `[data-package-price]` and `[data-package-card]` for priced packages.
 - Hidden form fields are updated via `window.websiteliUpdateInquiryFields`.
+- `digitalAudit` is an unpriced contact-form package option used by audit CTAs.
 
 ## Third-Party Integrations
 

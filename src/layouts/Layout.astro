@@ -33,6 +33,7 @@ const {
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
+const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
 const analyticsPagePath = page === "home" ? "/" : "";
 const googleTagSnippet = `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
@@ -162,7 +163,7 @@ const structuredData = [
     <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#e32635" />
     <link rel="manifest" href="/site.webmanifest?v=2" />
     {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.href, siteUrl).toString()} />)}
-    {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL("/en/", siteUrl).toString()} />}
+    {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(xDefaultHref, siteUrl).toString()} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
@@ -235,7 +236,7 @@ const structuredData = [
     <title>{title}</title>
   </head>
   <body>
-    <Header content={content} locale={locale} page={page} />
+    <Header content={content} locale={locale} page={page} languageLinks={alternates} />
     <slot />
     <Footer content={content} locale={locale} />
     <PricingRuntime />

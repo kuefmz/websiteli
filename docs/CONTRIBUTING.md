@@ -64,7 +64,7 @@ This is the first file future Codex sessions should read after `PROJECT.md`.
 - Newsletter/footer: `src/components/Footer.astro`.
 - Pricing: `src/config/pricing.*`, `src/config/packageLabels.ts`, `src/components/PricingRuntime.astro`.
 - Attribution: `src/components/AttributionRuntime.astro`.
-- Blog: `src/content/blog.ts`, `src/pages/[locale]/blog/[slug]/index.astro`, `ArticleCTA.astro`, `ArticleShare.astro`.
+- Blog: `src/content/blog/index.ts`, `src/content/blog/types.ts`, `src/content/blog/posts/{slug}.ts`, `src/pages/[locale]/blog/[slug]/index.astro`, `ArticleCTA.astro`, `ArticleShare.astro`.
 - Demos/projects: `src/content/demos/index.ts`, `src/content/example-projects/index.ts`.
 - Global styles: `src/styles/global.css`.
 - Tests: `scripts/test-pricing.mjs`.

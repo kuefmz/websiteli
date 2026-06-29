@@ -74,7 +74,7 @@ Images include explicit width/height in major components. Blog article hero uses
 - Each page should have a single H1.
 - Section headings use H2.
 - Cards commonly use H3.
-- Blog body sections render H2s from post data.
+- Blog body sections render H2s from each post file's body content.
 
 Do not insert decorative headings that disrupt semantic structure.
 
@@ -102,7 +102,7 @@ Core keyword clusters:
 - analytics and conversion tracking
 - maintenance
 
-Market keywords are exposed through `getMarketKeywords()` in `src/content/blog.ts`.
+Market keywords are exposed through `getMarketKeywords()` in `src/content/blog/index.ts`.
 
 ## Blog Optimization
 

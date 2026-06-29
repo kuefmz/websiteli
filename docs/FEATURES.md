@@ -31,16 +31,16 @@ This file documents implemented behavior and regression risks. It is intentional
 ## Blog Index
 
 - Purpose: publish practical website, SEO, analytics, ownership, and automation articles.
-- Files: `src/content/blog.ts`, `src/components/PageSections.astro`.
-- Expected behavior: localized blog index at `/:locale/blog/`; search filters visible blog cards client-side.
+- Files: `src/content/blog/index.ts`, `src/content/blog/posts/{slug}.ts`, `src/components/PageSections.astro`.
+- Expected behavior: localized blog index at `/:locale/blog/`; search filters visible blog cards client-side; post files contain all locale translations for that post.
 - Manual test: type a matching/non-matching query in the search box.
-- Regression risks: public roadmap returning, blog search text missing tags/title, English fallback leaking into localized pages.
+- Regression risks: public roadmap returning, blog search text missing tags/title, missing locale keys inside a post file.
 
 ## Blog Article
 
 - Purpose: SEO content plus conversion path.
-- Files: `src/pages/[locale]/blog/[slug]/index.astro`, `src/components/ArticleCTA.astro`, `src/components/ArticleShare.astro`, `src/content/blog.ts`.
-- Expected behavior: article is localized for every supported locale, includes canonical URL, hreflang alternates, article OG type, BlogPosting/Breadcrumb/FAQ schema, progress bar, sticky TOC, tags, inline CTA, bottom CTA, sidebar/mobile CTA, related links, and compact sharing.
+- Files: `src/pages/[locale]/blog/[slug]/index.astro`, `src/components/ArticleCTA.astro`, `src/components/ArticleShare.astro`, `src/content/blog/index.ts`, `src/content/blog/posts/{slug}.ts`.
+- Expected behavior: article uses the requested locale entry from the post's `translations` object; includes canonical URL, hreflang alternates, article OG type, BlogPosting/Breadcrumb/FAQ schema, progress bar, sticky TOC, tags, bottom CTA, sidebar/mobile CTA, related links, and compact sharing.
 - Manual test: open `/de/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/`, verify German title/copy, LinkedIn share opens, copy link works, contact/newsletter CTAs work.
 - Regression risks: duplicate CTAs that feel spammy, share URLs not encoded, TOC anchors broken for accented/non-Latin headings.
 

@@ -1,6 +1,6 @@
 import pricing from "./pricing.json";
 
-export const packageKeys = ["digitalFoundation", "growthSetup", "aiDataUpgrade", "websiteMaintenance"] as const;
+export const packageKeys = ["digitalAudit", "digitalFoundation", "growthSetup", "aiDataUpgrade", "websiteMaintenance"] as const;
 export type PackageKey = (typeof packageKeys)[number];
 
 export const euCountryCodes = [
@@ -32,6 +32,7 @@ export const euCountryCodes = [
 ] as const;
 
 export const packageKeyByName: Record<string, PackageKey> = {
+  "Digital Audit": "digitalAudit",
   "Digital Foundation": "digitalFoundation",
   "Growth Setup": "growthSetup",
   "AI/Data Upgrade": "aiDataUpgrade",

@@ -32,7 +32,8 @@ Localization registry:
 
 Specialized content:
 
-- Blog: `src/content/blog.ts`
+- Blog helper: `src/content/blog/index.ts`
+- Blog post sources: `src/content/blog/posts/{slug}.ts`
 - Demos: `src/content/demos/index.ts`
 - Example projects: `src/content/example-projects/index.ts`
 - Package labels: `src/config/packageLabels.ts`
@@ -44,7 +45,7 @@ Specialized content:
 
 Main locale content is loaded by exact locale key.
 
-Blog posts should not silently fall back to English. `getBlogPosts(locale)` returns the locale's post list. If adding a new post, add localized post copy for every supported locale before publishing.
+Blog posts use English as the writing source/default language, but each published post should keep all translations in one file at `src/content/blog/posts/{slug}.ts`. `getBlogPosts(locale)` reads the requested locale entry from that post file's `translations` object. If a future draft is missing a locale, the loader can still fall back to English and canonicalize to the English article, but complete translations are preferred for published posts.
 
 Some demo/example content uses English base plus localized overrides. This is a known architectural compromise; see `KNOWN_LIMITATIONS.md`.
 
@@ -65,12 +66,13 @@ Page title/description sources:
 
 Blog architecture requires:
 
-- localized article title
-- localized description
-- localized category/tags
-- localized reading time
-- localized excerpt
-- localized headings/body
+- one source file in `src/content/blog/posts/{slug}.ts`
+- localized article title in the post file's `translations`
+- localized description in the post file's `translations`
+- localized category/tags in the post file's `translations`
+- localized reading time in the post file's `translations`
+- localized excerpt in the post file's `translations`
+- localized article body in the post file's `translations`
 - localized FAQ if FAQ schema is used
 - localized index card through `getBlogPosts(locale)`
 
@@ -92,7 +94,7 @@ Images are currently not localized. They live in `public/assets/`. If localized 
 4. Add header labels in `Header.astro`.
 5. Add footer legal/newsletter copy in `Footer.astro`.
 6. Add package labels in `src/config/packageLabels.ts`.
-7. Add blog index and post copy in `src/content/blog.ts`.
+7. Add or review blog fallback behavior in `src/content/blog/index.ts` only if the content model changes.
 8. Add demo/example-project localized overrides if needed.
 9. Add article CTA copy in `ArticleCTA.astro`.
 10. Run `npm run test:pricing`.
