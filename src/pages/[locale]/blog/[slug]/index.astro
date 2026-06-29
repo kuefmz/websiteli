@@ -3,41 +3,33 @@ import Layout from "../../../../layouts/Layout.astro";
 import ArticleCTA from "../../../../components/ArticleCTA.astro";
 import ArticleShare from "../../../../components/ArticleShare.astro";
 import { getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../../../content/locales";
-import { getBlogIndexContent, getBlogPost, getBlogPosts } from "../../../../content/blog";
+import { getBlogIndexContent, getBlogPost, getBlogPosts, getBlogSlugs, getHeadingId, renderBlogMarkdown } from "../../../../content/blog";
 
-export function getStaticPaths() {
-  return localeCodes.flatMap((locale) =>
-    getBlogPosts(locale).map((post) => ({
-      params: { locale, slug: post.slug },
-    })),
-  );
+export async function getStaticPaths() {
+  const slugs = await getBlogSlugs();
+  return localeCodes.flatMap((locale) => slugs.map((slug) => ({ params: { locale, slug } })));
 }
 
 const locale = Astro.params.locale as LocaleCode;
 const slug = Astro.params.slug as string;
 const content = getLocaleContent(locale);
 const blogContent = getBlogIndexContent(locale);
-const post = getBlogPost(locale, slug);
+const post = await getBlogPost(locale, slug);
 
 if (!post) {
   return Astro.redirect(getLocalizedPath(locale, "blog"));
 }
 
-const allPosts = getBlogPosts(locale);
+const articleHtml = renderBlogMarkdown(post.body);
+const allPosts = await getBlogPosts(locale);
 const postIndex = allPosts.findIndex((item) => item.slug === post.slug);
 const previousPost = postIndex > 0 ? allPosts[postIndex - 1] : undefined;
 const nextPost = postIndex >= 0 && postIndex < allPosts.length - 1 ? allPosts[postIndex + 1] : undefined;
-const canonicalPath = `/${locale}/blog/${post.slug}/`;
+const canonicalLocale = post.isFallback ? "en" : locale;
+const canonicalPath = `/${canonicalLocale}/blog/${post.slug}/`;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(post.featuredImage, siteUrl).toString();
-const headingId = (heading: string) =>
-  heading
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 const articleUi = {
   contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "ja" ? "目次" : "Contents",
   related: locale === "de" ? "Verwandte Websiteli-Seiten" : locale === "hu" ? "Kapcsolódó Websiteli oldalak" : locale === "fr" ? "Pages Websiteli liées" : locale === "es" ? "Páginas relacionadas de Websiteli" : locale === "it" ? "Pagine Websiteli correlate" : locale === "ja" ? "関連Websiteliページ" : "Related Websiteli pages",
@@ -57,7 +49,7 @@ const articleSchema = {
   mainEntityOfPage: canonicalUrl,
   articleSection: post.category,
   keywords: post.tags.join(", "),
-  inLanguage: locale,
+  inLanguage: post.sourceLocale,
 };
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -119,26 +111,13 @@ const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code
         <aside class="article-sidebar">
           <nav class="toc" aria-label="Table of contents">
             <strong>{articleUi.contents}</strong>
-            {post.headings.map((heading) => <a href={`#${headingId(heading)}`}>{heading}</a>)}
+            {post.headings.map((heading) => <a href={`#${getHeadingId(heading)}`}>{heading}</a>)}
           </nav>
           <ArticleCTA locale={locale} variant="sidebar" />
         </aside>
         <div class="article-content">
           <img class="article-image" src={post.featuredImage} alt="Website strategy, analytics and AI automation interface" width="1672" height="941" loading="eager" />
-          {post.body.map((section, index) => (
-            <>
-              <section id={headingId(section.heading)}>
-                <h2>{section.heading}</h2>
-                {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-                {section.list && (
-                  <ul>
-                    {section.list.map((item) => <li>{item}</li>)}
-                  </ul>
-                )}
-              </section>
-              {index === 2 && <ArticleCTA locale={locale} variant="inline" />}
-            </>
-          ))}
+          <Fragment set:html={articleHtml} />
           <ArticleCTA locale={locale} variant="final" />
           <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} />
           {(previousPost || nextPost) && (

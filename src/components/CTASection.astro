@@ -1,5 +1,6 @@
 ---
 import { getPackageLabels } from "../config/packageLabels";
+import { packageKeyByName } from "../config/pricing";
 
 interface Props {
   content?: any;
@@ -17,19 +18,12 @@ const packages = content?.packages ?? [
   { name: "Growth Setup" },
   { name: "AI/Data Upgrade" },
 ];
-const packageOptions = packages.map((item) => ({
-  name: item.name,
-  key:
-    item.name === "Digital Foundation"
-      ? "digitalFoundation"
-      : item.name === "Growth Setup"
-        ? "growthSetup"
-        : item.name === "AI/Data Upgrade"
-          ? "aiDataUpgrade"
-          : item.name === "Website Maintenance"
-            ? "websiteMaintenance"
-          : item.name,
-}));
+const packageOptions = [...packages, { name: "Digital Audit" }].reduce((options, item) => {
+  const key = packageKeyByName[item.name] ?? item.name;
+  if (options.some((option) => option.key === key)) return options;
+
+  return [...options, { name: item.name, key }];
+}, [] as Array<{ name: string; key: string }>);
 const localizedPackageNames = getPackageLabels(content?.locale ?? "en");
 const privacyConsentCopy: Record<string, { label: string; link: string; validation: string }> = {
   en: {

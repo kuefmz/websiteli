@@ -27,6 +27,7 @@ The test script verifies:
 - Newsletter form posts to Google Apps Script and includes attribution/privacy fields.
 - Localized blog articles include conversion/share UX.
 - Public blog roadmap does not return.
+- Blog articles render translated entries from the one-file-per-post registry and keep localized canonical URLs.
 - Hungarian package labels do not leak English package names.
 
 ## Manual QA Checklist

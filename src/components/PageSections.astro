@@ -22,9 +22,10 @@ const contactHref = `/${locale}/contact/`;
 const demoContent = getDemoPageContent(locale as any);
 const projectContent = getExampleProjectPageContent(locale as any);
 const blogContent = getBlogIndexContent(locale as any);
-const blogPosts = getBlogPosts(locale as any);
+const blogPosts = await getBlogPosts(locale as any);
 const marketKeywords = getMarketKeywords();
 const packageLabels = getPackageLabels(locale);
+const auditHref = `${contactHref}?package=digitalAudit&intent=digital_audit`;
 const publishedDemoItems = Object.values(demoContent.items).filter((item) => demoSlugs.includes(item.slug as any));
 const processSteps = [
   {
@@ -43,7 +44,7 @@ const processSteps = [
 const faqs = [
   {
     question: "Which package should I choose?",
-    answer: "Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+    answer: "Digital Audit is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
   },
   {
     question: "Do clients own their website?",
@@ -81,7 +82,7 @@ const faqs = [
 
       <section class="section-shell inline-cta demo-discovery-cta">
         <a class="button primary" href={`/${locale}/portfolio/`}>{content.ui?.demoCta ?? "See Live Demos"}</a>
-        <a class="button secondary" href={contactHref}>{content.hero.primaryCta}</a>
+        <a class="button secondary" href={auditHref}>{content.hero.primaryCta}</a>
       </section>
 
       <section class="section-shell section-block compact-top" id="process">
@@ -201,13 +202,13 @@ const faqs = [
                   <ul>{item.illustrativeOpportunity.map((point) => <li>{point}</li>)}</ul>
                 </div>
               </div>
-              <a class="button secondary" href={`${contactHref}?project=${item.slug}&sourcePage=/${locale}/portfolio/&intent=case_study_consultation`}>{projectContent.labels.requestAudit}</a>
+              <a class="button secondary" href={`${contactHref}?package=digitalAudit&project=${item.slug}&sourcePage=/${locale}/portfolio/&intent=case_study_consultation`}>{projectContent.labels.requestAudit}</a>
             </article>
           ))}
         </div>
       </section>
       <section class="section-shell inline-cta">
-        <a class="button primary" href={contactHref}>{content.hero.primaryCta}</a>
+        <a class="button primary" href={auditHref}>{content.hero.primaryCta}</a>
         <a class="button secondary" href={`/${locale}/services-pricing/`}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
       </section>
     </main>

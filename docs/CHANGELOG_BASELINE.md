@@ -9,7 +9,7 @@ This is a snapshot of the project as documented after the repository audit. It i
 - Localized homepage, services/pricing, portfolio, blog, about, and contact pages.
 - Legacy redirects preserving query strings and redirect attribution context.
 - Dynamic client-side market/currency pricing detection.
-- Packages: Digital Foundation, Growth Setup, AI/Data Upgrade, Website Maintenance labels.
+- Packages: Digital Audit, Digital Foundation, Growth Setup, AI/Data Upgrade, Website Maintenance labels.
 - Lead form with metadata, privacy consent, honeypot, Google Apps Script submission.
 - Footer newsletter with metadata, privacy consent, honeypot, Google Apps Script submission.
 - GA4 direct `gtag.js` integration.
@@ -19,6 +19,7 @@ This is a snapshot of the project as documented after the repository audit. It i
 - Portfolio live demo listing and illustrative case-study cards.
 - Blog index with client-side search/filter.
 - Localized blog article with CTAs, sharing, progress bar, TOC, related links, schema.
+- Published localized blog posts: `why-ai-generated-websites-are-not-enough-for-a-real-business`, `small-business-website`.
 - Sitemap generation.
 - English RSS feed.
 - Robots and LLM metadata files.
