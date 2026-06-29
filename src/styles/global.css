@@ -1431,13 +1431,15 @@ h3 {
 .blog-card img,
 .article-image {
   width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
+  background: color-mix(in srgb, var(--surface-alt) 82%, transparent);
 }
 
 .blog-card img {
-  height: 100%;
-  min-height: 270px;
+  align-self: start;
 }
 
 .blog-card h2 {
@@ -1523,7 +1525,6 @@ h3 {
 }
 
 .article-image {
-  max-height: 420px;
   margin-bottom: 34px;
 }
 
