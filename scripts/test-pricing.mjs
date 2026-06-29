@@ -105,6 +105,13 @@ function getInternalUrl(rawReference, sourceFile) {
   return url;
 }
 
+function getStructuredData(html) {
+  const match = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  if (!match) return [];
+
+  return JSON.parse(match[1]);
+}
+
 test("localized pages include the browser pricing runtime", async () => {
   const englishHome = await readDistFile("en/index.html");
 
@@ -272,10 +279,41 @@ test("blog is localized and article pages include conversion and sharing UX", as
   assert.match(germanArticle, /https:\/\/twitter\.com\/intent\/tweet/);
   assert.match(germanArticle, /https:\/\/www\.pinterest\.com\/pin\/create\/button/);
   assert.match(germanArticle, /data-copy-link=/);
+  assert.doesNotMatch(germanArticle, /Related Websiteli pages|Verwandte Websiteli-Seiten/);
   assert.match(germanArticle, /blog_consultation_click/);
+  assert.match(germanArticle, /article-cta-sidebar/);
+  assert.match(germanArticle, /article-cta-final/);
+  assert.doesNotMatch(germanArticle, /\/de\/<\/a>/);
   assert.match(germanArticle, /#newsletter/);
   assert.match(germanArticle, /data-reading-progress/);
   assert.match(germanArticle, /"@type":"FAQPage"/);
+  assert.match(germanArticle, /Artikelzusammenfassung/);
+  assert.match(germanArticle, /Wichtigste Erkenntnisse/);
+  assert.doesNotMatch(germanArticle, /Continue this article with ChatGPT/);
+  assert.doesNotMatch(germanArticle, /chatgpt\.com\/\?q=/);
+  assert.match(germanArticle, /<figcaption>/);
+  assert.doesNotMatch(germanArticle, /<section class="article-author"/);
+  assert.doesNotMatch(germanArticle, /<section class="article-faq"/);
+  assert.doesNotMatch(germanArticle, /<section class="related-articles"/);
+  assert.doesNotMatch(germanArticle, /<section class="continue-reading"/);
+  assert.doesNotMatch(germanArticle, /<section class="article-newsletter-cta"/);
+  assert.doesNotMatch(germanArticle, /<section class="about-websiteli"/);
+  assert.match(germanArticle, /<section class="article-references"/);
+  assert.match(germanArticle, /target="_blank" rel="noopener noreferrer"/);
+
+  const structuredData = getStructuredData(germanArticle);
+  const types = structuredData.map((item) => item["@type"]);
+  assert.ok(types.includes("BlogPosting"));
+  assert.ok(types.includes("BreadcrumbList"));
+  assert.ok(types.includes("Organization"));
+  assert.ok(types.includes("WebSite"));
+  assert.ok(types.includes("FAQPage"));
+  assert.ok(types.includes("ImageObject"));
+  assert.ok(types.includes("Person"));
+  const blogPosting = structuredData.find((item) => item["@type"] === "BlogPosting");
+  assert.equal(blogPosting.author["@type"], "Person");
+  assert.equal(blogPosting.image["@type"], "ImageObject");
+  assert.ok(blogPosting.abstract.length > 180);
 });
 
 test("localized package labels do not leak English package names in Hungarian UI", async () => {

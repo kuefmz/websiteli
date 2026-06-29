@@ -28,6 +28,8 @@ Source files:
 - Blog post files: `src/content/blog/posts/{post-slug}.ts`
 - Blog types: `src/content/blog/types.ts`
 
+AI/SEO article architecture is documented in `docs/AI_BLOG_OPTIMIZATION.md`.
+
 Current published article:
 
 - `why-ai-generated-websites-are-not-enough-for-a-real-business`
@@ -41,6 +43,7 @@ Every blog post must:
 - Have localized title, description, category, tags, reading time, excerpt, body, and FAQs for every supported locale.
 - Include CTAs through the article template, not by duplicating markup in post content.
 - Include related links to internal conversion pages.
+- Prefer hand-written `summary`, `keyTakeaways`, and `chatGptPrompts` for important posts; otherwise they are generated automatically.
 - Avoid public future-roadmap sections.
 
 English remains the source/default language for writing. Current published posts should include every supported locale in the same post file, so public localized routes render translated content rather than falling back.

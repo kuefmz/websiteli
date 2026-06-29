@@ -13,6 +13,7 @@ interface Props {
   locale?: string;
   page?: string;
   ogType?: "website" | "article";
+  image?: string;
   alternates?: { locale: string; href: string }[];
   content?: any;
   schema?: Record<string, any>[];
@@ -26,13 +27,14 @@ const {
   locale = "en",
   page = "home",
   ogType = "website",
+  image,
   alternates = [],
   content,
   schema = [],
 } = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
-const imageUrl = new URL("/assets/websiteli-og.png", siteUrl).toString();
+const imageUrl = new URL(image ?? "/assets/websiteli-og.png", siteUrl).toString();
 const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
 const analyticsPagePath = page === "home" ? "/" : "";
 const googleTagSnippet = `<!-- Google tag (gtag.js) -->
