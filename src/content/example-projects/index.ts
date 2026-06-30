@@ -4,6 +4,7 @@ const allExampleProjectSlugs = [
   "restaurant-visibility",
   "consultant-lead-generation",
   "cold-outreach-verifiable-brand",
+  "personal-brand-portfolio",
   "ai-customer-assistant",
   "analytics-visibility",
 ] as const;
@@ -11,6 +12,7 @@ export const exampleProjectSlugs = [
   "restaurant-visibility",
   "consultant-lead-generation",
   "cold-outreach-verifiable-brand",
+  "personal-brand-portfolio",
   "ai-customer-assistant",
   "analytics-visibility",
 ] as const;
@@ -27,7 +29,7 @@ export type ExampleProjectContent = {
   illustrativeOpportunity: string[];
   assumptions?: string[];
   recommendedPackage: "Growth Setup" | "AI/Data Upgrade";
-  relatedDemo: "restaurant" | "consultant" | "shopify-consultant-portfolio" | "ai-assistant" | "analytics-dashboard";
+  relatedDemo: "restaurant" | "consultant" | "shopify-consultant-portfolio" | "jenifer-ciuciu-kiss" | "ai-assistant" | "analytics-dashboard";
 };
 
 type ExampleProjectPageContent = {
@@ -136,6 +138,25 @@ const en: ExampleProjectPageContent = {
       ],
       recommendedPackage: "Growth Setup",
       relatedDemo: "shopify-consultant-portfolio",
+    },
+    "personal-brand-portfolio": {
+      slug: "personal-brand-portfolio",
+      title: "Personal Brand Portfolio Website",
+      businessType: "Personal brand / portfolio",
+      badge: "Live Portfolio Example",
+      disclaimer,
+      currentSituation: [
+        "Projects, research, experience and contact options often live across several platforms",
+        "Visitors need a quick way to understand expertise and credibility",
+      ],
+      potentialChallenges: ["Scattered proof", "Unclear positioning", "Contact paths are not centralized"],
+      illustrativeOpportunity: [
+        "Create one owned portfolio website",
+        "Showcase projects, research, experience and contact options in a clear structure",
+        "Support personal brand visibility with a search-friendly web presence",
+      ],
+      recommendedPackage: "Growth Setup",
+      relatedDemo: "jenifer-ciuciu-kiss",
     },
     "ai-customer-assistant": {
       slug: "ai-customer-assistant",

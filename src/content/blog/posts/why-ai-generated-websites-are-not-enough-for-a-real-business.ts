@@ -2,11 +2,28 @@ import type { BlogPostSource } from "../types";
 
 export default {
   "slug": "why-ai-generated-websites-are-not-enough-for-a-real-business",
+  "title": "Why AI-generated websites are not enough for a real business",
+  "language": "en",
+  "description": "AI can speed up website planning and prototypes, but real businesses still need ownership, SEO foundations, analytics, performance, integrations and maintainable code.",
+  "tags": [
+    "AI websites",
+    "business website",
+    "SEO",
+    "ownership",
+    "automation"
+  ],
   "published": true,
+  "status": "published",
   "image": "/assets/blog/why-ai-generated-websites-are-not-enough.png",
   "author": "Websiteli",
   "date": "2026-06-26",
+  "publishDate": "2026-06-26",
   "updated": "2026-06-26",
+  "social": {
+    "linkedin": "AI can accelerate website drafts, but real businesses still need ownership, SEO, analytics, integrations, performance and maintainable code.",
+    "facebook": "AI website builders can help with speed and ideas. A real business website still needs ownership, SEO foundations, analytics and maintainability.",
+    "instagram": "New Websiteli guide: why AI-generated websites are useful drafts, but not enough as a long-term business foundation."
+  },
   "related": [
     "/en/services-pricing/",
     "/en/portfolio/#live-demos",

@@ -3,17 +3,30 @@ interface Props {
   url: string;
   title: string;
   image?: string;
+  social?: {
+    linkedin?: string;
+    facebook?: string;
+    instagram?: string;
+  };
 }
 
-const { url, title, image = "" } = Astro.props;
-const encodedUrl = encodeURIComponent(url);
+const { url, title, image = "", social = {} } = Astro.props;
+const getShareUrl = (source: string) => {
+  const shareUrl = new URL(url);
+  shareUrl.searchParams.set("utm_source", source);
+  shareUrl.searchParams.set("utm_medium", "social");
+  shareUrl.searchParams.set("utm_campaign", "blog_share");
+  return shareUrl.toString();
+};
+const linkedInUrl = getShareUrl("linkedin");
+const facebookUrl = getShareUrl("facebook");
 const encodedTitle = encodeURIComponent(title);
 const encodedImage = encodeURIComponent(image);
 const shareLinks = [
-  { label: "LinkedIn", short: "in", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
-  { label: "Facebook", short: "f", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
-  { label: "X", short: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}` },
-  { label: "Pinterest", short: "P", href: `https://www.pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}&media=${encodedImage}` },
+  { label: "LinkedIn", short: "in", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(linkedInUrl)}` },
+  { label: "Facebook", short: "f", href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(facebookUrl)}` },
+  { label: "X", short: "X", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(getShareUrl("x"))}&text=${encodedTitle}` },
+  { label: "Pinterest", short: "P", href: `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(getShareUrl("pinterest"))}&description=${encodedTitle}&media=${encodedImage}` },
 ];
 ---
 
@@ -25,7 +38,7 @@ const shareLinks = [
         <span aria-hidden="true">{link.short}</span>
       </a>
     ))}
-    <button class="share-icon" type="button" data-copy-link={url} aria-label="Copy article link" title="Copy link" data-track-event="blog_share_click" data-track-label="Copy link">
+    <button class="share-icon" type="button" data-copy-link={getShareUrl("copy_link")} aria-label="Copy article link" title="Copy link" data-track-event="blog_share_click" data-track-label="Copy link">
       <span aria-hidden="true">link</span>
     </button>
   </div>
