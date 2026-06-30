@@ -9,14 +9,14 @@
   "theme_color": "#e32635",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png?v=2",
-      "sizes": "192x192",
+      "src": "/assets/websiteli-logo.png?v=3",
+      "sizes": "1536x1024",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/android-chrome-512x512.png?v=2",
-      "sizes": "512x512",
+      "src": "/assets/websiteli-logo.png?v=3",
+      "sizes": "1536x1024",
       "type": "image/png",
       "purpose": "any maskable"
     }

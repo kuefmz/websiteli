@@ -1,7 +1,7 @@
 import type { LocaleCode } from "../locales";
 
-const allDemoSlugs = ["restaurant", "consultant", "local-service", "shopify-consultant-portfolio", "ai-assistant", "analytics-dashboard"] as const;
-export const demoSlugs = ["shopify-consultant-portfolio"] as const;
+const allDemoSlugs = ["restaurant", "consultant", "local-service", "shopify-consultant-portfolio", "jenifer-ciuciu-kiss", "ai-assistant", "analytics-dashboard"] as const;
+export const demoSlugs = ["shopify-consultant-portfolio", "jenifer-ciuciu-kiss"] as const;
 export type DemoSlug = (typeof allDemoSlugs)[number];
 
 export type DemoContent = {
@@ -30,6 +30,7 @@ export type DemoContent = {
     | "restaurant-visibility"
     | "consultant-lead-generation"
     | "cold-outreach-verifiable-brand"
+    | "personal-brand-portfolio"
     | "ai-customer-assistant"
     | "analytics-visibility";
 };
@@ -192,6 +193,43 @@ const en: DemoPageContent = {
       whyItMatters:
         "A premium portfolio website gives outreach prospects a credible place to verify expertise, understand the offer, and decide whether to continue the conversation.",
       relatedProject: "cold-outreach-verifiable-brand",
+    },
+    "jenifer-ciuciu-kiss": {
+      slug: "jenifer-ciuciu-kiss",
+      type: "personal_brand_portfolio",
+      title: "Personal Brand / Portfolio Website",
+      shortDescription:
+        "A personal brand and portfolio website for showcasing projects, research, experience, and contact options.",
+      previewImage: "/assets/jenifer-ciuciu-kiss-portfolio-preview.png",
+      websiteUrl: "https://jeniferciuciukiss.com/?utm_source=websiteli&utm_medium=portfolio&utm_campaign=demo_project",
+      category: "Live website",
+      industry: "Personal brand / portfolio",
+      country: "International",
+      clientName: "Jenifer Ciuciu Kiss",
+      technologies: ["Portfolio website", "Responsive design", "SEO structure", "Contact paths"],
+      servicesProvided: ["Personal brand positioning", "Portfolio structure", "Contact conversion path"],
+      seoImprovements: ["Clear personal-brand metadata", "Project-focused content structure", "Readable internal navigation"],
+      performanceImprovements: ["Responsive layout", "Focused content structure", "Lightweight browsing experience"],
+      launchDate: "2026-06-30",
+      recommendedPackage: "Growth Setup",
+      features: ["Personal brand website", "Portfolio showcase", "Research overview", "Experience sections", "Contact options", "SEO setup"],
+      forText: "Founders, researchers, consultants, specialists and professionals who need a credible owned profile beyond social platforms.",
+      challenges: [
+        "Projects and experience are scattered",
+        "Social profiles do not show the full story",
+        "Contact options are not centralized",
+        "Personal credibility is hard to evaluate quickly",
+      ],
+      included: [
+        "Responsive website",
+        "Portfolio sections",
+        "Research and experience structure",
+        "Contact options",
+        "Search-friendly page structure",
+      ],
+      whyItMatters:
+        "A personal brand website gives visitors one trusted place to understand expertise, review projects and choose the right contact path.",
+      relatedProject: "personal-brand-portfolio",
     },
     "ai-assistant": {
       slug: "ai-assistant",

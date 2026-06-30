@@ -2,11 +2,27 @@ import type { BlogPostSource } from "../types";
 
 export default {
   "slug": "business-website-features",
+  "title": "10 Features Every Business Website Needs in 2026",
+  "language": "en",
+  "description": "Discover 10 essential business website features for 2026 to improve trust, usability, and lead generation.",
+  "tags": [
+    "business website features",
+    "website checklist",
+    "website planning",
+    "website design"
+  ],
   "published": true,
+  "status": "published",
   "image": "/assets/blog/10-features-business-website-needs.png",
   "author": "Websiteli",
   "date": "2026-06-29",
+  "publishDate": "2026-06-29",
   "updated": "2026-06-29",
+  "social": {
+    "linkedin": "A practical 2026 checklist for business websites: mobile-first design, clear navigation, speed, trust signals, SEO-ready structure and better CTAs.",
+    "facebook": "Does your business website have the essentials for 2026? Use this Websiteli checklist to improve trust, usability and lead generation.",
+    "instagram": "Business website checklist for 2026: mobile-first, fast, clear, trustworthy, SEO-ready and easy to contact from."
+  },
   "related": [
     "/en/services-pricing/",
     "/en/portfolio/#live-demos",

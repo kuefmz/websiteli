@@ -2,10 +2,12 @@ import { localeCodes, type LocaleCode } from "../locales";
 import smallBusinessWebsite from "./posts/small-business-website";
 import whyAiGeneratedWebsitesAreNotEnough from "./posts/why-ai-generated-websites-are-not-enough-for-a-real-business";
 import businsessWebsiteFreatures from "./posts/business-website-features";
+import websiteFirstImpression from "./posts/website-first-impression";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
   slug: string;
+  status: "draft" | "scheduled" | "published";
   title: string;
   description: string;
   category: string;
@@ -13,6 +15,7 @@ export type BlogPost = {
   featuredImage: string;
   author: string;
   publishedAt: string;
+  publishDate: string;
   updatedAt: string;
   readingTime: string;
   audience: string;
@@ -24,6 +27,11 @@ export type BlogPost = {
   headings: string[];
   body: string;
   related: string[];
+  social: {
+    linkedin: string;
+    facebook: string;
+    instagram: string;
+  };
   faqs: { question: string; answer: string }[];
   locale: LocaleCode;
   sourceLocale: LocaleCode;
@@ -31,7 +39,7 @@ export type BlogPost = {
 };
 
 const DEFAULT_LOCALE: LocaleCode = "en";
-const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures];
+const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures, websiteFirstImpression];
 
 const marketKeywords = [
   "website creation Switzerland",
@@ -54,6 +62,24 @@ const marketKeywords = [
 function getPostDate(value: string) {
   const timestamp = Date.parse(value);
   return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function getTodayIsoDate() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Zurich",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
+function isPublishedSource(source: BlogPostSource) {
+  const status = source.status ?? (source.published ? "published" : "draft");
+  if (status === "draft") return false;
+  if (status === "published") return true;
+
+  const publishDate = source.publishDate ?? source.date;
+  return Boolean(publishDate && publishDate <= getTodayIsoDate());
 }
 
 function getMarkdownHeadings(body: string) {
@@ -192,9 +218,11 @@ function getDefaultReferences(translation: BlogPostSource["translations"]["en"])
 function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
   const translation = source.translations[locale] ?? source.translations[DEFAULT_LOCALE];
   const isFallback = !source.translations[locale] && locale !== DEFAULT_LOCALE;
+  const socialCaption = `${translation.title}\n\n${translation.description}`;
 
   return {
     slug: source.slug,
+    status: source.status ?? (source.published ? "published" : "draft"),
     title: translation.title,
     description: translation.description,
     category: translation.category,
@@ -202,6 +230,7 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
     featuredImage: source.image,
     author: source.author,
     publishedAt: source.date,
+    publishDate: source.publishDate ?? source.date,
     updatedAt: source.updated ?? source.date,
     readingTime: translation.readingTime,
     audience: translation.audience,
@@ -213,6 +242,11 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
     headings: getMarkdownHeadings(translation.body),
     body: translation.body,
     related: source.related,
+    social: {
+      linkedin: source.social?.linkedin ?? socialCaption,
+      facebook: source.social?.facebook ?? socialCaption,
+      instagram: source.social?.instagram ?? `${socialCaption}\n\nRead it on the Websiteli blog.`,
+    },
     faqs: translation.faqs,
     locale,
     sourceLocale: translation.language,
@@ -222,7 +256,7 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
 
 export async function getBlogPosts(locale: LocaleCode) {
   return blogSources
-    .filter((source) => source.published)
+    .filter(isPublishedSource)
     .map((source) => toBlogPost(source, locale))
     .sort((a, b) => getPostDate(b.publishedAt) - getPostDate(a.publishedAt));
 }
@@ -232,7 +266,7 @@ export async function getBlogPost(locale: LocaleCode, slug: string) {
 }
 
 export async function getBlogSlugs() {
-  return blogSources.filter((source) => source.published).map((source) => source.slug);
+  return blogSources.filter(isPublishedSource).map((source) => source.slug);
 }
 
 function escapeHtml(value: string) {

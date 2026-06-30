@@ -37,44 +37,6 @@ const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(image ?? "/assets/websiteli-og.png", siteUrl).toString();
 const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
 const analyticsPagePath = page === "home" ? "/" : "";
-const googleTagSnippet = `<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  const gtagConfig = {};
-  const attribution = window.websiteliGetAttribution?.() || {};
-  const attributionParams = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
-  const analyticsPagePath = ${JSON.stringify(analyticsPagePath)};
-  if (analyticsPagePath) {
-    const analyticsPageUrl = new URL(analyticsPagePath, window.location.origin);
-    analyticsPageUrl.search = window.location.search;
-    analyticsPageUrl.hash = window.location.hash;
-    gtagConfig.page_path = analyticsPagePath;
-    gtagConfig.page_location = analyticsPageUrl.toString();
-  } else {
-    gtagConfig.page_location = window.location.href;
-  }
-  if (attribution.utm_source) gtagConfig.campaign_source = attribution.utm_source;
-  if (attribution.utm_medium) gtagConfig.campaign_medium = attribution.utm_medium;
-  if (attribution.utm_campaign) gtagConfig.campaign_name = attribution.utm_campaign;
-  if (attribution.utm_id) gtagConfig.campaign_id = attribution.utm_id;
-  if (attribution.utm_term) gtagConfig.campaign_term = attribution.utm_term;
-  if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
-  if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
-  if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
-  if (attribution.referrer) gtagConfig.page_referrer = attribution.referrer;
-  Object.entries(attributionParams).forEach(([key, value]) => {
-    if (value) gtagConfig[key] = value;
-  });
-  if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
-    gtagConfig.debug_mode = true;
-  }
-  gtag('set', attributionParams);
-  gtag('config', 'G-TGZY875FGJ', gtagConfig);
-</script>`;
 const structuredData = [
   {
     "@context": "https://schema.org",
@@ -83,7 +45,7 @@ const structuredData = [
     url: siteUrl.toString(),
     email: "info@websiteli.ch",
     telephone: "+41772653306",
-    logo: new URL("/assets/websiteli-og.png", siteUrl).toString(),
+    logo: new URL("/assets/websiteli-logo.png", siteUrl).toString(),
   },
   {
     "@context": "https://schema.org",
@@ -154,16 +116,12 @@ const structuredData = [
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#e32635" />
     <meta name="msapplication-TileColor" content="#e32635" />
-    <meta name="msapplication-config" content="/browserconfig.xml?v=2" />
+    <meta name="msapplication-config" content="/browserconfig.xml?v=3" />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="shortcut icon" href="/favicon.ico?v=2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#e32635" />
-    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <link rel="icon" type="image/png" href="/assets/websiteli-logo.png?v=3" />
+    <link rel="shortcut icon" type="image/png" href="/assets/websiteli-logo.png?v=3" />
+    <link rel="apple-touch-icon" href="/assets/websiteli-logo.png?v=3" />
+    <link rel="manifest" href="/site.webmanifest?v=3" />
     {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.href, siteUrl).toString()} />)}
     {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(xDefaultHref, siteUrl).toString()} />}
     <meta property="og:title" content={title} />
@@ -178,7 +136,42 @@ const structuredData = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <AttributionRuntime />
-    <Fragment set:html={googleTagSnippet} />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
+    <script is:inline define:vars={{ analyticsPagePath }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      const gtagConfig = {};
+      const attribution = window.websiteliGetAttribution?.() || {};
+      const attributionParams = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
+      if (analyticsPagePath) {
+        const analyticsPageUrl = new URL(analyticsPagePath, window.location.origin);
+        analyticsPageUrl.search = window.location.search;
+        analyticsPageUrl.hash = window.location.hash;
+        gtagConfig.page_path = analyticsPagePath;
+        gtagConfig.page_location = analyticsPageUrl.toString();
+      } else {
+        gtagConfig.page_location = window.location.href;
+      }
+      if (attribution.utm_source) gtagConfig.campaign_source = attribution.utm_source;
+      if (attribution.utm_medium) gtagConfig.campaign_medium = attribution.utm_medium;
+      if (attribution.utm_campaign) gtagConfig.campaign_name = attribution.utm_campaign;
+      if (attribution.utm_id) gtagConfig.campaign_id = attribution.utm_id;
+      if (attribution.utm_term) gtagConfig.campaign_term = attribution.utm_term;
+      if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
+      if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
+      if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
+      if (attribution.referrer) gtagConfig.page_referrer = attribution.referrer;
+      Object.entries(attributionParams).forEach(([key, value]) => {
+        if (value) gtagConfig[key] = value;
+      });
+      if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
+        gtagConfig.debug_mode = true;
+      }
+      gtag('set', attributionParams);
+      gtag('config', 'G-TGZY875FGJ', gtagConfig);
+    </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
       const storedTheme = localStorage.getItem("theme");

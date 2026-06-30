@@ -25,6 +25,33 @@ const footerUi = content?.ui?.footer ?? {
   socialSoon: "RSS feed",
   rights: "All rights reserved.",
 };
+const socialLinks = [
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@Websiteli",
+    path: "M23.5 6.2c.6.2 1.1.7 1.3 1.3.5 1.8.5 5.5.5 5.5s0 3.7-.5 5.5c-.2.6-.7 1.1-1.3 1.3-1.8.5-9.1.5-9.1.5s-7.3 0-9.1-.5c-.6-.2-1.1-.7-1.3-1.3C3 17.7 3 14 3 14s0-3.7.5-5.5c.2-.6.7-1.1 1.3-1.3 1.8-.5 9.1-.5 9.1-.5s7.3 0 9.1.5ZM12 17.4l6-3.4-6-3.4v6.8Z",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/websiteli",
+    path: "M6.7 8.7H3.4V24h3.3V8.7ZM5 6.6c1.1 0 1.9-.8 1.9-1.8S6.1 3 5 3s-1.9.8-1.9 1.8S3.9 6.6 5 6.6ZM24 15.2c0-4.1-2.2-6.8-5.6-6.8-1.8 0-3.1.9-3.7 2.1h-.1V8.7h-3.2V24h3.3v-7.6c0-2 .9-3.5 2.8-3.5 1.8 0 3.1 1.2 3.1 3.7V24H24v-8.8Z",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/websiteli.ch/",
+    path: "M8.8 3h10.4A5.8 5.8 0 0 1 25 8.8v10.4a5.8 5.8 0 0 1-5.8 5.8H8.8A5.8 5.8 0 0 1 3 19.2V8.8A5.8 5.8 0 0 1 8.8 3Zm0 2.2a3.6 3.6 0 0 0-3.6 3.6v10.4a3.6 3.6 0 0 0 3.6 3.6h10.4a3.6 3.6 0 0 0 3.6-3.6V8.8a3.6 3.6 0 0 0-3.6-3.6H8.8ZM14 9a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Zm5.4-2.7a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61591131223104",
+    path: "M16 3a11 11 0 0 0-1.7 21.9v-7.7h-2.8V14h2.8v-2.4c0-2.8 1.7-4.3 4.2-4.3 1.2 0 2.4.2 2.4.2v2.7h-1.4c-1.3 0-1.8.8-1.8 1.7V14h3l-.5 3.2h-2.5v7.7A11 11 0 0 0 16 3Z",
+  },
+  {
+    label: "Pinterest",
+    href: "https://ch.pinterest.com/websiteli/",
+    path: "M14 3a11 11 0 0 0-4 21.2c-.1-.9-.2-2.2 0-3.2l1.3-5.5s-.3-.7-.3-1.7c0-1.6.9-2.8 2.1-2.8 1 0 1.5.7 1.5 1.6 0 1-.6 2.4-.9 3.8-.3 1.1.5 1.9 1.6 1.9 2 0 3.5-2.1 3.5-5.1 0-2.7-1.9-4.5-4.6-4.5-3.1 0-5 2.3-5 4.8 0 .9.4 1.9.8 2.5.1.1.1.2.1.4l-.3 1.2c0 .2-.2.3-.4.2-1.5-.7-2.4-2.8-2.4-4.5 0-3.7 2.7-7.1 7.7-7.1 4.1 0 7.2 2.9 7.2 6.7 0 4-2.5 7.3-6.1 7.3-1.2 0-2.3-.6-2.7-1.3l-.7 2.8c-.3 1-.9 2.2-1.3 3A11 11 0 1 0 14 3Z",
+  },
+];
 const legalLinkCopy: Record<string, { privacy: string; impressum: string }> = {
   en: { privacy: "Privacy Policy", impressum: "Impressum" },
   de: { privacy: "Datenschutzerklärung", impressum: "Impressum" },
@@ -192,7 +219,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
 <footer class="site-footer">
   <div class="footer-main">
     <a class="brand" href={`/${locale}/`} aria-label="websiteli.ch home">
-      <span class="brand-mark">w</span>
+      <span class="brand-mark"><img src="/assets/websiteli-logo.png" alt="" width="36" height="36" /></span>
       <span>Websiteli</span>
     </a>
     <p>{content?.intro ?? "Swiss-based websites, automation and AI tools for small businesses."}</p>
@@ -209,12 +236,12 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
         data-track-event="whatsapp_click"
         data-track-label="Footer WhatsApp"
         rel="noopener"
-        aria-label={`WhatsApp ${whatsappNumber}`}
+        aria-label={`${whatsappNumber}`}
       >
         <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
           <path d="M16 3.2A12.7 12.7 0 0 0 5.1 22.5L3.8 29l6.7-1.2A12.7 12.7 0 1 0 16 3.2Zm0 2.3a10.4 10.4 0 0 1 8.8 15.9 10.4 10.4 0 0 1-13.9 4l-.4-.2-3.8.7.7-3.7-.2-.4A10.4 10.4 0 0 1 16 5.5Zm-4.3 5.1c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.9c.2.2 2.6 4.1 6.4 5.5 3.2 1.3 3.8 1 4.5.9.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.6.2-1.8-.1-.2-.3-.3-.7-.5l-2.3-1.1c-.3-.1-.6-.2-.8.2-.2.3-.9 1.1-1.1 1.4-.2.2-.4.3-.8.1-.4-.2-1.5-.5-2.8-1.7-1-1-1.8-2.1-2-2.5-.2-.3 0-.5.2-.7l.5-.6c.2-.2.2-.3.4-.6.1-.2.1-.4 0-.6l-1.1-2.7c-.3-.8-.6-.7-.8-.7h-.7Z" />
         </svg>
-        <span>WhatsApp {whatsappNumber}</span>
+        <span>{whatsappNumber}</span>
       </a>
     </div>
     <div>
@@ -229,10 +256,18 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <a href="/privacy/">{legalLinks.privacy}</a>
       <a href="/impressum/">{legalLinks.impressum}</a>
     </div>
-    <!-- <div>
+    <div>
       <h2>{footerUi.social}</h2>
-      <a href="/rss.xml">RSS feed</a>
-    </div> -->
+      <div class="footer-social-icons">
+        {socialLinks.map((link) => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} title={link.label} data-track-event="social_footer_click" data-track-label={link.label}>
+            <svg viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+              <path d={link.path} />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
     <div class="footer-newsletter" id="newsletter">
       <h2>{newsletterUi.title}</h2>
       <p>{newsletterUi.text}</p>
@@ -260,17 +295,54 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
   </div>
 </footer>
 
+<div class="popup-backdrop" data-popup-backdrop hidden></div>
+
+<section class="conversion-popup" data-newsletter-popup role="dialog" aria-modal="true" aria-labelledby="newsletter-popup-title" hidden>
+  <button class="popup-close" type="button" data-popup-close aria-label="Close">×</button>
+  <p class="eyebrow">Newsletter</p>
+  <h2 id="newsletter-popup-title">Get 20% off your website</h2>
+  <p>Join the Websiteli newsletter and receive a 20% discount code for your first website project.</p>
+  <form data-newsletter-form data-popup-newsletter-form novalidate>
+    <label class="website-field" aria-hidden="true">
+      Website
+      <input name="website" tabindex="-1" autocomplete="off" />
+    </label>
+    <label>
+      <span>Email</span>
+      <input name="email" type="email" autocomplete="email" required />
+    </label>
+    <label class="newsletter-consent">
+      <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
+      <span>I accept the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a></span>
+    </label>
+    <button class="button primary" type="submit">Get my 20% discount</button>
+    <button class="popup-link" type="button" data-popup-dismiss>No thanks</button>
+    <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+  </form>
+</section>
+
+<section class="conversion-popup" data-exit-popup role="dialog" aria-modal="true" aria-labelledby="exit-popup-title" hidden>
+  <button class="popup-close" type="button" data-popup-close aria-label="Close">×</button>
+  <p class="eyebrow">Free audit</p>
+  <h2 id="exit-popup-title">Before you go — want a free website audit?</h2>
+  <p>Tell us about your business and we’ll show you how your website could attract more customers.</p>
+  <div class="popup-actions">
+    <a class="button primary" href={`/${locale}/contact/?package=digitalAudit&intent=digital_audit`} data-exit-popup-cta>Get my free audit</a>
+    <button class="popup-link" type="button" data-popup-dismiss>Maybe later</button>
+  </div>
+</section>
+
 <script define:vars={{ newsletterUi }}>
-  const newsletterForm = document.querySelector("[data-newsletter-form]");
-  const newsletterStatus = document.querySelector("[data-newsletter-status]");
+  const newsletterForms = Array.from(document.querySelectorAll("[data-newsletter-form]"));
 
   function getNewsletterString(formData, key) {
     return String(formData.get(key) || "").trim();
   }
 
-  newsletterForm?.addEventListener("submit", async (event) => {
+  newsletterForms.forEach((newsletterForm) => newsletterForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     window.websiteliUpdateInquiryFields?.();
+    const newsletterStatus = newsletterForm.querySelector("[data-newsletter-status]");
 
     const formData = new FormData(newsletterForm);
     const email = getNewsletterString(formData, "email");
@@ -357,6 +429,15 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
         utm_campaign: payload.metadata.utm_campaign,
         privacy_policy_accepted: "yes",
       });
+      if (newsletterForm.hasAttribute("data-popup-newsletter-form")) {
+        localStorage.setItem("websiteli_newsletter_popup_subscribed", "true");
+        localStorage.setItem("websiteli_newsletter_popup_dismissed", "true");
+        window.trackWebsiteliEvent?.("newsletter_popup_submit", {
+          event_category: "lead",
+          event_label: "Newsletter discount popup",
+        });
+        window.websiteliCloseConversionPopup?.("newsletter");
+      }
       if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
     } catch (error) {
       if (newsletterStatus) newsletterStatus.textContent = newsletterUi.error;
@@ -364,5 +445,186 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     } finally {
       submitButton?.removeAttribute("disabled");
     }
+  }));
+</script>
+
+<script>
+  const popupState = {
+    activePopup: null,
+    previousFocus: null,
+    newsletterTimer: null,
+    exitShownThisPage: false,
+    newsletterShownThisPage: false,
+  };
+  // Set to true when the exit-intent audit popup should be active again.
+  const enableExitPopup = false;
+  const popupBackdrop = document.querySelector("[data-popup-backdrop]");
+  const newsletterPopup = document.querySelector("[data-newsletter-popup]");
+  const exitPopup = document.querySelector("[data-exit-popup]");
+  const focusableSelector = "a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])";
+
+  function hasPopupFlag(key) {
+    try {
+      return localStorage.getItem(key) === "true";
+    } catch {
+      return false;
+    }
+  }
+
+  function setPopupFlag(key) {
+    try {
+      localStorage.setItem(key, "true");
+    } catch {}
+  }
+
+  function setPopupValue(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {}
+  }
+
+  function trackPopupEvent(name, label) {
+    window.trackWebsiteliEvent?.(name, {
+      event_category: "engagement",
+      event_label: label,
+    });
+  }
+
+  function getFocusable(popup) {
+    return Array.from(popup.querySelectorAll(focusableSelector)).filter((item) => item instanceof HTMLElement && !item.hasAttribute("hidden"));
+  }
+
+  function openPopup(kind) {
+    const popup = kind === "newsletter" ? newsletterPopup : exitPopup;
+    if (!(popup instanceof HTMLElement) || !(popupBackdrop instanceof HTMLElement) || popupState.activePopup) return;
+
+    popupState.previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    popupState.activePopup = { kind, element: popup };
+    if (kind === "newsletter") {
+      popupState.newsletterShownThisPage = true;
+      setPopupValue("websiteli_newsletter_popup_last_shown", String(Date.now()));
+    }
+    popup.hidden = false;
+    popupBackdrop.hidden = false;
+    document.documentElement.classList.add("has-conversion-popup");
+    getFocusable(popup)[0]?.focus();
+    trackPopupEvent(kind === "newsletter" ? "newsletter_popup_view" : "exit_popup_view", kind === "newsletter" ? "Newsletter discount popup" : "Exit audit popup");
+  }
+
+  function closePopup(reason = "dismiss") {
+    const active = popupState.activePopup;
+    if (!active) return;
+    const shouldShowExitAfterNewsletterDismiss =
+      enableExitPopup &&
+      reason === "dismiss" &&
+      active.kind === "newsletter" &&
+      !hasPopupFlag("websiteli_exit_popup_dismissed");
+
+    active.element.hidden = true;
+    if (popupBackdrop instanceof HTMLElement) popupBackdrop.hidden = true;
+    document.documentElement.classList.remove("has-conversion-popup");
+    popupState.activePopup = null;
+    try {
+      popupState.previousFocus?.focus();
+    } catch {}
+    if (reason === "dismiss") {
+      if (active.kind === "newsletter") {
+        setPopupFlag("websiteli_newsletter_popup_dismissed");
+        trackPopupEvent("newsletter_popup_dismiss", "Newsletter discount popup");
+      } else {
+        setPopupFlag("websiteli_exit_popup_dismissed");
+        trackPopupEvent("exit_popup_dismiss", "Exit audit popup");
+      }
+    }
+    if (shouldShowExitAfterNewsletterDismiss) {
+      window.setTimeout(() => {
+        popupState.exitShownThisPage = true;
+        openPopup("exit");
+      }, 250);
+    }
+  }
+
+  window.websiteliCloseConversionPopup = closePopup;
+
+  document.addEventListener("keydown", (event) => {
+    if (!popupState.activePopup) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closePopup("dismiss");
+      return;
+    }
+    if (event.key !== "Tab") return;
+
+    const focusable = getFocusable(popupState.activePopup.element);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  function handleDismissClick(event) {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target) return;
+    if (target.closest("[data-popup-close], [data-popup-dismiss]") || target.matches("[data-popup-backdrop]")) {
+      event.preventDefault();
+      event.stopPropagation();
+      closePopup("dismiss");
+    }
+  }
+
+  document.addEventListener("click", handleDismissClick, true);
+  document.querySelectorAll("[data-popup-close], [data-popup-dismiss]").forEach((control) => {
+    control.addEventListener("click", handleDismissClick);
+  });
+  popupBackdrop?.addEventListener("click", handleDismissClick);
+
+  document.querySelector("[data-exit-popup-cta]")?.addEventListener("click", () => {
+    setPopupFlag("websiteli_exit_popup_dismissed");
+    trackPopupEvent("exit_popup_cta_click", "Exit audit popup");
+  });
+
+  function canShowNewsletterPopup() {
+    return !hasPopupFlag("websiteli_newsletter_popup_dismissed") && !hasPopupFlag("websiteli_newsletter_popup_subscribed");
+  }
+
+  function canShowExitPopup() {
+    return (
+      enableExitPopup &&
+      !popupState.activePopup &&
+      !popupState.exitShownThisPage &&
+      !hasPopupFlag("websiteli_exit_popup_dismissed") &&
+      !canShowNewsletterPopup()
+    );
+  }
+
+  if (canShowNewsletterPopup()) {
+    popupState.newsletterTimer = window.setTimeout(() => openPopup("newsletter"), 30000);
+  }
+
+  document.addEventListener("mousemove", (event) => {
+    if (event.clientY > 18 || !canShowExitPopup()) return;
+    popupState.exitShownThisPage = true;
+    openPopup("exit");
+  });
+
+  let deepestScroll = 0;
+  document.addEventListener("scroll", () => {
+    const scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    deepestScroll = Math.max(deepestScroll, window.scrollY / scrollable);
+    if (deepestScroll < 0.72 || !canShowExitPopup() || !window.matchMedia("(pointer: coarse)").matches) return;
+    popupState.exitShownThisPage = true;
+    openPopup("exit");
+  }, { passive: true });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible" || !canShowExitPopup()) return;
+    popupState.exitShownThisPage = true;
+    window.setTimeout(() => openPopup("exit"), 800);
   });
 </script>

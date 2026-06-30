@@ -59,7 +59,7 @@ const articleSchema = {
   datePublished: post.publishedAt,
   dateModified: post.updatedAt,
   author: authorSchema,
-  publisher: { "@type": "Organization", name: "Websiteli", logo: { "@type": "ImageObject", url: new URL("/assets/websiteli-og.png", siteUrl).toString() } },
+  publisher: { "@type": "Organization", name: "Websiteli", logo: { "@type": "ImageObject", url: new URL("/assets/websiteli-logo.png", siteUrl).toString() } },
   mainEntityOfPage: canonicalUrl,
   articleSection: post.category,
   keywords: post.tags.join(", "),
@@ -155,7 +155,7 @@ const personSchema = { "@context": "https://schema.org", ...authorSchema };
           </section>
           <Fragment set:html={articleHtml} />
           <ArticleCTA locale={locale} variant="final" />
-          <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} />
+          <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} social={post.social} />
           {nextPost && (
             <nav class="article-nav" aria-label="Article navigation">
               <a href={`/${locale}/blog/${nextPost.slug}/`}><span>{articleUi.next}</span>{nextPost.title}</a>

@@ -19,11 +19,22 @@ export type BlogPostTranslation = {
 
 export type BlogPostSource = {
   slug: string;
-  published: boolean;
+  title?: string;
+  language?: LocaleCode;
+  published?: boolean;
+  publishDate?: string;
+  status?: "draft" | "scheduled" | "published";
+  description?: string;
   image: string;
   author: string;
   date: string;
   updated?: string;
+  tags?: string[];
+  social?: {
+    linkedin?: string;
+    facebook?: string;
+    instagram?: string;
+  };
   related: string[];
   translations: Partial<Record<LocaleCode, BlogPostTranslation>> & { en: BlogPostTranslation };
 };

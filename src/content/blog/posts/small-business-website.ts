@@ -2,11 +2,28 @@ import type { BlogPostSource } from "../types";
 
 export default {
   "slug": "small-business-website",
+  "title": "How to Create a Small Business Website That Generates Customers",
+  "language": "en",
+  "description": "Learn how to create a small business website that builds trust, looks professional, and helps bring in more customers.",
+  "tags": [
+    "small business website",
+    "business website",
+    "professional website",
+    "website for business",
+    "SEO"
+  ],
   "published": true,
+  "status": "published",
   "image": "/assets/blog/small-business-website.png",
   "author": "Websiteli",
   "date": "2026-06-29",
+  "publishDate": "2026-06-29",
   "updated": "2026-06-29",
+  "social": {
+    "linkedin": "How can a small business website generate more customers? This Websiteli guide covers structure, trust, SEO, mobile UX and conversion paths.",
+    "facebook": "A small business website should help visitors understand your offer, trust your business and take the next step. Read the practical Websiteli guide.",
+    "instagram": "New on the Websiteli blog: how to create a small business website that builds trust and generates customers. Clear structure, SEO basics, mobile UX and better CTAs."
+  },
   "related": [
     "/en/services-pricing/",
     "/en/portfolio/#live-demos",
