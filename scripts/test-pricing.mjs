@@ -155,6 +155,7 @@ test("pricing source of truth contains supported markets and packages", async ()
   assert.equal(source.DK.currency, "DKK");
   assert.equal(source.JP.currency, "JPY");
   assert.equal(source.EU.currency, "EUR");
+  assert.equal(source.CH.packages.digitalFoundation.from, 990);
   assert.equal(typeof source.CH.packages.digitalFoundation.from, "number");
   assert.equal(typeof source.CH.packages.growthSetup.from, "number");
   assert.equal(typeof source.CH.packages.aiDataUpgrade.from, "number");

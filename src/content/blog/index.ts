@@ -1,9 +1,11 @@
 import { localeCodes, type LocaleCode } from "../locales";
+import localBusinessWebsite from "./posts/local-business-website";
 import smallBusinessWebsite from "./posts/small-business-website";
 import whyAiGeneratedWebsitesAreNotEnough from "./posts/why-ai-generated-websites-are-not-enough-for-a-real-business";
 import businsessWebsiteFreatures from "./posts/business-website-features";
 import websiteFirstImpression from "./posts/website-first-impression";
 import websiteVsFacebook from "./posts/website-vs-facebook";
+import websiteCostSwitzerland from "./posts/website-cost-switzerland";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -40,7 +42,7 @@ export type BlogPost = {
 };
 
 const DEFAULT_LOCALE: LocaleCode = "en";
-const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures, websiteFirstImpression, websiteVsFacebook];
+const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures, websiteFirstImpression, websiteVsFacebook, localBusinessWebsite, websiteCostSwitzerland];
 
 const marketKeywords = [
   "website creation Switzerland",
@@ -56,6 +58,11 @@ const marketKeywords = [
   "Google Business Profile optimization",
   "website redesign checklist",
   "local SEO website",
+  "local business website",
+  "website for local business",
+  "website cost Switzerland",
+  "website price Switzerland",
+  "affordable website Switzerland",
   "lead generation landing page",
   "website maintenance audit",
 ];
