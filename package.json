@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "publish:daily-blog": "cp scripts/publish-daily-blog.ts /tmp/websiteli-publish-daily-blog.mjs && node /tmp/websiteli-publish-daily-blog.mjs",
+    "marketing:daily": "node scripts/daily-marketing-pipeline.mjs",
     "test:pricing": "npm run build && node scripts/test-pricing.mjs",
     "deploy:hostpoint": "bash scripts/deploy.sh"
   },
