@@ -94,7 +94,7 @@ EU countries fall back to the `EU` pricing config unless a dedicated country con
 
 ## Inquiry Tracking
 
-The contact form posts JSON to `PUBLIC_CONTACT_FORM_ENDPOINT` or `PUBLIC_LEAD_FORM_ENDPOINT`. This is expected to be the Google Apps Script / Google Sheets bridge; keep credentials and sheet access inside that backend, not in this repo.
+The contact form posts JSON to `PUBLIC_CONTACT_FORM_ENDPOINT` or `PUBLIC_LEAD_FORM_ENDPOINT`. The reservation form posts JSON to `PUBLIC_RESERVATION_FORM_ENDPOINT`, with `PUBLIC_CONTACT_FORM_ENDPOINT` as a fallback when both forms share the same Google Apps Script web app. Keep credentials and sheet access inside that backend, not in this repo.
 
 New submissions include the original fields plus metadata columns/keys such as:
 
@@ -105,6 +105,20 @@ utm_term, utm_content, timestamp, userAgent
 ```
 
 If the Google Sheet has fixed columns, add these columns there. Older submissions still work because the frontend still sends the previous core fields.
+
+Reservation submissions send `type: "reservation"` with:
+
+```text
+fullName, businessName, email, phone, country, websiteOrSocial,
+projectType, projectTypeKey, preferredLanguage, description,
+consentAccepted, sourceUrl, referrer, submittedAt, userAgent
+```
+
+The matching Apps Script handler is documented in:
+
+```text
+docs/GOOGLE_APPS_SCRIPT_RESERVATIONS.md
+```
 
 ## Deployment
 

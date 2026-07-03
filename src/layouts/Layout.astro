@@ -17,6 +17,7 @@ interface Props {
   alternates?: { locale: string; href: string }[];
   content?: any;
   schema?: Record<string, any>[];
+  robots?: string;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   alternates = [],
   content,
   schema = [],
+  robots = "index, follow",
 } = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
@@ -43,7 +45,7 @@ const structuredData = [
     "@type": "Organization",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "info@websiteli.ch",
+    email: import.meta.env.CONTACT_EMAIL,
     telephone: "+41772653306",
     logo: new URL("/assets/websiteli-logo.png", siteUrl).toString(),
   },
@@ -64,7 +66,7 @@ const structuredData = [
     "@type": "LocalBusiness",
     name: "Websiteli",
     url: siteUrl.toString(),
-    email: "info@websiteli.ch",
+    email: import.meta.env.CONTACT_EMAIL,
     telephone: "+41772653306",
     areaServed: {
       "@type": "Country",
@@ -113,7 +115,7 @@ const structuredData = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#e32635" />
     <meta name="msapplication-TileColor" content="#e32635" />
     <meta name="msapplication-config" content="/browserconfig.xml?v=3" />

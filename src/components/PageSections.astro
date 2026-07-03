@@ -19,6 +19,7 @@ interface Props {
 
 const { content, page, locale } = Astro.props;
 const contactHref = `/${locale}/contact/`;
+const reserveHref = "/reserve/";
 const demoContent = getDemoPageContent(locale as any);
 const projectContent = getExampleProjectPageContent(locale as any);
 const blogContent = getBlogIndexContent(locale as any);
@@ -105,7 +106,7 @@ const faqs = [
         <div class="pricing-grid package-grid">
           {content.packages.map((item) => {
             const packageKey = packageKeyByName[item.name];
-            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
+            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={reserveHref} />;
           })}
         </div>
       </section>

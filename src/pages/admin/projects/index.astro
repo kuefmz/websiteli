@@ -1,0 +1,86 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { getOnboardingSettings } from "../../../config/onboarding";
+import { getEmailTemplates } from "../../../content/onboarding/emailTemplates";
+import { emptyProjectTemplate, projectFieldDefinitions, projectStatusStages } from "../../../content/onboarding/status";
+import { getLocaleContent } from "../../../content/locales";
+
+const content = getLocaleContent("en");
+const settings = getOnboardingSettings();
+const emailTemplates = getEmailTemplates(settings);
+const title = "Manual Project Pipeline";
+const description = "Internal Websiteli project pipeline reference for manual invoice, payment, onboarding, review and launch stages.";
+const templateJson = JSON.stringify(emptyProjectTemplate, null, 2);
+---
+
+<Layout title={`${title} - Websiteli`} description={description} canonicalPath="/admin/projects/" lang="en" locale="en" page="admin-projects" content={content} robots="noindex, nofollow">
+  <main class="subpage admin-page">
+    <section class="section-shell page-hero">
+      <p class="eyebrow">Internal workflow</p>
+      <h1>Manual project pipeline.</h1>
+      <p>This static page is a workflow reference only. Do not store client names, emails, phone numbers, invoices, payment details or private notes in this public repository.</p>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="setup-alert setup-alert-strong" role="note">
+        <strong>Privacy rule:</strong> use a private spreadsheet, CRM or local project folder for real client records. This page is noindex and excluded from the sitemap, but it is not authentication.
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Status stages</p>
+        <h2>Move each project manually through these states.</h2>
+      </div>
+      <div class="status-grid">
+        {projectStatusStages.map((stage, index) => (
+          <article class="status-card">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{stage.label}</h3>
+            <p>{stage.description}</p>
+            <small>{stage.owner} next: {stage.nextAction}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="detail-layout onboarding-detail-layout">
+        <article class="detail-panel">
+          <h2>Project status data structure</h2>
+          <p>Use this shape in a private system. Keep the public site free of private client data.</p>
+          <pre class="admin-code"><code>{templateJson}</code></pre>
+        </article>
+        <article class="detail-panel">
+          <h2>Fields</h2>
+          <dl class="field-list">
+            {projectFieldDefinitions.map((item) => (
+              <>
+                <dt>{item.field}</dt>
+                <dd>{item.purpose}</dd>
+              </>
+            ))}
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Email templates</p>
+        <h2>Manual messages for the invoice-first flow.</h2>
+        <p>Replace placeholders before sending. The onboarding and Calendly links come from environment configuration when available.</p>
+      </div>
+      <div class="template-grid">
+        {emailTemplates.map((template) => (
+          <article class="template-card">
+            <p class="eyebrow">{template.title}</p>
+            <h3>{template.subject}</h3>
+            <p>{template.when}</p>
+            <textarea readonly rows="14">{template.body}</textarea>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>

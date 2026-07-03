@@ -1,10 +1,13 @@
 ---
+import { getOnboardingSettings } from "../config/onboarding";
+
 interface Props {
   content?: any;
   locale?: string;
 }
 
 const { content, locale = "en" } = Astro.props;
+const onboardingSettings = getOnboardingSettings({ contactFallbackPath: `/${locale}/contact/` });
 const currentYear = new Date().getFullYear();
 const whatsappNumber = "+41 77 265 33 06";
 const whatsappUrl = "https://wa.me/41772653306";
@@ -223,12 +226,15 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <span>Websiteli</span>
     </a>
     <p>{content?.intro ?? "Swiss-based websites, automation and AI tools for small businesses."}</p>
+    <div class="footer-main-actions">
+      <a class="button primary" href="/reserve/" data-track-event="reserve_footer_click" data-track-label="Footer reserve">Reserve a project</a>
+    </div>
   </div>
 
   <div class="footer-links" aria-label="Footer links">
     <div>
       <h2>{footerUi.contact}</h2>
-      <a href="mailto:info@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">info@websiteli.ch</a>
+      <a href={onboardingSettings.contactHref} data-track-event="email_click" data-track-label="Footer email">{onboardingSettings.contactEmail || nav.contact}</a>
       <a
         class="whatsapp-link"
         href={whatsappUrl}
@@ -247,6 +253,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     <div>
       <h2>{footerUi.pages}</h2>
       <a href={`/${locale}/services-pricing/`}>{nav.servicesPricing ?? "Services & Pricing"}</a>
+      <a href="/reserve/">Reserve project</a>
       <a href={`/${locale}/portfolio/`}>{nav.portfolio ?? "Portfolio"}</a>
       <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>

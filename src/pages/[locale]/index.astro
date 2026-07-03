@@ -14,7 +14,7 @@ const locale = Astro.params.locale as LocaleCode;
 const content = getLocaleContent(locale);
 const demoContent = getDemoPageContent(locale);
 const contactHref = getLocalizedPath(locale, "contact");
-const auditHref = `${contactHref}?package=digitalAudit&project=portfolio&intent=digital_audit`;
+const reserveHref = "/reserve/?package=digitalAudit";
 const servicesPricingHref = getLocalizedPath(locale, "services-pricing");
 const portfolioHref = getLocalizedPath(locale, "portfolio");
 ---
@@ -33,7 +33,7 @@ const portfolioHref = getLocalizedPath(locale, "portfolio");
     <LocalizedHero
       hero={content.hero}
       packagesHref={getLocalizedPath(locale, "demos")}
-      contactHref={auditHref}
+      contactHref={reserveHref}
       ui={content.ui}
     />
 
@@ -96,7 +96,7 @@ const portfolioHref = getLocalizedPath(locale, "portfolio");
     <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
     <section class="section-shell inline-cta demo-discovery-cta">
       <a class="button secondary" href={portfolioHref}>{content.ui?.demoCta ?? "See Live Demos"}</a>
-      <a class="button primary" href={auditHref}>{content.hero.primaryCta}</a>
+      <a class="button primary" href={reserveHref}>{content.hero.primaryCta}</a>
     </section>
     <CTASection content={content} />
   </main>

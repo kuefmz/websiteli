@@ -1,0 +1,262 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getLocaleContent } from "../../content/locales";
+import { getOnboardingSettings } from "../../config/onboarding";
+
+const content = getLocaleContent("en");
+const settings = getOnboardingSettings();
+const title = "Reserve Your Websiteli Website Project";
+const description = "Reserve a Websiteli website project with a simple request form. We review the details, send a manual invoice, and start onboarding after payment.";
+const projectTypes = [
+  { value: "digitalAudit", label: "Digital Audit" },
+  { value: "digitalFoundation", label: "Digital Foundation" },
+  { value: "growthSetup", label: "Growth Setup" },
+  { value: "aiDataUpgrade", label: "AI/Data Upgrade" },
+  { value: "websiteMaintenance", label: "Website Maintenance" },
+  { value: "websiteRedesign", label: "Website redesign" },
+  { value: "notSure", label: "Not sure yet" },
+];
+const languageOptions = [
+  "English",
+  "German",
+  "Hungarian",
+  "Polish",
+  "Spanish",
+  "French",
+  "Italian",
+  "Czech",
+  "Slovak",
+  "Portuguese",
+  "Danish",
+  "Dutch",
+  "Japanese",
+];
+const reservationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Websiteli project reservation",
+  description,
+  provider: {
+    "@type": "Organization",
+    name: "Websiteli",
+  },
+  offers: {
+    "@type": "Offer",
+    availability: "https://schema.org/InStock",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      priceCurrency: "CHF",
+      description: "Manual quote and invoice after project review.",
+    },
+  },
+};
+---
+
+<Layout title={`${title} - Websiteli`} description={description} canonicalPath="/reserve/" lang="en" locale="en" page="reserve" content={content} schema={[reservationSchema]}>
+  <main class="subpage reserve-page">
+    <section class="section-shell page-hero reserve-hero">
+      <p class="eyebrow">Project reservation</p>
+      <h1>Reserve your Websiteli project.</h1>
+      <p>Tell us what you want to build. We review the details, send a manual invoice by email, and begin onboarding after bank transfer payment is confirmed.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#reservation-form">Start reservation</a>
+        <a class="button secondary" href="/en/services-pricing/">Compare packages</a>
+      </div>
+    </section>
+
+    <section class="section-shell onboarding-flow" aria-label="Reservation process">
+      <article>
+        <span>01</span>
+        <h2>Reserve</h2>
+        <p>Send the project details and preferred language. No payment is collected on the website.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>Manual invoice</h2>
+        <p>We confirm the scope and email a manual invoice with bank transfer instructions.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Onboarding</h2>
+        <p>After payment, you receive the questionnaire and strategy call booking link.</p>
+      </article>
+    </section>
+
+    <section class="cta section-shell" id="reservation-form">
+      <div class="cta-panel reservation-panel">
+        <div>
+          <p class="eyebrow">Reservation form</p>
+          <h2>Share the essentials.</h2>
+          <p>Your request is sent securely to the Websiteli reservation sheet. We do not collect payment here.</p>
+          {!settings.hasReservationFormEndpoint && (
+            <aside class="setup-alert" role="status">
+              Reservation endpoint is not configured yet. Add PUBLIC_RESERVATION_FORM_ENDPOINT or PUBLIC_CONTACT_FORM_ENDPOINT to enable direct submissions.
+            </aside>
+          )}
+        </div>
+
+        <form class="contact-form reservation-form" action="/reserve/thank-you/" method="post" data-reservation-form novalidate>
+          <label class="website-field" aria-hidden="true">
+            Website
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+          <input name="source" type="hidden" value="websiteli.ch reserve" />
+
+          <label>
+            Full name *
+            <input name="fullName" autocomplete="name" required />
+          </label>
+          <label>
+            Business name *
+            <input name="businessName" autocomplete="organization" required />
+          </label>
+          <label>
+            Email *
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Phone *
+            <input name="phone" type="tel" autocomplete="tel" required />
+          </label>
+          <label>
+            Country *
+            <input name="country" autocomplete="country-name" required />
+          </label>
+          <label>
+            Website or social profile
+            <input name="websiteOrSocial" inputmode="url" placeholder="https://" />
+          </label>
+          <label>
+            Project type *
+            <select name="projectType" required>
+              <option value="">Choose a project type</option>
+              {projectTypes.map((type) => <option value={type.value}>{type.label}</option>)}
+            </select>
+          </label>
+          <label>
+            Preferred language *
+            <select name="preferredLanguage" required>
+              <option value="">Choose a language</option>
+              {languageOptions.map((language) => <option value={language}>{language}</option>)}
+            </select>
+          </label>
+          <label>
+            Short description *
+            <textarea name="description" rows="5" required placeholder="What should the website help your business do?"></textarea>
+          </label>
+          <label class="privacy-consent">
+            <input name="consent" type="checkbox" value="yes" required />
+            <span>I understand that Websiteli will contact me by email with manual invoice and onboarding next steps. I accept the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+          <button class="button primary" type="submit">{settings.hasReservationFormEndpoint ? "Send reservation" : "Open fallback contact page"}</button>
+          <p class="form-status" data-reservation-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script define:vars={{ reservationFormEndpoint: settings.reservationFormEndpoint, contactFallbackPath: settings.contactFallbackPath, thankYouPath: settings.paths.reserveThankYou }}>
+  const reservationForm = document.querySelector("[data-reservation-form]");
+  const reservationStatus = document.querySelector("[data-reservation-status]");
+
+  function getReservationString(formData, key) {
+    return String(formData.get(key) || "").trim();
+  }
+
+  function getSelectedOptionLabel(form, name) {
+    const field = form.elements.namedItem(name);
+    if (!(field instanceof HTMLSelectElement)) return getReservationString(new FormData(form), name);
+
+    return field.selectedOptions[0]?.textContent?.trim() || field.value;
+  }
+
+  if (reservationForm instanceof HTMLFormElement) {
+    const packageParam = new URLSearchParams(window.location.search).get("package");
+    const projectSelect = reservationForm.elements.namedItem("projectType");
+    if (packageParam && projectSelect instanceof HTMLSelectElement) {
+      projectSelect.value = packageParam;
+    }
+  }
+
+  reservationForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!(form instanceof HTMLFormElement)) return;
+    const submitButton = form.querySelector("button[type='submit']");
+
+    const formData = new FormData(form);
+    const honeypot = getReservationString(formData, "website");
+    const consent = getReservationString(formData, "consent") === "yes";
+
+    if (honeypot) {
+      form.reset();
+      window.location.assign(thankYouPath);
+      return;
+    }
+
+    if (!form.checkValidity() || !consent) {
+      form.reportValidity();
+      if (reservationStatus) reservationStatus.textContent = "Please complete all required fields and accept the privacy policy.";
+      return;
+    }
+
+    const projectType = getSelectedOptionLabel(form, "projectType");
+    const preferredLanguage = getSelectedOptionLabel(form, "preferredLanguage");
+    const payload = {
+      type: "reservation",
+      source: getReservationString(formData, "source") || "websiteli.ch reserve",
+      website: honeypot,
+      fullName: getReservationString(formData, "fullName"),
+      businessName: getReservationString(formData, "businessName"),
+      email: getReservationString(formData, "email"),
+      phone: getReservationString(formData, "phone"),
+      country: getReservationString(formData, "country"),
+      websiteOrSocial: getReservationString(formData, "websiteOrSocial"),
+      projectType,
+      projectTypeKey: getReservationString(formData, "projectType"),
+      preferredLanguage,
+      description: getReservationString(formData, "description"),
+      consentAccepted: consent,
+      sourceUrl: window.location.href,
+      referrer: document.referrer,
+      submittedAt: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+    };
+
+    window.trackWebsiteliEvent?.("reservation_form_submit", {
+      event_category: "lead",
+      event_label: "Reserve project",
+      project_type: payload.projectType,
+      preferred_language: payload.preferredLanguage,
+      country: payload.country,
+    });
+
+    if (!reservationFormEndpoint) {
+      if (reservationStatus) reservationStatus.textContent = "Reservation endpoint is not configured yet. Opening the fallback contact page.";
+      window.location.assign(contactFallbackPath);
+      return;
+    }
+
+    submitButton?.setAttribute("disabled", "true");
+    if (reservationStatus) reservationStatus.textContent = "Sending your reservation...";
+
+    try {
+      await fetch(reservationFormEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      form.reset();
+      window.location.assign(thankYouPath);
+    } catch (error) {
+      console.error(error);
+      if (reservationStatus) reservationStatus.textContent = "Something went wrong. Please try again or use the contact page.";
+      submitButton?.removeAttribute("disabled");
+    }
+  });
+</script>

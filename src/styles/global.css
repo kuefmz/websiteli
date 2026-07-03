@@ -1331,6 +1331,158 @@ h3 {
   outline: 3px solid color-mix(in srgb, var(--sky) 24%, transparent);
 }
 
+.reserve-hero .hero-actions,
+.onboarding-page .hero-actions {
+  margin-top: 28px;
+}
+
+.onboarding-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 12px 0 36px;
+}
+
+.reserve-page .onboarding-flow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.onboarding-flow article,
+.status-card,
+.template-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 16px 48px rgba(26, 32, 42, 0.07);
+}
+
+.onboarding-flow article,
+.status-card,
+.template-card {
+  padding: 22px;
+}
+
+.onboarding-flow span,
+.status-card span {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.onboarding-flow h2 {
+  font-size: 1.22rem;
+}
+
+.onboarding-flow p,
+.status-card p,
+.status-card small,
+.template-card p,
+.field-list dd {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.reservation-panel {
+  align-items: start;
+}
+
+.reservation-form textarea {
+  min-height: 150px;
+}
+
+.setup-alert {
+  margin-top: 18px;
+  border-left: 3px solid var(--brand);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--brand) 12%);
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.setup-alert-strong {
+  margin-top: 0;
+  color: var(--ink);
+}
+
+.status-grid,
+.template-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.template-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.status-card h3,
+.template-card h3 {
+  font-size: 1.1rem;
+}
+
+.status-card small {
+  display: block;
+  margin-top: 14px;
+  font-weight: 820;
+}
+
+.admin-code {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: #111827;
+  color: #f9fafb;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.field-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.field-list dt {
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.field-list dd {
+  margin: -6px 0 6px;
+}
+
+.template-card textarea {
+  width: 100%;
+  min-height: 320px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.footer-main-actions {
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+
 .simple-page {
   min-height: 72vh;
   padding: 150px 0 92px;
@@ -1966,7 +2118,7 @@ h3 {
 
 .footer-main {
   display: grid;
-  grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.52fr) minmax(0, 0.9fr) auto;
   gap: 24px;
   align-items: start;
 }
@@ -2278,6 +2430,10 @@ h3 {
   .addon-grid,
   .process-grid,
   .trust-grid,
+  .onboarding-flow,
+  .reserve-page .onboarding-flow,
+  .status-grid,
+  .template-grid,
   .demo-grid,
   .project-card,
   .outreach-grid,
@@ -2358,6 +2514,10 @@ h3 {
   .process-grid,
   .reason-grid,
   .trust-grid,
+  .onboarding-flow,
+  .reserve-page .onboarding-flow,
+  .status-grid,
+  .template-grid,
     .demo-grid,
     .outreach-grid,
     .detail-layout,

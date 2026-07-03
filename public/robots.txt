@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /onboarding
+Disallow: /reserve/thank-you
 
 Sitemap: https://websiteli.ch/sitemap-index.xml
 Sitemap: https://websiteli.ch/rss.xml

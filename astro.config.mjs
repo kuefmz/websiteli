@@ -5,7 +5,7 @@ export default defineConfig({
   site: "https://websiteli.ch",
   integrations: [
     sitemap({
-      filter: (page) => !/\/(?:services|packages|demos|example-projects)(?:\/|$)/.test(new URL(page).pathname),
+      filter: (page) => !/\/(?:services|packages|demos|example-projects|reserve\/thank-you|onboarding|admin)(?:\/|$)/.test(new URL(page).pathname),
     }),
   ],
   vite: {

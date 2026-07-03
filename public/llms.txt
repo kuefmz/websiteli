@@ -3,7 +3,7 @@
 Websiteli is a Swiss-based digital service helping small businesses create professional websites, improve their online presence, capture leads, and add practical automation.
 
 Website: https://websiteli.ch
-Contact: info@websiteli.ch
+Primary action: reserve a project through https://websiteli.ch/reserve/
 
 ## Main services
 
@@ -18,6 +18,10 @@ Contact: info@websiteli.ch
 - Google visibility improvements
 - AI and business automation
 - Website maintenance
+- Reservation-based onboarding
+- Manual invoicing by email
+- Onboarding questionnaires
+- Calendly strategy calls
 
 ## Target customers
 
@@ -29,11 +33,29 @@ Websiteli helps businesses turn their online presence into a practical customer 
 
 ## Important pages
 
-- Home: https://websiteli.ch/
-- Services & Pricing: https://websiteli.ch/services
-- Portfolio: https://websiteli.ch/portfolio
-- Blog: https://websiteli.ch/blog
-- Contact: https://websiteli.ch/contact
+- Home: https://websiteli.ch/en/
+- Services & Pricing: https://websiteli.ch/en/services-pricing/
+- Portfolio: https://websiteli.ch/en/portfolio/
+- Blog: https://websiteli.ch/en/blog/
+- Contact: https://websiteli.ch/en/contact/
+- Reserve: https://websiteli.ch/reserve/
+
+## Reservation workflow
+
+Websiteli uses a manual-invoice onboarding flow for new website projects.
+
+1. A potential client reserves a project through the reservation form.
+2. Websiteli reviews the request and sends a manual invoice by email.
+3. The client pays by bank transfer.
+4. After payment is confirmed, Websiteli sends the onboarding questionnaire.
+5. The client books a Calendly strategy call.
+6. Websiteli builds the website, prepares the review draft, applies agreed revisions and launches the site.
+
+The public website does not provide Stripe, PayPal, TWINT, login, client dashboard or payment processing.
+
+## AI-assisted website creation
+
+Websiteli may use AI to support planning, copy drafting, structure, automation ideas and faster implementation. Human review, business context, client ownership, SEO foundations, analytics and maintainability remain central to the service.
 
 ## Ownership philosophy
 
