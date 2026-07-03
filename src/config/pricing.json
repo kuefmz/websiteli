@@ -3,90 +3,90 @@
     "currency": "CHF",
     "symbol": "CHF",
     "packages": {
-      "digitalFoundation": { "from": 1490 },
-      "growthSetup": { "from": 2990 },
-      "aiDataUpgrade": { "from": 4990 }
+      "digitalFoundation": { "from": 990 },
+      "growthSetup": { "from": 1990 },
+      "aiDataUpgrade": { "from": 3290 }
     }
   },
   "US": {
     "currency": "USD",
     "symbol": "$",
     "packages": {
-      "digitalFoundation": { "from": 1200 },
-      "growthSetup": { "from": 2500 },
-      "aiDataUpgrade": { "from": 4500 }
+      "digitalFoundation": { "from": 790 },
+      "growthSetup": { "from": 1650 },
+      "aiDataUpgrade": { "from": 2990 }
     }
   },
   "GB": {
     "currency": "GBP",
     "symbol": "£",
     "packages": {
-      "digitalFoundation": { "from": 950 },
-      "growthSetup": { "from": 1900 },
-      "aiDataUpgrade": { "from": 3500 }
+      "digitalFoundation": { "from": 630 },
+      "growthSetup": { "from": 1250 },
+      "aiDataUpgrade": { "from": 2290 }
     }
   },
   "HU": {
     "currency": "HUF",
     "symbol": "Ft",
     "packages": {
-      "digitalFoundation": { "from": 250000 },
-      "growthSetup": { "from": 550000 },
-      "aiDataUpgrade": { "from": 950000 }
+      "digitalFoundation": { "from": 165000 },
+      "growthSetup": { "from": 365000 },
+      "aiDataUpgrade": { "from": 630000 }
     }
   },
   "PL": {
     "currency": "PLN",
     "symbol": "zł",
     "packages": {
-      "digitalFoundation": { "from": 3000 },
-      "growthSetup": { "from": 6500 },
-      "aiDataUpgrade": { "from": 12000 }
+      "digitalFoundation": { "from": 1990 },
+      "growthSetup": { "from": 4290 },
+      "aiDataUpgrade": { "from": 7990 }
     }
   },
   "CZ": {
     "currency": "CZK",
     "symbol": "Kč",
     "packages": {
-      "digitalFoundation": { "from": 29000 },
-      "growthSetup": { "from": 59000 },
-      "aiDataUpgrade": { "from": 119000 }
+      "digitalFoundation": { "from": 19000 },
+      "growthSetup": { "from": 39000 },
+      "aiDataUpgrade": { "from": 79000 }
     }
   },
   "DK": {
     "currency": "DKK",
     "symbol": "kr.",
     "packages": {
-      "digitalFoundation": { "from": 12000 },
-      "growthSetup": { "from": 24000 },
-      "aiDataUpgrade": { "from": 45000 }
+      "digitalFoundation": { "from": 7900 },
+      "growthSetup": { "from": 15900 },
+      "aiDataUpgrade": { "from": 29900 }
     }
   },
   "JP": {
     "currency": "JPY",
     "symbol": "¥",
     "packages": {
-      "digitalFoundation": { "from": 180000 },
-      "growthSetup": { "from": 380000 },
-      "aiDataUpgrade": { "from": 700000 }
+      "digitalFoundation": { "from": 119000 },
+      "growthSetup": { "from": 249000 },
+      "aiDataUpgrade": { "from": 465000 }
     }
   },
   "EU": {
     "currency": "EUR",
     "symbol": "€",
     "packages": {
-      "digitalFoundation": { "from": 990 },
-      "growthSetup": { "from": 1990 },
-      "aiDataUpgrade": { "from": 3990 }
+      "digitalFoundation": { "from": 650 },
+      "growthSetup": { "from": 1290 },
+      "aiDataUpgrade": { "from": 2650 }
     }
   },
   "DEFAULT": {
     "currency": "EUR",
     "symbol": "€",
     "packages": {
-      "digitalFoundation": { "from": 990 },
-      "growthSetup": { "from": 1990 },
-      "aiDataUpgrade": { "from": 3990 }
+      "digitalFoundation": { "from": 650 },
+      "growthSetup": { "from": 1290 },
+      "aiDataUpgrade": { "from": 2650 }
     }
   }
 }

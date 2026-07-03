@@ -239,7 +239,7 @@ const faqs = [
         <div class="blog-grid">
           {blogPosts.map((post) => (
             <article class="blog-card" data-blog-card data-blog-text={`${post.title} ${post.description} ${post.tags.join(" ")}`}>
-              <img src={post.featuredImage} alt="" loading="lazy" width="1536" height="1024" />
+              <img src={post.featuredImage} alt={`${post.title} - ${post.category}`} loading="lazy" width="1536" height="1024" />
               <div>
                 <p class="eyebrow">{blogContent.featured}</p>
                 <h2>{post.title}</h2>
