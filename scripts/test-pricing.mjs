@@ -219,7 +219,7 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   const contact = await readDistFile("en/contact/index.html");
   const portfolio = await readDistFile("en/portfolio/index.html");
 
-  assert.match(contact, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
+  assert.match(contact, /AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/);
   assert.match(contact, /type:\s*"form"/);
   assert.match(contact, /metadata:\s*\{/);
   assert.match(contact, /name="pricingMarket"/);
@@ -246,11 +246,47 @@ test("newsletter signup posts to the static Google Apps Script endpoint", async 
 
   assert.match(englishHome, /data-newsletter-form/);
   assert.match(englishHome, /id="newsletter"/);
+  assert.match(englishHome, /data-newsletter-campaign="newsletter"/);
+  assert.match(englishHome, /name="campaign" type="hidden" value="newsletter"/);
   assert.match(englishHome, /type:\s*"newsletter"/);
-  assert.match(englishHome, /AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/);
+  assert.match(englishHome, /campaign,\s*sourceUrl,\s*language/s);
+  assert.match(englishHome, /Thanks for subscribing!/);
+  assert.match(englishHome, /website:\s*honeypot/);
+  assert.match(englishHome, /AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/);
   assert.match(englishHome, /privacyPolicyAccepted/);
   assert.match(englishHome, /utm_content/);
   assert.match(englishHome, /landingPage/);
+  assert.doesNotMatch(englishHome, /website-success-report/);
+});
+
+test("Website Success Report lead magnet uses the report newsletter campaign only on the English article", async () => {
+  const englishArticle = await readDistFile("en/blog/why-business-websites-get-customers/index.html");
+  const englishBlog = await readDistFile("en/blog/index.html");
+  const germanBlog = await readDistFile("de/blog/index.html");
+  const germanArticleExists = await readFile(join(distDir, "de/blog/why-business-websites-get-customers/index.html"), "utf8")
+    .then(() => true)
+    .catch((error) => {
+      if (error.code === "ENOENT") return false;
+      throw error;
+    });
+
+  assert.match(englishArticle, /Why Some Business Websites Get Customers While Others Don&#39;t/);
+  assert.match(englishArticle, /The data says it all/);
+  assert.match(englishArticle, /Get the Free Website Success Report/);
+  assert.match(englishArticle, /Research-backed insights, practical checklists, and website statistics delivered to your inbox\./);
+  assert.match(englishArticle, /data-newsletter-campaign="website-success-report"/);
+  assert.match(englishArticle, /name="campaign" type="hidden" value="website-success-report"/);
+  assert.match(englishArticle, /Thanks! Check your inbox for the Website Success Report\./);
+  assert.match(englishArticle, /campaign,\s*sourceUrl,\s*language/s);
+  assert.match(englishArticle, /website:\s*honeypot/);
+  assert.match(englishArticle, /business-websites-get-customers-statistics\.png/);
+  assert.match(englishArticle, /alt="Infographic showing key statistics about business websites, including trust, mobile use, speed, and SEO\."/);
+  assert.match(englishArticle, /<link rel="canonical" href="https:\/\/websiteli\.ch\/en\/blog\/why-business-websites-get-customers\/">/);
+  assert.match(englishArticle, /property="og:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.png"/);
+  assert.match(englishArticle, /name="twitter:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.png"/);
+  assert.match(englishBlog, /Why Some Business Websites Get Customers While Others Don&#39;t/);
+  assert.doesNotMatch(germanBlog, /Why Some Business Websites Get Customers While Others/);
+  assert.equal(germanArticleExists, false);
 });
 
 test("blog is localized and article pages include conversion and sharing UX", async () => {
@@ -264,6 +300,7 @@ test("blog is localized and article pages include conversion and sharing UX", as
 
   assert.doesNotMatch(englishBlog, /Future content roadmap|SEO roadmap/i);
   assert.match(englishBlog, /How to Create a Small Business Website That Generates Customers/);
+  assert.match(englishBlog, /Why Some Business Websites Get Customers While Others Don&#39;t/);
   assert.match(germanArticle, /Warum KI-generierte Websites/);
   assert.match(frenchArticle, /Pourquoi les sites générés par IA/);
   assert.match(japaneseArticle, /AI生成サイトだけでは/);
@@ -315,6 +352,23 @@ test("blog is localized and article pages include conversion and sharing UX", as
   assert.equal(blogPosting.author["@type"], "Person");
   assert.equal(blogPosting.image["@type"], "ImageObject");
   assert.ok(blogPosting.abstract.length > 180);
+});
+
+test("sitemap and public downloads include the Website Success Report flow URLs", async () => {
+  const pdf = await readFile(join(distDir, "downloads/websiteli-website-success-report.pdf"));
+  const robots = await readFile(join(distDir, "robots.txt"), "utf8");
+  const sitemapFiles = (await collectFiles(distDir)).filter((file) => /sitemap.*\.xml$/.test(file));
+  const sitemap = (await Promise.all(sitemapFiles.map((file) => readFile(file, "utf8")))).join("\n");
+
+  assert.match(pdf.subarray(0, 8).toString("utf8"), /^%PDF-/);
+  assert.match(robots, /Allow:\s*\//);
+  assert.doesNotMatch(robots, /Disallow:\s*\/downloads/);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\//);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/services-pricing\//);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/contact\//);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/blog\/small-business-website\//);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/blog\/why-business-websites-get-customers\//);
+  assert.doesNotMatch(sitemap, /https:\/\/websiteli\.ch\/de\/blog\/why-business-websites-get-customers\//);
 });
 
 test("localized package labels do not leak English package names in Hungarian UI", async () => {

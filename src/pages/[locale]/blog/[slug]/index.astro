@@ -2,12 +2,11 @@
 import Layout from "../../../../layouts/Layout.astro";
 import ArticleCTA from "../../../../components/ArticleCTA.astro";
 import ArticleShare from "../../../../components/ArticleShare.astro";
-import { getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../../../content/locales";
-import { getBlogIndexContent, getBlogPost, getBlogPosts, getBlogSlugs, getHeadingId, renderBlogMarkdown } from "../../../../content/blog";
+import { getLocaleContent, getLocalizedPath, type LocaleCode } from "../../../../content/locales";
+import { getBlogAlternates, getBlogIndexContent, getBlogPost, getBlogPosts, getBlogStaticPaths, getHeadingId, renderBlogMarkdown } from "../../../../content/blog";
 
 export async function getStaticPaths() {
-  const slugs = await getBlogSlugs();
-  return localeCodes.flatMap((locale) => slugs.map((slug) => ({ params: { locale, slug } })));
+  return getBlogStaticPaths();
 }
 
 const locale = Astro.params.locale as LocaleCode;
@@ -88,8 +87,9 @@ const faqSchema = post.faqs?.length
       })),
     }
   : undefined;
-const postAlternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/blog/${post.slug}/` }));
+const postAlternates = await getBlogAlternates(post.slug);
 const personSchema = { "@context": "https://schema.org", ...authorSchema };
+const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-customers" && post.sourceLocale === "en";
 ---
 
 <Layout
@@ -137,7 +137,7 @@ const personSchema = { "@context": "https://schema.org", ...authorSchema };
         <div class="article-content">
           <figure class="article-figure">
             <a href={post.featuredImage} target="_blank" rel="noopener noreferrer" aria-label="Open article image">
-              <img class="article-image" src={post.featuredImage} alt={`${post.title} - ${post.category}`} width="1536" height="1024" loading="eager" />
+              <img class="article-image" src={post.featuredImage} alt={post.imageAlt} width="1536" height="1024" loading="eager" />
             </a>
             <figcaption>{articleUi.imageCaption}</figcaption>
           </figure>
@@ -154,6 +154,39 @@ const personSchema = { "@context": "https://schema.org", ...authorSchema };
             </ul>
           </section>
           <Fragment set:html={articleHtml} />
+          {showWebsiteSuccessReportSignup && (
+            <section class="article-lead-magnet" id="website-success-report" aria-labelledby="website-success-report-title">
+              <div>
+                <p class="eyebrow">Free report</p>
+                <h2 id="website-success-report-title">Get the Free Website Success Report</h2>
+                <p>Research-backed insights, practical checklists, and website statistics delivered to your inbox.</p>
+              </div>
+              <form
+                class="article-lead-magnet-form"
+                data-newsletter-form
+                data-newsletter-campaign="website-success-report"
+                data-newsletter-success="Thanks! Check your inbox for the Website Success Report."
+                data-newsletter-event-label="Website Success Report"
+                novalidate
+              >
+                <input name="campaign" type="hidden" value="website-success-report" />
+                <label class="website-field" aria-hidden="true">
+                  Website
+                  <input name="website" tabindex="-1" autocomplete="off" />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+                <label class="newsletter-consent">
+                  <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
+                  <span>I accept the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+                </label>
+                <button class="button primary" type="submit">Get the Free Website Success Report</button>
+                <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+              </form>
+            </section>
+          )}
           <ArticleCTA locale={locale} variant="final" />
           <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} social={post.social} />
           {nextPost && (

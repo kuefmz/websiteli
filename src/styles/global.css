@@ -1559,6 +1559,7 @@ h3 {
 .article-faq,
 .article-references,
 .about-websiteli,
+.article-lead-magnet,
 .article-newsletter-cta {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1915,6 +1916,81 @@ h3 {
 .article-newsletter-cta p {
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.article-lead-magnet {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+  gap: 22px;
+  align-items: start;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--brand) 10%, transparent), color-mix(in srgb, var(--sky) 10%, transparent)),
+    var(--surface);
+}
+
+.article-lead-magnet h2,
+.article-lead-magnet p {
+  margin: 0;
+}
+
+.article-lead-magnet h2 {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+}
+
+.article-lead-magnet p {
+  color: var(--muted);
+}
+
+.article-lead-magnet-form {
+  display: grid;
+  gap: 10px;
+}
+
+.article-lead-magnet-form label:not(.website-field) {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.article-lead-magnet-form input[type="email"] {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.article-lead-magnet-form input[type="email"]:focus {
+  border-color: var(--sky);
+  outline: 3px solid color-mix(in srgb, var(--sky) 24%, transparent);
+}
+
+.article-lead-magnet-form .newsletter-consent {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  line-height: 1.45;
+}
+
+.article-lead-magnet-form .newsletter-consent input {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.18em;
+  accent-color: var(--brand);
+}
+
+.article-lead-magnet-form button {
+  width: 100%;
+  min-height: 44px;
+}
+
+.article-lead-magnet-form button:disabled {
+  cursor: progress;
+  opacity: 0.72;
+  transform: none;
 }
 
 .article-references ul {
@@ -2364,6 +2440,7 @@ h3 {
     .blog-tools,
     .blog-card,
     .article-layout,
+    .article-lead-magnet,
     .case-study-columns,
     .contact-form,
   .footer-main,

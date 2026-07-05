@@ -6,6 +6,7 @@ import businsessWebsiteFreatures from "./posts/business-website-features";
 import websiteFirstImpression from "./posts/website-first-impression";
 import websiteVsFacebook from "./posts/website-vs-facebook";
 import websiteCostSwitzerland from "./posts/website-cost-switzerland";
+import whyBusinessWebsitesGetCustomers from "./posts/why-business-websites-get-customers";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -16,6 +17,7 @@ export type BlogPost = {
   category: string;
   tags: string[];
   featuredImage: string;
+  imageAlt: string;
   author: string;
   publishedAt: string;
   publishDate: string;
@@ -42,7 +44,16 @@ export type BlogPost = {
 };
 
 const DEFAULT_LOCALE: LocaleCode = "en";
-const blogSources: BlogPostSource[] = [smallBusinessWebsite, whyAiGeneratedWebsitesAreNotEnough, businsessWebsiteFreatures, websiteFirstImpression, websiteVsFacebook, localBusinessWebsite, websiteCostSwitzerland];
+const blogSources: BlogPostSource[] = [
+  smallBusinessWebsite,
+  whyAiGeneratedWebsitesAreNotEnough,
+  businsessWebsiteFreatures,
+  websiteFirstImpression,
+  websiteVsFacebook,
+  localBusinessWebsite,
+  websiteCostSwitzerland,
+  whyBusinessWebsitesGetCustomers,
+];
 
 const marketKeywords = [
   "website creation Switzerland",
@@ -88,6 +99,14 @@ function isPublishedSource(source: BlogPostSource) {
 
   const publishDate = source.publishDate ?? source.date;
   return Boolean(publishDate && publishDate <= getTodayIsoDate());
+}
+
+function sourceHasLocale(source: BlogPostSource, locale: LocaleCode) {
+  return Boolean(source.translations[locale]);
+}
+
+function sourceCanRenderLocale(source: BlogPostSource, locale: LocaleCode) {
+  return sourceHasLocale(source, locale) || (locale !== DEFAULT_LOCALE && source.translationFallback !== false);
 }
 
 function getMarkdownHeadings(body: string) {
@@ -223,7 +242,9 @@ function getDefaultReferences(translation: BlogPostSource["translations"]["en"])
   return references.slice(0, 4);
 }
 
-function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
+function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
+  if (!sourceCanRenderLocale(source, locale)) return undefined;
+
   const translation = source.translations[locale] ?? source.translations[DEFAULT_LOCALE];
   const isFallback = !source.translations[locale] && locale !== DEFAULT_LOCALE;
   const socialCaption = `${translation.title}\n\n${translation.description}`;
@@ -236,6 +257,7 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost {
     category: translation.category,
     tags: translation.tags,
     featuredImage: source.image,
+    imageAlt: source.imageAlt ?? `${translation.title} - ${translation.category}`,
     author: source.author,
     publishedAt: source.date,
     publishDate: source.publishDate ?? source.date,
@@ -266,6 +288,7 @@ export async function getBlogPosts(locale: LocaleCode) {
   return blogSources
     .filter(isPublishedSource)
     .map((source) => toBlogPost(source, locale))
+    .filter((post): post is BlogPost => Boolean(post))
     .sort((a, b) => getPostDate(b.publishedAt) - getPostDate(a.publishedAt));
 }
 
@@ -275,6 +298,25 @@ export async function getBlogPost(locale: LocaleCode, slug: string) {
 
 export async function getBlogSlugs() {
   return blogSources.filter(isPublishedSource).map((source) => source.slug);
+}
+
+export async function getBlogStaticPaths() {
+  return blogSources
+    .filter(isPublishedSource)
+    .flatMap((source) =>
+      localeCodes
+        .filter((locale) => sourceCanRenderLocale(source, locale))
+        .map((locale) => ({ params: { locale, slug: source.slug } })),
+    );
+}
+
+export async function getBlogAlternates(slug: string) {
+  const source = blogSources.find((item) => item.slug === slug && isPublishedSource(item));
+  if (!source) return [];
+
+  return localeCodes
+    .filter((locale) => sourceCanRenderLocale(source, locale))
+    .map((locale) => ({ locale, href: `/${locale}/blog/${source.slug}/` }));
 }
 
 function escapeHtml(value: string) {
