@@ -30,6 +30,28 @@ export default {
       "readingTime": "8 min read",
       "audience": "Small business owners",
       "excerpt": "If you are deciding between a website vs Facebook Page, the right choice depends on how you want customers to find you, trust you, and contact you. This guide compares both options in a practical way.",
+      "references": [
+        {
+          "publisher": "Google Business Profile Help",
+          "title": "Tips to improve your local ranking on Google",
+          "href": "https://support.google.com/business/answer/7091"
+        },
+        {
+          "publisher": "Google Search Central",
+          "title": "Search Engine Optimization Starter Guide",
+          "href": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+        },
+        {
+          "publisher": "Meta",
+          "title": "Facebook Pages",
+          "href": "https://www.facebook.com/business/pages"
+        },
+        {
+          "publisher": "Stanford Web Credibility Research",
+          "title": "Web Credibility Guidelines",
+          "href": "https://credibility.stanford.edu/guidelines/index.html"
+        }
+      ],
       "faqs": [
         {
           "question": "Is a Facebook business page enough for a small business?",

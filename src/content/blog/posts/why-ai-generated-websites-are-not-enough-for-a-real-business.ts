@@ -45,6 +45,28 @@ export default {
       "readingTime": "8 min read",
       "audience": "Small business owners, consultants, restaurants and local service providers",
       "excerpt": "AI is useful for speed, ideas and prototypes. The risk starts when a business does not own the domain, hosting, source code, analytics or search setup behind the website.",
+      "references": [
+        {
+          "publisher": "Google Analytics Help",
+          "title": "About events",
+          "href": "https://support.google.com/analytics/answer/9322688"
+        },
+        {
+          "publisher": "Google Search Central",
+          "title": "Search Engine Optimization Starter Guide",
+          "href": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+        },
+        {
+          "publisher": "Google Search Console Help",
+          "title": "About Search Console",
+          "href": "https://support.google.com/webmasters/answer/9128668"
+        },
+        {
+          "publisher": "web.dev",
+          "title": "Web Vitals",
+          "href": "https://web.dev/articles/vitals"
+        }
+      ],
       "faqs": [
         {
           "question": "Are AI-generated websites bad for business?",

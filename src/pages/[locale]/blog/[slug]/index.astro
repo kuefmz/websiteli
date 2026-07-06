@@ -29,15 +29,31 @@ const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(post.featuredImage, siteUrl).toString();
 const articleUi = {
-  contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "ja" ? "目次" : "Contents",
-  summary: locale === "de" ? "Artikelzusammenfassung" : locale === "hu" ? "Cikk összefoglaló" : locale === "fr" ? "Résumé de l'article" : locale === "es" ? "Resumen del artículo" : locale === "it" ? "Riassunto dell'articolo" : locale === "ja" ? "記事の要約" : "Article summary",
-  takeaways: locale === "de" ? "Wichtigste Erkenntnisse" : locale === "hu" ? "Fő tanulságok" : locale === "fr" ? "Points clés" : locale === "es" ? "Puntos clave" : locale === "it" ? "Punti chiave" : locale === "ja" ? "重要ポイント" : "Key takeaways",
-  references: locale === "de" ? "Referenzen" : locale === "hu" ? "Hivatkozások" : locale === "fr" ? "Références" : locale === "es" ? "Referencias" : locale === "it" ? "Riferimenti" : locale === "ja" ? "参考リンク" : "References",
-  updated: locale === "de" ? "Aktualisiert" : locale === "hu" ? "Frissítve" : locale === "fr" ? "Mis à jour" : locale === "es" ? "Actualizado" : locale === "it" ? "Aggiornato" : locale === "ja" ? "更新日" : "Updated",
-  published: locale === "de" ? "Veröffentlicht" : locale === "hu" ? "Közzétéve" : locale === "fr" ? "Publié" : locale === "es" ? "Publicado" : locale === "it" ? "Pubblicato" : locale === "ja" ? "公開日" : "Published",
-  imageCaption: locale === "de" ? "Visuelle Zusammenfassung des Artikels und seiner Website-Strategie." : locale === "hu" ? "A cikk és a weboldal-stratégia vizuális összefoglalója." : locale === "fr" ? "Résumé visuel de l'article et de sa stratégie de site web." : locale === "es" ? "Resumen visual del artículo y su estrategia web." : locale === "it" ? "Sintesi visiva dell'articolo e della strategia del sito." : locale === "ja" ? "記事とウェブサイト戦略の視覚的な要約。" : "Visual summary of the article and its website strategy.",
-  next: locale === "de" ? "Nächster Artikel" : locale === "hu" ? "Következő cikk" : locale === "fr" ? "Article suivant" : locale === "es" ? "Artículo siguiente" : locale === "it" ? "Articolo successivo" : locale === "ja" ? "次の記事" : "Next article",
+  contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "pl" ? "Spis treści" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "cz" ? "Obsah" : locale === "sk" ? "Obsah" : locale === "pt" ? "Conteúdo" : locale === "da" ? "Indhold" : locale === "nl" ? "Inhoud" : locale === "ja" ? "目次" : "Contents",
+  summary: locale === "de" ? "Artikelzusammenfassung" : locale === "hu" ? "Cikk összefoglaló" : locale === "pl" ? "Podsumowanie artykułu" : locale === "fr" ? "Résumé de l'article" : locale === "es" ? "Resumen del artículo" : locale === "it" ? "Riassunto dell'articolo" : locale === "cz" ? "Shrnutí článku" : locale === "sk" ? "Zhrnutie článku" : locale === "pt" ? "Resumo do artigo" : locale === "da" ? "Artikelresumé" : locale === "nl" ? "Samenvatting" : locale === "ja" ? "記事の要約" : "Article summary",
+  takeaways: locale === "de" ? "Wichtigste Erkenntnisse" : locale === "hu" ? "Fő tanulságok" : locale === "pl" ? "Najważniejsze wnioski" : locale === "fr" ? "Points clés" : locale === "es" ? "Puntos clave" : locale === "it" ? "Punti chiave" : locale === "cz" ? "Hlavní poznatky" : locale === "sk" ? "Hlavné poznatky" : locale === "pt" ? "Principais conclusões" : locale === "da" ? "Vigtigste pointer" : locale === "nl" ? "Belangrijkste inzichten" : locale === "ja" ? "重要ポイント" : "Key takeaways",
+  references: locale === "de" ? "Referenzen" : locale === "hu" ? "Hivatkozások" : locale === "pl" ? "Źródła" : locale === "fr" ? "Références" : locale === "es" ? "Referencias" : locale === "it" ? "Riferimenti" : locale === "cz" ? "Zdroje" : locale === "sk" ? "Zdroje" : locale === "pt" ? "Referências" : locale === "da" ? "Referencer" : locale === "nl" ? "Bronnen" : locale === "ja" ? "参考リンク" : "References",
+  updated: locale === "de" ? "Aktualisiert" : locale === "hu" ? "Frissítve" : locale === "pl" ? "Zaktualizowano" : locale === "fr" ? "Mis à jour" : locale === "es" ? "Actualizado" : locale === "it" ? "Aggiornato" : locale === "cz" ? "Aktualizováno" : locale === "sk" ? "Aktualizované" : locale === "pt" ? "Atualizado" : locale === "da" ? "Opdateret" : locale === "nl" ? "Bijgewerkt" : locale === "ja" ? "更新日" : "Updated",
+  published: locale === "de" ? "Veröffentlicht" : locale === "hu" ? "Közzétéve" : locale === "pl" ? "Opublikowano" : locale === "fr" ? "Publié" : locale === "es" ? "Publicado" : locale === "it" ? "Pubblicato" : locale === "cz" ? "Publikováno" : locale === "sk" ? "Publikované" : locale === "pt" ? "Publicado" : locale === "da" ? "Udgivet" : locale === "nl" ? "Gepubliceerd" : locale === "ja" ? "公開日" : "Published",
+  imageCaption: locale === "de" ? "Visuelle Zusammenfassung des Artikels und seiner Website-Strategie." : locale === "hu" ? "A cikk és a weboldal-stratégia vizuális összefoglalója." : locale === "pl" ? "Wizualne podsumowanie artykułu i strategii strony." : locale === "fr" ? "Résumé visuel de l'article et de sa stratégie de site web." : locale === "es" ? "Resumen visual del artículo y su estrategia web." : locale === "it" ? "Sintesi visiva dell'articolo e della strategia del sito." : locale === "cz" ? "Vizuální shrnutí článku a webové strategie." : locale === "sk" ? "Vizuálne zhrnutie článku a webovej stratégie." : locale === "pt" ? "Resumo visual do artigo e da estratégia do site." : locale === "da" ? "Visuelt resumé af artiklen og websitestrategien." : locale === "nl" ? "Visuele samenvatting van het artikel en de websitestrategie." : locale === "ja" ? "記事とウェブサイト戦略の視覚的な要約。" : "Visual summary of the article and its website strategy.",
+  next: locale === "de" ? "Nächster Artikel" : locale === "hu" ? "Következő cikk" : locale === "pl" ? "Następny artykuł" : locale === "fr" ? "Article suivant" : locale === "es" ? "Artículo siguiente" : locale === "it" ? "Articolo successivo" : locale === "cz" ? "Další článek" : locale === "sk" ? "Ďalší článok" : locale === "pt" ? "Artigo seguinte" : locale === "da" ? "Næste artikel" : locale === "nl" ? "Volgend artikel" : locale === "ja" ? "次の記事" : "Next article",
 };
+const reportSignupUi: Record<LocaleCode, { eyebrow: string; title: string; text: string; email: string; consent: string; privacy: string; button: string; success: string }> = {
+  en: { eyebrow: "Free report", title: "Get the Free Website Success Report", text: "Research-backed insights, practical checklists, and website statistics delivered to your inbox.", email: "Email", consent: "I accept the", privacy: "Privacy Policy", button: "Get the Free Website Success Report", success: "Thanks! Check your inbox for the Website Success Report." },
+  de: { eyebrow: "Kostenloser Report", title: "Kostenlosen Website Success Report erhalten", text: "Recherchebasierte Erkenntnisse, praktische Checklisten und Website-Statistiken direkt in Ihr Postfach.", email: "E-Mail", consent: "Ich akzeptiere die", privacy: "Datenschutzerklärung", button: "Report kostenlos erhalten", success: "Danke! Bitte prüfen Sie Ihr Postfach für den Website Success Report." },
+  hu: { eyebrow: "Ingyenes riport", title: "Kérd az ingyenes Website Success Reportot", text: "Kutatásokra épülő tanulságok, gyakorlati ellenőrzőlisták és weboldal-statisztikák e-mailben.", email: "E-mail", consent: "Elfogadom az", privacy: "adatvédelmi tájékoztatót", button: "Kérem az ingyenes riportot", success: "Köszönjük! Nézd meg a postafiókodat a Website Success Reportért." },
+  pl: { eyebrow: "Bezpłatny raport", title: "Pobierz bezpłatny Website Success Report", text: "Wnioski oparte na badaniach, praktyczne checklisty i statystyki stron prosto na e-mail.", email: "E-mail", consent: "Akceptuję", privacy: "politykę prywatności", button: "Pobierz bezpłatny raport", success: "Dziękujemy! Sprawdź skrzynkę, aby odebrać Website Success Report." },
+  es: { eyebrow: "Informe gratis", title: "Recibe el Website Success Report gratis", text: "Insights respaldados por investigación, checklists prácticas y estadísticas web en tu correo.", email: "Email", consent: "Acepto la", privacy: "política de privacidad", button: "Recibir el informe gratis", success: "Gracias. Revisa tu correo para recibir el Website Success Report." },
+  fr: { eyebrow: "Rapport gratuit", title: "Recevez le Website Success Report gratuit", text: "Des enseignements sourcés, des checklists pratiques et des statistiques de site web dans votre boîte mail.", email: "E-mail", consent: "J'accepte la", privacy: "politique de confidentialité", button: "Recevoir le rapport gratuit", success: "Merci ! Vérifiez votre boîte mail pour le Website Success Report." },
+  it: { eyebrow: "Report gratuito", title: "Ricevi il Website Success Report gratuito", text: "Insight basati su ricerca, checklist pratiche e statistiche sui siti web direttamente via email.", email: "Email", consent: "Accetto la", privacy: "privacy policy", button: "Ricevi il report gratuito", success: "Grazie! Controlla la tua inbox per il Website Success Report." },
+  cz: { eyebrow: "Bezplatný report", title: "Získejte bezplatný Website Success Report", text: "Poznatky podložené výzkumem, praktické checklisty a webové statistiky do e-mailu.", email: "E-mail", consent: "Souhlasím se zásadami", privacy: "ochrany osobních údajů", button: "Získat bezplatný report", success: "Děkujeme! Zkontrolujte e-mail pro Website Success Report." },
+  sk: { eyebrow: "Bezplatný report", title: "Získajte bezplatný Website Success Report", text: "Poznatky podložené výskumom, praktické checklisty a webové štatistiky do e-mailu.", email: "E-mail", consent: "Súhlasím so zásadami", privacy: "ochrany osobných údajov", button: "Získať bezplatný report", success: "Ďakujeme! Skontrolujte si e-mail pre Website Success Report." },
+  pt: { eyebrow: "Relatório gratuito", title: "Recebe o Website Success Report gratuito", text: "Insights apoiados por investigação, checklists práticas e estatísticas de websites no teu email.", email: "Email", consent: "Aceito a", privacy: "política de privacidade", button: "Receber o relatório gratuito", success: "Obrigado! Confirma o email para receber o Website Success Report." },
+  da: { eyebrow: "Gratis rapport", title: "Få den gratis Website Success Report", text: "Researchbaserede indsigter, praktiske tjeklister og websitestatistikker sendt til din indbakke.", email: "E-mail", consent: "Jeg accepterer", privacy: "privatlivspolitikken", button: "Få den gratis rapport", success: "Tak! Tjek din indbakke for Website Success Report." },
+  nl: { eyebrow: "Gratis rapport", title: "Ontvang het gratis Website Success Report", text: "Onderbouwde inzichten, praktische checklists en websitestatistieken in je inbox.", email: "E-mail", consent: "Ik accepteer het", privacy: "privacybeleid", button: "Ontvang het gratis rapport", success: "Bedankt! Controleer je inbox voor het Website Success Report." },
+  ja: { eyebrow: "無料レポート", title: "無料のWebsite Success Reportを受け取る", text: "調査に基づく知見、実用チェックリスト、ウェブサイト統計をメールでお届けします。", email: "メールアドレス", consent: "同意します:", privacy: "プライバシーポリシー", button: "無料レポートを受け取る", success: "ありがとうございます。Website Success Reportの案内をメールでご確認ください。" },
+};
+const reportCopy = reportSignupUi[locale];
 const authorSchema = { "@type": "Person", name: post.author, affiliation: { "@type": "Organization", name: "Websiteli", url: siteUrl.toString() } };
 const imageSchema = {
   "@context": "https://schema.org",
@@ -89,7 +105,7 @@ const faqSchema = post.faqs?.length
   : undefined;
 const postAlternates = await getBlogAlternates(post.slug);
 const personSchema = { "@context": "https://schema.org", ...authorSchema };
-const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-customers" && post.sourceLocale === "en";
+const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-customers";
 ---
 
 <Layout
@@ -157,15 +173,15 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
           {showWebsiteSuccessReportSignup && (
             <section class="article-lead-magnet" id="website-success-report" aria-labelledby="website-success-report-title">
               <div>
-                <p class="eyebrow">Free report</p>
-                <h2 id="website-success-report-title">Get the Free Website Success Report</h2>
-                <p>Research-backed insights, practical checklists, and website statistics delivered to your inbox.</p>
+                <p class="eyebrow">{reportCopy.eyebrow}</p>
+                <h2 id="website-success-report-title">{reportCopy.title}</h2>
+                <p>{reportCopy.text}</p>
               </div>
               <form
                 class="article-lead-magnet-form"
                 data-newsletter-form
                 data-newsletter-campaign="website-success-report"
-                data-newsletter-success="Thanks! Check your inbox for the Website Success Report."
+                data-newsletter-success={reportCopy.success}
                 data-newsletter-event-label="Website Success Report"
                 novalidate
               >
@@ -175,14 +191,14 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
                   <input name="website" tabindex="-1" autocomplete="off" />
                 </label>
                 <label>
-                  <span>Email</span>
+                  <span>{reportCopy.email}</span>
                   <input name="email" type="email" autocomplete="email" required />
                 </label>
                 <label class="newsletter-consent">
                   <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
-                  <span>I accept the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+                  <span>{reportCopy.consent} <a href="/privacy/" target="_blank" rel="noopener">{reportCopy.privacy}</a>.</span>
                 </label>
-                <button class="button primary" type="submit">Get the Free Website Success Report</button>
+                <button class="button primary" type="submit">{reportCopy.button}</button>
                 <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
               </form>
             </section>

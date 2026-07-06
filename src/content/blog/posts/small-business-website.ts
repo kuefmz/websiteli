@@ -46,6 +46,28 @@ export default {
       "readingTime": "9 min read",
       "audience": "Small business owners, local service providers, consultants, restaurants and shops",
       "excerpt": "A small business website should do more than exist. It should help visitors understand your offer, trust your business and take the next step.",
+      "references": [
+        {
+          "publisher": "Google Analytics Help",
+          "title": "About events",
+          "href": "https://support.google.com/analytics/answer/9322688"
+        },
+        {
+          "publisher": "Google Search Central",
+          "title": "Search Engine Optimization Starter Guide",
+          "href": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+        },
+        {
+          "publisher": "Google Search Console Help",
+          "title": "About Search Console",
+          "href": "https://support.google.com/webmasters/answer/9128668"
+        },
+        {
+          "publisher": "Stanford Web Credibility Research",
+          "title": "Web Credibility Guidelines",
+          "href": "https://credibility.stanford.edu/guidelines/index.html"
+        }
+      ],
       "faqs": [
         {
           "question": "What should a small business website include?",

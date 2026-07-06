@@ -106,7 +106,7 @@ function sourceHasLocale(source: BlogPostSource, locale: LocaleCode) {
 }
 
 function sourceCanRenderLocale(source: BlogPostSource, locale: LocaleCode) {
-  return sourceHasLocale(source, locale) || (locale !== DEFAULT_LOCALE && source.translationFallback !== false);
+  return sourceHasLocale(source, locale);
 }
 
 function getMarkdownHeadings(body: string) {
@@ -190,56 +190,119 @@ function getDefaultChatGptPrompts(translation: BlogPostSource["translations"]["e
   const title = translation.title;
   const normalizedTags = translation.tags.join(" ").toLowerCase();
 
+  const genericPrompts: Record<LocaleCode, string[]> = {
+    en: [
+      `Based on "${title}", what should I improve first on my business website?`,
+      `Turn the article "${title}" into a step-by-step checklist for a small business.`,
+      `What mistakes should I avoid after reading "${title}"?`,
+    ],
+    de: [
+      `Was sollte ich nach dem Artikel "${title}" zuerst an meiner Unternehmenswebsite verbessern?`,
+      `Erstelle aus "${title}" eine praktische Checkliste für ein kleines Unternehmen.`,
+      `Welche Fehler sollte ich nach dem Lesen von "${title}" vermeiden?`,
+    ],
+    hu: [
+      `A(z) "${title}" alapján mit javítsak először a céges weboldalamon?`,
+      `Készíts gyakorlati kisvállalkozói ellenőrzőlistát a(z) "${title}" cikkből.`,
+      `Milyen hibákat kerüljek el a(z) "${title}" elolvasása után?`,
+    ],
+    pl: [
+      `Na podstawie artykułu "${title}" co najpierw poprawić na stronie firmowej?`,
+      `Zmień artykuł "${title}" w praktyczną checklistę dla małej firmy.`,
+      `Jakich błędów unikać po przeczytaniu "${title}"?`,
+    ],
+    es: [
+      `Según "${title}", ¿qué debería mejorar primero en mi web de negocio?`,
+      `Convierte el artículo "${title}" en una checklist práctica para una pequeña empresa.`,
+      `¿Qué errores debería evitar después de leer "${title}"?`,
+    ],
+    fr: [
+      `D'après "${title}", que dois-je améliorer en premier sur mon site d'entreprise ?`,
+      `Transforme l'article "${title}" en checklist pratique pour une petite entreprise.`,
+      `Quelles erreurs dois-je éviter après avoir lu "${title}" ?`,
+    ],
+    it: [
+      `In base a "${title}", cosa dovrei migliorare per primo sul sito della mia azienda?`,
+      `Trasforma l'articolo "${title}" in una checklist pratica per una piccola impresa.`,
+      `Quali errori dovrei evitare dopo aver letto "${title}"?`,
+    ],
+    cz: [
+      `Podle článku "${title}" co mám na firemním webu zlepšit jako první?`,
+      `Převeď článek "${title}" na praktický checklist pro malou firmu.`,
+      `Jakým chybám se mám po přečtení "${title}" vyhnout?`,
+    ],
+    sk: [
+      `Podľa článku "${title}" čo mám na firemnom webe zlepšiť ako prvé?`,
+      `Premeň článok "${title}" na praktický checklist pre malú firmu.`,
+      `Akým chybám sa mám po prečítaní "${title}" vyhnúť?`,
+    ],
+    pt: [
+      `Com base em "${title}", o que devo melhorar primeiro no site do meu negócio?`,
+      `Transforma o artigo "${title}" numa checklist prática para uma pequena empresa.`,
+      `Que erros devo evitar depois de ler "${title}"?`,
+    ],
+    da: [
+      `Ud fra "${title}", hvad bør jeg først forbedre på min virksomheds website?`,
+      `Lav artiklen "${title}" om til en praktisk tjekliste for en mindre virksomhed.`,
+      `Hvilke fejl bør jeg undgå efter at have læst "${title}"?`,
+    ],
+    nl: [
+      `Op basis van "${title}", wat moet ik eerst verbeteren aan mijn bedrijfswebsite?`,
+      `Maak van het artikel "${title}" een praktische checklist voor een klein bedrijf.`,
+      `Welke fouten moet ik vermijden na het lezen van "${title}"?`,
+    ],
+    ja: [
+      `「${title}」をもとに、事業サイトで最初に改善すべき点を教えてください。`,
+      `「${title}」を小規模事業向けの実用チェックリストにしてください。`,
+      `「${title}」を読んだあとに避けるべき失敗を教えてください。`,
+    ],
+  };
+
   if (normalizedTags.includes("seo") || title.toLowerCase().includes("seo")) {
-    return [
+    return translation.language === "en" ? [
       `Based on "${title}", how can I apply these SEO recommendations to my own small business website?`,
       `Create a practical SEO checklist from the article "${title}".`,
       `What SEO mistakes should I avoid after reading "${title}"?`,
-    ];
+    ] : genericPrompts[translation.language];
   }
 
   if (normalizedTags.includes("ai") || title.toLowerCase().includes("ai")) {
-    return [
+    return translation.language === "en" ? [
       `Explain the article "${title}" for a beginner business owner.`,
       `Based on "${title}", compare AI website builders with a professionally owned website setup.`,
       `What would an implementation plan look like for the advice in "${title}"?`,
-    ];
+    ] : genericPrompts[translation.language];
   }
 
-  return [
-    `Based on "${title}", what should I improve first on my business website?`,
-    `Turn the article "${title}" into a step-by-step checklist for a small business.`,
-    `What mistakes should I avoid after reading "${title}"?`,
-  ];
+  return genericPrompts[translation.language];
 }
 
-function getDefaultReferences(translation: BlogPostSource["translations"]["en"]) {
-  const topic = `${translation.title} ${translation.description} ${translation.tags.join(" ")}`.toLowerCase();
-  const references = [
-    ...(topic.includes("seo") || topic.includes("google") || topic.includes("search")
-      ? [
-          { title: "Search Engine Optimization Starter Guide", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/fundamentals/seo-starter-guide" },
-          { title: "Creating helpful, reliable, people-first content", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content" },
-        ]
-      : []),
-    ...(topic.includes("performance") || topic.includes("speed") || topic.includes("mobile") || topic.includes("website")
-      ? [
-          { title: "Web performance", publisher: "MDN Web Docs", href: "https://developer.mozilla.org/en-US/docs/Learn/Performance" },
-          { title: "Core Web Vitals", publisher: "Google Search Central", href: "https://developers.google.com/search/docs/appearance/core-web-vitals" },
-        ]
-      : []),
-    ...(topic.includes("ai")
-      ? [
-          { title: "OpenAI Documentation", publisher: "OpenAI", href: "https://platform.openai.com/docs" },
-          { title: "Claude Documentation", publisher: "Anthropic", href: "https://docs.anthropic.com/" },
-        ]
-      : []),
-    ...(topic.includes("accessibility") || topic.includes("navigation")
-      ? [{ title: "Web Accessibility Initiative", publisher: "W3C", href: "https://www.w3.org/WAI/" }]
-      : []),
-  ];
+function getInstagramReadMore(locale: LocaleCode) {
+  const labels: Record<LocaleCode, string> = {
+    en: "Read it on the Websiteli blog.",
+    de: "Lesen Sie den Artikel im Websiteli-Blog.",
+    hu: "Olvasd el a Websiteli blogon.",
+    pl: "Przeczytaj na blogu Websiteli.",
+    es: "Léelo en el blog de Websiteli.",
+    fr: "À lire sur le blog Websiteli.",
+    it: "Leggilo sul blog Websiteli.",
+    cz: "Přečtěte si článek na blogu Websiteli.",
+    sk: "Prečítajte si článok na blogu Websiteli.",
+    pt: "Lê no blog da Websiteli.",
+    da: "Læs den på Websiteli-bloggen.",
+    nl: "Lees het op de Websiteli-blog.",
+    ja: "Websiteliブログで読む。",
+  };
 
-  return references.slice(0, 4);
+  return labels[locale];
+}
+
+function getReferences(source: BlogPostSource, translation: BlogPostSource["translations"]["en"]) {
+  const references = translation.references?.length
+    ? translation.references
+    : source.translations[DEFAULT_LOCALE].references ?? [];
+
+  return [...references].sort((a, b) => `${a.publisher} ${a.title}`.localeCompare(`${b.publisher} ${b.title}`));
 }
 
 function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
@@ -248,6 +311,7 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost | unde
   const translation = source.translations[locale] ?? source.translations[DEFAULT_LOCALE];
   const isFallback = !source.translations[locale] && locale !== DEFAULT_LOCALE;
   const socialCaption = `${translation.title}\n\n${translation.description}`;
+  const sourceSocial = translation.language === DEFAULT_LOCALE ? source.social : undefined;
 
   return {
     slug: source.slug,
@@ -268,14 +332,14 @@ function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost | unde
     summary: translation.summary?.length ? translation.summary : getDefaultSummary(source, translation),
     keyTakeaways: translation.keyTakeaways?.length ? translation.keyTakeaways : getDefaultKeyTakeaways(translation),
     chatGptPrompts: translation.chatGptPrompts?.length ? translation.chatGptPrompts : getDefaultChatGptPrompts(translation),
-    references: translation.references?.length ? translation.references : getDefaultReferences(translation),
+    references: getReferences(source, translation),
     headings: getMarkdownHeadings(translation.body),
     body: translation.body,
     related: source.related,
     social: {
-      linkedin: source.social?.linkedin ?? socialCaption,
-      facebook: source.social?.facebook ?? socialCaption,
-      instagram: source.social?.instagram ?? `${socialCaption}\n\nRead it on the Websiteli blog.`,
+      linkedin: sourceSocial?.linkedin ?? socialCaption,
+      facebook: sourceSocial?.facebook ?? socialCaption,
+      instagram: sourceSocial?.instagram ?? `${socialCaption}\n\n${getInstagramReadMore(translation.language)}`,
     },
     faqs: translation.faqs,
     locale,
