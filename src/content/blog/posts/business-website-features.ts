@@ -44,6 +44,28 @@ export default {
       "readingTime": "8 min read",
       "audience": "Small business owners",
       "excerpt": "A modern business website should do more than look good. In 2026, it needs to load fast, guide visitors clearly, build trust, and make it easy to take action. Here are 10 business website features every small business should plan for.",
+      "references": [
+        {
+          "publisher": "Google Search Central",
+          "title": "Search Engine Optimization Starter Guide",
+          "href": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+        },
+        {
+          "publisher": "Stanford Web Credibility Research",
+          "title": "Web Credibility Guidelines",
+          "href": "https://credibility.stanford.edu/guidelines/index.html"
+        },
+        {
+          "publisher": "Think with Google",
+          "title": "Mobile Site Speed Playbook",
+          "href": "https://www.thinkwithgoogle.com/_qs/documents/4290/c676a_Google_MobileSiteSpeed_Playbook_v2.1_digital_4JWkGQT.pdf"
+        },
+        {
+          "publisher": "web.dev",
+          "title": "Web Vitals",
+          "href": "https://web.dev/articles/vitals"
+        }
+      ],
       "faqs": [
         {
           "question": "What are the most important business website features in 2026?",

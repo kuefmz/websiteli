@@ -75,7 +75,7 @@ const newsletterCopy: Record<string, { title: string; text: string; email: strin
     email: "Email",
     button: "Subscribe",
     consent: "I accept the",
-    success: "Thank you! You are subscribed.",
+    success: "Thanks for subscribing!",
     validation: "Enter your email and accept the privacy policy.",
     sending: "Subscribing...",
     error: "Something went wrong. Please email us directly.",
@@ -271,7 +271,8 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     <div class="footer-newsletter" id="newsletter">
       <h2>{newsletterUi.title}</h2>
       <p>{newsletterUi.text}</p>
-      <form data-newsletter-form novalidate>
+      <form data-newsletter-form data-newsletter-campaign="newsletter" novalidate>
+        <input name="campaign" type="hidden" value="newsletter" />
         <label class="website-field" aria-hidden="true">
           Website
           <input name="website" tabindex="-1" autocomplete="off" />
@@ -302,7 +303,8 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
   <p class="eyebrow">Newsletter</p>
   <h2 id="newsletter-popup-title">Get 20% off your website</h2>
   <p>Join the Websiteli newsletter and receive a 20% discount code for your first website project.</p>
-  <form data-newsletter-form data-popup-newsletter-form novalidate>
+  <form data-newsletter-form data-popup-newsletter-form data-newsletter-campaign="newsletter" novalidate>
+    <input name="campaign" type="hidden" value="newsletter" />
     <label class="website-field" aria-hidden="true">
       Website
       <input name="website" tabindex="-1" autocomplete="off" />
@@ -349,10 +351,15 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     const honeypot = getNewsletterString(formData, "website");
     const privacyAccepted = getNewsletterString(formData, "privacyPolicyAccepted") === "yes";
     const submitButton = newsletterForm.querySelector("button[type='submit']");
+    const campaign = newsletterForm.getAttribute("data-newsletter-campaign") || getNewsletterString(formData, "campaign") || "newsletter";
+    const successMessage = newsletterForm.getAttribute("data-newsletter-success") || newsletterUi.success;
+    const eventLabel = newsletterForm.getAttribute("data-newsletter-event-label") || "Newsletter";
+    const sourceUrl = window.location.href;
+    const language = document.documentElement.lang || "en";
 
     if (honeypot) {
       newsletterForm.reset();
-      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
+      if (newsletterStatus) newsletterStatus.textContent = successMessage;
       return;
     }
 
@@ -369,14 +376,19 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     const payload = {
       type: "newsletter",
       email,
+      campaign,
+      sourceUrl,
+      language,
+      website: honeypot,
       metadata: {
-        language: document.documentElement.lang,
+        language,
         country: detectedCountry,
         currency: detectedCurrency,
         market: detectedMarket,
-        pageUrl: window.location.href,
+        pageUrl: sourceUrl,
         referrer: document.referrer,
         userAgent: navigator.userAgent,
+        campaign,
         utm_source: attribution.utm_source || "",
         utm_medium: attribution.utm_medium || "",
         utm_campaign: attribution.utm_campaign || "",
@@ -406,7 +418,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
     if (newsletterStatus) newsletterStatus.textContent = newsletterUi.sending;
 
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec", {
         method: "POST",
         mode: "no-cors",
         headers: {
@@ -418,8 +430,9 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       newsletterForm.reset();
       window.trackWebsiteliEvent?.("newsletter_subscribe", {
         event_category: "lead",
-        event_label: "Newsletter",
-        locale: payload.metadata.language,
+        event_label: eventLabel,
+        campaign: payload.campaign,
+        locale: payload.language,
         country: payload.metadata.country,
         pricing_market: payload.metadata.market,
         currency: payload.metadata.currency,
@@ -438,7 +451,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
         });
         window.websiteliCloseConversionPopup?.("newsletter");
       }
-      if (newsletterStatus) newsletterStatus.textContent = newsletterUi.success;
+      if (newsletterStatus) newsletterStatus.textContent = successMessage;
     } catch (error) {
       if (newsletterStatus) newsletterStatus.textContent = newsletterUi.error;
       console.error(error);

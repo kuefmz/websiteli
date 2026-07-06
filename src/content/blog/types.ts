@@ -26,9 +26,11 @@ export type BlogPostSource = {
   status?: "draft" | "scheduled" | "published";
   description?: string;
   image: string;
+  imageAlt?: string;
   author: string;
   date: string;
   updated?: string;
+  translationFallback?: boolean;
   tags?: string[];
   social?: {
     linkedin?: string;
