@@ -7,6 +7,7 @@ import websiteFirstImpression from "./posts/website-first-impression";
 import websiteVsFacebook from "./posts/website-vs-facebook";
 import websiteCostSwitzerland from "./posts/website-cost-switzerland";
 import whyBusinessWebsitesGetCustomers from "./posts/why-business-websites-get-customers";
+import websiteLifeCycleStatistics from "./posts/website-life-cycle-statistics";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -53,6 +54,7 @@ const blogSources: BlogPostSource[] = [
   localBusinessWebsite,
   websiteCostSwitzerland,
   whyBusinessWebsitesGetCustomers,
+  websiteLifeCycleStatistics,
 ];
 
 const marketKeywords = [
