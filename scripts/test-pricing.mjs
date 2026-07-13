@@ -369,6 +369,7 @@ test("sitemap and public downloads include the Website Success Report flow URLs"
   assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/services-pricing\//);
   assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/contact\//);
   assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/blog\/small-business-website\//);
+  assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/blog\/website-life-cycle-statistics\//);
   assert.match(sitemap, /https:\/\/websiteli\.ch\/en\/blog\/why-business-websites-get-customers\//);
   assert.match(sitemap, /https:\/\/websiteli\.ch\/de\/blog\/why-business-websites-get-customers\//);
   assert.match(sitemap, /https:\/\/websiteli\.ch\/ja\/blog\/website-cost-switzerland\//);
