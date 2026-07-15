@@ -37,6 +37,10 @@ Core pages:
 - `/en/`
 - `/de/`
 - `/en/services-pricing/`
+- `/en/services/business-websites/`
+- `/en/services/business-automation/`
+- `/en/services/ai-chatbots/`
+- `/en/industries/restaurants/`
 - `/en/portfolio/`
 - `/en/blog/`
 - `/en/blog/why-ai-generated-websites-are-not-enough-for-a-real-business/`
@@ -83,6 +87,7 @@ Use a fresh browser profile/incognito session.
 3. Run `websiteliShowAttribution()` in console.
 4. Open GA4 DebugView.
 5. Trigger events: package CTA, article CTA, newsletter CTA, form start.
+6. Trigger generated-page events: open a service page, open an automation service page, open an industry page, click a demo-gallery live link where available.
 
 Expected: event parameters include UTM fields. "First user source" may still show direct for an existing GA client; use a fresh profile.
 
@@ -94,6 +99,8 @@ Expected: event parameters include UTM fields. "First user source" may still sho
 - Article pages use `og:type=article`.
 - Structured data exists and is valid in shape.
 - Sitemap builds.
+- Generated `/services/:service/` and `/industries/:industry/` pages are included in the sitemap.
+- Redirect-only `/demos/...` and `/example-projects/...` pages are not included in the sitemap.
 - Robots points to sitemap and RSS.
 
 ## Accessibility Checklist

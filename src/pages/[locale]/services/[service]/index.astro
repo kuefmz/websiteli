@@ -1,0 +1,266 @@
+---
+import CTASection from "../../../../components/CTASection.astro";
+import FAQ from "../../../../components/FAQ.astro";
+import Layout from "../../../../layouts/Layout.astro";
+import { packageKeys } from "../../../../config/pricing";
+import { getPackageLabels } from "../../../../config/packageLabels";
+import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+import {
+  getRelatedServices,
+  getServiceBySlug,
+  serviceCategoryDetails,
+  serviceSlugs,
+  type ServicePage,
+} from "../../../../content/services";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => serviceSlugs.map((service) => ({ params: { locale, service } })));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const service = getServiceBySlug(Astro.params.service) as ServicePage;
+const content = getLocaleContent(locale);
+const category = serviceCategoryDetails[service.category];
+const packageLabels = getPackageLabels(locale);
+const contactHref = `/${locale}/contact/?package=${service.packageKey}&sourcePage=/${locale}/services/${service.slug}/&intent=service_consultation`;
+const pricingHref = `/${locale}/services-pricing/`;
+const servicesHref = `/${locale}/services-pricing/#problems`;
+const canonicalPath = `/${locale}/services/${service.slug}/`;
+const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/services/${service.slug}/` }));
+const relatedServices = getRelatedServices(service);
+const serviceFaqs = [
+  {
+    question: "What problem does this service solve?",
+    answer: service.problem,
+  },
+  {
+    question: `Is ${service.shortTitle.toLowerCase()} suitable for a small business?`,
+    answer: `Yes. Websiteli scopes ${service.title.toLowerCase()} around the workflow, budget and team capacity of the business, then starts with the smallest useful version before expanding.`,
+  },
+  {
+    question: `What does ${service.shortTitle.toLowerCase()} cost?`,
+    answer: service.investment,
+  },
+];
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    serviceType: service.title,
+    category: category.eyebrow,
+    provider: {
+      "@type": "Organization",
+      name: "Websiteli",
+      url: "https://websiteli.ch",
+    },
+    areaServed: ["Switzerland", "Europe", "International"],
+    description: service.description,
+    offers: {
+      "@type": "Offer",
+      name: packageLabels[service.packageKey] ?? service.title,
+      priceCurrency: "CHF",
+      description: service.investment,
+      availability: "https://schema.org/InStock",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `https://websiteli.ch/${locale}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: `https://websiteli.ch/${locale}/services-pricing/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: service.title,
+        item: `https://websiteli.ch${canonicalPath}`,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: serviceFaqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  },
+  ...(service.category === "ai" || service.category === "custom-software"
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: service.title,
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description: service.description,
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "CHF",
+            description: service.investment,
+          },
+        },
+      ]
+    : []),
+];
+---
+
+<Layout
+  title={`${service.title} - Websiteli`}
+  description={service.description}
+  canonicalPath={canonicalPath}
+  lang={locale}
+  locale={locale}
+  page="services-pricing"
+  alternates={alternates}
+  content={content}
+  schema={schema}
+>
+  <main class="subpage detail-page service-detail">
+    <section class="section-shell page-hero">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={`/${locale}/`}>Home</a>
+        <span>/</span>
+        <a href={pricingHref}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
+        <span>/</span>
+        <span>{service.title}</span>
+      </nav>
+      <p class="eyebrow">{category.eyebrow}</p>
+      <h1>{service.title}</h1>
+      <p>{service.description}</p>
+      <div class="button-row">
+        <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={service.slug}>Request this service</a>
+        <a class="button secondary" href={pricingHref}>Compare packages</a>
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top" aria-label={`${service.title} details`}>
+      <article class="detail-panel">
+        <p class="eyebrow">Problem</p>
+        <h2>Where this helps</h2>
+        <p>{service.problem}</p>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Solution</p>
+        <h2>What Websiteli builds</h2>
+        <p>{service.solution}</p>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Benefits</p>
+        <h2>Business outcomes before technology choices.</h2>
+      </div>
+      <div class="value-grid">
+        {service.benefits.map((benefit) => (
+          <article class="mini-card">
+            <h3>{benefit}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Ideal client</p>
+        <h2>Best fit</h2>
+        <ul class="feature-list">
+          {service.idealClients.map((client) => <li>{client}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Technology</p>
+        <h2>Typical stack</h2>
+        <ul class="pill-list">
+          {service.technologies.map((technology) => <li>{technology}</li>)}
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Process</p>
+        <h2>A focused path from idea to working system.</h2>
+      </div>
+      <div class="process-grid">
+        {category.process.map((step, index) => (
+          <article class="process-step">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{step}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Pricing guidance</p>
+        <h2>{packageKeys.includes(service.packageKey) ? packageLabels[service.packageKey] : "Project scope"}</h2>
+        <p>{service.investment}</p>
+        <a href={pricingHref}>See pricing structure</a>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Internal links</p>
+        <h2>Related services</h2>
+        <div class="link-grid">
+          {relatedServices.map((item) => (
+            <a href={`/${locale}/services/${item.slug}/`} data-track-event="related_service_click" data-track-label={`${service.slug}:${item.slug}`}>
+              <span>{serviceCategoryDetails[item.category].eyebrow}</span>
+              <strong>{item.title}</strong>
+            </a>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions about {service.shortTitle.toLowerCase()}.</h2>
+      </div>
+      <div class="faq-list">
+        {serviceFaqs.map((item) => <FAQ {...item} />)}
+      </div>
+    </section>
+
+    <section class="section-shell inline-cta">
+      <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={`${service.slug}:bottom`}>Request {service.shortTitle}</a>
+      <a class="button secondary" href={servicesHref}>Back to services overview</a>
+    </section>
+
+    <CTASection content={content} />
+  </main>
+
+  <script define:vars={{ serviceSlug: service.slug, serviceCategory: service.category }}>
+    window.trackWebsiteliEvent?.("service_viewed", {
+      event_category: "service",
+      event_label: serviceSlug,
+      service_slug: serviceSlug,
+      service_category: serviceCategory,
+    });
+
+    if (serviceCategory === "automation") {
+      window.trackWebsiteliEvent?.("automation_page_viewed", {
+        event_category: "service",
+        event_label: serviceSlug,
+        service_slug: serviceSlug,
+      });
+    }
+  </script>
+</Layout>

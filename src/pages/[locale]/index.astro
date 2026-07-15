@@ -4,7 +4,9 @@ import LocalizedHero from "../../components/LocalizedHero.astro";
 import OutreachBlock from "../../components/OutreachBlock.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getDemoPageContent } from "../../content/demos";
+import { industries } from "../../content/industries";
 import { getAlternates, getLocaleContent, getLocalizedPath, localeCodes, type LocaleCode } from "../../content/locales";
+import { automationShowcaseTasks, getFeaturedServices, getServiceCategoryServices, technologyGroups } from "../../content/services";
 
 export function getStaticPaths() {
   return localeCodes.map((locale) => ({ params: { locale } }));
@@ -17,6 +19,33 @@ const contactHref = getLocalizedPath(locale, "contact");
 const auditHref = `${contactHref}?package=digitalAudit&project=portfolio&intent=digital_audit`;
 const servicesPricingHref = getLocalizedPath(locale, "services-pricing");
 const portfolioHref = getLocalizedPath(locale, "portfolio");
+const serviceCategories = getServiceCategoryServices();
+const featuredServices = getFeaturedServices();
+const industryPreview = industries.slice(0, 12);
+const answerCards = [
+  {
+    label: "What we build",
+    title: "Websites, automations, AI assistants and custom web apps.",
+  },
+  {
+    label: "Delivery speed",
+    title: "Focused launches can start fast; complex systems are shipped in useful milestones.",
+  },
+  {
+    label: "Pricing",
+    title: "Clear package starting points, then custom scope when automation or software needs discovery.",
+  },
+  {
+    label: "After launch",
+    title: "Maintenance, analytics, improvements and automation support keep the system useful.",
+  },
+];
+const aiReasons = [
+  "Answer repeated questions without interrupting the team.",
+  "Search internal knowledge, PDFs and business documents faster.",
+  "Extract, classify and summarize information from messy inputs.",
+  "Connect AI steps to human review, CRM updates and dashboards.",
+];
 ---
 
 <Layout
@@ -34,6 +63,7 @@ const portfolioHref = getLocalizedPath(locale, "portfolio");
       hero={content.hero}
       packagesHref={getLocalizedPath(locale, "demos")}
       contactHref={auditHref}
+      locale={locale}
       ui={content.ui}
     />
 
@@ -45,17 +75,38 @@ const portfolioHref = getLocalizedPath(locale, "portfolio");
       {content.badges.map((badge) => <span>{badge}</span>)}
     </section>
 
+    <section class="section-shell section-block compact-top" id="quick-answers">
+      <div class="section-heading">
+        <p class="eyebrow">What Websiteli does</p>
+        <h2>We design websites. We automate businesses. We build AI solutions.</h2>
+        <p>Websiteli helps companies save time, reduce manual work and turn digital presence into a working business system.</p>
+      </div>
+      <div class="answer-grid">
+        {answerCards.map((item) => (
+          <article class="mini-card">
+            <p class="eyebrow">{item.label}</p>
+            <h3>{item.title}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
     <section class="section-shell section-block" id="services-pricing">
       <div class="section-heading centered">
-        <p class="eyebrow">{content.nav.servicesPricing ?? "Services & Pricing"}</p>
-        <h2>{content.services.title}</h2>
-        <p>{content.services.text}</p>
+        <p class="eyebrow">Services</p>
+        <h2>Four ways Websiteli can make the business lighter to run.</h2>
+        <p>Start with a website, then connect automation, AI and custom tools where they remove real operational friction.</p>
       </div>
-      <div class="homepage-summary-grid">
-        {content.services.items.slice(0, 4).map((service) => (
-          <article class="service-card">
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
+      <div class="category-grid">
+        {serviceCategories.map((category) => (
+          <article class="category-card">
+            <p class="eyebrow">{category.eyebrow}</p>
+            <h3>{category.title}</h3>
+            <p>{category.summary}</p>
+            <ul>
+              {category.services.slice(0, 5).map((service) => <li>{service.shortTitle}</li>)}
+            </ul>
+            <a class="button secondary" href={`/${locale}/services/${category.services[0].slug}/`}>Explore {category.eyebrow.toLowerCase()}</a>
           </article>
         ))}
       </div>
@@ -64,21 +115,79 @@ const portfolioHref = getLocalizedPath(locale, "portfolio");
       </div>
     </section>
 
-    <section class="section-shell inline-cta demo-discovery-cta">
-      <a class="button primary" href={portfolioHref}>{content.ui?.demoCta ?? "See Live Demos"}</a>
-      <a class="button secondary" href={servicesPricingHref}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
+    <section class="automation-band" id="automation">
+      <div class="section-shell automation-band-inner">
+        <div class="section-heading">
+          <p class="eyebrow">Business automation</p>
+          <h2>Replace repetitive admin with workflows that actually fit the business.</h2>
+          <p>Automation does not need to be mysterious. We look for repeated tasks, define the rule, connect the right tools and keep humans involved where judgment matters.</p>
+        </div>
+        <div class="automation-grid">
+          {featuredServices.slice(1, 5).map((service) => (
+            <article class="mini-card">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+              <a href={`/${locale}/services/${service.slug}/`}>Learn more</a>
+            </article>
+          ))}
+        </div>
+        <div class="automation-task-list" aria-label="Automation examples">
+          {automationShowcaseTasks.map((task) => <span>{task}</span>)}
+        </div>
+      </div>
     </section>
 
     <section class="why-section">
       <div class="section-shell why-inner">
         <div class="section-heading">
-          <p class="eyebrow">{content.about.eyebrow}</p>
-          <h2>{content.about.title}</h2>
-          <p>{content.about.text}</p>
+          <p class="eyebrow">Why AI</p>
+          <h2>AI is useful when it is connected to the work, not when it is decoration.</h2>
+          <p>We use AI for practical jobs: answering repeated questions, searching knowledge, processing documents and helping teams move faster with human review where it matters.</p>
         </div>
         <div class="reason-grid">
-          {content.badges.map((badge) => <div>{badge}</div>)}
+          {aiReasons.map((reason) => <div>{reason}</div>)}
         </div>
+      </div>
+    </section>
+
+    <section class="section-shell section-block" id="industries">
+      <div class="section-heading centered">
+        <p class="eyebrow">Industries</p>
+        <h2>Useful digital systems for real business contexts.</h2>
+        <p>Each industry page connects website structure, SEO, automation and AI opportunities without invented testimonials or fake results.</p>
+      </div>
+      <div class="industry-grid">
+        {industryPreview.map((industry) => (
+          <article class="industry-card">
+            <h3>{industry.title}</h3>
+            <p>{industry.description}</p>
+            <a href={`/${locale}/industries/${industry.slug}/`}>View industry plan</a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top" id="technology">
+      <div class="section-heading">
+        <p class="eyebrow">Technology</p>
+        <h2>Modern tools, chosen for maintainability.</h2>
+        <p>We prefer fast static websites, structured data, clean integrations, practical AI workflows and systems that a business can own after launch.</p>
+      </div>
+      <div class="technology-grid">
+        {technologyGroups.map((group) => (
+          <article class="technology-card">
+            <h3>{group.title}</h3>
+            <ul>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        ))}
+        <article class="technology-card">
+          <h3>Trust and support</h3>
+          <ul>
+            {content.badges.map((badge) => <li>{badge}</li>)}
+          </ul>
+        </article>
       </div>
     </section>
 

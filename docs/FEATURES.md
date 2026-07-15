@@ -14,19 +14,35 @@ This file documents implemented behavior and regression risks. It is intentional
 ## Services And Pricing
 
 - Purpose: explain services, process, packages, pricing, FAQ, and consultation CTA.
-- Files: `src/components/PageSections.astro`, `src/components/PackageCard.astro`, `src/config/pricing.json`, `src/config/pricing.ts`, `src/components/PricingRuntime.astro`.
+- Files: `src/components/PageSections.astro`, `src/content/services.ts`, `src/components/PackageCard.astro`, `src/config/pricing.json`, `src/config/pricing.ts`, `src/components/PricingRuntime.astro`.
 - Expected behavior: package prices update based on detected market; user-facing manual market selector does not exist.
 - Manual test: build `/en/services-pricing/`, inspect package cards, confirm hidden form fields update after pricing detection.
 - Edge cases: country lookup APIs fail; site should fall back to `DEFAULT` EUR.
 - Regression risks: adding a market selector, breaking package key mapping, breaking hidden form metadata.
 
-## Portfolio And Live Demo
+## Service Detail Pages
 
-- Purpose: show published demos and illustrative case-study style analyses.
+- Purpose: generated SEO pages for websites, automation, AI, and custom software services.
+- Files: `src/content/services.ts`, `src/pages/[locale]/services/[service]/index.astro`.
+- Expected behavior: every service slug builds for every locale with canonical URL, hreflang alternates, Service schema, FAQ schema, Breadcrumb schema, internal links, CTAs, and `service_viewed` analytics.
+- Manual test: open `/en/services/business-websites/`, `/en/services/business-automation/`, and `/en/services/ai-chatbots/`.
+- Regression risks: service slugs missing from registry, related links pointing to non-existent services, sitemap accidentally excluding `/services/:service/`.
+
+## Industry Detail Pages
+
+- Purpose: generated SEO pages for industry-specific website, automation, AI, and SEO recommendations.
+- Files: `src/content/industries.ts`, `src/pages/[locale]/industries/[industry]/index.astro`.
+- Expected behavior: every industry slug builds for every locale with canonical URL, hreflang alternates, Service schema, FAQ schema, Breadcrumb schema, related services, CTAs, and `industry_page_viewed` analytics.
+- Manual test: open `/en/industries/restaurants/`, `/en/industries/healthcare/`, and `/en/industries/local-businesses/`.
+- Regression risks: invented testimonials or metrics, missing related service slugs, industry pages being tracked as homepage paths.
+
+## Portfolio And Demo Gallery
+
+- Purpose: show generic demo concepts and public live demos without exposing personalized prospect demos.
 - Files: `src/components/PageSections.astro`, `src/content/demos/index.ts`, `src/content/example-projects/index.ts`, `src/pages/[locale]/demos/[demo]/index.astro`, `src/pages/[locale]/example-projects/[project]/index.astro`.
-- Expected behavior: only `demoSlugs` are published on portfolio; current published demo is `shopify-consultant-portfolio`.
-- Manual test: open `/en/portfolio/`, visit live demo link, click case study anchors, open example-project detail routes.
-- Regression risks: accidentally exposing unpublished demos, breaking case-study anchors, losing localized demo labels.
+- Expected behavior: portfolio shows fictional/generic concepts and public Websiteli-owned demos; live-demo CTA appears only when `websiteUrl` exists; request-similar CTA carries demo context.
+- Manual test: open `/en/portfolio/`, visit the Shopify live demo link, click request-similar CTAs.
+- Regression risks: accidentally exposing personalized prospect demos, labeling concepts as real client results, losing localized demo labels.
 
 ## Blog Index
 

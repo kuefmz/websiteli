@@ -102,6 +102,15 @@ Event names currently emitted:
 - `newsletter_subscribe`
 - `quote_button_click`
 - `demo_nav_click`
+- `demo_opened`
+- `demo_request_click`
+- `hero_engine_module_click`
+- `hero_engine_detail_open`
+- `service_viewed`
+- `automation_page_viewed`
+- `service_cta_click`
+- `industry_page_viewed`
+- `industry_cta_click`
 - `blog_consultation_click`
 - `blog_newsletter_click`
 - `blog_share_click`
@@ -125,6 +134,15 @@ Generic click tracking is implemented through `[data-track-event]` in `Layout.as
 | `newsletter_subscribe` | `Footer.astro` successful post attempt |
 | `quote_button_click` | Header tracked contact CTA |
 | `demo_nav_click` | Header/mobile demo CTA |
+| `demo_opened` | Portfolio demo gallery live-demo links |
+| `demo_request_click` | Portfolio demo gallery request-similar CTA |
+| `hero_engine_module_click` | Homepage Business Growth Engine module links |
+| `hero_engine_detail_open` | Homepage Business Growth Engine detail popover |
+| `service_viewed` | Generated service detail pages |
+| `automation_page_viewed` | Generated automation service detail pages |
+| `service_cta_click` | Generated service page CTAs |
+| `industry_page_viewed` | Generated industry detail pages |
+| `industry_cta_click` | Generated industry page CTAs |
 | `blog_consultation_click` | `ArticleCTA.astro` primary CTA |
 | `blog_newsletter_click` | `ArticleCTA.astro` newsletter CTA |
 | `blog_share_click` | `ArticleShare.astro` share/copy controls |

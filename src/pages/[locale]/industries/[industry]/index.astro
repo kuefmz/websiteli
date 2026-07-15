@@ -1,0 +1,230 @@
+---
+import CTASection from "../../../../components/CTASection.astro";
+import FAQ from "../../../../components/FAQ.astro";
+import Layout from "../../../../layouts/Layout.astro";
+import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+import { getIndustryBySlug, getRelatedIndustries, industrySlugs, type IndustryPage } from "../../../../content/industries";
+import { getServiceBySlug, serviceCategoryDetails, type ServicePage } from "../../../../content/services";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => industrySlugs.map((industry) => ({ params: { locale, industry } })));
+}
+
+const locale = Astro.params.locale as LocaleCode;
+const industry = getIndustryBySlug(Astro.params.industry) as IndustryPage;
+const content = getLocaleContent(locale);
+const canonicalPath = `/${locale}/industries/${industry.slug}/`;
+const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/industries/${industry.slug}/` }));
+const relatedServices = industry.relatedServices.map((slug) => getServiceBySlug(slug)).filter((service): service is ServicePage => Boolean(service));
+const relatedIndustries = getRelatedIndustries(industry.slug);
+const contactHref = `/${locale}/contact/?package=digitalAudit&sourcePage=/${locale}/industries/${industry.slug}/&intent=industry_consultation`;
+const industryFaqs = [
+  {
+    question: "What should this industry project include?",
+    answer: `It should include a clear website structure, conversion paths, analytics, relevant SEO pages and the most useful automation opportunities for the business.`,
+  },
+  {
+    question: "Can automation start small?",
+    answer: "Yes. Websiteli usually starts with one repeated task, proves that it works, then expands only where the time savings or quality improvement are clear.",
+  },
+  {
+    question: "Do you create fictional demos or real client case studies?",
+    answer: "Demo concepts are fictional or generic unless a real public project is clearly identified. Websiteli does not invent testimonials, reviews or client results.",
+  },
+];
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: industry.title,
+    serviceType: industry.title,
+    provider: {
+      "@type": "Organization",
+      name: "Websiteli",
+      url: "https://websiteli.ch",
+    },
+    areaServed: ["Switzerland", "Europe", "International"],
+    audience: {
+      "@type": "Audience",
+      audienceType: industry.title,
+    },
+    description: industry.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `https://websiteli.ch/${locale}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Industries",
+        item: `https://websiteli.ch/${locale}/#industries`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: industry.title,
+        item: `https://websiteli.ch${canonicalPath}`,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: industryFaqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<Layout
+  title={`${industry.title} - Websiteli`}
+  description={industry.description}
+  canonicalPath={canonicalPath}
+  lang={locale}
+  locale={locale}
+  page="industry"
+  alternates={alternates}
+  content={content}
+  schema={schema}
+>
+  <main class="subpage detail-page industry-detail">
+    <section class="section-shell page-hero">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={`/${locale}/`}>Home</a>
+        <span>/</span>
+        <a href={`/${locale}/#industries`}>Industries</a>
+        <span>/</span>
+        <span>{industry.title}</span>
+      </nav>
+      <p class="eyebrow">Industry</p>
+      <h1>{industry.title}</h1>
+      <p>{industry.description}</p>
+      <div class="button-row">
+        <a class="button primary" href={contactHref} data-track-event="industry_cta_click" data-track-label={industry.slug}>Request an industry plan</a>
+        <a class="button secondary" href={`/${locale}/portfolio/`}>See demo gallery</a>
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Challenges</p>
+        <h2>Common digital bottlenecks.</h2>
+      </div>
+      <div class="value-grid">
+        {industry.challenges.map((challenge) => (
+          <article class="mini-card">
+            <h3>{challenge}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Website recommendations</p>
+        <h2>What the site should make obvious</h2>
+        <ul class="feature-list">
+          {industry.websiteRecommendations.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Automation opportunities</p>
+        <h2>Where manual work can shrink</h2>
+        <ul class="feature-list">
+          {industry.automationOpportunities.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">AI opportunities</p>
+        <h2>Where AI can help safely</h2>
+        <ul class="feature-list">
+          {industry.aiOpportunities.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">SEO strategy</p>
+        <h2>How customers find you</h2>
+        <ul class="feature-list">
+          {industry.seoStrategy.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Example demo</p>
+        <h2>Useful fictional concept</h2>
+        <p>{industry.demoIdea}</p>
+        <a href={`/${locale}/portfolio/`}>Open demo gallery</a>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Related services</p>
+        <h2>Common starting points</h2>
+        <div class="link-grid">
+          {relatedServices.map((service) => (
+            <a href={`/${locale}/services/${service.slug}/`} data-track-event="industry_related_service_click" data-track-label={`${industry.slug}:${service.slug}`}>
+              <span>{serviceCategoryDetails[service.category].eyebrow}</span>
+              <strong>{service.title}</strong>
+            </a>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions before an industry-specific build.</h2>
+      </div>
+      <div class="faq-list">
+        {industryFaqs.map((item) => <FAQ {...item} />)}
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">More industries</p>
+        <h2>Other sectors Websiteli can support.</h2>
+      </div>
+      <div class="link-grid expanded">
+        {relatedIndustries.map((item) => (
+          <a href={`/${locale}/industries/${item.slug}/`}>
+            <span>Industry</span>
+            <strong>{item.title}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell inline-cta">
+      <a class="button primary" href={contactHref} data-track-event="industry_cta_click" data-track-label={`${industry.slug}:bottom`}>Request a similar setup</a>
+      <a class="button secondary" href={`/${locale}/services-pricing/`}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
+    </section>
+
+    <CTASection content={content} />
+  </main>
+
+  <script define:vars={{ industrySlug: industry.slug }}>
+    window.trackWebsiteliEvent?.("industry_page_viewed", {
+      event_category: "industry",
+      event_label: industrySlug,
+      industry_slug: industrySlug,
+    });
+  </script>
+</Layout>

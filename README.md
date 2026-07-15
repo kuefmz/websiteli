@@ -1,6 +1,6 @@
 # websiteli.ch
 
-Astro website for **websiteli.ch**, a Swiss digital setup, automation, and AI service for small businesses.
+Astro website for **websiteli.ch**, a Swiss digital agency for AI-powered websites, business automation, AI integrations, internal tools, dashboards, and custom web applications.
 
 The site builds as static Astro pages for Hostpoint. Language routes and pricing are intentionally separate: `/en`, `/de`, `/hu`, `/pl`, `/es`, and `/fr` control copy, while the browser pricing runtime resolves the visitor's market/currency from their IP location.
 
@@ -52,10 +52,24 @@ scripts/
   DEPLOYMENT.md      Hostpoint deployment notes
 ```
 
-Localized homepage, service, package, demo, about, contact, and outreach copy can be edited in:
+Localized homepage, package, demo, about, contact, and outreach copy can be edited in:
 
 ```text
 src/content/locales/
+```
+
+Service SEO pages are generated from:
+
+```text
+src/content/services.ts
+src/pages/[locale]/services/[service]/index.astro
+```
+
+Industry SEO pages are generated from:
+
+```text
+src/content/industries.ts
+src/pages/[locale]/industries/[industry]/index.astro
 ```
 
 Market pricing is configured separately from language content:
@@ -105,6 +119,72 @@ utm_term, utm_content, timestamp, userAgent
 ```
 
 If the Google Sheet has fixed columns, add these columns there. Older submissions still work because the frontend still sends the previous core fields.
+
+## Adding Services
+
+Add a service entry in `src/content/services.ts`. Each service should include:
+
+- slug, title, category, description
+- problem and solution copy
+- benefits and ideal clients
+- technologies
+- pricing guidance through a package key
+- related services for internal links
+
+The dynamic route automatically adds canonical metadata, hreflang alternates, Service schema, FAQ schema, breadcrumbs, CTAs, and analytics events.
+
+## Adding Industries
+
+Add an industry entry in `src/content/industries.ts`. Each industry should include:
+
+- challenges
+- website recommendations
+- automation opportunities
+- AI opportunities
+- SEO strategy
+- related service slugs
+- one fictional or generic demo idea
+
+Do not invent testimonials, reviews, performance metrics, or completed client projects.
+
+## Automation Showcases
+
+Homepage automation chips come from `automationShowcaseTasks` in `src/content/services.ts`. Use plain business-language task names such as invoice sending, PDF processing, CRM updates, report generation, or Google Workspace automation.
+
+## Demo Gallery
+
+Demo content lives in `src/content/demos/index.ts`.
+
+- `demoSlugs` controls redirect-compatible published demo routes.
+- The portfolio gallery shows generic or fictional concepts, plus public Websiteli-owned demos.
+- Personalized prospect demos should not be exposed publicly.
+- Add `websiteUrl` only when there is a real public demo to open.
+- Do not label a concept as a completed client project unless it is real and approved for publication.
+
+## Blog Posts
+
+Blog posts live in `src/content/blog/posts/` and are registered in `src/content/blog/index.ts`.
+
+Use one TypeScript file per post, with all locale translations inside the post file's `translations` object. Blog article pages automatically render metadata, article schema, FAQ schema, breadcrumbs, CTAs, sharing, related links, and newsletter conversion paths.
+
+## SEO
+
+The site uses:
+
+- clean canonicals
+- hreflang alternates
+- generated sitemap
+- OpenGraph and Twitter metadata
+- Organization, WebSite, LocalBusiness, Service, FAQ, Breadcrumb, BlogPosting and SoftwareApplication schema where appropriate
+- static Astro output for performance
+
+When adding SEO-sensitive pages, run:
+
+```bash
+npm run build
+```
+
+Then inspect generated HTML under `dist/` for canonical, title, description, structured data and sitemap inclusion.
 
 ## Deployment
 

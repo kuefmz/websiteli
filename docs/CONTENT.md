@@ -58,6 +58,31 @@ Source: `src/content/demos/index.ts`.
 
 Do not publish a demo by adding content alone; add it to `demoSlugs` only when the demo is ready and QA'd.
 
+## Service SEO Pages
+
+Source: `src/content/services.ts`.
+
+Service pages are generated at `/:locale/services/:service/`. Each service entry should include a category, problem, solution, benefits, ideal clients, technologies, pricing guidance, and related service slugs. The route adds canonical metadata, hreflang alternates, Service schema, FAQ schema, Breadcrumb schema, internal links, and conversion CTAs.
+
+Current service categories:
+
+- Websites
+- Automation
+- AI
+- Custom software
+
+Use the registry for homepage service cards, Services & Pricing links, and footer links. Avoid creating one-off service pages outside the registry.
+
+## Industry SEO Pages
+
+Source: `src/content/industries.ts`.
+
+Industry pages are generated at `/:locale/industries/:industry/`. Each industry entry should include challenges, website recommendations, automation opportunities, AI opportunities, SEO strategy, related services, and a fictional or generic demo idea. Do not invent testimonials, reviews, rankings, revenue impact, or completed client results.
+
+## Automation Showcase
+
+Homepage automation chips come from `automationShowcaseTasks` in `src/content/services.ts`. Keep entries non-technical and outcome-oriented so business owners immediately understand the task being automated.
+
 ## Example Projects
 
 Source: `src/content/example-projects/index.ts`.
