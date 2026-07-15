@@ -5,7 +5,14 @@ export default defineConfig({
   site: "https://websiteli.ch",
   integrations: [
     sitemap({
-      filter: (page) => !/\/(?:services|packages|demos|example-projects)(?:\/|$)/.test(new URL(page).pathname),
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        const isLegacyLocalizedServices = /^\/[a-z]{2}\/services\/?$/.test(pathname);
+        const isLegacyPackages = /^\/(?:[a-z]{2}\/)?packages\/?$/.test(pathname);
+        const isRedirectNamespace = /^\/(?:[a-z]{2}\/)?(?:demos|example-projects)(?:\/|$)/.test(pathname);
+
+        return !isLegacyLocalizedServices && !isLegacyPackages && !isRedirectNamespace;
+      },
     }),
   ],
   vite: {

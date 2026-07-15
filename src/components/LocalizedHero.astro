@@ -10,6 +10,7 @@ interface Props {
   };
   packagesHref: string;
   contactHref: string;
+  locale?: string;
   demoHref?: string;
   ui?: {
     heroCardWebsite?: string;
@@ -21,7 +22,98 @@ interface Props {
   };
 }
 
-const { hero, packagesHref, contactHref, demoHref, ui } = Astro.props;
+const { hero, packagesHref, contactHref, locale = "en", demoHref, ui } = Astro.props;
+const serviceBase = `/${locale}/services`;
+const trustBadges = ["Swiss based", "Fast delivery", "SEO optimized", "AI ready", "Mobile first", "Transparent pricing", "Ongoing support"];
+const engineFeatureBadges = ["Website", "CRM", "AI", "Automation", "Analytics", "Bookings", "Email", "Support"];
+const growthModules = [
+  {
+    title: "Website",
+    description: "Convert visitors",
+    href: `${serviceBase}/business-websites/`,
+    detail: "We build a fast, premium website with clear pages, trust signals, SEO basics, forms and conversion tracking.",
+    services: ["Business websites", "Landing pages", "Website redesign"],
+    icon: "M4 5h16v10H4z M8 19h8 M12 15v4",
+    primaryPath: true,
+    pathStep: "01",
+  },
+  {
+    title: "Lead Capture",
+    description: "Collect enquiries",
+    href: `${serviceBase}/lead-generation/`,
+    detail: "Forms, booking CTAs, WhatsApp, email capture and tracking help every inquiry arrive with useful context.",
+    services: ["Lead generation", "Landing pages", "Email automation"],
+    icon: "M12 4v10 M8 10l4 4 4-4 M5 20h14",
+    primaryPath: true,
+    pathStep: "02",
+  },
+  {
+    title: "CRM",
+    description: "Organise leads",
+    href: `${serviceBase}/crm-automation/`,
+    detail: "We connect your website to tools such as HubSpot, Notion, Airtable or Google Sheets so follow-up is easier.",
+    services: ["CRM automation", "API integrations", "Spreadsheet automation"],
+    icon: "M4 7h16 M4 12h16 M4 17h16 M7 5v14 M17 5v14",
+    primaryPath: true,
+    pathStep: "03",
+  },
+  {
+    title: "AI Assistant",
+    description: "Answer questions",
+    href: `${serviceBase}/ai-chatbots/`,
+    detail: "AI assistants can answer FAQs, search documents, support customers and prepare better context before a human replies.",
+    services: ["AI chatbots", "Knowledge search", "Internal AI assistants"],
+    icon: "M12 3v3 M12 18v3 M4.8 7.2l2.1 2.1 M17.1 14.7l2.1 2.1 M3 12h3 M18 12h3 M4.8 16.8l2.1-2.1 M17.1 9.3l2.1-2.1 M9 9h6v6H9z",
+    pathStep: "+",
+  },
+  {
+    title: "Automation",
+    description: "Save hours",
+    href: `${serviceBase}/business-automation/`,
+    detail: "We automate lead routing, reminders, document processing, OCR, spreadsheet updates and routine operations.",
+    services: ["Business automation", "Document automation", "OCR automation"],
+    icon: "M5 12a7 7 0 0 1 12-4 M19 12a7 7 0 0 1-12 4 M17 4v4h-4 M7 20v-4h4",
+    primaryPath: true,
+    pathStep: "04",
+  },
+  {
+    title: "Bookings",
+    description: "Book more calls",
+    href: `${serviceBase}/appointment-automation/`,
+    detail: "Booking flows, calendar updates and reminders help customers take the next step without manual back-and-forth.",
+    services: ["Appointment automation", "Booking systems", "Email automation"],
+    icon: "M7 4v3 M17 4v3 M5 8h14 M6 6h12v14H6z M9 12h3 M9 16h6",
+    pathStep: "+",
+  },
+  {
+    title: "Invoices",
+    description: "Send faster",
+    href: `${serviceBase}/invoice-automation/`,
+    detail: "Invoice and document workflows can generate, route, rename, send and track routine business paperwork.",
+    services: ["Invoice automation", "PDF processing", "Document automation"],
+    icon: "M7 3h8l4 4v14H7z M15 3v5h5 M9 12h6 M9 16h8",
+    pathStep: "+",
+  },
+  {
+    title: "Analytics",
+    description: "Measure growth",
+    href: `${serviceBase}/dashboard-development/`,
+    detail: "Dashboards and conversion tracking show which pages, campaigns and workflows create useful business value.",
+    services: ["Dashboard development", "Data dashboards", "SEO optimization"],
+    icon: "M5 19V9 M12 19V5 M19 19v-8 M4 19h16",
+    pathStep: "+",
+  },
+  {
+    title: "Business Growth",
+    description: "More revenue",
+    href: `${serviceBase}/custom-web-apps/`,
+    detail: "The system connects your website, CRM, AI, automation and reporting so the business can grow with less friction.",
+    services: ["Custom web apps", "Internal tools", "Business portals"],
+    icon: "M4 18l6-6 4 4 6-9 M15 7h5v5",
+    primaryPath: true,
+    pathStep: "05",
+  },
+];
 ---
 
 <section class="hero section-shell" id="home">
@@ -34,25 +126,118 @@ const { hero, packagesHref, contactHref, demoHref, ui } = Astro.props;
       <a class="button secondary" href={packagesHref}>{hero.secondaryCta}</a>
       {demoHref && <a class="button secondary featured-demo-link" href={demoHref}>{ui?.featuredDemoCta ?? "See Shopify demo"}</a>}
     </div>
-    <p class="trust-line">{hero.trustLine}</p>
+    <ul class="hero-trust-badges" aria-label="Websiteli trust signals">
+      {trustBadges.map((badge) => (
+        <li>
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M13.5 4.5 6.6 11.4 2.7 7.5" />
+          </svg>
+          <span>{badge}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 
-  <div class="hero-media" aria-label={ui?.heroImageLabel ?? "Websiteli digital setup visual"}>
-    <img
-      src="/assets/swiss-ai-websites-hero.png"
-      alt="Modern website panels, analytics and automation tools"
-      width="1672"
-      height="941"
-      decoding="async"
-      fetchpriority="high"
-    />
-    <div class="floating-card card-one">
-      <span>{ui?.heroCardWebsite ?? "Website"}</span>
-      <strong>{ui?.heroCardLeads ?? "Leads ready"}</strong>
+  <div class="hero-media business-engine-shell" aria-label="Business Growth Engine visualization">
+    <div class="engine-header">
+      <p class="eyebrow">Business Growth Engine</p>
+      <strong>Visitor to customer</strong>
     </div>
-    <div class="floating-card card-two">
-      <span>{ui?.heroCardAi ?? "AI & data"}</span>
-      <strong>{ui?.heroCardUpgrade ?? "Upgrade path"}</strong>
+    <div class="business-engine" data-growth-engine>
+      {growthModules.map((module, index) => (
+        <article class:list={["growth-module", module.primaryPath ? "is-primary-path" : "is-secondary-path", index === growthModules.length - 1 && "is-final"]} data-step={module.pathStep}>
+          <a class="growth-module-link" href={module.href} data-track-event="hero_engine_module_click" data-track-label={module.title}>
+            <span class="growth-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d={module.icon} />
+              </svg>
+            </span>
+            <span>
+              <strong>{module.title}</strong>
+              <small>{module.description}</small>
+            </span>
+          </a>
+          <button
+            class="growth-info"
+            type="button"
+            aria-label={`Show ${module.title} details`}
+            aria-expanded="false"
+            data-growth-info
+            data-title={module.title}
+            data-detail={module.detail}
+            data-services={module.services.join("|")}
+            data-href={module.href}
+          >
+            i
+          </button>
+        </article>
+      ))}
+    </div>
+    <aside class="growth-tooltip" data-growth-tooltip hidden aria-live="polite">
+      <button class="growth-tooltip-close" type="button" aria-label="Close details" data-growth-close>×</button>
+      <p class="eyebrow" data-growth-tooltip-label>Module</p>
+      <h2 data-growth-tooltip-title>Website</h2>
+      <p data-growth-tooltip-detail></p>
+      <ul data-growth-tooltip-services></ul>
+      <a class="button secondary" href={`${serviceBase}/business-websites/`} data-growth-tooltip-link>View service</a>
+    </aside>
+    <div class="engine-trust">
+      <div class="engine-trust-copy">
+        <span class="engine-trust-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M5 12h4l3-6 3 12 3-6h1" />
+          </svg>
+        </span>
+        <span>
+          <strong>Everything works together.</strong>
+          <p>Your website captures leads. Automation follows up. Analytics shows what to improve next.</p>
+        </span>
+      </div>
+      <ul class="engine-feature-badges" aria-label="Connected growth system">
+        {engineFeatureBadges.map((badge) => <li>{badge}</li>)}
+      </ul>
     </div>
   </div>
 </section>
+
+<script>
+  const growthEngine = document.querySelector("[data-growth-engine]");
+  const tooltip = document.querySelector("[data-growth-tooltip]");
+  const tooltipTitle = document.querySelector("[data-growth-tooltip-title]");
+  const tooltipDetail = document.querySelector("[data-growth-tooltip-detail]");
+  const tooltipServices = document.querySelector("[data-growth-tooltip-services]");
+  const tooltipLink = document.querySelector("[data-growth-tooltip-link]");
+  const closeButton = document.querySelector("[data-growth-close]");
+  const infoButtons = Array.from(document.querySelectorAll("[data-growth-info]"));
+
+  function closeGrowthTooltip() {
+    tooltip?.setAttribute("hidden", "");
+    infoButtons.forEach((button) => button.setAttribute("aria-expanded", "false"));
+  }
+
+  growthEngine?.addEventListener("click", (event) => {
+    const button = event.target instanceof Element ? event.target.closest("[data-growth-info]") : null;
+    if (!(button instanceof HTMLButtonElement) || !tooltip || !tooltipTitle || !tooltipDetail || !tooltipServices || !(tooltipLink instanceof HTMLAnchorElement)) return;
+
+    const services = (button.dataset.services || "").split("|").filter(Boolean);
+    tooltipTitle.textContent = button.dataset.title || "";
+    tooltipDetail.textContent = button.dataset.detail || "";
+    tooltipServices.replaceChildren(...services.map((service) => {
+      const item = document.createElement("li");
+      item.textContent = service;
+      return item;
+    }));
+    tooltipLink.href = button.dataset.href || tooltipLink.href;
+    tooltip.removeAttribute("hidden");
+    infoButtons.forEach((item) => item.setAttribute("aria-expanded", String(item === button)));
+    window.trackWebsiteliEvent?.("hero_engine_detail_open", {
+      event_category: "engagement",
+      event_label: button.dataset.title || "",
+    });
+  });
+
+  closeButton?.addEventListener("click", closeGrowthTooltip);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeGrowthTooltip();
+  });
+</script>

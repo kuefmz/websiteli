@@ -2,8 +2,8 @@
   "locale": "en",
   "language": "English",
   "seo": {
-    "title": "Websiteli - Websites, SEO, Automation, AI and Maintenance for Small Businesses",
-    "description": "Swiss-based website, SEO, maintenance, lead generation, analytics, automation and AI packages for small businesses that want more customers and less manual work."
+    "title": "Websiteli - AI-Powered Websites, Automation and Custom Web Apps",
+    "description": "Swiss digital agency for premium business websites, AI automation, process automation, dashboards, integrations and custom web applications that save time and generate leads."
   },
   "nav": {
     "home": "Home",
@@ -19,22 +19,22 @@
     "portfolio": "Portfolio"
   },
   "hero": {
-    "eyebrow": "Swiss-based IT and AI agency",
-    "title": "Websites, SEO, automation and maintenance that help small businesses grow.",
-    "text": "Websiteli builds and maintains professional websites with Google visibility, lead capture, analytics and practical AI automation, so customers can find you and contact you faster.",
-    "primaryCta": "Request a free digital audit",
-    "secondaryCta": "See Live Demos",
-    "trustLine": "Swiss-based - AI and data engineering expertise - Multilingual support"
+    "eyebrow": "Swiss AI-powered websites and automation",
+    "title": "Get more customers with less manual work.",
+    "text": "Websiteli builds business websites, automation, AI assistants and custom software that work together. Your website captures leads, your systems follow up, and your team saves time every week.",
+    "primaryCta": "Get a free digital audit",
+    "secondaryCta": "Explore Live Examples",
+    "trustLine": "Swiss based - Fast delivery - SEO optimized - AI ready - Mobile first - Transparent pricing - Ongoing support"
   },
   "badges": [
     "Swiss-based",
     "AI & data engineering expertise",
     "Fast implementation",
-    "Multilingual support",
-    "Practical handover",
-    "Website maintenance"
+    "Transparent pricing",
+    "Security and performance",
+    "Long-term support"
   ],
-  "intro": "We do not sell just websites. We set up and maintain the digital basics your business needs to look professional, rank on Google, generate leads and grow into automation.",
+  "intro": "We do not sell just websites. We build the digital systems around your business: clear websites, measurable lead paths, AI assistants, dashboards, integrations and automations that remove repetitive work.",
   "packagesIntro": {
     "eyebrow": "Core packages",
     "title": "Choose the right digital setup for your next stage.",

@@ -1,4 +1,7 @@
 ---
+import { industries } from "../content/industries";
+import { getFeaturedServices } from "../content/services";
+
 interface Props {
   content?: any;
   locale?: string;
@@ -68,6 +71,8 @@ const legalLinkCopy: Record<string, { privacy: string; impressum: string }> = {
   ja: { privacy: "プライバシーポリシー", impressum: "法的情報" },
 };
 const legalLinks = legalLinkCopy[locale] ?? legalLinkCopy.en;
+const footerServices = getFeaturedServices().slice(0, 3);
+const footerIndustries = industries.slice(0, 2);
 const newsletterCopy: Record<string, { title: string; text: string; email: string; button: string; consent: string; success: string; validation: string; sending: string; error: string }> = {
   en: {
     title: "Newsletter",
@@ -250,6 +255,8 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <a href={`/${locale}/portfolio/`}>{nav.portfolio ?? "Portfolio"}</a>
       <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>
+      {footerServices.map((service) => <a href={`/${locale}/services/${service.slug}/`}>{service.shortTitle}</a>)}
+      {footerIndustries.map((industry) => <a href={`/${locale}/industries/${industry.slug}/`}>{industry.title}</a>)}
     </div>
     <div>
       <h2>{footerUi.legal}</h2>

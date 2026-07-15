@@ -83,6 +83,8 @@ Do not insert decorative headings that disrupt semantic structure.
 - Locale prefix is mandatory for public localized pages.
 - Current page slugs: `services-pricing`, `portfolio`, `blog`, `about`, `contact`.
 - Legacy slugs redirect: `services`, `packages`, `demos`, `example-projects`.
+- Service detail pages use `/:locale/services/:service/` and are generated from `src/content/services.ts`.
+- Industry detail pages use `/:locale/industries/:industry/` and are generated from `src/content/industries.ts`.
 - Blog article slug is currently shared across locales.
 
 ## Keyword Strategy
@@ -122,11 +124,7 @@ Blog articles should include:
 
 Configured in `astro.config.mjs` using `@astrojs/sitemap`.
 
-The sitemap filter excludes legacy paths matching:
-
-```regex
-/(services|packages|demos|example-projects)(/|$)
-```
+The sitemap filter excludes legacy redirect-only pages and redirect namespaces while allowing generated `/services/:service/` SEO pages.
 
 `public/robots.txt` points crawlers to:
 
