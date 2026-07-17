@@ -15,7 +15,7 @@ import sk from "./locales/sk.json";
 export const localeCodes = ["en", "de", "hu", "pl", "es", "fr", "it", "cz", "sk", "pt", "da", "nl", "ja"] as const;
 export type LocaleCode = (typeof localeCodes)[number];
 
-export const pageSlugs = ["services-pricing", "portfolio", "blog", "about", "contact"] as const;
+export const pageSlugs = ["services-pricing", "portfolio", "partners", "blog", "about", "contact"] as const;
 export const legacyPageSlugs = ["services", "packages", "demos", "example-projects"] as const;
 export type PageSlug = (typeof pageSlugs)[number];
 export type LegacyPageSlug = (typeof legacyPageSlugs)[number];
@@ -39,6 +39,7 @@ export const locales = {
 export const pageNavKeys = {
   "services-pricing": "servicesPricing",
   portfolio: "portfolio",
+  partners: "partners",
   blog: "blog",
   about: "about",
   contact: "contact",
