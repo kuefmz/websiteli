@@ -16,6 +16,7 @@ const nav = content?.nav ?? {
   packages: "Packages",
   servicesPricing: "Services & Pricing",
   portfolio: "Portfolio",
+  partners: "Partners",
   blog: "Blog",
   about: "About",
   contact: "Contact",
@@ -253,6 +254,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <h2>{footerUi.pages}</h2>
       <a href={`/${locale}/services-pricing/`}>{nav.servicesPricing ?? "Services & Pricing"}</a>
       <a href={`/${locale}/portfolio/`}>{nav.portfolio ?? "Portfolio"}</a>
+      <a href={`/${locale}/partners/`}>{nav.partners ?? "Partners"}</a>
       <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>
       {footerServices.map((service) => <a href={`/${locale}/services/${service.slug}/`}>{service.shortTitle}</a>)}

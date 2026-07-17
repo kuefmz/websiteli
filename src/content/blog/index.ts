@@ -10,6 +10,7 @@ import whyBusinessWebsitesGetCustomers from "./posts/why-business-websites-get-c
 import websiteLifeCycleStatistics from "./posts/website-life-cycle-statistics";
 import ceoWebsiteBusinessAsset from "./posts/ceo-website-business-asset";
 import yourWebsiteShouldntEndAtContactUs from "./posts/your-website-shouldnt-end-at-contact-us";
+import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -59,6 +60,7 @@ const blogSources: BlogPostSource[] = [
   websiteLifeCycleStatistics,
   ceoWebsiteBusinessAsset,
   yourWebsiteShouldntEndAtContactUs,
+  becomeAWebsiteliPartner,
 ];
 
 const marketKeywords = [
@@ -82,6 +84,11 @@ const marketKeywords = [
   "affordable website Switzerland",
   "lead generation landing page",
   "website maintenance audit",
+  "Websiteli partner",
+  "white-label web development Switzerland",
+  "agency web development partner",
+  "AI automation partner",
+  "event website development",
 ];
 
 function getPostDate(value: string) {

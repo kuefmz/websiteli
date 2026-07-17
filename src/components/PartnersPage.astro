@@ -1,0 +1,221 @@
+---
+import FAQ from "./FAQ.astro";
+import ProcessStep from "./ProcessStep.astro";
+import { getLocalizedPath, type LocaleCode, type PageSlug } from "../content/locales";
+import { getPartnerPageContent } from "../content/partners";
+
+interface Props {
+  locale: string;
+}
+
+const { locale = "en" } = Astro.props;
+const currentLocale = locale as LocaleCode;
+const partnerContent = getPartnerPageContent(currentLocale);
+const contactHref = getLocalizedPath(currentLocale, "contact");
+const becomePartnerHref = `${contactHref}?package=digitalAudit&project=partners&intent=partner_inquiry`;
+const discoveryCallHref = `${contactHref}?package=digitalAudit&project=partners&intent=discovery_call`;
+const iconPaths = {
+  layers: "M4 7 12 3l8 4-8 4-8-4Zm0 5 8 4 8-4M4 17l8 4 8-4",
+  shield: "M12 3 5 6v5c0 4.5 2.8 8.5 7 10 4.2-1.5 7-5.5 7-10V6l-7-3Z",
+  bot: "M8 10h8a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3Zm4 0V6m-3 8h.01M15 14h.01M9 17h6",
+  clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13v5l3 2",
+  revenue: "M4 17 9 12l4 4 7-8M20 8v6h-6",
+  support: "M5 13a7 7 0 0 1 14 0v4a3 3 0 0 1-3 3h-2M5 13v4h3v-5H5Zm14 0v4h-3v-5h3Z",
+  megaphone: "M4 14h3l9 4V6l-9 4H4v4Zm3 0v5",
+  brush: "M19 4 8 15m0 0c-2 0-4 1.5-4 4 2.5 0 4-1.5 4-4Zm0 0 3 3",
+  heart: "M20.5 8.5c0 5-8.5 10-8.5 10s-8.5-5-8.5-10A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8.5 2.5Z",
+  calendar: "M7 3v4m10-4v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z",
+  search: "M10.5 18a7.5 7.5 0 1 1 5.3-2.2L21 21",
+  user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0",
+  share: "M18 8a3 3 0 1 0-2.8-4M6 14a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm12 6a3 3 0 1 0-2.8-4M8.7 12.6l6.6 3.8M15.3 7.6l-6.6 3.8",
+  briefcase: "M9 6V4h6v2m-9 0h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm-2 6h16",
+  chat: "M5 6h14v9H9l-4 4V6Z",
+  spark: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Zm6 12 1 2.5 2 1-2 1-1 2.5-1-2.5-2-1 2-1 1-2.5Z",
+  knowledge: "M4 5h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5Zm3 0v13a3 3 0 0 0 3 3",
+  workflow: "M6 7h5v5H6V7Zm7.5 2.5H18a2 2 0 0 1 2 2V17M18 17h-5v-5h5v5ZM6 12v3a2 2 0 0 0 2 2h2",
+  code: "m8 9-4 3 4 3m8-6 4 3-4 3m-2-8-4 10",
+} as const;
+
+function getIconPath(icon: string) {
+  return iconPaths[icon as keyof typeof iconPaths] ?? iconPaths.spark;
+}
+
+function getInternalHref(page: string) {
+  if (page === "contact") return becomePartnerHref;
+  return getLocalizedPath(currentLocale, page as PageSlug);
+}
+---
+
+<main class="partners-page">
+  <section class="partners-hero section-shell" aria-labelledby="partners-title">
+    <div class="partners-hero-copy">
+      <p class="eyebrow">{partnerContent.hero.eyebrow}</p>
+      <h1 id="partners-title">{partnerContent.hero.title}</h1>
+      <p class="partners-hero-subtitle">{partnerContent.hero.subtitle}</p>
+      <p class="hero-text">{partnerContent.hero.text}</p>
+      <div class="hero-actions">
+        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Hero become partner">Become a Partner</a>
+        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Hero schedule call">Schedule a Call</a>
+      </div>
+    </div>
+    <div class="partners-hero-aside">
+      <nav class="partners-hero-options" aria-label="Useful Websiteli pages">
+        {partnerContent.internalLinks.map((item) => (
+          <a href={getInternalHref(item.href)}>
+            <span>{item.label}</span>
+            <strong>{item.title}</strong>
+          </a>
+        ))}
+      </nav>
+      <div class="partners-hero-benefits">
+        <p class="eyebrow">Partner benefits</p>
+        <ul class="hero-trust-badges" aria-label="Partner benefits">
+          {partnerContent.trustPills.map((pill) => (
+            <li>
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
+              {pill}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell section-block compact-top" id="why-partner">
+    <div class="section-heading">
+      <p class="eyebrow">Why partner with Websiteli?</p>
+      <h2>Premium technical delivery without expanding your internal team.</h2>
+      <p>Use Websiteli as your agency web development partner when clients need white-label websites, website outsourcing in Switzerland, AI automation or custom digital workflows.</p>
+    </div>
+    <div class="partners-card-grid">
+      {partnerContent.why.map((item) => (
+        <article class="partner-card">
+          <span class="partner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="partners-band" id="who-we-work-with">
+    <div class="section-shell partners-band-inner">
+      <div class="section-heading centered">
+        <p class="eyebrow">Who we work with</p>
+        <h2>Built for agencies and service providers who own the client relationship.</h2>
+        <p>We support partners who need dependable implementation, modern technology and quiet technical confidence behind the scenes.</p>
+      </div>
+      <div class="partners-audience-grid">
+        {partnerContent.audiences.map((item) => (
+          <article class="partner-card compact">
+            <span class="partner-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell section-block" id="partnership-models">
+    <div class="section-heading centered">
+      <p class="eyebrow">Partnership models</p>
+      <h2>Choose the collaboration model that fits your sales process.</h2>
+      <p>Start with one project, run fully white-label delivery or make Websiteli your long-term technical team.</p>
+    </div>
+    <div class="partners-model-grid">
+      {partnerContent.models.map((item) => (
+        <article class:list={["pricing-card", "partner-model-card", item.recommended && "recommended", item.featured && "featured"]}>
+          {item.badge && <span class="card-badge">{item.badge}</span>}
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+          <ul>
+            {item.points.map((point) => <li>{point}</li>)}
+          </ul>
+          <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>Discuss this model</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-shell section-block compact-top" id="beyond-websites">
+    <div class="section-heading">
+      <p class="eyebrow">Beyond websites</p>
+      <h2>{partnerContent.beyondWebsites.title}</h2>
+      <p>{partnerContent.beyondWebsites.subtitle}</p>
+    </div>
+    <div class="partners-beyond-grid">
+      {partnerContent.beyondWebsites.features.map((item) => (
+        <article class="partner-card feature">
+          <span class="partner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          {item.items && (
+            <ul class="pill-list">
+              {item.items.map((point) => <li>{point}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="why-section partners-proof" id="why-agencies-choose-us">
+    <div class="section-shell why-inner">
+      <div class="section-heading">
+        <p class="eyebrow">Why agencies choose us</p>
+        <h2>A calm technical partner for visible client work.</h2>
+        <p>We help you extend the services you can sell while protecting the trust you already have with your clients.</p>
+      </div>
+      <div class="partners-check-grid" aria-label="Agency reasons to choose Websiteli">
+        {partnerContent.agencyReasons.map((reason) => (
+          <div>
+            <span aria-hidden="true">&#10003;</span>
+            {reason}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell section-block" id="how-it-works">
+    <div class="section-heading centered">
+      <p class="eyebrow">How it works</p>
+      <h2>Simple. Transparent. Reliable.</h2>
+      <p>The process stays easy for your team and predictable for the client relationship you manage.</p>
+    </div>
+    <div class="process-grid">
+      {partnerContent.steps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
+    </div>
+  </section>
+
+  <section class="section-shell section-block compact-top faq-section" id="faq">
+    <div class="section-heading">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions agencies usually ask first.</h2>
+    </div>
+    <div class="faq-list">
+      {partnerContent.faqs.map((item) => <FAQ {...item} />)}
+    </div>
+  </section>
+
+  <section class="partners-final-band" aria-labelledby="partners-final-title">
+    <div class="section-shell partners-final-cta">
+      <div>
+        <p class="eyebrow">Partner with Websiteli</p>
+        <h2 id="partners-final-title">{partnerContent.finalCta.title}</h2>
+        <p>{partnerContent.finalCta.text}</p>
+      </div>
+      <div class="button-row">
+        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Final become partner">Become a Partner</a>
+        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Final discovery call">Book a Discovery Call</a>
+      </div>
+    </div>
+  </section>
+</main>

@@ -17,6 +17,7 @@ interface Props {
   alternates?: { locale: string; href: string }[];
   content?: any;
   schema?: Record<string, any>[];
+  includeDefaultFaq?: boolean;
 }
 
 const {
@@ -31,12 +32,38 @@ const {
   alternates = [],
   content,
   schema = [],
+  includeDefaultFaq = true,
 } = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(image ?? "/assets/websiteli-og.png", siteUrl).toString();
 const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
 const analyticsPagePath = page === "home" ? "/" : "";
+const defaultFaqSchema = includeDefaultFaq
+  ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Who owns a Websiteli website?",
+            acceptedAnswer: { "@type": "Answer", text: "The client owns the domain, hosting access, source code, analytics accounts and website assets unless a separate third-party service requires its own terms." },
+          },
+          {
+            "@type": "Question",
+            name: "Does Websiteli offer website maintenance?",
+            acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli offers monthly website maintenance with security updates, monitoring, backups, performance checks, small content changes, analytics reports, SEO monitoring and technical support." },
+          },
+          {
+            "@type": "Question",
+            name: "Can Websiteli help with SEO and Google Business?",
+            acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli sets up technical SEO basics, metadata, Google Analytics, Google Search Console and Google Business Profile support as part of growth-focused packages." },
+          },
+        ],
+      },
+    ]
+  : [];
 const structuredData = [
   {
     "@context": "https://schema.org",
@@ -82,27 +109,7 @@ const structuredData = [
     serviceType: ["Website creation", "Website redesign", "Website maintenance", "Local SEO", "Lead generation", "AI automation", "Business automation"],
     description,
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Who owns a Websiteli website?",
-        acceptedAnswer: { "@type": "Answer", text: "The client owns the domain, hosting access, source code, analytics accounts and website assets unless a separate third-party service requires its own terms." },
-      },
-      {
-        "@type": "Question",
-        name: "Does Websiteli offer website maintenance?",
-        acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli offers monthly website maintenance with security updates, monitoring, backups, performance checks, small content changes, analytics reports, SEO monitoring and technical support." },
-      },
-      {
-        "@type": "Question",
-        name: "Can Websiteli help with SEO and Google Business?",
-        acceptedAnswer: { "@type": "Answer", text: "Yes. Websiteli sets up technical SEO basics, metadata, Google Analytics, Google Search Console and Google Business Profile support as part of growth-focused packages." },
-      },
-    ],
-  },
+  ...defaultFaqSchema,
   ...schema,
 ];
 ---

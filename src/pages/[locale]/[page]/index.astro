@@ -16,6 +16,7 @@ import {
 } from "../../../content/locales";
 import { getDemoPageContent } from "../../../content/demos";
 import { getBlogIndexContent } from "../../../content/blog";
+import { getPartnerPageContent } from "../../../content/partners";
 
 export function getStaticPaths() {
   return localeCodes.flatMap((locale) => [...pageSlugs, ...legacyPageSlugs].map((page) => ({ params: { locale, page } })));
@@ -29,9 +30,13 @@ const page = requestedPage as PageSlug;
 const content = getLocaleContent(locale);
 const demoContent = getDemoPageContent(locale);
 const blogContent = getBlogIndexContent(locale);
+const partnerContent = getPartnerPageContent(locale);
+const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const label = content.nav[pageNavKeys[page]] ?? (page === "blog" ? blogContent.eyebrow : page);
 const title =
-  page === "portfolio"
+  page === "partners"
+    ? partnerContent.seo.title
+    : page === "portfolio"
     ? demoContent.seo.title
     : page === "blog"
       ? blogContent.seo.title
@@ -39,15 +44,62 @@ const title =
         ? `${content.nav.servicesPricing ?? "Services & Pricing"} - Websiteli`
         : `${label} - Websiteli`;
 const description =
-  page === "services-pricing"
+  page === "partners"
+    ? partnerContent.seo.description
+    : page === "services-pricing"
     ? content.packagesIntro.text
     : page === "portfolio"
       ? demoContent.seo.description
       : page === "blog"
         ? blogContent.seo.description
         : page === "about"
-          ? content.about.text
-          : content.contact.text;
+        ? content.about.text
+        : content.contact.text;
+const pageSchema =
+  page === "partners"
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: "White-label web development Switzerland",
+          provider: {
+            "@type": "Organization",
+            name: "Websiteli",
+            url: siteUrl.toString(),
+          },
+          areaServed: {
+            "@type": "Country",
+            name: "Switzerland",
+          },
+          audience: partnerContent.audiences.map((item) => ({
+            "@type": "Audience",
+            audienceType: item.title,
+          })),
+          serviceType: [
+            "White-label websites",
+            "Agency web development partner",
+            "Website outsourcing Switzerland",
+            "AI automation partner",
+            "Marketing agency development partner",
+            "Wedding website developer",
+            "Event website developer",
+          ],
+          description: partnerContent.seo.description,
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: partnerContent.faqs.map((item) => ({
+            "@type": "Question",
+            name: item.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: item.answer,
+            },
+          })),
+        },
+      ]
+    : [];
 ---
 
 {
@@ -84,6 +136,8 @@ const description =
       page={page}
       alternates={getAlternates(page)}
       content={content}
+      schema={pageSchema}
+      includeDefaultFaq={page !== "partners"}
     >
       <PageSections content={content} page={page} locale={locale} />
     </Layout>

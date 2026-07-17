@@ -3,7 +3,7 @@ export const demos = {
     liveUrl: "https://kuefmz.github.io/websiteli-portfolio-demo/",
   },
   jeniferCiuciuKiss: {
-    liveUrl: "https://jeniferciuciukiss.com/?utm_source=websiteli&utm_medium=portfolio&utm_campaign=demo_project",
+    liveUrl: "https://jeniferciuciukiss.com",
   },
 } as const;
 

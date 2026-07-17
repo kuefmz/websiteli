@@ -3,6 +3,7 @@ import CTASection from "./CTASection.astro";
 import FAQ from "./FAQ.astro";
 import OutreachBlock from "./OutreachBlock.astro";
 import PackageCard from "./PackageCard.astro";
+import PartnersPage from "./PartnersPage.astro";
 import ProcessStep from "./ProcessStep.astro";
 import { packageKeyByName } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
@@ -13,12 +14,16 @@ import { getFeaturedServices, getServiceCategoryServices } from "../content/serv
 
 interface Props {
   content: any;
-  page: "services-pricing" | "portfolio" | "blog" | "about" | "contact";
+  page: "services-pricing" | "portfolio" | "blog" | "about" | "contact" | "partners";
   locale: string;
 }
 
 const { content, page, locale } = Astro.props;
 const contactHref = `/${locale}/contact/`;
+const aboutIntroParts =
+  typeof content.intro === "string" ? content.intro.split(/(?<=[.!?。！？])\s*/).filter(Boolean) : [];
+const aboutProofTitle = aboutIntroParts[0] ?? content.intro;
+const aboutProofText = aboutIntroParts.slice(1).join(" ") || content.intro;
 const demoContent = getDemoPageContent(locale as any);
 const projectContent = getExampleProjectPageContent(locale as any);
 const blogContent = getBlogIndexContent(locale as any);
@@ -28,7 +33,16 @@ const packageLabels = getPackageLabels(locale);
 const auditHref = `${contactHref}?package=digitalAudit&project=portfolio&intent=digital_audit`;
 const serviceCategoryContent = getServiceCategoryServices();
 const featuredServices = getFeaturedServices();
-const demoGalleryItems = Object.values(demoContent.items).filter((item) => !item.clientName || item.clientName === "Websiteli demo");
+const demoItems = Object.values(demoContent.items);
+const featuredPortfolioOrder = ["jenifer-ciuciu-kiss", "shopify-consultant-portfolio"];
+const portfolioItems = demoItems
+  .filter((item) => item.websiteUrl && (!item.clientName || item.clientName === "Websiteli demo" || item.slug === "jenifer-ciuciu-kiss"))
+  .sort((a, b) => {
+    const aIndex = featuredPortfolioOrder.indexOf(a.slug);
+    const bIndex = featuredPortfolioOrder.indexOf(b.slug);
+    return (aIndex === -1 ? featuredPortfolioOrder.length : aIndex) - (bIndex === -1 ? featuredPortfolioOrder.length : bIndex);
+  });
+const conceptDemoItems = demoItems.filter((item) => !item.websiteUrl && (!item.clientName || item.clientName === "Websiteli demo"));
 const demoCategories = [
   "Business Websites",
   "Portfolio Websites",
@@ -43,7 +57,7 @@ const demoCategories = [
   "Automation Examples",
   "AI Solutions",
 ];
-function getDemoCategory(item: (typeof demoGalleryItems)[number]) {
+function getDemoCategory(item: (typeof demoItems)[number]) {
   if (item.category) return item.category;
   if (item.type.includes("ai")) return "AI Solutions";
   if (item.type.includes("dashboard")) return "Dashboards";
@@ -81,6 +95,10 @@ const faqs = [
   },
 ];
 ---
+
+{
+  page === "partners" && <PartnersPage locale={locale} />
+}
 
 {
   page === "services-pricing" && (
@@ -179,27 +197,20 @@ const faqs = [
       </section>
       <section class="section-shell section-block compact-top" id="live-demos">
         <div class="section-heading">
-          <p class="eyebrow">Demo Gallery</p>
-          <h2>Fictional and generic examples for common business needs.</h2>
-          <p>Public demo cards show reusable concepts only. Personalized prospect demos are not exposed, and live-demo buttons appear only when a public demo URL exists.</p>
-        </div>
-        <div class="demo-category-grid" aria-label="Demo categories">
-          {demoCategories.map((category) => (
-            <article class="demo-category-card">
-              <h3>{category}</h3>
-            </article>
-          ))}
+          <p class="eyebrow">Portfolio</p>
+          <h2>Featured live websites and public demos.</h2>
+          <p>Real public projects and Websiteli-owned demos with screenshots captured from the corresponding live websites.</p>
         </div>
         <div class="project-grid">
-          {demoGalleryItems.map((item) => {
+          {portfolioItems.map((item) => {
             const category = getDemoCategory(item);
             const technologies = item.technologies ?? item.features.slice(0, 5);
             const relatedServices = item.servicesProvided ?? item.included.slice(0, 4);
             const requestHref = `${contactHref}?package=${packageKeyByName[item.recommendedPackage]}&relatedDemo=${item.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_demo`;
             return (
-            <article class="project-card" itemscope itemtype="https://schema.org/CreativeWork">
-              <a class="project-preview" href={item.websiteUrl ?? `/${locale}/portfolio/`} target={item.websiteUrl ? "_blank" : undefined} rel={item.websiteUrl ? "noopener" : undefined}>
-                <img src={item.previewImage ?? "/assets/swiss-ai-websites-hero.png"} alt={`${item.title} preview`} loading="lazy" width="1200" height="760" itemprop="image" />
+            <article class={`project-card${item.slug === "jenifer-ciuciu-kiss" ? " featured-project" : ""}`} itemscope itemtype="https://schema.org/CreativeWork">
+              <a class="project-preview" href={item.websiteUrl} target="_blank" rel="noopener" aria-label={`Open ${item.title}`}>
+                {item.previewImage && <img src={item.previewImage} alt={`${item.title} homepage screenshot`} loading="lazy" width="1200" height="760" itemprop="image" />}
               </a>
               <div class="project-card-body">
                 <div class="project-meta">
@@ -209,7 +220,7 @@ const faqs = [
                 </div>
                 <h3 itemprop="name">{item.title}</h3>
                 <p itemprop="description">{item.shortDescription}</p>
-                <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong> {demoContent.packageNames[item.recommendedPackage]}</p>
+                <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong>{" "}{demoContent.packageNames[item.recommendedPackage]}</p>
                 <h4>{demoContent.labels.technologies}</h4>
                 <ul class="compact-list">
                   {technologies.map((technology) => <li>{technology}</li>)}
@@ -219,13 +230,55 @@ const faqs = [
                   {relatedServices.map((service) => <li>{service}</li>)}
                 </ul>
                 <div class="button-row">
-                  {item.websiteUrl && <a class="button primary" href={item.websiteUrl} target="_blank" rel="noopener" data-track-event="demo_opened" data-track-label={item.slug}>{demoContent.labels.viewLiveDemo}</a>}
+                  <a class="button primary" href={item.websiteUrl} target="_blank" rel="noopener" data-track-event="demo_opened" data-track-label={item.slug}>{item.ctaLabel ?? demoContent.labels.viewLiveDemo}</a>
                   <a class="button secondary" href={requestHref} data-track-event="demo_request_click" data-track-label={item.slug}>{demoContent.labels.requestSimilar}</a>
                 </div>
               </div>
             </article>
             );
           })}
+        </div>
+
+        {conceptDemoItems.length > 0 && (
+          <>
+            <div class="section-heading compact-heading demo-concept-heading">
+              <p class="eyebrow">Demo Concepts</p>
+              <h2>Reusable examples for common business needs.</h2>
+              <p>These concept cards stay separate from the live portfolio because no public project URL is configured for them.</p>
+            </div>
+            <div class="demo-grid concept-demo-grid">
+              {conceptDemoItems.map((item) => {
+                const category = getDemoCategory(item);
+                const requestHref = `${contactHref}?package=${packageKeyByName[item.recommendedPackage]}&relatedDemo=${item.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_demo`;
+                return (
+                  <article class="demo-card concept-demo-card">
+                    <div class="concept-card-meta">
+                      <span>{category}</span>
+                      <span>{demoContent.packageNames[item.recommendedPackage]}</span>
+                    </div>
+                    <h3>{item.title}</h3>
+                    <p>{item.shortDescription}</p>
+                    <ul class="compact-list">
+                      {item.features.slice(0, 4).map((feature) => <li>{feature}</li>)}
+                    </ul>
+                    <a href={requestHref} data-track-event="demo_request_click" data-track-label={item.slug}>{demoContent.labels.requestSimilar}</a>
+                  </article>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        <div class="section-heading compact-heading demo-category-heading">
+          <p class="eyebrow">Common Categories</p>
+          <h2>Website and automation directions we can adapt.</h2>
+        </div>
+        <div class="demo-category-grid" aria-label="Demo categories">
+          {demoCategories.map((category) => (
+            <article class="demo-category-card">
+              <h3>{category}</h3>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -318,19 +371,25 @@ const faqs = [
 
 {
   page === "about" && (
-    <main class="subpage">
-      <section class="section-shell page-hero">
-        <p class="eyebrow">{content.about.eyebrow}</p>
-        <h1>{content.about.title}</h1>
-        <p>{content.about.text}</p>
+    <main class="subpage about-page">
+      <section class="section-shell page-hero about-hero">
+        <div class="about-hero-copy">
+          <p class="eyebrow">{content.about.eyebrow}</p>
+          <h1>{content.about.title}</h1>
+          <p>{content.about.text}</p>
+        </div>
+        <div class="about-hero-panel" aria-label="Websiteli highlights">
+          {content.badges.slice(0, 4).map((badge) => <span>{badge}</span>)}
+        </div>
       </section>
-      <section class="why-section">
-        <div class="section-shell why-inner">
-          <div class="section-heading">
+      <section class="why-section about-proof-section">
+        <div class="section-shell why-inner about-proof-inner">
+          <div class="section-heading about-proof-copy">
             <p class="eyebrow">Websiteli</p>
-            <h2>{content.intro}</h2>
+            <h2>{aboutProofTitle}</h2>
+            <p>{aboutProofText}</p>
           </div>
-          <div class="reason-grid">
+          <div class="reason-grid about-reason-grid">
             {content.badges.map((badge) => <div>{badge}</div>)}
           </div>
         </div>

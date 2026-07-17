@@ -11,6 +11,7 @@ export type DemoContent = {
   shortDescription: string;
   previewImage?: string;
   websiteUrl?: string;
+  ctaLabel?: string;
   category?: string;
   industry?: string;
   country?: string;
@@ -161,7 +162,7 @@ const en: DemoPageContent = {
       title: "Shopify Consultant Portfolio Website",
       shortDescription:
         "Convert cold outreach into trust with a professional portfolio website.",
-      previewImage: "/assets/shopify-consultant-portfolio-demo-preview.svg",
+      previewImage: "/images/portfolio/shopify-consultant-portfolio-demo.webp",
       websiteUrl: "https://kuefmz.github.io/websiteli-portfolio-demo/",
       category: "Live demo",
       industry: "Shopify consulting / marketing services",
@@ -197,22 +198,23 @@ const en: DemoPageContent = {
     "jenifer-ciuciu-kiss": {
       slug: "jenifer-ciuciu-kiss",
       type: "personal_brand_portfolio",
-      title: "Personal Brand / Portfolio Website",
+      title: "Jenifer Ciuciu-Kiss — Personal Portfolio",
       shortDescription:
-        "A personal brand and portfolio website for showcasing projects, research, experience, and contact options.",
-      previewImage: "/assets/jenifer-ciuciu-kiss-portfolio-preview.png",
-      websiteUrl: "https://jeniferciuciukiss.com/?utm_source=websiteli&utm_medium=portfolio&utm_campaign=demo_project",
-      category: "Live website",
-      industry: "Personal brand / portfolio",
+        "Personal portfolio website presenting professional experience, research, technical expertise, projects and services.",
+      previewImage: "/images/portfolio/jenifer-ciuciu-kiss-portfolio.webp",
+      websiteUrl: "https://jeniferciuciukiss.com",
+      ctaLabel: "View Live Website",
+      category: "Personal Portfolio",
+      industry: "Data Science, AI and Software Engineering",
       country: "International",
-      clientName: "Jenifer Ciuciu Kiss",
-      technologies: ["Portfolio website", "Responsive design", "SEO structure", "Contact paths"],
-      servicesProvided: ["Personal brand positioning", "Portfolio structure", "Contact conversion path"],
+      clientName: "Jenifer Ciuciu-Kiss",
+      technologies: ["Responsive website", "Personal branding", "Project portfolio", "SEO foundation", "Contact flow", "Multilingual-ready structure"],
+      servicesProvided: ["Personal branding", "Project portfolio", "SEO foundation", "Contact flow", "Multilingual-ready structure"],
       seoImprovements: ["Clear personal-brand metadata", "Project-focused content structure", "Readable internal navigation"],
       performanceImprovements: ["Responsive layout", "Focused content structure", "Lightweight browsing experience"],
       launchDate: "2026-06-30",
       recommendedPackage: "Growth Setup",
-      features: ["Personal brand website", "Portfolio showcase", "Research overview", "Experience sections", "Contact options", "SEO setup"],
+      features: ["Responsive website", "Personal branding", "Project portfolio", "SEO foundation", "Contact flow", "Multilingual-ready structure"],
       forText: "Founders, researchers, consultants, specialists and professionals who need a credible owned profile beyond social platforms.",
       challenges: [
         "Projects and experience are scattered",
