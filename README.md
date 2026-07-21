@@ -2,7 +2,7 @@
 
 Astro website for **websiteli.ch**, a Swiss digital agency for AI-powered websites, business automation, AI integrations, internal tools, dashboards, and custom web applications.
 
-The site builds as static Astro pages for Hostpoint. Language routes and pricing are intentionally separate: `/en`, `/de`, `/hu`, `/pl`, `/es`, and `/fr` control copy, while the browser pricing runtime resolves the visitor's market/currency from their IP location.
+The site builds as static Astro pages for GitHub Pages and is served from the custom domain `https://websiteli.ch`. Language routes and pricing are intentionally separate: `/en`, `/de`, `/hu`, `/pl`, `/es`, and `/fr` control copy, while the browser pricing runtime resolves the visitor's market/currency from their IP location.
 
 ## Requirements
 
@@ -46,10 +46,10 @@ src/
 public/
   assets/            Static images and public files
 scripts/
-  deploy.sh          Hostpoint static deployment script
+  deploy.sh          Legacy Hostpoint static deployment script
 .github/
-  workflows/         GitHub Actions build workflow
-  DEPLOYMENT.md      Hostpoint deployment notes
+  workflows/         GitHub Actions deployment workflow
+  DEPLOYMENT.md      GitHub Pages deployment notes
 ```
 
 Localized homepage, package, demo, about, contact, and outreach copy can be edited in:
@@ -80,7 +80,7 @@ src/config/pricing.json
 
 ## Build
 
-Create the Hostpoint static production build:
+Create the GitHub Pages static production build:
 
 ```bash
 npm run build
@@ -92,7 +92,7 @@ The deployable output is generated in:
 dist/
 ```
 
-Deploy `dist/` to Hostpoint. No backend or server runtime is required for pricing.
+GitHub Actions deploys `dist/` to GitHub Pages on pushes to `main`. No backend or server runtime is required for pricing.
 
 ## Location-Based Pricing
 
@@ -194,13 +194,23 @@ Build verification is configured through GitHub Actions in:
 .github/workflows/deploy.yml
 ```
 
-This workflow verifies the static build. Deployment to Hostpoint still uses the SFTP script.
+This workflow verifies the static build and deploys it to GitHub Pages.
 
 On every push to the `main` branch, GitHub Actions will:
 
 1. Install dependencies.
 2. Run the pricing tests.
-3. Verify that `dist/index.html` exists.
+3. Verify that the generated `dist/` output includes the expected files.
+4. Upload and deploy the static site to GitHub Pages.
+
+GitHub repository settings must use:
+
+```text
+Settings -> Pages -> Source: GitHub Actions
+Custom domain: websiteli.ch
+```
+
+Keep `public/CNAME` set to `websiteli.ch` and keep Astro's `site` config set to `https://websiteli.ch`. Do not add an Astro `base` value while the site is served from the custom domain root.
 
 ## Useful Commands
 
@@ -209,5 +219,5 @@ npm install              # Install dependencies
 npm run dev              # Start local development
 npm run build            # Build static output into dist/
 npm run test:pricing     # Build and verify frontend pricing behavior
-npm run deploy:hostpoint # Deploy dist/ to Hostpoint
+npm run deploy:hostpoint # Legacy Hostpoint SFTP deployment
 ```

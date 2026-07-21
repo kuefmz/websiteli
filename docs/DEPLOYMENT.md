@@ -1,6 +1,6 @@
 # Deployment
 
-The site builds to static files and deploys to Hostpoint over SFTP.
+The site builds to static files and deploys to GitHub Pages with the custom domain `https://websiteli.ch`.
 
 ## Development Environment
 
@@ -8,7 +8,6 @@ Requirements:
 
 - Node.js compatible with Astro 5.
 - npm.
-- For deployment only: `lftp`.
 
 Install:
 
@@ -46,17 +45,20 @@ Sitemap integration writes sitemap files during build.
 
 ## Hosting
 
-Current deployment script targets Hostpoint via SFTP:
+Current production hosting uses GitHub Pages:
 
-- Script: `scripts/deploy.sh`
-- Command: `npm run deploy:hostpoint`
-- Remote sync: `lftp mirror --reverse --delete --parallel=4 dist/ HOSTPOINT_TARGET_PATH`
+- Workflow: `.github/workflows/deploy.yml`
+- Source in GitHub settings: `GitHub Actions`
+- Custom domain: `websiteli.ch`
+- Build output deployed: `dist/`
 
-Warning: deployment deletes remote files not present in `dist/`.
+`public/CNAME` records the intended custom domain in the generated artifact, but the GitHub repository Pages setting still needs to be configured.
+
+The repository still contains the older Hostpoint SFTP script as a fallback, but it is no longer the primary deployment path.
 
 ## Environment Variables
 
-Required by `scripts/deploy.sh`:
+Required only by the legacy Hostpoint script:
 
 - `HOSTPOINT_HOST`
 - `HOSTPOINT_USERNAME`
@@ -65,16 +67,50 @@ Required by `scripts/deploy.sh`:
 
 The script loads `.env` if present. Do not commit secrets.
 
-## Deployment Check
+## GitHub Pages Setup
 
-Before real deployment:
+In GitHub, open:
 
-```bash
-npm run build
-bash scripts/deploy.sh --check
+```text
+Settings -> Pages
 ```
 
-`--check` verifies required env vars and whether `lftp` is installed.
+Set:
+
+```text
+Source: GitHub Actions
+Custom domain: websiteli.ch
+```
+
+At the DNS provider for `websiteli.ch`, point the apex domain to GitHub Pages using GitHub's current apex `A` records:
+
+```text
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+Add GitHub's `AAAA` records too if your DNS provider supports IPv6:
+
+```text
+2606:50c0:8000::153
+2606:50c0:8001::153
+2606:50c0:8002::153
+2606:50c0:8003::153
+```
+
+For `www.websiteli.ch`, add a CNAME record pointing to:
+
+```text
+kuefmz.github.io
+```
+
+After DNS is working in GitHub Pages, enable:
+
+```text
+Enforce HTTPS
+```
 
 ## Release Checklist
 
@@ -94,8 +130,7 @@ There is no automated rollback script.
 
 Manual rollback options:
 
-- Re-deploy a previous known-good commit after running build.
-- Restore Hostpoint files from hosting backup if available.
+- Re-deploy a previous known-good commit by reverting or pushing that commit to `main`.
 - Revert the problematic commit and redeploy.
 
 ## Deployment Verification
@@ -112,4 +147,4 @@ After deployment:
 
 ## CI/CD
 
-No CI/CD configuration is currently present in the repository. Builds and deployment are local/manual unless external hosting automation exists outside this repo.
+The GitHub Pages workflow runs on pushes to `main` and manual `workflow_dispatch` runs.
