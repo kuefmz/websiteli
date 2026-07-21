@@ -41,7 +41,7 @@ Scripts in `package.json`:
 - `npm run dev`: starts Astro dev server.
 - `npm run build`: generates static output in `dist/`.
 - `npm run test:pricing`: runs build, then `node scripts/test-pricing.mjs`.
-- `npm run deploy:hostpoint`: runs `scripts/deploy.sh`.
+- `npm run deploy:hostpoint`: runs the legacy Hostpoint SFTP deployment script.
 
 ## Routing
 
@@ -180,12 +180,13 @@ Runtime:
 - Google Analytics 4 via `gtag.js`.
 - Google Apps Script form endpoint for leads/newsletter.
 - Country lookup APIs for pricing.
-- Hostpoint SFTP deployment via `lftp`.
+- GitHub Pages deployment via GitHub Actions.
+- Legacy Hostpoint SFTP deployment via `lftp`.
 - `@astrojs/sitemap` for sitemap generation.
 
 ## Environment Variables
 
-Deployment script requires:
+The GitHub Pages workflow does not require hosting secrets. The legacy Hostpoint deployment script requires:
 
 - `HOSTPOINT_HOST`
 - `HOSTPOINT_USERNAME`
@@ -202,7 +203,7 @@ flowchart LR
   Build --> Dist[dist/ static site]
   Dist --> Sitemap[sitemap-index.xml]
   Dist --> RSS[rss.xml]
-  Dist --> Hostpoint[Hostpoint SFTP deployment]
+  Dist --> Pages[GitHub Pages deployment]
 ```
 
 ## Important Architectural Decisions
