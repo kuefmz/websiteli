@@ -11,6 +11,7 @@ import websiteLifeCycleStatistics from "./posts/website-life-cycle-statistics";
 import ceoWebsiteBusinessAsset from "./posts/ceo-website-business-asset";
 import yourWebsiteShouldntEndAtContactUs from "./posts/your-website-shouldnt-end-at-contact-us";
 import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
+import websiteMaintenanceChecklist from "./posts/website-maintenance-checklist";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -61,6 +62,7 @@ const blogSources: BlogPostSource[] = [
   ceoWebsiteBusinessAsset,
   yourWebsiteShouldntEndAtContactUs,
   becomeAWebsiteliPartner,
+  websiteMaintenanceChecklist,
 ];
 
 const marketKeywords = [
@@ -84,6 +86,8 @@ const marketKeywords = [
   "affordable website Switzerland",
   "lead generation landing page",
   "website maintenance audit",
+  "website maintenance checklist",
+  "business website maintenance",
   "Websiteli partner",
   "white-label web development Switzerland",
   "agency web development partner",
