@@ -355,6 +355,7 @@ function mapSourceToPost(source: BlogPostSource, locale: LocaleCode): BlogPost |
   const summary = translation.summary ?? getDefaultSummary(source, translation);
   const keyTakeaways = translation.keyTakeaways ?? getDefaultKeyTakeaways(translation);
   const chatGptPrompts = translation.chatGptPrompts ?? getDefaultChatGptPrompts(translation);
+  const references = translation.references ?? source.translations[DEFAULT_LOCALE].references ?? [];
 
   return {
     slug: source.slug,
@@ -375,7 +376,7 @@ function mapSourceToPost(source: BlogPostSource, locale: LocaleCode): BlogPost |
     summary,
     keyTakeaways,
     chatGptPrompts,
-    references: translation.references ?? [],
+    references,
     headings: getMarkdownHeadings(translation.body),
     body: translation.body,
     related: source.related,

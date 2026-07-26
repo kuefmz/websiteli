@@ -480,6 +480,7 @@ function localizedSuccessCopy(
 
   return {
     ...base,
+    language,
     summary: [...selected.summary],
     takeaways: [...selected.takeaways],
     prompts: [...selected.prompts],
