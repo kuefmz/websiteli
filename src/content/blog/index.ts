@@ -12,6 +12,7 @@ import ceoWebsiteBusinessAsset from "./posts/ceo-website-business-asset";
 import yourWebsiteShouldntEndAtContactUs from "./posts/your-website-shouldnt-end-at-contact-us";
 import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
 import websiteMaintenanceChecklist from "./posts/website-maintenance-checklist";
+import websiteLeadQualification from "./posts/website-lead-qualification";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -63,6 +64,7 @@ const blogSources: BlogPostSource[] = [
   yourWebsiteShouldntEndAtContactUs,
   becomeAWebsiteliPartner,
   websiteMaintenanceChecklist,
+  websiteLeadQualification,
 ];
 
 const marketKeywords = [
@@ -85,6 +87,9 @@ const marketKeywords = [
   "website price Switzerland",
   "affordable website Switzerland",
   "lead generation landing page",
+  "website lead qualification",
+  "qualified website leads",
+  "lead routing automation",
   "website maintenance audit",
   "website maintenance checklist",
   "business website maintenance",
@@ -305,99 +310,118 @@ function getInstagramReadMore(locale: LocaleCode) {
     it: "Leggilo sul blog Websiteli.",
     cz: "Přečtěte si článek na blogu Websiteli.",
     sk: "Prečítajte si článok na blogu Websiteli.",
-    pt: "Lê no blog da Websiteli.",
-    da: "Læs den på Websiteli-bloggen.",
+    pt: "Leia no blog da Websiteli.",
+    da: "Læs artiklen på Websiteli-bloggen.",
     nl: "Lees het op de Websiteli-blog.",
-    ja: "Websiteliブログで読む。",
+    ja: "Websiteliブログで全文をご覧ください。",
   };
 
   return labels[locale];
 }
 
-function getReferences(source: BlogPostSource, translation: BlogPostSource["translations"]["en"]) {
-  const references = translation.references?.length
-    ? translation.references
-    : source.translations[DEFAULT_LOCALE].references ?? [];
+function getFallbackSocial(source: BlogPostSource, locale: LocaleCode, title: string, excerpt: string) {
+  const readMore = getInstagramReadMore(locale);
+  const original = source.social;
 
-  return [...references].sort((a, b) => `${a.publisher} ${a.title}`.localeCompare(`${b.publisher} ${b.title}`));
+  if (locale === DEFAULT_LOCALE) {
+    return {
+      linkedin: original?.linkedin ?? `${title}\n\n${excerpt}`,
+      facebook: original?.facebook ?? `${title}\n\n${excerpt}`,
+      instagram: original?.instagram ?? `${title}\n\n${excerpt}\n\n${readMore}`,
+    };
+  }
+
+  return {
+    linkedin: `${title}\n\n${excerpt}`,
+    facebook: `${title}\n\n${excerpt}`,
+    instagram: `${title}\n\n${excerpt}\n\n${readMore}`,
+  };
 }
 
-function toBlogPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
-  if (!sourceCanRenderLocale(source, locale)) return undefined;
+function mapSourceToPost(source: BlogPostSource, locale: LocaleCode): BlogPost | null {
+  const sourceLocale = sourceHasLocale(source, locale)
+    ? locale
+    : source.translationFallback
+      ? DEFAULT_LOCALE
+      : null;
 
-  const translation = source.translations[locale] ?? source.translations[DEFAULT_LOCALE];
-  const isFallback = !source.translations[locale] && locale !== DEFAULT_LOCALE;
-  const socialCaption = `${translation.title}\n\n${translation.description}`;
-  const sourceSocial = translation.language === DEFAULT_LOCALE ? source.social : undefined;
+  if (!sourceLocale || !sourceCanRenderLocale(source, sourceLocale)) return null;
+
+  const translation = source.translations[sourceLocale];
+  if (!translation) return null;
+
+  const status = source.status ?? (source.published ? "published" : "draft");
+  const publishDate = source.publishDate ?? source.date;
+  const summary = translation.summary ?? getDefaultSummary(source, translation);
+  const keyTakeaways = translation.keyTakeaways ?? getDefaultKeyTakeaways(translation);
+  const chatGptPrompts = translation.chatGptPrompts ?? getDefaultChatGptPrompts(translation);
 
   return {
     slug: source.slug,
-    status: source.status ?? (source.published ? "published" : "draft"),
+    status,
     title: translation.title,
     description: translation.description,
     category: translation.category,
     tags: translation.tags,
     featuredImage: source.image,
-    imageAlt: source.imageAlt ?? `${translation.title} - ${translation.category}`,
+    imageAlt: source.imageAlt ?? translation.title,
     author: source.author,
     publishedAt: source.date,
-    publishDate: source.publishDate ?? source.date,
+    publishDate,
     updatedAt: source.updated ?? source.date,
     readingTime: translation.readingTime,
     audience: translation.audience,
     excerpt: translation.excerpt,
-    summary: translation.summary?.length ? translation.summary : getDefaultSummary(source, translation),
-    keyTakeaways: translation.keyTakeaways?.length ? translation.keyTakeaways : getDefaultKeyTakeaways(translation),
-    chatGptPrompts: translation.chatGptPrompts?.length ? translation.chatGptPrompts : getDefaultChatGptPrompts(translation),
-    references: getReferences(source, translation),
+    summary,
+    keyTakeaways,
+    chatGptPrompts,
+    references: translation.references ?? [],
     headings: getMarkdownHeadings(translation.body),
     body: translation.body,
     related: source.related,
-    social: {
-      linkedin: sourceSocial?.linkedin ?? socialCaption,
-      facebook: sourceSocial?.facebook ?? socialCaption,
-      instagram: sourceSocial?.instagram ?? `${socialCaption}\n\n${getInstagramReadMore(translation.language)}`,
-    },
+    social: getFallbackSocial(source, locale, translation.title, translation.excerpt),
     faqs: translation.faqs,
     locale,
-    sourceLocale: translation.language,
-    isFallback,
+    sourceLocale,
+    isFallback: sourceLocale !== locale,
   };
 }
 
-export async function getBlogPosts(locale: LocaleCode) {
-  return blogSources
-    .filter(isPublishedSource)
-    .map((source) => toBlogPost(source, locale))
-    .filter((post): post is BlogPost => Boolean(post))
-    .sort((a, b) => getPostDate(b.publishedAt) - getPostDate(a.publishedAt));
+export const blogPosts: BlogPost[] = blogSources
+  .filter(isPublishedSource)
+  .flatMap((source) => localeCodes.map((locale) => mapSourceToPost(source, locale)).filter((post): post is BlogPost => Boolean(post)))
+  .sort((a, b) => getPostDate(b.publishDate) - getPostDate(a.publishDate));
+
+export const blogKeywords = marketKeywords;
+
+export function getBlogPostsForLocale(locale: LocaleCode) {
+  return blogPosts.filter((post) => post.locale === locale);
 }
 
-export async function getBlogPost(locale: LocaleCode, slug: string) {
-  return (await getBlogPosts(locale)).find((post) => post.slug === slug);
+export function getBlogPost(locale: LocaleCode, slug: string) {
+  return blogPosts.find((post) => post.locale === locale && post.slug === slug);
+}
+
+export function getAllBlogSlugs() {
+  return Array.from(new Set(blogPosts.map((post) => post.slug)));
+}
+
+export async function getBlogPosts(locale: LocaleCode) {
+  return getBlogPostsForLocale(locale);
 }
 
 export async function getBlogSlugs() {
-  return blogSources.filter(isPublishedSource).map((source) => source.slug);
+  return getAllBlogSlugs();
 }
 
 export async function getBlogStaticPaths() {
-  return blogSources
-    .filter(isPublishedSource)
-    .flatMap((source) =>
-      localeCodes
-        .filter((locale) => sourceCanRenderLocale(source, locale))
-        .map((locale) => ({ params: { locale, slug: source.slug } })),
-    );
+  return blogPosts.map((post) => ({ params: { locale: post.locale, slug: post.slug } }));
 }
 
 export async function getBlogAlternates(slug: string) {
-  const source = blogSources.find((item) => item.slug === slug && isPublishedSource(item));
-  if (!source) return [];
-
-  return localeCodes
-    .filter((locale) => sourceCanRenderLocale(source, locale))
-    .map((locale) => ({ locale, href: `/${locale}/blog/${source.slug}/` }));
+  return blogPosts
+    .filter((post) => post.slug === slug)
+    .map((post) => ({ locale: post.locale, href: `/${post.locale}/blog/${post.slug}/` }));
 }
 
 function escapeHtml(value: string) {
