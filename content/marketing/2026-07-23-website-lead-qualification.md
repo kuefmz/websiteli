@@ -2,9 +2,9 @@
 
 ## Campaign
 
-**Topic:** How to turn website enquiries into qualified leads  
-**Blog slug:** `website-lead-qualification`  
-**Primary URL:** `https://websiteli.ch/en/blog/website-lead-qualification/`  
+**Topic:** How to turn website enquiries into qualified leads
+**Blog slug:** `website-lead-qualification`
+**Primary URL:** `https://websiteli.ch/en/blog/website-lead-qualification/`
 **Positioning:** Swiss small-business websites, automation and AI.
 
 ## Assets
@@ -93,8 +93,8 @@ https://websiteli.ch/en/blog/website-lead-qualification/?utm_source=instagram&ut
 
 Start with the digital system your business needs now.
 
-Landing page from CHF 990.  
-Growth Setup from CHF 1'990.  
+Landing page from CHF 990.
+Growth Setup from CHF 1'990.
 AI/Data Upgrade from CHF 3'290.
 
 Websiteli builds Swiss small-business websites, automation and practical AI solutions.

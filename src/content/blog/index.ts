@@ -11,6 +11,7 @@ import websiteLifeCycleStatistics from "./posts/website-life-cycle-statistics";
 import ceoWebsiteBusinessAsset from "./posts/ceo-website-business-asset";
 import yourWebsiteShouldntEndAtContactUs from "./posts/your-website-shouldnt-end-at-contact-us";
 import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
+import websiteMaintenanceChecklist from "./posts/website-maintenance-checklist";
 import websiteLeadQualification from "./posts/website-lead-qualification";
 import type { BlogPostSource } from "./types";
 
@@ -62,6 +63,7 @@ const blogSources: BlogPostSource[] = [
   ceoWebsiteBusinessAsset,
   yourWebsiteShouldntEndAtContactUs,
   becomeAWebsiteliPartner,
+  websiteMaintenanceChecklist,
   websiteLeadQualification,
 ];
 
@@ -89,6 +91,8 @@ const marketKeywords = [
   "qualified website leads",
   "lead routing automation",
   "website maintenance audit",
+  "website maintenance checklist",
+  "business website maintenance",
   "Websiteli partner",
   "white-label web development Switzerland",
   "agency web development partner",
@@ -400,4 +404,307 @@ export function getBlogPost(locale: LocaleCode, slug: string) {
 
 export function getAllBlogSlugs() {
   return Array.from(new Set(blogPosts.map((post) => post.slug)));
+}
+
+export async function getBlogPosts(locale: LocaleCode) {
+  return getBlogPostsForLocale(locale);
+}
+
+export async function getBlogSlugs() {
+  return getAllBlogSlugs();
+}
+
+export async function getBlogStaticPaths() {
+  return blogPosts.map((post) => ({ params: { locale: post.locale, slug: post.slug } }));
+}
+
+export async function getBlogAlternates(slug: string) {
+  return blogPosts
+    .filter((post) => post.slug === slug)
+    .map((post) => ({ locale: post.locale, href: `/${post.locale}/blog/${post.slug}/` }));
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function escapeHtmlAttribute(value: string) {
+  return escapeHtml(value).replace(/'/g, "&#39;");
+}
+
+function renderInlineMarkdown(value: string, locale: LocaleCode = DEFAULT_LOCALE) {
+  const escaped = escapeHtml(value);
+
+  return escaped
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_match, label: string, href: string) => {
+      const safeHref = href.trim().replace(/^\/en\//, `/${locale}/`);
+      if (!safeHref.startsWith("/") && !safeHref.startsWith("https://websiteli.ch")) return label;
+
+      return `<a href="${escapeHtmlAttribute(safeHref)}">${label}</a>`;
+    });
+}
+
+export function getHeadingId(heading: string) {
+  return heading
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function renderBlogMarkdown(markdown: string, locale: LocaleCode = DEFAULT_LOCALE) {
+  const html: string[] = [];
+  let paragraph: string[] = [];
+  let list: string[] = [];
+  let codeBlock: { language: string; lines: string[] } | undefined;
+  let skipFaq = false;
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return;
+    html.push(`<p>${renderInlineMarkdown(paragraph.join(" "), locale)}</p>`);
+    paragraph = [];
+  };
+  const flushList = () => {
+    if (!list.length) return;
+    html.push(`<ul>${list.map((item) => `<li>${renderInlineMarkdown(item, locale)}</li>`).join("")}</ul>`);
+    list = [];
+  };
+  const flushCodeBlock = () => {
+    if (!codeBlock) return;
+    const code = escapeHtml(codeBlock.lines.join("\n"));
+    const language = escapeHtmlAttribute(codeBlock.language || "text");
+    html.push(`<figure class="code-block" data-code-block><figcaption><span>${language}</span><button type="button" data-copy-code>Copy</button></figcaption><pre><code class="language-${language}">${code}</code></pre></figure>`);
+    codeBlock = undefined;
+  };
+
+  markdown.split(/\r?\n/).forEach((line) => {
+    const codeFence = line.match(/^```(\w+)?\s*$/);
+    if (codeFence) {
+      if (codeBlock) {
+        flushCodeBlock();
+      } else {
+        flushParagraph();
+        flushList();
+        codeBlock = { language: codeFence[1] ?? "text", lines: [] };
+      }
+      return;
+    }
+
+    if (codeBlock) {
+      codeBlock.lines.push(line);
+      return;
+    }
+
+    const heading = line.match(/^##\s+(.+)$/)?.[1]?.trim();
+    const subheading = line.match(/^###\s+(.+)$/)?.[1]?.trim();
+    const listItem = line.match(/^-\s+(.+)$/)?.[1]?.trim();
+    const callout = line.match(/^>\s*\[!(TIP|BEST PRACTICE|IMPORTANT|WARNING|EXAMPLE)\]\s*(.*)$/i);
+
+    if (skipFaq) {
+      if (heading) skipFaq = false;
+      else return;
+    }
+
+    if (heading || subheading) {
+      flushParagraph();
+      flushList();
+      const headingText = heading ?? subheading ?? "";
+      if (/^faq$|frequently asked questions|gyakori kérdések|preguntas frecuentes|よくある質問/i.test(headingText)) {
+        skipFaq = true;
+        return;
+      }
+      const level = heading ? "h2" : "h3";
+      html.push(`<${level} id="${getHeadingId(headingText)}">${renderInlineMarkdown(headingText, locale)}</${level}>`);
+      return;
+    }
+
+    if (callout) {
+      flushParagraph();
+      flushList();
+      const label = callout[1].toLowerCase().replace(/\s+/g, "-");
+      const text = callout[2]?.trim() || callout[1];
+      html.push(`<aside class="article-callout article-callout-${label}"><strong>${escapeHtml(callout[1])}</strong><p>${renderInlineMarkdown(text, locale)}</p></aside>`);
+      return;
+    }
+
+    if (listItem) {
+      flushParagraph();
+      list.push(listItem);
+      return;
+    }
+
+    if (!line.trim()) {
+      flushParagraph();
+      flushList();
+      return;
+    }
+
+    flushList();
+    paragraph.push(line.trim());
+  });
+
+  flushParagraph();
+  flushList();
+  flushCodeBlock();
+
+  return html.join("");
+}
+
+export function getBlogIndexContent(locale: LocaleCode) {
+  const localized: Record<LocaleCode, {
+    seo: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    text: string;
+    featured: string;
+    searchLabel: string;
+    categoriesLabel: string;
+    readArticle: string;
+  }> = {
+    en: {
+      seo: {
+        title: "Website, SEO and AI Automation Blog - Websiteli",
+        description: "Practical Websiteli guides about business websites, SEO, local visibility, lead generation, analytics, ownership and AI automation.",
+      },
+      eyebrow: "Blog",
+      title: "Practical guides for businesses that want more leads.",
+      text: "Articles about websites, SEO, local visibility, analytics, automation and owning the digital assets behind your business.",
+      featured: "Featured article",
+      searchLabel: "Search articles",
+      categoriesLabel: "Categories",
+      readArticle: "Read article",
+    },
+    de: {
+      seo: { title: "Website, SEO und KI-Automation Blog - Websiteli", description: "Praktische Websiteli-Artikel zu Websites, SEO, lokaler Sichtbarkeit, Leadgenerierung, Analytics, Eigentum und KI-Automation." },
+      eyebrow: "Blog",
+      title: "Praktische Leitfäden für Unternehmen, die mehr Anfragen wollen.",
+      text: "Artikel über Websites, SEO, lokale Sichtbarkeit, Analytics, Automatisierung und digitale Eigentumsrechte.",
+      featured: "Empfohlener Artikel",
+      searchLabel: "Artikel suchen",
+      categoriesLabel: "Kategorien",
+      readArticle: "Artikel lesen",
+    },
+    hu: {
+      seo: { title: "Weboldal, SEO és AI automatizálás blog - Websiteli", description: "Gyakorlati Websiteli útmutatók céges weboldalakról, SEO-ról, helyi láthatóságról, lead generálásról, analitikáról és AI-ról." },
+      eyebrow: "Blog",
+      title: "Gyakorlati útmutatók több érdeklődőt kereső vállalkozásoknak.",
+      text: "Cikkek weboldalakról, SEO-ról, helyi láthatóságról, analitikáról, automatizálásról és digitális tulajdonról.",
+      featured: "Kiemelt cikk",
+      searchLabel: "Cikkek keresése",
+      categoriesLabel: "Kategóriák",
+      readArticle: "Cikk olvasása",
+    },
+    pl: {
+      seo: { title: "Blog o stronach, SEO i automatyzacji AI - Websiteli", description: "Praktyczne poradniki Websiteli o stronach firmowych, SEO, widoczności lokalnej, leadach, analityce, własności i AI." },
+      eyebrow: "Blog",
+      title: "Praktyczne poradniki dla firm, które chcą więcej zapytań.",
+      text: "Artykuły o stronach, SEO, lokalnej widoczności, analityce, automatyzacji i własności zasobów cyfrowych.",
+      featured: "Polecany artykuł",
+      searchLabel: "Szukaj artykułów",
+      categoriesLabel: "Kategorie",
+      readArticle: "Czytaj artykuł",
+    },
+    es: {
+      seo: { title: "Blog de webs, SEO y automatización con IA - Websiteli", description: "Guías prácticas de Websiteli sobre webs de negocio, SEO, visibilidad local, leads, analítica, propiedad e IA." },
+      eyebrow: "Blog",
+      title: "Guías prácticas para negocios que quieren más clientes potenciales.",
+      text: "Artículos sobre webs, SEO, visibilidad local, analítica, automatización y propiedad digital.",
+      featured: "Artículo destacado",
+      searchLabel: "Buscar artículos",
+      categoriesLabel: "Categorías",
+      readArticle: "Leer artículo",
+    },
+    fr: {
+      seo: { title: "Blog sites web, SEO et automatisation IA - Websiteli", description: "Guides pratiques Websiteli sur sites d'entreprise, SEO, visibilité locale, leads, analytics, propriété et IA." },
+      eyebrow: "Blog",
+      title: "Guides pratiques pour les entreprises qui veulent plus de demandes.",
+      text: "Articles sur les sites, le SEO, la visibilité locale, les analytics, l'automatisation et la propriété numérique.",
+      featured: "Article à la une",
+      searchLabel: "Rechercher des articles",
+      categoriesLabel: "Catégories",
+      readArticle: "Lire l'article",
+    },
+    it: {
+      seo: { title: "Blog su siti web, SEO e automazione AI - Websiteli", description: "Guide pratiche Websiteli su siti aziendali, SEO, visibilità locale, lead generation, analytics, proprietà e AI." },
+      eyebrow: "Blog",
+      title: "Guide pratiche per aziende che vogliono più contatti.",
+      text: "Articoli su siti, SEO, visibilità locale, analytics, automazione e proprietà degli asset digitali.",
+      featured: "Articolo in evidenza",
+      searchLabel: "Cerca articoli",
+      categoriesLabel: "Categorie",
+      readArticle: "Leggi l'articolo",
+    },
+    cz: {
+      seo: { title: "Blog o webech, SEO a AI automatizaci - Websiteli", description: "Praktické návody Websiteli o firemních webech, SEO, lokální viditelnosti, lead generation, analytice, vlastnictví a AI." },
+      eyebrow: "Blog",
+      title: "Praktické návody pro firmy, které chtějí více poptávek.",
+      text: "Články o webech, SEO, lokální viditelnosti, analytice, automatizaci a vlastnictví digitálních aktiv.",
+      featured: "Doporučený článek",
+      searchLabel: "Hledat články",
+      categoriesLabel: "Kategorie",
+      readArticle: "Číst článek",
+    },
+    sk: {
+      seo: { title: "Blog o weboch, SEO a AI automatizácii - Websiteli", description: "Praktické články Websiteli pre slovenské firmy o weboch, SEO, lokálnej viditeľnosti, lead generation, analytike a AI." },
+      eyebrow: "Blog",
+      title: "Praktické návody pre firmy, ktoré chcú viac dopytov.",
+      text: "Články o webových stránkach, SEO, lokálnej viditeľnosti, analytike, automatizácii a vlastníctve digitálnych aktív.",
+      featured: "Odporúčaný článok",
+      searchLabel: "Hľadať články",
+      categoriesLabel: "Kategórie",
+      readArticle: "Čítať článok",
+    },
+    pt: {
+      seo: { title: "Blog de sites, SEO e automação com IA - Websiteli", description: "Guias práticos da Websiteli sobre sites empresariais, SEO, visibilidade local, leads, analytics, propriedade e IA." },
+      eyebrow: "Blog",
+      title: "Guias práticos para negócios que querem mais pedidos.",
+      text: "Artigos sobre sites, SEO, visibilidade local, analytics, automação e propriedade digital.",
+      featured: "Artigo em destaque",
+      searchLabel: "Pesquisar artigos",
+      categoriesLabel: "Categorias",
+      readArticle: "Ler artigo",
+    },
+    da: {
+      seo: { title: "Blog om websites, SEO og AI-automatisering - Websiteli", description: "Praktiske Websiteli-guides om virksomhedswebsites, SEO, lokal synlighed, leads, analytics, ejerskab og AI." },
+      eyebrow: "Blog",
+      title: "Praktiske guides til virksomheder, der vil have flere henvendelser.",
+      text: "Artikler om websites, SEO, lokal synlighed, analytics, automatisering og ejerskab af digitale aktiver.",
+      featured: "Udvalgt artikel",
+      searchLabel: "Søg artikler",
+      categoriesLabel: "Kategorier",
+      readArticle: "Læs artikel",
+    },
+    nl: {
+      seo: { title: "Blog over websites, SEO en AI-automatisering - Websiteli", description: "Praktische Websiteli-gidsen over bedrijfswebsites, SEO, lokale zichtbaarheid, leads, analytics, eigendom en AI." },
+      eyebrow: "Blog",
+      title: "Praktische gidsen voor bedrijven die meer aanvragen willen.",
+      text: "Artikelen over websites, SEO, lokale zichtbaarheid, analytics, automatisering en eigendom van digitale assets.",
+      featured: "Uitgelicht artikel",
+      searchLabel: "Artikelen zoeken",
+      categoriesLabel: "Categorieën",
+      readArticle: "Artikel lezen",
+    },
+    ja: {
+      seo: { title: "Webサイト、SEO、AI自動化ブログ - Websiteli", description: "ビジネスサイト、SEO、地域での見つけやすさ、リード獲得、分析、所有権、AI自動化に関するWebsiteliの実用ガイド。" },
+      eyebrow: "ブログ",
+      title: "問い合わせを増やしたいビジネスのための実用ガイド。",
+      text: "Webサイト、SEO、地域検索、分析、自動化、デジタル資産の所有権に関する記事です。",
+      featured: "注目記事",
+      searchLabel: "記事を検索",
+      categoriesLabel: "カテゴリー",
+      readArticle: "記事を読む",
+    },
+  };
+
+  return localized[locale];
+}
+
+export function getMarketKeywords() {
+  return marketKeywords;
 }
