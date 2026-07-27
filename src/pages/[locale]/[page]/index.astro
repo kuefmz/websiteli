@@ -31,8 +31,24 @@ const content = getLocaleContent(locale);
 const demoContent = getDemoPageContent(locale);
 const blogContent = getBlogIndexContent(locale);
 const partnerContent = getPartnerPageContent(locale);
-const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
+const siteUrl = new URL("https://websiteli.ch");
 const label = content.nav[pageNavKeys[page]] ?? (page === "blog" ? blogContent.eyebrow : page);
+const servicesPricingSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
+  en: {
+    title: "Website Packages, SEO and AI Automation Pricing - Websiteli",
+    description:
+      "Compare Websiteli website packages for business websites, SEO setup, maintenance, lead generation, automation and AI/data upgrades in Switzerland.",
+  },
+  de: {
+    title: "Website-Pakete, SEO und KI-Automation Preise - Websiteli",
+    description:
+      "Vergleichen Sie Websiteli-Pakete für Business-Websites, SEO-Grundlagen, Wartung, Leadgenerierung, Automation und KI-Daten-Upgrades in der Schweiz.",
+  },
+};
+const servicesPricingSeo = servicesPricingSeoByLocale[locale] ?? {
+  title: `${content.nav.servicesPricing ?? "Services & Pricing"} - Websiteli`,
+  description: content.packagesIntro.text,
+};
 const title =
   page === "partners"
     ? partnerContent.seo.title
@@ -41,13 +57,13 @@ const title =
     : page === "blog"
       ? blogContent.seo.title
       : page === "services-pricing"
-        ? `${content.nav.servicesPricing ?? "Services & Pricing"} - Websiteli`
+        ? servicesPricingSeo.title
         : `${label} - Websiteli`;
 const description =
   page === "partners"
     ? partnerContent.seo.description
     : page === "services-pricing"
-    ? content.packagesIntro.text
+    ? servicesPricingSeo.description
     : page === "portfolio"
       ? demoContent.seo.description
       : page === "blog"
@@ -55,6 +71,22 @@ const description =
         : page === "about"
         ? content.about.text
         : content.contact.text;
+const servicesPricingFaqs = [
+  {
+    question: "Which package should I choose?",
+    answer:
+      "Digital Audit is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+  },
+  {
+    question: "Do clients own their website?",
+    answer: "Yes. Clients should own the domain, source code, analytics, Search Console, Google Business Profile access and website assets.",
+  },
+  {
+    question: "Can Websiteli maintain an existing website?",
+    answer:
+      "Yes. Website Maintenance covers updates, monitoring, backups, small content changes, analytics reports, basic SEO monitoring and technical support.",
+  },
+];
 const pageSchema =
   page === "partners"
     ? [
@@ -99,7 +131,23 @@ const pageSchema =
           })),
         },
       ]
+    : page === "services-pricing"
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: servicesPricingFaqs.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          },
+        ]
     : [];
+const redirectCanonicalUrl = redirectTarget ? new URL(redirectTarget, siteUrl).toString() : "";
 ---
 
 {
@@ -107,7 +155,8 @@ const pageSchema =
     <html lang={locale}>
       <head>
         <meta charset="utf-8" />
-        <link rel="canonical" href={redirectTarget} />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href={redirectCanonicalUrl} />
         <script is:inline define:vars={{ redirectTarget }}>
           try {
             window.sessionStorage?.setItem("websiteli_redirect_context", JSON.stringify({
@@ -137,7 +186,6 @@ const pageSchema =
       alternates={getAlternates(page)}
       content={content}
       schema={pageSchema}
-      includeDefaultFaq={page !== "partners"}
     >
       <PageSections content={content} page={page} locale={locale} />
     </Layout>

@@ -207,6 +207,7 @@ const faqs = [
             const technologies = item.technologies ?? item.features.slice(0, 5);
             const relatedServices = item.servicesProvided ?? item.included.slice(0, 4);
             const requestHref = `${contactHref}?package=${packageKeyByName[item.recommendedPackage]}&relatedDemo=${item.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_demo`;
+            const projectTypeLabel = item.clientName === "Websiteli demo" ? "Websiteli-owned demo" : "Public live website";
             return (
             <article class={`project-card${item.slug === "jenifer-ciuciu-kiss" ? " featured-project" : ""}`} itemscope itemtype="https://schema.org/CreativeWork">
               <a class="project-preview" href={item.websiteUrl} target="_blank" rel="noopener" aria-label={`Open ${item.title}`}>
@@ -215,6 +216,7 @@ const faqs = [
               <div class="project-card-body">
                 <div class="project-meta">
                   <span>{category}</span>
+                  <span>{projectTypeLabel}</span>
                   <span>{demoContent.labels.industry}: {item.industry ?? item.forText}</span>
                   {item.country && <span>{demoContent.labels.country}: {item.country}</span>}
                 </div>
@@ -254,6 +256,7 @@ const faqs = [
                   <article class="demo-card concept-demo-card">
                     <div class="concept-card-meta">
                       <span>{category}</span>
+                      <span>Concept demo</span>
                       <span>{demoContent.packageNames[item.recommendedPackage]}</span>
                     </div>
                     <h3>{item.title}</h3>

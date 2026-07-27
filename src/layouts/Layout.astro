@@ -32,10 +32,30 @@ const {
   alternates = [],
   content,
   schema = [],
-  includeDefaultFaq = true,
+  includeDefaultFaq = false,
 } = Astro.props;
-const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
-const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const siteUrl = new URL("https://websiteli.ch");
+const businessDescription =
+  "Swiss digital agency for business websites, SEO setup, website maintenance, business automation, AI assistants, dashboards and custom web applications.";
+const socialProfiles = [
+  "https://www.youtube.com/@Websiteli",
+  "https://www.linkedin.com/company/websiteli",
+  "https://www.instagram.com/websiteli.ch/",
+  "https://www.facebook.com/profile.php?id=61591131223104",
+  "https://ch.pinterest.com/websiteli/",
+];
+function normalizeCanonicalPath(pathOrUrl: string) {
+  const url = new URL(pathOrUrl, siteUrl);
+  const lastSegment = url.pathname.split("/").pop() ?? "";
+  const hasFileExtension = /\.[a-z0-9]+$/i.test(lastSegment);
+
+  if (url.pathname === "/" || url.pathname.endsWith("/") || hasFileExtension) return url.pathname;
+  return `${url.pathname}/`;
+}
+function toCanonicalUrl(pathOrUrl: string) {
+  return new URL(normalizeCanonicalPath(pathOrUrl), siteUrl).toString();
+}
+const canonicalUrl = toCanonicalUrl(canonicalPath);
 const imageUrl = new URL(image ?? "/assets/websiteli-og.png", siteUrl).toString();
 const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
 const analyticsPagePath = page === "home" ? "/" : "";
@@ -73,6 +93,8 @@ const structuredData = [
     email: "info@websiteli.ch",
     telephone: "+41772653306",
     logo: new URL("/assets/websiteli-logo.png", siteUrl).toString(),
+    description: businessDescription,
+    sameAs: socialProfiles,
   },
   {
     "@context": "https://schema.org",
@@ -80,34 +102,27 @@ const structuredData = [
     name: "Websiteli",
     url: siteUrl.toString(),
     inLanguage: lang,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: new URL(`/${locale}/blog/?q={search_term_string}`, siteUrl).toString(),
-      "query-input": "required name=search_term_string",
-    },
   },
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "ProfessionalService",
+    "@id": new URL("/#professional-service", siteUrl).toString(),
     name: "Websiteli",
     url: siteUrl.toString(),
     email: "info@websiteli.ch",
     telephone: "+41772653306",
-    areaServed: {
-      "@type": "Country",
-      name: "Switzerland",
-    },
-    priceRange: "Varies by market",
-    description,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "Business websites, SEO setup, website maintenance and AI automation",
-    provider: { "@type": "Organization", name: "Websiteli", url: siteUrl.toString() },
-    areaServed: ["Switzerland", "Germany", "Austria", "Czech Republic", "Slovakia", "Hungary", "International"],
-    serviceType: ["Website creation", "Website redesign", "Website maintenance", "Local SEO", "Lead generation", "AI automation", "Business automation"],
-    description,
+    areaServed: [
+      { "@type": "Country", name: "Switzerland" },
+      { "@type": "Country", name: "Germany" },
+      { "@type": "Country", name: "Austria" },
+      { "@type": "Country", name: "Hungary" },
+      { "@type": "Country", name: "Poland" },
+      { "@type": "Country", name: "Czech Republic" },
+      { "@type": "Country", name: "Slovakia" },
+      { "@type": "Place", name: "International" },
+    ],
+    priceRange: "Project-based",
+    description: businessDescription,
   },
   ...defaultFaqSchema,
   ...schema,
@@ -129,8 +144,8 @@ const structuredData = [
     <link rel="shortcut icon" type="image/png" href="/assets/websiteli-logo.png?v=3" />
     <link rel="apple-touch-icon" href="/assets/websiteli-logo.png?v=3" />
     <link rel="manifest" href="/site.webmanifest?v=3" />
-    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.href, siteUrl).toString()} />)}
-    {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(xDefaultHref, siteUrl).toString()} />}
+    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={toCanonicalUrl(item.href)} />)}
+    {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={toCanonicalUrl(xDefaultHref)} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />

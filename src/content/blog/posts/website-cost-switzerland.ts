@@ -30,8 +30,8 @@ const references = [
 
 const translations: BlogPostSource["translations"] = {
   en: {
-    title: "How Much Does a Business Website Cost in Switzerland?",
-    description: "A practical Swiss website cost guide for small businesses, including what affects price, what to budget for, and how to compare offers.",
+    title: "Business Website Cost in Switzerland: 2026 Pricing Guide",
+    description: "A practical 2026 Swiss website cost guide for small businesses, including price drivers, realistic budgets, and how to compare offers.",
     category: "Website Pricing",
     tags: ["website cost switzerland", "website price", "affordable website", "business website cost", "Swiss website pricing", "website cost guide"],
     language: "en",
@@ -753,9 +753,9 @@ function makeTranslation(
 
 export default {
   slug: "website-cost-switzerland",
-  title: "How Much Does a Business Website Cost in Switzerland?",
+  title: "Business Website Cost in Switzerland: 2026 Pricing Guide",
   language: "en",
-  description: "A practical Swiss website cost guide for small businesses, including what affects price, what to budget for, and how to compare offers.",
+  description: "A practical 2026 Swiss website cost guide for small businesses, including price drivers, realistic budgets, and how to compare offers.",
   tags: ["website cost switzerland", "website price", "affordable website", "business website cost", "Swiss website pricing", "website cost guide"],
   published: true,
   status: "published",
