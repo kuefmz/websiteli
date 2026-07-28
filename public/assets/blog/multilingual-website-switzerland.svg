@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Multilingual websites for Swiss small businesses</title>
+  <desc id="desc">A modern website interface connected to German, French, Italian and English language cards.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#eaf3ff" stop-opacity="0.96"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1380" cy="140" r="220" fill="#5eead4" opacity="0.10"/>
+  <circle cx="210" cy="770" r="260" fill="#60a5fa" opacity="0.12"/>
+  <text x="110" y="120" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">WEBSITELI • SWISS SMALL-BUSINESS WEBSITES</text>
+  <text x="110" y="205" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800">One website.</text>
+  <text x="110" y="278" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800">Several Swiss markets.</text>
+  <text x="110" y="335" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="30">Structure, local intent, consistent offers and maintainable content.</text>
+  <rect x="105" y="410" width="760" height="350" rx="30" fill="url(#panel)"/>
+  <rect x="145" y="455" width="680" height="62" rx="16" fill="#dbeafe"/>
+  <circle cx="178" cy="486" r="10" fill="#60a5fa"/>
+  <circle cx="208" cy="486" r="10" fill="#93c5fd"/>
+  <circle cx="238" cy="486" r="10" fill="#bfdbfe"/>
+  <rect x="155" y="556" width="310" height="22" rx="11" fill="#0f2747"/>
+  <rect x="155" y="598" width="520" height="16" rx="8" fill="#94a3b8"/>
+  <rect x="155" y="632" width="470" height="16" rx="8" fill="#cbd5e1"/>
+  <rect x="155" y="686" width="180" height="46" rx="23" fill="#0f766e"/>
+  <text x="196" y="716" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Get started</text>
+  <path d="M865 585 C980 585 990 470 1070 470" fill="none" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+  <path d="M865 585 C980 585 990 585 1070 585" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round"/>
+  <path d="M865 585 C980 585 990 700 1070 700" fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
+  <rect x="1070" y="395" width="390" height="110" rx="24" fill="#ffffff"/>
+  <text x="1110" y="445" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">DE • Deutsch</text>
+  <text x="1110" y="478" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="20">Local wording and search intent</text>
+  <rect x="1070" y="530" width="390" height="110" rx="24" fill="#ffffff"/>
+  <text x="1110" y="580" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">FR • Français</text>
+  <text x="1110" y="613" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="20">Clear offers and navigation</text>
+  <rect x="1070" y="665" width="390" height="110" rx="24" fill="#ffffff"/>
+  <text x="1110" y="715" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">IT / EN</text>
+  <text x="1110" y="748" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="20">Consistent updates across markets</text>
+  <text x="110" y="835" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Landing pages from CHF 990 • Growth Setup from CHF 1'990 • AI/Data Upgrade from CHF 3'290</text>
+</svg>
