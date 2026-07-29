@@ -8,12 +8,14 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as LocaleCode;
 const redirectTarget = `/${locale}/portfolio/`;
+const redirectCanonicalUrl = new URL(redirectTarget, "https://websiteli.ch").toString();
 ---
 
 <html lang={locale}>
   <head>
     <meta charset="utf-8" />
-    <link rel="canonical" href={redirectTarget} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={redirectCanonicalUrl} />
     <script is:inline define:vars={{ redirectTarget }}>
       try {
         window.sessionStorage?.setItem("websiteli_redirect_context", JSON.stringify({
