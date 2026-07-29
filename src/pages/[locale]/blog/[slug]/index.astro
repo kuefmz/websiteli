@@ -13,7 +13,7 @@ const locale = Astro.params.locale as LocaleCode;
 const slug = Astro.params.slug as string;
 const content = getLocaleContent(locale);
 const blogContent = getBlogIndexContent(locale);
-const post = await getBlogPost(locale, slug);
+const post = await getBlogPost(slug, locale);
 
 if (!post) {
   return Astro.redirect(getLocalizedPath(locale, "blog"));
