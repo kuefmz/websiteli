@@ -5,6 +5,7 @@ import Layout from "../../../../layouts/Layout.astro";
 import { packageKeys } from "../../../../config/pricing";
 import { getPackageLabels } from "../../../../config/packageLabels";
 import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+import { getServiceDetail } from "../../../../content/serviceDetails";
 import {
   getRelatedServices,
   getServiceBySlug,
@@ -19,6 +20,7 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as LocaleCode;
 const service = getServiceBySlug(Astro.params.service) as ServicePage;
+const detail = getServiceDetail(service.slug);
 const content = getLocaleContent(locale);
 const category = serviceCategoryDetails[service.category];
 const packageLabels = getPackageLabels(locale);
@@ -28,7 +30,9 @@ const servicesHref = `/${locale}/services-pricing/#problems`;
 const canonicalPath = `/${locale}/services/${service.slug}/`;
 const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/services/${service.slug}/` }));
 const relatedServices = getRelatedServices(service);
-const serviceFaqs = [
+const primaryCtaLabel = detail ? "Discuss your workflow" : "Request this service";
+const bottomCtaLabel = detail ? "Discuss your content workflow" : `Request ${service.shortTitle}`;
+const defaultFaqs = [
   {
     question: "What problem does this service solve?",
     answer: service.problem,
@@ -42,6 +46,7 @@ const serviceFaqs = [
     answer: service.investment,
   },
 ];
+const serviceFaqs = detail?.faqs ?? defaultFaqs;
 const schema = [
   {
     "@context": "https://schema.org",
@@ -121,7 +126,7 @@ const schema = [
 ---
 
 <Layout
-  title={`${service.title} - Websiteli`}
+  title={detail?.seoTitle ?? `${service.title} - Websiteli`}
   description={service.description}
   canonicalPath={canonicalPath}
   lang={locale}
@@ -142,9 +147,9 @@ const schema = [
       </nav>
       <p class="eyebrow">{category.eyebrow}</p>
       <h1>{service.title}</h1>
-      <p>{service.description}</p>
+      <p>{detail?.intro ?? service.description}</p>
       <div class="button-row">
-        <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={service.slug}>Request this service</a>
+        <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={service.slug}>{primaryCtaLabel}</a>
         <a class="button secondary" href={pricingHref}>Compare packages</a>
       </div>
     </section>
@@ -162,6 +167,23 @@ const schema = [
       </article>
     </section>
 
+    {detail?.examples && (
+      <section class="section-shell section-block compact-top" aria-labelledby="service-examples-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Practical examples</p>
+          <h2 id="service-examples-heading">What an AI content pipeline can do</h2>
+        </div>
+        <div class="value-grid">
+          {detail.examples.map((example) => (
+            <article class="mini-card">
+              <h3>{example.title}</h3>
+              <p>{example.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
     <section class="section-shell section-block compact-top">
       <div class="section-heading">
         <p class="eyebrow">Benefits</p>
@@ -175,6 +197,21 @@ const schema = [
         ))}
       </div>
     </section>
+
+    {detail?.considerations && (
+      <section class="section-shell detail-grid compact-top" aria-labelledby="service-considerations-heading">
+        <article class="detail-panel">
+          <p class="eyebrow">Quality control</p>
+          <h2 id="service-considerations-heading">Build safeguards into the workflow</h2>
+          <p>Reliable content automation needs approved sources, structured handoffs and clear responsibility for the final decision.</p>
+        </article>
+        <article class="detail-panel">
+          <ul class="feature-list">
+            {detail.considerations.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      </section>
+    )}
 
     <section class="section-shell detail-grid compact-top">
       <article class="detail-panel">
@@ -240,7 +277,7 @@ const schema = [
     </section>
 
     <section class="section-shell inline-cta">
-      <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={`${service.slug}:bottom`}>Request {service.shortTitle}</a>
+      <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={`${service.slug}:bottom`}>{bottomCtaLabel}</a>
       <a class="button secondary" href={servicesHref}>Back to services overview</a>
     </section>
 
