@@ -1,7 +1,9 @@
 import { localeCodes, type LocaleCode } from "../locales";
+import aiChatbotVsInternalAiAssistant from "./posts/ai-chatbot-vs-internal-ai-assistant";
 import aiContentWorkflowSmallBusiness from "./posts/ai-content-workflow-small-business";
 import * as base from "./index-base";
 import type { BlogPost } from "./index-base";
+import type { BlogPostSource } from "./types";
 
 export type { BlogPost } from "./index-base";
 export const getHeadingId = base.getHeadingId;
@@ -9,13 +11,18 @@ export const renderBlogMarkdown = base.renderBlogMarkdown;
 export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
-function getNewPost(locale: LocaleCode): BlogPost {
-  const translation = aiContentWorkflowSmallBusiness.translations[locale];
-  const source = aiContentWorkflowSmallBusiness;
+const additionalSources: BlogPostSource[] = [
+  aiChatbotVsInternalAiAssistant,
+  aiContentWorkflowSmallBusiness,
+];
+
+function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
+  const translation = source.translations[locale];
+  if (!translation) return undefined;
 
   return {
     slug: source.slug,
-    status: source.status ?? "published",
+    status: source.status ?? (source.published ? "published" : "draft"),
     title: translation.title,
     description: translation.description,
     category: translation.category,
@@ -52,13 +59,18 @@ function getNewPost(locale: LocaleCode): BlogPost {
 }
 
 export function getBlogPosts(locale: LocaleCode = "en"): BlogPost[] {
-  return [getNewPost(locale), ...base.getBlogPosts(locale)].sort(
+  const additionalPosts = additionalSources
+    .map((source) => getAdditionalPost(source, locale))
+    .filter((post): post is BlogPost => Boolean(post));
+
+  return [...additionalPosts, ...base.getBlogPosts(locale)].sort(
     (a, b) => Date.parse(b.publishDate) - Date.parse(a.publishDate),
   );
 }
 
 export function getBlogPost(slug: string, locale: LocaleCode = "en") {
-  if (slug === aiContentWorkflowSmallBusiness.slug) return getNewPost(locale);
+  const source = additionalSources.find((item) => item.slug === slug);
+  if (source) return getAdditionalPost(source, locale);
   return base.getBlogPost(slug, locale);
 }
 
