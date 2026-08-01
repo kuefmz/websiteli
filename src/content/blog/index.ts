@@ -1,6 +1,7 @@
 import { localeCodes, type LocaleCode } from "../locales";
 import aiChatbotVsInternalAiAssistant from "./posts/ai-chatbot-vs-internal-ai-assistant";
 import aiContentWorkflowSmallBusiness from "./posts/ai-content-workflow-small-business";
+import aiDocumentSearchSmallBusiness from "./posts/ai-document-search-small-business";
 import * as base from "./index-base";
 import type { BlogPost } from "./index-base";
 import type { BlogPostSource } from "./types";
@@ -12,6 +13,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  aiDocumentSearchSmallBusiness,
   aiChatbotVsInternalAiAssistant,
   aiContentWorkflowSmallBusiness,
 ];
