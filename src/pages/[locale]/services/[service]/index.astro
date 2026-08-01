@@ -33,6 +33,39 @@ const relatedServices = getRelatedServices(service);
 const primaryCtaLabel = detail ? "Discuss your workflow" : "Request this service";
 const bottomCtaLabel = detail ? "Discuss your content workflow" : `Request ${service.shortTitle}`;
 const showContentPipelineArchitecture = service.slug === "ai-content-pipelines";
+const contentPipelineBacklinkCopy: Partial<Record<string, { eyebrow: string; title: string; description: string }>> = {
+  "business-automation": {
+    eyebrow: "Related AI workflow",
+    title: "When the repeated task is content, use a controlled content pipeline",
+    description:
+      "AI content pipelines apply the same automation principles to briefs, drafts, checks, approvals and publishing while keeping a person responsible for the final release.",
+  },
+  "ai-workflow-automation": {
+    eyebrow: "Related AI workflow",
+    title: "See a practical AI workflow for content operations",
+    description:
+      "The AI content pipeline service shows how structured inputs, AI-assisted drafting, automated validation and human approval can work together in one repeatable process.",
+  },
+  "internal-ai-assistants": {
+    eyebrow: "Related AI workflow",
+    title: "Turn approved internal knowledge into reviewed content drafts",
+    description:
+      "An internal assistant can help teams find source material. An AI content pipeline adds the briefing, drafting, review and publishing controls needed to turn that knowledge into usable content.",
+  },
+  "seo-optimization": {
+    eyebrow: "Related content system",
+    title: "Connect SEO priorities to a repeatable publishing workflow",
+    description:
+      "An AI content pipeline can translate approved search priorities into structured briefs, drafts, metadata and internal-link suggestions without replacing editorial review.",
+  },
+  "ai-integrations": {
+    eyebrow: "Related AI integration",
+    title: "Integrate AI into the full content workflow, not only the writing step",
+    description:
+      "The AI content pipeline service connects planning, drafting, quality checks, approvals and publishing so the workflow remains measurable and controlled.",
+  },
+};
+const contentPipelineBacklink = contentPipelineBacklinkCopy[service.slug];
 const defaultFaqs = [
   {
     question: "What problem does this service solve?",
@@ -167,6 +200,23 @@ const schema = [
         <p>{service.solution}</p>
       </article>
     </section>
+
+    {contentPipelineBacklink && (
+      <section class="section-shell section-block compact-top" aria-labelledby="content-pipeline-related-heading">
+        <article class="detail-panel">
+          <p class="eyebrow">{contentPipelineBacklink.eyebrow}</p>
+          <h2 id="content-pipeline-related-heading">{contentPipelineBacklink.title}</h2>
+          <p>{contentPipelineBacklink.description}</p>
+          <a
+            href={`/${locale}/services/ai-content-pipelines/`}
+            data-track-event="contextual_service_link_click"
+            data-track-label={`${service.slug}:ai-content-pipelines`}
+          >
+            Explore AI content pipelines
+          </a>
+        </article>
+      </section>
+    )}
 
     {detail?.examples && (
       <section class="section-shell section-block compact-top" aria-labelledby="service-examples-heading">
