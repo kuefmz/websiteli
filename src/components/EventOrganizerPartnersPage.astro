@@ -1,0 +1,197 @@
+---
+import FAQ from "./FAQ.astro";
+import ProcessStep from "./ProcessStep.astro";
+import { getLocalizedPath, type LocaleCode, type PageSlug } from "../content/locales";
+import { getEventOrganizerPartnerPageContent } from "../content/partners";
+
+interface Props {
+  locale: string;
+}
+
+const { locale = "en" } = Astro.props;
+const currentLocale = locale as LocaleCode;
+const pageContent = getEventOrganizerPartnerPageContent(currentLocale);
+const contactHref = getLocalizedPath(currentLocale, "contact");
+const partnersHref = getLocalizedPath(currentLocale, "partners");
+const becomePartnerHref = `${contactHref}?package=digitalAudit&project=event-organizer-partner&intent=event_partner_inquiry`;
+const discussClientHref = `${contactHref}?package=digitalAudit&project=event-website&intent=client_project_discussion`;
+
+const iconPaths = {
+  revenue: "M4 17 9 12l4 4 7-8M20 8v6h-6",
+  heart: "M20.5 8.5c0 5-8.5 10-8.5 10s-8.5-5-8.5-10A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8.5 2.5Z",
+  brush: "M19 4 8 15m0 0c-2 0-4 1.5-4 4 2.5 0 4-1.5 4-4Zm0 0 3 3",
+  support: "M5 13a7 7 0 0 1 14 0v4a3 3 0 0 1-3 3h-2M5 13v4h3v-5H5Zm14 0v4h-3v-5h3Z",
+  briefcase: "M9 6V4h6v2m-9 0h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm-2 6h16",
+  spark: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Zm6 12 1 2.5 2 1-2 1-1 2.5-1-2.5-2-1 2-1 1-2.5Z",
+  calendar: "M7 3v4m10-4v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z",
+} as const;
+
+function getIconPath(icon: string) {
+  return iconPaths[icon as keyof typeof iconPaths] ?? iconPaths.spark;
+}
+
+function getInternalHref(page: string) {
+  if (page === "contact") return discussClientHref;
+  return getLocalizedPath(currentLocale, page as PageSlug);
+}
+---
+
+<main class="event-partner-page">
+  <section class="event-partner-hero" aria-labelledby="event-partner-title">
+    <img
+      class="event-partner-hero-image"
+      src={pageContent.hero.image}
+      alt={pageContent.hero.imageAlt}
+      width="1536"
+      height="1024"
+      loading="eager"
+      decoding="async"
+    />
+    <div class="event-partner-hero-overlay" aria-hidden="true"></div>
+    <div class="section-shell event-partner-hero-inner">
+      <nav class="event-partner-breadcrumb" aria-label="Breadcrumb">
+        <a href={partnersHref}>Partners</a>
+        <span aria-hidden="true">/</span>
+        <span>Event organizers</span>
+      </nav>
+      <p class="eyebrow">{pageContent.hero.eyebrow}</p>
+      <h1 id="event-partner-title">{pageContent.hero.title}</h1>
+      <p class="event-partner-hero-text">{pageContent.hero.text}</p>
+      <div class="hero-actions">
+        <a class="button primary" href={becomePartnerHref} data-track-event="event_partner_cta_click" data-track-label="Hero become event partner">{pageContent.hero.primaryCta}</a>
+        <a class="button secondary" href={discussClientHref} data-track-event="event_partner_cta_click" data-track-label="Hero discuss client project">{pageContent.hero.secondaryCta}</a>
+      </div>
+      <ul class="hero-trust-badges event-partner-trust" aria-label="Event partner benefits">
+        {pageContent.trustPills.map((pill) => (
+          <li>
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
+            {pill}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <nav class="section-shell partners-link-strip event-partner-link-strip" aria-label="Related Websiteli pages">
+    {pageContent.internalLinks.map((item) => (
+      <a href={getInternalHref(item.href)}>
+        <span>{item.label}</span>
+        <strong>{item.title}</strong>
+      </a>
+    ))}
+  </nav>
+
+  <section class="section-shell section-block compact-top" id="benefits">
+    <div class="section-heading">
+      <p class="eyebrow">Partnership benefits</p>
+      <h2>A collaborative offer that helps your clients and rewards successful introductions.</h2>
+      <p>Websiteli handles the technical delivery while you stay close to the client, the event concept and the visual direction.</p>
+    </div>
+    <div class="partners-card-grid">
+      {pageContent.benefits.map((item) => (
+        <article class="partner-card">
+          <span class="partner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="event-feature-band" id="event-website-features">
+    <div class="section-shell">
+      <div class="section-heading centered">
+        <p class="eyebrow">Event website features</p>
+        <h2>From invitations to post-event galleries, every feature can fit the event.</h2>
+        <p>Choose the functionality your client needs for weddings, corporate events, private celebrations, conferences, retreats and destination experiences.</p>
+      </div>
+      <ul class="event-feature-cloud">
+        {pageContent.features.map((feature) => (
+          <li>{feature}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-shell section-block" id="how-it-works">
+    <div class="section-heading centered">
+      <p class="eyebrow">How it works</p>
+      <h2>A simple referral and collaboration process.</h2>
+      <p>Start with an introduction, shape the guest experience together and launch with a clear agreement.</p>
+    </div>
+    <div class="process-grid">
+      {pageContent.steps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
+    </div>
+  </section>
+
+  <section class="section-shell section-block compact-top" id="who-this-is-for">
+    <div class="section-heading">
+      <p class="eyebrow">Who this is for</p>
+      <h2>For event professionals who want to offer a better digital experience.</h2>
+    </div>
+    <ul class="event-audience-list" aria-label="Event professional partner types">
+      {pageContent.audiences.map((audience) => <li>{audience}</li>)}
+    </ul>
+  </section>
+
+  <section class="section-shell section-block compact-top" id="use-cases">
+    <div class="section-heading centered">
+      <p class="eyebrow">Example use cases</p>
+      <h2>Websites tailored to the occasion.</h2>
+      <p>Every event has a different rhythm. The website can be as simple or as feature-rich as the experience requires.</p>
+    </div>
+    <div class="event-use-case-grid">
+      {pageContent.useCases.map((item) => (
+        <article class="partner-card event-use-card">
+          <span class="partner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
+          </span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="event-collaboration-band" id="collaboration">
+    <div class="section-shell event-collaboration-inner">
+      <div>
+        <p class="eyebrow">Collaboration</p>
+        <h2>{pageContent.collaboration.title}</h2>
+        <p>{pageContent.collaboration.text}</p>
+      </div>
+      <div class="event-collaboration-panel" aria-label="Creative inputs Websiteli can use">
+        {pageContent.collaboration.inputs.map((input) => (
+          <span>{input}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell section-block compact-top faq-section" id="faq">
+    <div class="section-heading">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions event partners usually ask first.</h2>
+    </div>
+    <div class="faq-list">
+      {pageContent.faqs.map((item) => <FAQ {...item} />)}
+    </div>
+  </section>
+
+  <section class="partners-final-band" aria-labelledby="event-partner-final-title">
+    <div class="section-shell partners-final-cta">
+      <div>
+        <p class="eyebrow">Partner with Websiteli</p>
+        <h2 id="event-partner-final-title">{pageContent.finalCta.title}</h2>
+        <p>{pageContent.finalCta.text}</p>
+      </div>
+      <div class="button-row">
+        <a class="button primary" href={becomePartnerHref} data-track-event="event_partner_cta_click" data-track-label="Final become event partner">{pageContent.finalCta.primaryCta}</a>
+        <a class="button secondary" href={contactHref} data-track-event="event_partner_cta_click" data-track-label="Final contact Websiteli">{pageContent.finalCta.secondaryCta}</a>
+        <a class="button secondary" href={discussClientHref} data-track-event="event_partner_cta_click" data-track-label="Final discuss client project">{pageContent.finalCta.tertiaryCta}</a>
+      </div>
+    </div>
+  </section>
+</main>

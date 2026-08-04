@@ -2,6 +2,10 @@ import { localeCodes, type LocaleCode } from "../locales";
 import aiChatbotVsInternalAiAssistant from "./posts/ai-chatbot-vs-internal-ai-assistant";
 import aiContentWorkflowSmallBusiness from "./posts/ai-content-workflow-small-business";
 import aiDocumentSearchSmallBusiness from "./posts/ai-document-search-small-business";
+import internalAiAssistantSmallBusiness from "./posts/internal-ai-assistant-small-business";
+import prepareCompanyDocumentsInternalAiAssistant from "./posts/prepare-company-documents-internal-ai-assistant";
+import privateAiAssistantPrivacyChecklist from "./posts/private-ai-assistant-privacy-checklist";
+import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
 import type { BlogPost } from "./index-base";
 import type { BlogPostSource } from "./types";
@@ -13,6 +17,10 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  prepareCompanyDocumentsInternalAiAssistant,
+  privateAiAssistantPrivacyChecklist,
+  internalAiAssistantSmallBusiness,
+  whatShouldSmallBusinessAutomateFirst,
   aiDocumentSearchSmallBusiness,
   aiChatbotVsInternalAiAssistant,
   aiContentWorkflowSmallBusiness,

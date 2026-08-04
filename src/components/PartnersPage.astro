@@ -12,6 +12,7 @@ const { locale = "en" } = Astro.props;
 const currentLocale = locale as LocaleCode;
 const partnerContent = getPartnerPageContent(currentLocale);
 const contactHref = getLocalizedPath(currentLocale, "contact");
+const eventPartnerHref = `/${currentLocale}/partners/event-organizers/`;
 const becomePartnerHref = `${contactHref}?package=digitalAudit&project=partners&intent=partner_inquiry`;
 const discoveryCallHref = `${contactHref}?package=digitalAudit&project=partners&intent=discovery_call`;
 const iconPaths = {
@@ -78,6 +79,27 @@ function getInternalHref(page: string) {
           ))}
         </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="section-shell event-partner-spotlight" id="event-organizer-partnership" aria-labelledby="event-partner-spotlight-title">
+    <div class="event-partner-spotlight-panel">
+      <div>
+        <p class="eyebrow">{partnerContent.eventPartnerSpotlight.eyebrow}</p>
+        <h2 id="event-partner-spotlight-title">{partnerContent.eventPartnerSpotlight.title}</h2>
+        <p>{partnerContent.eventPartnerSpotlight.text}</p>
+      </div>
+      <ul>
+        {partnerContent.eventPartnerSpotlight.points.map((point) => (
+          <li>
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
+            {point}
+          </li>
+        ))}
+      </ul>
+      <a class="button primary" href={eventPartnerHref} data-track-event="partner_event_page_click" data-track-label="Partners page event organizer spotlight">
+        {partnerContent.eventPartnerSpotlight.cta}
+      </a>
     </div>
   </section>
 
