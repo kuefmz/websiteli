@@ -138,9 +138,6 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
           <span>{articleUi.published}: <time datetime={post.publishedAt}>{post.publishedAt}</time></span>
           <span>{articleUi.updated}: <time datetime={post.updatedAt}>{post.updatedAt}</time></span>
         </div>
-        <div class="article-tags" aria-label="Article tags">
-          {post.tags.map((tag) => <span>{tag}</span>)}
-        </div>
       </header>
       <div class="section-shell article-layout">
         <aside class="article-sidebar">
@@ -170,6 +167,9 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
             </ul>
           </section>
           <Fragment set:html={articleHtml} />
+          <div class="article-tags article-tags-footer" aria-label="Article tags">
+            {post.tags.map((tag) => <span>{tag}</span>)}
+          </div>
           {showWebsiteSuccessReportSignup && (
             <section class="article-lead-magnet" id="website-success-report" aria-labelledby="website-success-report-title">
               <div>

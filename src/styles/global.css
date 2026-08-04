@@ -12,7 +12,7 @@
   --sky: #5aa7d6;
   --gold: #c99a43;
   --shadow: 0 24px 70px rgba(32, 38, 48, 0.12);
-  --header: rgba(255, 255, 255, 0.78);
+  --header: rgba(255, 255, 255, 0.94);
 }
 
 :root[data-theme="dark"] {
@@ -29,7 +29,7 @@
   --sky: #75bce6;
   --gold: #e0bb6c;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
-  --header: rgba(26, 30, 37, 0.78);
+  --header: rgba(19, 22, 27, 0.88);
 }
 
 * {
@@ -98,17 +98,17 @@ textarea {
   left: 50%;
   z-index: 50;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 18px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: center;
-  width: min(1160px, calc(100% - 24px));
-  min-height: 64px;
-  padding: 10px 10px 10px 14px;
-  border: 1px solid transparent;
+  width: min(1180px, calc(100% - 28px));
+  min-height: 58px;
+  padding: 8px 10px 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--surface) 42%, transparent);
-  box-shadow: none;
-  backdrop-filter: blur(8px);
+  background: var(--header);
+  box-shadow: 0 16px 48px rgba(23, 28, 36, 0.14);
+  backdrop-filter: blur(18px) saturate(1.14);
   transform: translateX(-50%);
   transition:
     transform 240ms ease,
@@ -118,10 +118,10 @@ textarea {
 }
 
 .site-header.is-scrolled {
-  border-color: var(--line);
+  border-color: color-mix(in srgb, var(--line) 92%, transparent);
   background: var(--header);
-  box-shadow: 0 18px 52px rgba(23, 28, 36, 0.12);
-  backdrop-filter: blur(20px) saturate(1.2);
+  box-shadow: 0 18px 54px rgba(23, 28, 36, 0.16);
+  backdrop-filter: blur(22px) saturate(1.2);
 }
 
 .site-header.is-hidden {
@@ -137,6 +137,8 @@ textarea {
   gap: 10px;
   align-items: center;
   min-width: max-content;
+  color: var(--ink);
+  font-size: 0.98rem;
   font-weight: 850;
 }
 
@@ -160,11 +162,27 @@ textarea {
 
 .desktop-nav {
   display: flex;
+  min-width: 0;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 2px;
+  overflow: hidden;
 }
 
-.desktop-nav a,
+.desktop-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 9px;
+  border-radius: 8px;
+  color: color-mix(in srgb, var(--ink) 82%, transparent);
+  font-size: 0.86rem;
+  font-weight: 820;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .mobile-nav a {
   padding: 10px 12px;
   border-radius: 8px;
@@ -181,8 +199,10 @@ textarea {
 
 .header-actions {
   display: flex;
+  flex: 0 0 auto;
   gap: 8px;
   align-items: center;
+  min-width: max-content;
 }
 
 .language-switcher {
@@ -191,8 +211,8 @@ textarea {
 
 .language-switcher button {
   display: grid;
-  min-width: 48px;
-  height: 42px;
+  min-width: 44px;
+  height: 40px;
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -251,13 +271,15 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 0 15px;
+  min-height: 40px;
+  padding: 0 14px;
   border-radius: 8px;
   background: var(--ink);
   color: var(--bg);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 850;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .header-demo,
@@ -270,8 +292,8 @@ textarea {
 .theme-toggle,
 .menu-toggle {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -3117,6 +3139,12 @@ h3 {
   font-weight: 820;
 }
 
+.article-tags-footer {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 .article-cta {
   display: grid;
   gap: 16px;
@@ -3689,14 +3717,14 @@ h3 {
   }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1280px) {
   .desktop-nav {
     gap: 2px;
   }
 
   .desktop-nav a {
     padding-inline: 8px;
-    font-size: 0.86rem;
+    font-size: 0.82rem;
   }
 
   .header-demo {
