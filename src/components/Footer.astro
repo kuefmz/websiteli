@@ -220,18 +220,155 @@ const newsletterCopy: Record<string, { title: string; text: string; email: strin
   },
 };
 const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
+const footerAccessibilityCopy: Record<string, { home: string; links: string; close: string; website: string }> = {
+  en: { home: "websiteli.ch home", links: "Footer links", close: "Close", website: "Website" },
+  de: { home: "websiteli.ch Startseite", links: "Footer-Links", close: "Schließen", website: "Website" },
+  fr: { home: "accueil websiteli.ch", links: "Liens de pied de page", close: "Fermer", website: "Site web" },
+  it: { home: "home websiteli.ch", links: "Link del footer", close: "Chiudi", website: "Sito web" },
+};
+const relatedLinkCopy: Record<string, { services: Record<string, string>; industries: Record<string, string> }> = {
+  en: {
+    services: {
+      "business-websites": "Business websites",
+      "business-automation": "Business automation",
+      "ai-chatbots": "AI chatbots",
+    },
+    industries: {
+      healthcare: "Healthcare Websites and Automation",
+      restaurants: "Restaurant Websites and Automation",
+    },
+  },
+  de: {
+    services: {
+      "business-websites": "Business-Websites",
+      "business-automation": "Business-Automation",
+      "ai-chatbots": "KI-Chatbots",
+    },
+    industries: {
+      healthcare: "Websites und Automation für Gesundheitspraxen",
+      restaurants: "Restaurant-Websites und Automation",
+    },
+  },
+  fr: {
+    services: {
+      "business-websites": "Sites web d'entreprise",
+      "business-automation": "Automatisation métier",
+      "ai-chatbots": "Chatbots IA",
+    },
+    industries: {
+      healthcare: "Sites et automatisation pour la santé",
+      restaurants: "Sites restaurant et automatisation",
+    },
+  },
+  it: {
+    services: {
+      "business-websites": "Siti web aziendali",
+      "business-automation": "Automazione aziendale",
+      "ai-chatbots": "Chatbot AI",
+    },
+    industries: {
+      healthcare: "Siti e automazione per la sanità",
+      restaurants: "Siti per ristoranti e automazione",
+    },
+  },
+};
+const popupCopy: Record<
+  string,
+  {
+    newsletterEyebrow: string;
+    newsletterTitle: string;
+    newsletterText: string;
+    newsletterButton: string;
+    newsletterDismiss: string;
+    newsletterConsent: string;
+    exitEyebrow: string;
+    exitTitle: string;
+    exitText: string;
+    exitButton: string;
+    exitDismiss: string;
+    email: string;
+  }
+> = {
+  en: {
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "Get 20% off your website",
+    newsletterText: "Join the Websiteli newsletter and receive a 20% discount code for your first website project.",
+    newsletterButton: "Get my 20% discount",
+    newsletterDismiss: "No thanks",
+    newsletterConsent: "I accept the",
+    exitEyebrow: "Free audit",
+    exitTitle: "Before you go - want a free website audit?",
+    exitText: "Tell us about your business and we'll show you how your website could attract more customers.",
+    exitButton: "Get my free audit",
+    exitDismiss: "Maybe later",
+    email: "Email",
+  },
+  de: {
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "20 % Rabatt auf Ihre Website",
+    newsletterText: "Abonnieren Sie den Websiteli Newsletter und erhalten Sie einen Rabattcode für 20 % auf Ihr erstes Website-Projekt.",
+    newsletterButton: "20 % Rabatt sichern",
+    newsletterDismiss: "Nein, danke",
+    newsletterConsent: "Ich akzeptiere die",
+    exitEyebrow: "Kostenloser Check",
+    exitTitle: "Bevor Sie gehen - möchten Sie einen kostenlosen Website-Check?",
+    exitText: "Erzählen Sie uns von Ihrem Unternehmen und wir zeigen Ihnen, wie Ihre Website mehr Kunden gewinnen kann.",
+    exitButton: "Kostenlosen Check anfragen",
+    exitDismiss: "Vielleicht später",
+    email: "E-Mail",
+  },
+  fr: {
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "Recevez 20 % de réduction sur votre site",
+    newsletterText: "Inscrivez-vous à la newsletter Websiteli et recevez un code de 20 % pour votre premier projet de site web.",
+    newsletterButton: "Recevoir ma réduction de 20 %",
+    newsletterDismiss: "Non merci",
+    newsletterConsent: "J'accepte la",
+    exitEyebrow: "Audit gratuit",
+    exitTitle: "Avant de partir - souhaitez-vous un audit gratuit de votre site ?",
+    exitText: "Parlez-nous de votre entreprise et nous vous montrerons comment votre site pourrait attirer plus de clients.",
+    exitButton: "Demander mon audit gratuit",
+    exitDismiss: "Peut-être plus tard",
+    email: "E-mail",
+  },
+  it: {
+    newsletterEyebrow: "Newsletter",
+    newsletterTitle: "Ottieni il 20% di sconto sul sito",
+    newsletterText: "Iscrivetevi alla newsletter Websiteli e ricevete un codice sconto del 20% per il vostro primo progetto web.",
+    newsletterButton: "Ottieni il mio 20% di sconto",
+    newsletterDismiss: "No grazie",
+    newsletterConsent: "Accetto la",
+    exitEyebrow: "Audit gratuito",
+    exitTitle: "Prima di uscire - vuoi un audit gratuito del sito?",
+    exitText: "Raccontateci la vostra attività e vi mostreremo come il sito potrebbe attirare più clienti.",
+    exitButton: "Richiedi il mio audit gratuito",
+    exitDismiss: "Forse più tardi",
+    email: "E-mail",
+  },
+};
+const footerAccessibility = footerAccessibilityCopy[locale] ?? footerAccessibilityCopy.en;
+const relatedLinks = relatedLinkCopy[locale] ?? relatedLinkCopy.en;
+const popupUi = popupCopy[locale] ?? popupCopy.en;
+
+function getFooterServiceLabel(service: { slug: string; shortTitle: string }) {
+  return relatedLinks.services[service.slug] ?? service.shortTitle;
+}
+
+function getFooterIndustryLabel(industry: { slug: string; title: string }) {
+  return relatedLinks.industries[industry.slug] ?? industry.title;
+}
 ---
 
 <footer class="site-footer">
   <div class="footer-main">
-    <a class="brand" href={`/${locale}/`} aria-label="websiteli.ch home">
+    <a class="brand" href={`/${locale}/`} aria-label={footerAccessibility.home}>
       <span class="brand-mark"><img src="/assets/websiteli-logo.png" alt="" width="36" height="36" /></span>
       <span>Websiteli</span>
     </a>
     <p>{content?.intro ?? "Swiss-based websites, automation and AI tools for small businesses."}</p>
   </div>
 
-  <div class="footer-links" aria-label="Footer links">
+  <div class="footer-links" aria-label={footerAccessibility.links}>
     <div>
       <h2>{footerUi.contact}</h2>
       <a href="mailto:info@websiteli.ch" data-track-event="email_click" data-track-label="Footer email">info@websiteli.ch</a>
@@ -257,8 +394,8 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <a href={`/${locale}/partners/`}>{nav.partners ?? "Partners"}</a>
       <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>
-      {footerServices.map((service) => <a href={`/${locale}/services/${service.slug}/`}>{service.shortTitle}</a>)}
-      {footerIndustries.map((industry) => <a href={`/${locale}/industries/${industry.slug}/`}>{industry.title}</a>)}
+      {footerServices.map((service) => <a href={`/${locale}/services/${service.slug}/`}>{getFooterServiceLabel(service)}</a>)}
+      {footerIndustries.map((industry) => <a href={`/${locale}/industries/${industry.slug}/`}>{getFooterIndustryLabel(industry)}</a>)}
     </div>
     <div>
       <h2>{footerUi.legal}</h2>
@@ -283,7 +420,7 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
       <form data-newsletter-form data-newsletter-campaign="newsletter" novalidate>
         <input name="campaign" type="hidden" value="newsletter" />
         <label class="website-field" aria-hidden="true">
-          Website
+          {footerAccessibility.website}
           <input name="website" tabindex="-1" autocomplete="off" />
         </label>
         <label>
@@ -308,38 +445,38 @@ const newsletterUi = newsletterCopy[locale] ?? newsletterCopy.en;
 <div class="popup-backdrop" data-popup-backdrop hidden></div>
 
 <section class="conversion-popup" data-newsletter-popup role="dialog" aria-modal="true" aria-labelledby="newsletter-popup-title" hidden>
-  <button class="popup-close" type="button" data-popup-close aria-label="Close">×</button>
-  <p class="eyebrow">Newsletter</p>
-  <h2 id="newsletter-popup-title">Get 20% off your website</h2>
-  <p>Join the Websiteli newsletter and receive a 20% discount code for your first website project.</p>
+  <button class="popup-close" type="button" data-popup-close aria-label={footerAccessibility.close}>×</button>
+  <p class="eyebrow">{popupUi.newsletterEyebrow}</p>
+  <h2 id="newsletter-popup-title">{popupUi.newsletterTitle}</h2>
+  <p>{popupUi.newsletterText}</p>
   <form data-newsletter-form data-popup-newsletter-form data-newsletter-campaign="newsletter" novalidate>
     <input name="campaign" type="hidden" value="newsletter" />
     <label class="website-field" aria-hidden="true">
-      Website
+      {footerAccessibility.website}
       <input name="website" tabindex="-1" autocomplete="off" />
     </label>
     <label>
-      <span>Email</span>
+      <span>{popupUi.email}</span>
       <input name="email" type="email" autocomplete="email" required />
     </label>
     <label class="newsletter-consent">
       <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
-      <span>I accept the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a></span>
+      <span>{popupUi.newsletterConsent} <a href="/privacy/" target="_blank" rel="noopener">{legalLinks.privacy}</a></span>
     </label>
-    <button class="button primary" type="submit">Get my 20% discount</button>
-    <button class="popup-link" type="button" data-popup-dismiss>No thanks</button>
+    <button class="button primary" type="submit">{popupUi.newsletterButton}</button>
+    <button class="popup-link" type="button" data-popup-dismiss>{popupUi.newsletterDismiss}</button>
     <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
   </form>
 </section>
 
 <section class="conversion-popup" data-exit-popup role="dialog" aria-modal="true" aria-labelledby="exit-popup-title" hidden>
-  <button class="popup-close" type="button" data-popup-close aria-label="Close">×</button>
-  <p class="eyebrow">Free audit</p>
-  <h2 id="exit-popup-title">Before you go — want a free website audit?</h2>
-  <p>Tell us about your business and we’ll show you how your website could attract more customers.</p>
+  <button class="popup-close" type="button" data-popup-close aria-label={footerAccessibility.close}>×</button>
+  <p class="eyebrow">{popupUi.exitEyebrow}</p>
+  <h2 id="exit-popup-title">{popupUi.exitTitle}</h2>
+  <p>{popupUi.exitText}</p>
   <div class="popup-actions">
-    <a class="button primary" href={`/${locale}/contact/?package=digitalAudit&project=portfolio&intent=digital_audit`} data-exit-popup-cta>Get my free audit</a>
-    <button class="popup-link" type="button" data-popup-dismiss>Maybe later</button>
+    <a class="button primary" href={`/${locale}/contact/?package=digitalAudit&project=portfolio&intent=digital_audit`} data-exit-popup-cta>{popupUi.exitButton}</a>
+    <button class="popup-link" type="button" data-popup-dismiss>{popupUi.exitDismiss}</button>
   </div>
 </section>
 

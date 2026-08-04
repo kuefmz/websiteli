@@ -55,12 +55,12 @@ function getInternalHref(page: string) {
       <p class="partners-hero-subtitle">{partnerContent.hero.subtitle}</p>
       <p class="hero-text">{partnerContent.hero.text}</p>
       <div class="hero-actions">
-        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Hero become partner">Become a Partner</a>
-        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Hero schedule call">Schedule a Call</a>
+        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Hero become partner">{partnerContent.actions.becomePartner}</a>
+        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Hero schedule call">{partnerContent.actions.scheduleCall}</a>
       </div>
     </div>
     <div class="partners-hero-aside">
-      <nav class="partners-hero-options" aria-label="Useful Websiteli pages">
+      <nav class="partners-hero-options" aria-label={partnerContent.aria.heroLinks}>
         {partnerContent.internalLinks.map((item) => (
           <a href={getInternalHref(item.href)}>
             <span>{item.label}</span>
@@ -69,8 +69,8 @@ function getInternalHref(page: string) {
         ))}
       </nav>
       <div class="partners-hero-benefits">
-        <p class="eyebrow">Partner benefits</p>
-        <ul class="hero-trust-badges" aria-label="Partner benefits">
+        <p class="eyebrow">{partnerContent.aria.partnerBenefits}</p>
+        <ul class="hero-trust-badges" aria-label={partnerContent.aria.partnerBenefits}>
           {partnerContent.trustPills.map((pill) => (
             <li>
               <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
@@ -105,9 +105,9 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top" id="why-partner">
     <div class="section-heading">
-      <p class="eyebrow">Why partner with Websiteli?</p>
-      <h2>Premium technical delivery without expanding your internal team.</h2>
-      <p>Use Websiteli as your agency web development partner when clients need white-label websites, website outsourcing in Switzerland, AI automation or custom digital workflows.</p>
+      <p class="eyebrow">{partnerContent.sections.why.eyebrow}</p>
+      <h2>{partnerContent.sections.why.title}</h2>
+      <p>{partnerContent.sections.why.text}</p>
     </div>
     <div class="partners-card-grid">
       {partnerContent.why.map((item) => (
@@ -125,9 +125,9 @@ function getInternalHref(page: string) {
   <section class="partners-band" id="who-we-work-with">
     <div class="section-shell partners-band-inner">
       <div class="section-heading centered">
-        <p class="eyebrow">Who we work with</p>
-        <h2>Built for agencies and service providers who own the client relationship.</h2>
-        <p>We support partners who need dependable implementation, modern technology and quiet technical confidence behind the scenes.</p>
+        <p class="eyebrow">{partnerContent.sections.audiences.eyebrow}</p>
+        <h2>{partnerContent.sections.audiences.title}</h2>
+        <p>{partnerContent.sections.audiences.text}</p>
       </div>
       <div class="partners-audience-grid">
         {partnerContent.audiences.map((item) => (
@@ -145,9 +145,9 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block" id="partnership-models">
     <div class="section-heading centered">
-      <p class="eyebrow">Partnership models</p>
-      <h2>Choose the collaboration model that fits your sales process.</h2>
-      <p>Start with one project, run fully white-label delivery or make Websiteli your long-term technical team.</p>
+      <p class="eyebrow">{partnerContent.sections.models.eyebrow}</p>
+      <h2>{partnerContent.sections.models.title}</h2>
+      <p>{partnerContent.sections.models.text}</p>
     </div>
     <div class="partners-model-grid">
       {partnerContent.models.map((item) => (
@@ -158,7 +158,7 @@ function getInternalHref(page: string) {
           <ul>
             {item.points.map((point) => <li>{point}</li>)}
           </ul>
-          <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>Discuss this model</a>
+          <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
         </article>
       ))}
     </div>
@@ -166,7 +166,7 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top" id="beyond-websites">
     <div class="section-heading">
-      <p class="eyebrow">Beyond websites</p>
+      <p class="eyebrow">{partnerContent.beyondWebsites.eyebrow}</p>
       <h2>{partnerContent.beyondWebsites.title}</h2>
       <p>{partnerContent.beyondWebsites.subtitle}</p>
     </div>
@@ -191,11 +191,11 @@ function getInternalHref(page: string) {
   <section class="why-section partners-proof" id="why-agencies-choose-us">
     <div class="section-shell why-inner">
       <div class="section-heading">
-        <p class="eyebrow">Why agencies choose us</p>
-        <h2>A calm technical partner for visible client work.</h2>
-        <p>We help you extend the services you can sell while protecting the trust you already have with your clients.</p>
+        <p class="eyebrow">{partnerContent.sections.agencyReasons.eyebrow}</p>
+        <h2>{partnerContent.sections.agencyReasons.title}</h2>
+        <p>{partnerContent.sections.agencyReasons.text}</p>
       </div>
-      <div class="partners-check-grid" aria-label="Agency reasons to choose Websiteli">
+      <div class="partners-check-grid" aria-label={partnerContent.aria.agencyReasons}>
         {partnerContent.agencyReasons.map((reason) => (
           <div>
             <span aria-hidden="true">&#10003;</span>
@@ -208,9 +208,9 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block" id="how-it-works">
     <div class="section-heading centered">
-      <p class="eyebrow">How it works</p>
-      <h2>Simple. Transparent. Reliable.</h2>
-      <p>The process stays easy for your team and predictable for the client relationship you manage.</p>
+      <p class="eyebrow">{partnerContent.sections.steps.eyebrow}</p>
+      <h2>{partnerContent.sections.steps.title}</h2>
+      <p>{partnerContent.sections.steps.text}</p>
     </div>
     <div class="process-grid">
       {partnerContent.steps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
@@ -219,8 +219,8 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top faq-section" id="faq">
     <div class="section-heading">
-      <p class="eyebrow">FAQ</p>
-      <h2>Questions agencies usually ask first.</h2>
+      <p class="eyebrow">{partnerContent.sections.faq.eyebrow}</p>
+      <h2>{partnerContent.sections.faq.title}</h2>
     </div>
     <div class="faq-list">
       {partnerContent.faqs.map((item) => <FAQ {...item} />)}
@@ -230,13 +230,13 @@ function getInternalHref(page: string) {
   <section class="partners-final-band" aria-labelledby="partners-final-title">
     <div class="section-shell partners-final-cta">
       <div>
-        <p class="eyebrow">Partner with Websiteli</p>
+        <p class="eyebrow">{partnerContent.sections.finalCta.eyebrow}</p>
         <h2 id="partners-final-title">{partnerContent.finalCta.title}</h2>
         <p>{partnerContent.finalCta.text}</p>
       </div>
       <div class="button-row">
-        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Final become partner">Become a Partner</a>
-        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Final discovery call">Book a Discovery Call</a>
+        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Final become partner">{partnerContent.actions.becomePartner}</a>
+        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Final discovery call">{partnerContent.actions.bookDiscoveryCall}</a>
       </div>
     </div>
   </section>

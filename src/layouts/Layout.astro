@@ -35,8 +35,77 @@ const {
   includeDefaultFaq = false,
 } = Astro.props;
 const siteUrl = new URL("https://websiteli.ch");
-const businessDescription =
-  "Swiss digital agency for business websites, SEO setup, website maintenance, business automation, AI assistants, dashboards and custom web applications.";
+const layoutCopy: Record<
+  string,
+  {
+    businessDescription: string;
+    priceRange: string;
+    areaServed: { type: "Country" | "Place"; name: string }[];
+  }
+> = {
+  en: {
+    businessDescription:
+      "Swiss digital agency for business websites, SEO setup, website maintenance, business automation, AI assistants, dashboards and custom web applications.",
+    priceRange: "Project-based",
+    areaServed: [
+      { type: "Country", name: "Switzerland" },
+      { type: "Country", name: "Germany" },
+      { type: "Country", name: "Austria" },
+      { type: "Country", name: "Hungary" },
+      { type: "Country", name: "Poland" },
+      { type: "Country", name: "Czech Republic" },
+      { type: "Country", name: "Slovakia" },
+      { type: "Place", name: "International" },
+    ],
+  },
+  de: {
+    businessDescription:
+      "Schweizer Digitalagentur für Business-Websites, SEO-Grundlagen, Website-Wartung, Business-Automation, KI-Assistenten, Dashboards und individuelle Webanwendungen.",
+    priceRange: "Projektbasiert",
+    areaServed: [
+      { type: "Country", name: "Schweiz" },
+      { type: "Country", name: "Deutschland" },
+      { type: "Country", name: "Österreich" },
+      { type: "Country", name: "Ungarn" },
+      { type: "Country", name: "Polen" },
+      { type: "Country", name: "Tschechien" },
+      { type: "Country", name: "Slowakei" },
+      { type: "Place", name: "International" },
+    ],
+  },
+  fr: {
+    businessDescription:
+      "Agence digitale suisse pour sites web professionnels, bases SEO, maintenance, automatisation métier, assistants IA, tableaux de bord et applications web sur mesure.",
+    priceRange: "Par projet",
+    areaServed: [
+      { type: "Country", name: "Suisse" },
+      { type: "Country", name: "Allemagne" },
+      { type: "Country", name: "Autriche" },
+      { type: "Country", name: "Hongrie" },
+      { type: "Country", name: "Pologne" },
+      { type: "Country", name: "Tchéquie" },
+      { type: "Country", name: "Slovaquie" },
+      { type: "Place", name: "International" },
+    ],
+  },
+  it: {
+    businessDescription:
+      "Agenzia digitale svizzera per siti web aziendali, basi SEO, manutenzione siti, automazione aziendale, assistenti AI, dashboard e applicazioni web su misura.",
+    priceRange: "Su progetto",
+    areaServed: [
+      { type: "Country", name: "Svizzera" },
+      { type: "Country", name: "Germania" },
+      { type: "Country", name: "Austria" },
+      { type: "Country", name: "Ungheria" },
+      { type: "Country", name: "Polonia" },
+      { type: "Country", name: "Repubblica Ceca" },
+      { type: "Country", name: "Slovacchia" },
+      { type: "Place", name: "Internazionale" },
+    ],
+  },
+};
+const defaultLayoutCopy = layoutCopy[lang] ?? layoutCopy.en;
+const businessDescription = defaultLayoutCopy.businessDescription;
 const socialProfiles = [
   "https://www.youtube.com/@Websiteli",
   "https://www.linkedin.com/company/websiteli",
@@ -111,17 +180,11 @@ const structuredData = [
     url: siteUrl.toString(),
     email: "info@websiteli.ch",
     telephone: "+41772653306",
-    areaServed: [
-      { "@type": "Country", name: "Switzerland" },
-      { "@type": "Country", name: "Germany" },
-      { "@type": "Country", name: "Austria" },
-      { "@type": "Country", name: "Hungary" },
-      { "@type": "Country", name: "Poland" },
-      { "@type": "Country", name: "Czech Republic" },
-      { "@type": "Country", name: "Slovakia" },
-      { "@type": "Place", name: "International" },
-    ],
-    priceRange: "Project-based",
+    areaServed: defaultLayoutCopy.areaServed.map((item) => ({
+      "@type": item.type,
+      name: item.name,
+    })),
+    priceRange: defaultLayoutCopy.priceRange,
     description: businessDescription,
   },
   ...defaultFaqSchema,

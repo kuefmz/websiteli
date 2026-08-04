@@ -21,28 +21,21 @@ const pageSchema = [
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Event organizer website partnership",
+    name: pageContent.schema.name,
     provider: {
       "@type": "Organization",
       name: "Websiteli",
       url: siteUrl.toString(),
     },
-    areaServed: [
-      { "@type": "Country", name: "Switzerland" },
-      { "@type": "Place", name: "Europe" },
-      { "@type": "Place", name: "International" },
-    ],
+    areaServed: pageContent.schema.areaServed.map((name, index) => ({
+      "@type": index === 0 ? "Country" : "Place",
+      name,
+    })),
     audience: pageContent.audiences.map((item) => ({
       "@type": "Audience",
       audienceType: item,
     })),
-    serviceType: [
-      "Event website development",
-      "Wedding website development",
-      "Event organizer referral partnership",
-      "Custom event website design",
-      "Multilingual event websites",
-    ],
+    serviceType: pageContent.schema.serviceTypes,
     description: pageContent.seo.description,
   },
   {
@@ -64,13 +57,13 @@ const pageSchema = [
       {
         "@type": "ListItem",
         position: 1,
-        name: "Partners",
+        name: pageContent.breadcrumb.partners,
         item: new URL(`/${locale}/partners/`, siteUrl).toString(),
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Event Organizers",
+        name: pageContent.breadcrumb.current,
         item: new URL(canonicalPath, siteUrl).toString(),
       },
     ],

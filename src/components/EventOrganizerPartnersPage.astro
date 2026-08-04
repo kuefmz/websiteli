@@ -49,10 +49,10 @@ function getInternalHref(page: string) {
     />
     <div class="event-partner-hero-overlay" aria-hidden="true"></div>
     <div class="section-shell event-partner-hero-inner">
-      <nav class="event-partner-breadcrumb" aria-label="Breadcrumb">
-        <a href={partnersHref}>Partners</a>
+      <nav class="event-partner-breadcrumb" aria-label={pageContent.breadcrumb.ariaLabel}>
+        <a href={partnersHref}>{pageContent.breadcrumb.partners}</a>
         <span aria-hidden="true">/</span>
-        <span>Event organizers</span>
+        <span>{pageContent.breadcrumb.current}</span>
       </nav>
       <p class="eyebrow">{pageContent.hero.eyebrow}</p>
       <h1 id="event-partner-title">{pageContent.hero.title}</h1>
@@ -61,7 +61,7 @@ function getInternalHref(page: string) {
         <a class="button primary" href={becomePartnerHref} data-track-event="event_partner_cta_click" data-track-label="Hero become event partner">{pageContent.hero.primaryCta}</a>
         <a class="button secondary" href={discussClientHref} data-track-event="event_partner_cta_click" data-track-label="Hero discuss client project">{pageContent.hero.secondaryCta}</a>
       </div>
-      <ul class="hero-trust-badges event-partner-trust" aria-label="Event partner benefits">
+      <ul class="hero-trust-badges event-partner-trust" aria-label={pageContent.aria.heroBenefits}>
         {pageContent.trustPills.map((pill) => (
           <li>
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
@@ -72,7 +72,7 @@ function getInternalHref(page: string) {
     </div>
   </section>
 
-  <nav class="section-shell partners-link-strip event-partner-link-strip" aria-label="Related Websiteli pages">
+  <nav class="section-shell partners-link-strip event-partner-link-strip" aria-label={pageContent.aria.relatedPages}>
     {pageContent.internalLinks.map((item) => (
       <a href={getInternalHref(item.href)}>
         <span>{item.label}</span>
@@ -83,9 +83,9 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top" id="benefits">
     <div class="section-heading">
-      <p class="eyebrow">Partnership benefits</p>
-      <h2>A collaborative offer that helps your clients and rewards successful introductions.</h2>
-      <p>Websiteli handles the technical delivery while you stay close to the client, the event concept and the visual direction.</p>
+      <p class="eyebrow">{pageContent.sections.benefits.eyebrow}</p>
+      <h2>{pageContent.sections.benefits.title}</h2>
+      <p>{pageContent.sections.benefits.text}</p>
     </div>
     <div class="partners-card-grid">
       {pageContent.benefits.map((item) => (
@@ -103,9 +103,9 @@ function getInternalHref(page: string) {
   <section class="event-feature-band" id="event-website-features">
     <div class="section-shell">
       <div class="section-heading centered">
-        <p class="eyebrow">Event website features</p>
-        <h2>From invitations to post-event galleries, every feature can fit the event.</h2>
-        <p>Choose the functionality your client needs for weddings, corporate events, private celebrations, conferences, retreats and destination experiences.</p>
+        <p class="eyebrow">{pageContent.sections.features.eyebrow}</p>
+        <h2>{pageContent.sections.features.title}</h2>
+        <p>{pageContent.sections.features.text}</p>
       </div>
       <ul class="event-feature-cloud">
         {pageContent.features.map((feature) => (
@@ -117,9 +117,9 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block" id="how-it-works">
     <div class="section-heading centered">
-      <p class="eyebrow">How it works</p>
-      <h2>A simple referral and collaboration process.</h2>
-      <p>Start with an introduction, shape the guest experience together and launch with a clear agreement.</p>
+      <p class="eyebrow">{pageContent.sections.steps.eyebrow}</p>
+      <h2>{pageContent.sections.steps.title}</h2>
+      <p>{pageContent.sections.steps.text}</p>
     </div>
     <div class="process-grid">
       {pageContent.steps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
@@ -128,19 +128,19 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top" id="who-this-is-for">
     <div class="section-heading">
-      <p class="eyebrow">Who this is for</p>
-      <h2>For event professionals who want to offer a better digital experience.</h2>
+      <p class="eyebrow">{pageContent.sections.audiences.eyebrow}</p>
+      <h2>{pageContent.sections.audiences.title}</h2>
     </div>
-    <ul class="event-audience-list" aria-label="Event professional partner types">
+    <ul class="event-audience-list" aria-label={pageContent.aria.partnerTypes}>
       {pageContent.audiences.map((audience) => <li>{audience}</li>)}
     </ul>
   </section>
 
   <section class="section-shell section-block compact-top" id="use-cases">
     <div class="section-heading centered">
-      <p class="eyebrow">Example use cases</p>
-      <h2>Websites tailored to the occasion.</h2>
-      <p>Every event has a different rhythm. The website can be as simple or as feature-rich as the experience requires.</p>
+      <p class="eyebrow">{pageContent.sections.useCases.eyebrow}</p>
+      <h2>{pageContent.sections.useCases.title}</h2>
+      <p>{pageContent.sections.useCases.text}</p>
     </div>
     <div class="event-use-case-grid">
       {pageContent.useCases.map((item) => (
@@ -158,11 +158,11 @@ function getInternalHref(page: string) {
   <section class="event-collaboration-band" id="collaboration">
     <div class="section-shell event-collaboration-inner">
       <div>
-        <p class="eyebrow">Collaboration</p>
+        <p class="eyebrow">{pageContent.sections.collaboration.eyebrow}</p>
         <h2>{pageContent.collaboration.title}</h2>
         <p>{pageContent.collaboration.text}</p>
       </div>
-      <div class="event-collaboration-panel" aria-label="Creative inputs Websiteli can use">
+      <div class="event-collaboration-panel" aria-label={pageContent.aria.creativeInputs}>
         {pageContent.collaboration.inputs.map((input) => (
           <span>{input}</span>
         ))}
@@ -172,8 +172,8 @@ function getInternalHref(page: string) {
 
   <section class="section-shell section-block compact-top faq-section" id="faq">
     <div class="section-heading">
-      <p class="eyebrow">FAQ</p>
-      <h2>Questions event partners usually ask first.</h2>
+      <p class="eyebrow">{pageContent.sections.faq.eyebrow}</p>
+      <h2>{pageContent.sections.faq.title}</h2>
     </div>
     <div class="faq-list">
       {pageContent.faqs.map((item) => <FAQ {...item} />)}
@@ -183,7 +183,7 @@ function getInternalHref(page: string) {
   <section class="partners-final-band" aria-labelledby="event-partner-final-title">
     <div class="section-shell partners-final-cta">
       <div>
-        <p class="eyebrow">Partner with Websiteli</p>
+        <p class="eyebrow">{pageContent.sections.finalCta.eyebrow}</p>
         <h2 id="event-partner-final-title">{pageContent.finalCta.title}</h2>
         <p>{pageContent.finalCta.text}</p>
       </div>

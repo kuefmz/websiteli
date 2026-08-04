@@ -93,7 +93,7 @@ const pageSchema =
         {
           "@context": "https://schema.org",
           "@type": "Service",
-          name: "White-label web development Switzerland",
+          name: partnerContent.schema.name,
           provider: {
             "@type": "Organization",
             name: "Websiteli",
@@ -101,21 +101,13 @@ const pageSchema =
           },
           areaServed: {
             "@type": "Country",
-            name: "Switzerland",
+            name: partnerContent.schema.areaServed,
           },
           audience: partnerContent.audiences.map((item) => ({
             "@type": "Audience",
             audienceType: item.title,
           })),
-          serviceType: [
-            "White-label websites",
-            "Agency web development partner",
-            "Website outsourcing Switzerland",
-            "AI automation partner",
-            "Marketing agency development partner",
-            "Wedding website developer",
-            "Event website developer",
-          ],
+          serviceType: partnerContent.schema.serviceTypes,
           description: partnerContent.seo.description,
         },
         {
