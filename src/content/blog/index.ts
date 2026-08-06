@@ -4,6 +4,7 @@ import aiContentWorkflowSmallBusiness from "./posts/ai-content-workflow-small-bu
 import internalAiAssistantSmallBusiness from "./posts/internal-ai-assistant-small-business";
 import prepareCompanyDocumentsInternalAiAssistant from "./posts/prepare-company-documents-internal-ai-assistant";
 import privateAiAssistantPrivacyChecklist from "./posts/private-ai-assistant-privacy-checklist";
+import scopeInternalAiAssistantPilot from "./posts/scope-internal-ai-assistant-pilot";
 import testInternalAiAssistantBeforeLaunch from "./posts/test-internal-ai-assistant-before-launch";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
@@ -17,6 +18,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  scopeInternalAiAssistantPilot,
   testInternalAiAssistantBeforeLaunch,
   prepareCompanyDocumentsInternalAiAssistant,
   privateAiAssistantPrivacyChecklist,
