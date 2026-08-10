@@ -35,7 +35,7 @@ function makeTranslation(language: LocaleCode, copy: Copy): BlogPostTranslation 
     keyTakeaways: copy.takeaways,
     chatGptPrompts: copy.prompts,
     faqs: copy.faqs,
-    body: `${body}\n\n[Internal AI assistants](/en/services/ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
+    body: `${body}\n\n[Internal AI assistants](/en/services/internal-ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
   };
 }
 
@@ -162,8 +162,8 @@ export default {
   published: true,
   status: "published",
   publishDate: "2026-08-03",
-  image: "/assets/blog/private-ai-assistant-privacy-checklist.png",
-  imageAlt: "Websiteli social title card reading Private AI Assistant Privacy Checklist with a privacy dashboard, shield, permissions, retention, logging and human review checks.",
+  image: "/assets/blog/private-ai-assistant-privacy-checklist-social.webp",
+  imageAlt: "Social title card reading Private AI Assistant Privacy with the caption Permissions, logs, retention and human review beside a privacy dashboard.",
   author: "Websiteli",
   date: "2026-08-03",
   updated: "2026-08-03",
@@ -174,7 +174,7 @@ export default {
     instagram: "Private AI assistant: minimum data, preserved permissions, clear deletion and human escalation.",
   },
   related: [
-    "/en/services/ai-assistants/",
+    "/en/services/internal-ai-assistants/",
     "/en/services/ai-integrations/",
     "/en/services/business-automation/",
     "/en/services-pricing/",

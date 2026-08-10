@@ -5,10 +5,9 @@ import OutreachBlock from "./OutreachBlock.astro";
 import PackageCard from "./PackageCard.astro";
 import PartnersPage from "./PartnersPage.astro";
 import ProcessStep from "./ProcessStep.astro";
-import { packageKeyByName } from "../config/pricing";
+import { portfolioConcepts, realPortfolioProjects } from "../content/portfolio";
+import { packageKeyByName, pricing } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
-import { getDemoPageContent } from "../content/demos";
-import { getExampleProjectPageContent } from "../content/example-projects";
 import { getBlogIndexContent, getBlogPosts, getMarketKeywords } from "../content/blog";
 import { getFeaturedServices, getServiceCategoryServices } from "../content/services";
 
@@ -24,47 +23,16 @@ const aboutIntroParts =
   typeof content.intro === "string" ? content.intro.split(/(?<=[.!?。！？])\s*/).filter(Boolean) : [];
 const aboutProofTitle = aboutIntroParts[0] ?? content.intro;
 const aboutProofText = aboutIntroParts.slice(1).join(" ") || content.intro;
-const demoContent = getDemoPageContent(locale as any);
-const projectContent = getExampleProjectPageContent(locale as any);
 const blogContent = getBlogIndexContent(locale as any);
 const blogPosts = await getBlogPosts(locale as any);
 const marketKeywords = getMarketKeywords();
 const packageLabels = getPackageLabels(locale);
-const auditHref = `${contactHref}?package=digitalAudit&project=portfolio&intent=digital_audit`;
+const websiteReviewHref = `${contactHref}?package=digitalAudit&project=website-review&intent=website_review`;
 const serviceCategoryContent = getServiceCategoryServices();
 const featuredServices = getFeaturedServices();
-const demoItems = Object.values(demoContent.items);
-const featuredPortfolioOrder = ["jenifer-ciuciu-kiss", "shopify-consultant-portfolio"];
-const portfolioItems = demoItems
-  .filter((item) => item.websiteUrl && (!item.clientName || item.clientName === "Websiteli demo" || item.slug === "jenifer-ciuciu-kiss"))
-  .sort((a, b) => {
-    const aIndex = featuredPortfolioOrder.indexOf(a.slug);
-    const bIndex = featuredPortfolioOrder.indexOf(b.slug);
-    return (aIndex === -1 ? featuredPortfolioOrder.length : aIndex) - (bIndex === -1 ? featuredPortfolioOrder.length : bIndex);
-  });
-const conceptDemoItems = demoItems.filter((item) => !item.websiteUrl && (!item.clientName || item.clientName === "Websiteli demo"));
-const demoCategories = [
-  "Business Websites",
-  "Portfolio Websites",
-  "Healthcare",
-  "Restaurants",
-  "Beauty",
-  "Fitness",
-  "Construction",
-  "Consultants",
-  "Landing Pages",
-  "Dashboards",
-  "Automation Examples",
-  "AI Solutions",
-];
-function getDemoCategory(item: (typeof demoItems)[number]) {
-  if (item.category) return item.category;
-  if (item.type.includes("ai")) return "AI Solutions";
-  if (item.type.includes("dashboard")) return "Dashboards";
-  if (item.type.includes("restaurant")) return "Restaurants";
-  if (item.type.includes("consultant")) return "Consultants";
-  if (item.type.includes("portfolio")) return "Portfolio Websites";
-  return item.recommendedPackage === "AI/Data Upgrade" ? "Automation Examples" : "Business Websites";
+const swissPricing = pricing.CH;
+function formatChf(amount: number) {
+  return `from ${swissPricing.symbol} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)}`;
 }
 const processSteps = [
   {
@@ -83,7 +51,7 @@ const processSteps = [
 const faqs = [
   {
     question: "Which package should I choose?",
-    answer: "Digital Audit is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+    answer: "Website Review is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
   },
   {
     question: "Do clients own their website?",
@@ -94,6 +62,81 @@ const faqs = [
     answer: "Yes. Website Maintenance covers updates, monitoring, backups, small content changes, analytics reports, basic SEO monitoring and technical support.",
   },
 ];
+const portfolioPageCopy: Record<
+  string,
+  {
+    eyebrow: string;
+    title: string;
+    text: string;
+    realEyebrow: string;
+    realTitle: string;
+    conceptsEyebrow: string;
+    conceptsTitle: string;
+    conceptsText: string;
+    viewWebsite: string;
+    linkPending: string;
+    requestSimilar: string;
+    finalCta: string;
+  }
+> = {
+  en: {
+    eyebrow: "Our work",
+    title: "Websites and digital products we've designed and built.",
+    text: "Real public projects appear first. Concepts and demos are clearly separated lower on the page.",
+    realEyebrow: "Real projects",
+    realTitle: "Public websites and Websiteli-owned work",
+    conceptsEyebrow: "Concepts & experiments",
+    conceptsTitle: "Reusable ideas for common business needs",
+    conceptsText: "These examples are demos or concepts, not completed client websites.",
+    viewWebsite: "View website",
+    linkPending: "Website link being verified",
+    requestSimilar: "Request something similar",
+    finalCta: "Get a free website review",
+  },
+  de: {
+    eyebrow: "Unsere Arbeit",
+    title: "Websites und digitale Produkte, die wir gestaltet und gebaut haben.",
+    text: "Echte öffentliche Projekte erscheinen zuerst. Konzepte und Demos sind weiter unten klar getrennt.",
+    realEyebrow: "Echte Projekte",
+    realTitle: "Öffentliche Websites und Websiteli-eigene Arbeit",
+    conceptsEyebrow: "Konzepte & Experimente",
+    conceptsTitle: "Wiederverwendbare Ideen für typische Geschäftsanforderungen",
+    conceptsText: "Diese Beispiele sind Demos oder Konzepte, keine abgeschlossenen Kundenwebsites.",
+    viewWebsite: "Website ansehen",
+    linkPending: "Website-Link wird geprüft",
+    requestSimilar: "Ähnliches anfragen",
+    finalCta: "Kostenlosen Website-Check anfragen",
+  },
+  fr: {
+    eyebrow: "Nos réalisations",
+    title: "Sites et produits digitaux que nous avons conçus et construits.",
+    text: "Les vrais projets publics apparaissent d'abord. Les concepts et démos sont séparés plus bas.",
+    realEyebrow: "Projets réels",
+    realTitle: "Sites publics et travail Websiteli",
+    conceptsEyebrow: "Concepts & expériences",
+    conceptsTitle: "Idées réutilisables pour besoins fréquents",
+    conceptsText: "Ces exemples sont des démos ou concepts, pas des sites clients terminés.",
+    viewWebsite: "Voir le site",
+    linkPending: "Lien du site en vérification",
+    requestSimilar: "Demander un projet similaire",
+    finalCta: "Demander une revue gratuite du site",
+  },
+  it: {
+    eyebrow: "Il nostro lavoro",
+    title: "Siti e prodotti digitali che abbiamo progettato e costruito.",
+    text: "I progetti pubblici reali vengono prima. Concept e demo sono separati più in basso.",
+    realEyebrow: "Progetti reali",
+    realTitle: "Siti pubblici e lavoro Websiteli",
+    conceptsEyebrow: "Concept ed esperimenti",
+    conceptsTitle: "Idee riutilizzabili per esigenze comuni",
+    conceptsText: "Questi esempi sono demo o concept, non siti cliente completati.",
+    viewWebsite: "Vedi sito",
+    linkPending: "Link del sito in verifica",
+    requestSimilar: "Richiedi qualcosa di simile",
+    finalCta: "Revisione gratuita del sito",
+  },
+};
+const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
 ---
 
 {
@@ -109,11 +152,47 @@ const faqs = [
         <p>{content.packagesIntro.text}</p>
       </section>
 
+      <section class="pricing-page-overview" id="pricing">
+        <div class="section-shell pricing-page-overview-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Pricing</p>
+            <h2>Starting prices you can understand before you contact us.</h2>
+            <p>Exact scope depends on pages, content, languages, integrations and launch support, but the starting point should be visible.</p>
+          </div>
+          <div class="pricing-snapshot-grid">
+            <article class="pricing-snapshot-card" data-package-card="digitalFoundation">
+              <h3>{packageLabels.digitalFoundation}</h3>
+              <p class="plan-price" data-package-price="digitalFoundation">{formatChf(swissPricing.packages.digitalFoundation.from)}</p>
+              <p>For a professional website foundation, contact form, analytics, Search Console and SEO basics.</p>
+            </article>
+            <article class="pricing-snapshot-card" data-package-card="growthSetup">
+              <h3>{packageLabels.growthSetup}</h3>
+              <p class="plan-price" data-package-price="growthSetup">{formatChf(swissPricing.packages.growthSetup.from)}</p>
+              <p>For more pages, lead capture, bookings, Google Business support and conversion tracking.</p>
+            </article>
+            <article class="pricing-snapshot-card" data-package-card="aiDataUpgrade">
+              <h3>{packageLabels.aiDataUpgrade}</h3>
+              <p class="plan-price" data-package-price="aiDataUpgrade">{formatChf(swissPricing.packages.aiDataUpgrade.from)}</p>
+              <p>For automation, AI helpers, dashboards or custom workflows after the website foundation is clear.</p>
+            </article>
+            <article class="pricing-snapshot-card ownership-card">
+              <h3>You own your website</h3>
+              <p class="plan-price">Ownership</p>
+              <p>Clients should own their domain, source, analytics, Search Console access and website assets.</p>
+            </article>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="#packages">Compare detailed packages</a>
+            <a class="button secondary" href={websiteReviewHref} data-track-event="website_review_cta_click" data-track-label="Pricing page website review">Get a free website review</a>
+          </div>
+        </div>
+      </section>
+
       <section class="section-shell section-block compact-top" id="problems">
         <div class="section-heading">
           <p class="eyebrow">Services</p>
-          <h2>Websites, automation, AI and custom software in one practical roadmap.</h2>
-          <p>Choose a focused website package, then add automation, AI integrations or internal tools where they remove measurable manual work.</p>
+          <h2>Websites first, then automation and custom tools when they help.</h2>
+          <p>Start with a focused website package, then add automation, AI integrations or internal tools where they remove measurable manual work.</p>
         </div>
         <div class="category-grid">
           {serviceCategoryContent.map((category) => (
@@ -143,21 +222,21 @@ const faqs = [
       </section>
 
       <section class="section-shell inline-cta demo-discovery-cta">
-        <a class="button primary" href={`/${locale}/portfolio/`}>{content.ui?.demoCta ?? "See Live Demos"}</a>
-        <a class="button secondary" href={auditHref}>{content.hero.primaryCta}</a>
+        <a class="button primary" href={`/${locale}/portfolio/`} data-track-event="portfolio_cta_click" data-track-label="Pricing page portfolio">See our work</a>
+        <a class="button secondary" href={websiteReviewHref} data-track-event="website_review_cta_click" data-track-label="Pricing page inline website review">Get a free website review</a>
       </section>
 
       <section class="section-shell section-block compact-top" id="process">
         <div class="section-heading">
           <p class="eyebrow">Process</p>
-          <h2>From unclear digital setup to a website that can be measured and improved.</h2>
+          <h2>From first conversation to a website you can own and improve.</h2>
         </div>
         <div class="process-grid">
           {processSteps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
         </div>
       </section>
 
-      <section class="section-shell section-block compact-top" id="pricing">
+      <section class="section-shell section-block compact-top" id="packages">
         <div class="section-heading">
           <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
           <h2>{content.packagesIntro.title}</h2>
@@ -191,137 +270,89 @@ const faqs = [
   page === "portfolio" && (
     <main class="subpage">
       <section class="section-shell page-hero">
-        <p class="eyebrow">{content.nav.portfolio ?? "Portfolio"}</p>
-        <h1>{demoContent.title}</h1>
-        <p>{demoContent.text}</p>
+        <p class="eyebrow">{portfolioUi.eyebrow}</p>
+        <h1>{portfolioUi.title}</h1>
+        <p>{portfolioUi.text}</p>
       </section>
+
       <section class="section-shell section-block compact-top" id="live-demos">
         <div class="section-heading">
-          <p class="eyebrow">Portfolio</p>
-          <h2>Featured live websites and public demos.</h2>
-          <p>Real public projects and Websiteli-owned demos with screenshots captured from the corresponding live websites.</p>
+          <p class="eyebrow">{portfolioUi.realEyebrow}</p>
+          <h2>{portfolioUi.realTitle}</h2>
         </div>
-        <div class="project-grid">
-          {portfolioItems.map((item) => {
-            const category = getDemoCategory(item);
-            const technologies = item.technologies ?? item.features.slice(0, 5);
-            const relatedServices = item.servicesProvided ?? item.included.slice(0, 4);
-            const requestHref = `${contactHref}?package=${packageKeyByName[item.recommendedPackage]}&relatedDemo=${item.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_demo`;
-            const projectTypeLabel = item.clientName === "Websiteli demo" ? "Websiteli-owned demo" : "Public live website";
+        <div class="portfolio-visual-grid">
+          {realPortfolioProjects.map((project) => {
+            const requestHref = `${contactHref}?package=digitalFoundation&relatedProject=${project.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_project`;
             return (
-            <article class={`project-card${item.slug === "jenifer-ciuciu-kiss" ? " featured-project" : ""}`} itemscope itemtype="https://schema.org/CreativeWork">
-              <a class="project-preview" href={item.websiteUrl} target="_blank" rel="noopener" aria-label={`Open ${item.title}`}>
-                {item.previewImage && <img src={item.previewImage} alt={`${item.title} homepage screenshot`} loading="lazy" width="1200" height="760" itemprop="image" />}
-              </a>
+            <article class:list={["portfolio-visual-card", project.featured && "featured-project"]} itemscope itemtype="https://schema.org/CreativeWork">
+              <div class="portfolio-visual-preview">
+                {project.image ? (
+                  <img src={project.image} alt={project.imageAlt ?? `${project.name} website screenshot`} loading="lazy" decoding="async" width="1200" height="760" itemprop="image" />
+                ) : (
+                  <div class="screenshot-pending compact">
+                    <span>{project.category}</span>
+                    <strong>{project.name}</strong>
+                    <small>{project.expectedImage ? `Expected asset: ${project.expectedImage}` : portfolioUi.linkPending}</small>
+                  </div>
+                )}
+              </div>
               <div class="project-card-body">
-                <div class="project-meta">
-                  <span>{category}</span>
-                  <span>{projectTypeLabel}</span>
-                  <span>{demoContent.labels.industry}: {item.industry ?? item.forText}</span>
-                  {item.country && <span>{demoContent.labels.country}: {item.country}</span>}
-                </div>
-                <h3 itemprop="name">{item.title}</h3>
-                <p itemprop="description">{item.shortDescription}</p>
-                <p class="card-meta"><strong>{demoContent.labels.recommendedPackage}:</strong>{" "}{demoContent.packageNames[item.recommendedPackage]}</p>
-                <h4>{demoContent.labels.technologies}</h4>
-                <ul class="compact-list">
-                  {technologies.map((technology) => <li>{technology}</li>)}
-                </ul>
-                <h4>Related services</h4>
-                <ul class="compact-list">
-                  {relatedServices.map((service) => <li>{service}</li>)}
-                </ul>
+                <p class="project-kicker">{project.category}</p>
+                <h3 itemprop="name">{project.name}</h3>
+                <p itemprop="description">{project.description}</p>
                 <div class="button-row">
-                  <a class="button primary" href={item.websiteUrl} target="_blank" rel="noopener" data-track-event="demo_opened" data-track-label={item.slug}>{item.ctaLabel ?? demoContent.labels.viewLiveDemo}</a>
-                  <a class="button secondary" href={requestHref} data-track-event="demo_request_click" data-track-label={item.slug}>{demoContent.labels.requestSimilar}</a>
+                  {project.verifiedUrl && project.url ? (
+                    <a class="button primary" href={project.url} target="_blank" rel="noopener" data-track-event="portfolio_project_click" data-track-label={project.slug}>{portfolioUi.viewWebsite}</a>
+                  ) : (
+                    <span class="button secondary disabled-button" title={project.verificationNote}>{portfolioUi.linkPending}</span>
+                  )}
+                  <a class="button secondary" href={requestHref} data-track-event="portfolio_project_request_click" data-track-label={project.slug}>{portfolioUi.requestSimilar}</a>
                 </div>
               </div>
             </article>
             );
           })}
         </div>
-
-        {conceptDemoItems.length > 0 && (
-          <>
-            <div class="section-heading compact-heading demo-concept-heading">
-              <p class="eyebrow">Demo Concepts</p>
-              <h2>Reusable examples for common business needs.</h2>
-              <p>These concept cards stay separate from the live portfolio because no public project URL is configured for them.</p>
-            </div>
-            <div class="demo-grid concept-demo-grid">
-              {conceptDemoItems.map((item) => {
-                const category = getDemoCategory(item);
-                const requestHref = `${contactHref}?package=${packageKeyByName[item.recommendedPackage]}&relatedDemo=${item.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_demo`;
-                return (
-                  <article class="demo-card concept-demo-card">
-                    <div class="concept-card-meta">
-                      <span>{category}</span>
-                      <span>Concept demo</span>
-                      <span>{demoContent.packageNames[item.recommendedPackage]}</span>
-                    </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.shortDescription}</p>
-                    <ul class="compact-list">
-                      {item.features.slice(0, 4).map((feature) => <li>{feature}</li>)}
-                    </ul>
-                    <a href={requestHref} data-track-event="demo_request_click" data-track-label={item.slug}>{demoContent.labels.requestSimilar}</a>
-                  </article>
-                );
-              })}
-            </div>
-          </>
-        )}
-
-        <div class="section-heading compact-heading demo-category-heading">
-          <p class="eyebrow">Common Categories</p>
-          <h2>Website and automation directions we can adapt.</h2>
-        </div>
-        <div class="demo-category-grid" aria-label="Demo categories">
-          {demoCategories.map((category) => (
-            <article class="demo-category-card">
-              <h3>{category}</h3>
-            </article>
-          ))}
-        </div>
       </section>
 
-      {/* <section class="section-shell section-block compact-top" id="case-studies">
+      <section class="section-shell section-block compact-top" id="concepts">
         <div class="section-heading">
-          <p class="eyebrow">Illustrative Business Analysis</p>
-          <h2>{projectContent.title}</h2>
-          <p>{projectContent.text}</p>
+          <p class="eyebrow">{portfolioUi.conceptsEyebrow}</p>
+          <h2>{portfolioUi.conceptsTitle}</h2>
+          <p>{portfolioUi.conceptsText}</p>
         </div>
-        <div class="case-study-grid">
-          {Object.values(projectContent.items).map((item) => (
-            <article class="case-study-card analysis-card" id={`case-${item.slug}`}>
-              <div class="analysis-badge">{item.badge}</div>
-              <h3>{item.title}</h3>
-              <p>{item.disclaimer}</p>
-              <p class="card-meta"><strong>{projectContent.labels.businessType}:</strong> {item.businessType}</p>
-              <p class="card-meta"><strong>{projectContent.labels.recommendedPackage}:</strong> {projectContent.packageNames[item.recommendedPackage]}</p>
-              <div class="case-study-columns">
-                <div>
-                  <h4>{projectContent.labels.currentSituation}</h4>
-                  <ul>{item.currentSituation.map((point) => <li>{point}</li>)}</ul>
-                </div>
-                {item.potentialChallenges && (
-                  <div>
-                    <h4>{projectContent.labels.potentialChallenges}</h4>
-                    <ul>{item.potentialChallenges.map((point) => <li>{point}</li>)}</ul>
+        <div class="demo-grid concept-demo-grid">
+          {portfolioConcepts.map((concept) => {
+            const requestHref = `${contactHref}?package=digitalFoundation&relatedDemo=${concept.slug}&sourcePage=/${locale}/portfolio/&intent=${concept.requestIntent}`;
+            return (
+            <article class="demo-card concept-demo-card">
+              <div class="portfolio-visual-preview compact">
+                {concept.image ? (
+                  <img src={concept.image} alt={`${concept.name} demo preview`} loading="lazy" width="1200" height="760" />
+                ) : (
+                  <div class="work-placeholder">
+                    <span>{concept.category}</span>
+                    <strong>{concept.name}</strong>
                   </div>
                 )}
-                <div>
-                  <h4>{projectContent.labels.illustrativeOpportunity}</h4>
-                  <ul>{item.illustrativeOpportunity.map((point) => <li>{point}</li>)}</ul>
-                </div>
               </div>
-              <a class="button secondary" href={`${contactHref}?package=digitalAudit&project=${item.slug}&sourcePage=/${locale}/portfolio/&intent=case_study_consultation`}>{projectContent.labels.requestAudit}</a>
+              <div class="concept-card-meta">
+                <span>{concept.category}</span>
+                <span>Concept demo</span>
+              </div>
+              <h3>{concept.name}</h3>
+              <p>{concept.description}</p>
+              <ul class="compact-list">
+                {concept.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
+              </ul>
+              <a href={requestHref} data-track-event="portfolio_concept_request_click" data-track-label={concept.slug}>{portfolioUi.requestSimilar}</a>
             </article>
-          ))}
+            );
+          })}
         </div>
-      </section> */}
+      </section>
       <section class="section-shell inline-cta">
-        <a class="button primary" href={auditHref}>{content.hero.primaryCta}</a>
+        <a class="button primary" href={`${contactHref}?package=digitalAudit&project=website-review&intent=website_review`} data-track-event="website_review_cta_click" data-track-label="Portfolio final CTA">{portfolioUi.finalCta}</a>
         <a class="button secondary" href={`/${locale}/services-pricing/`}>{content.nav.servicesPricing ?? "Services & Pricing"}</a>
       </section>
     </main>

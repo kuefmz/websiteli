@@ -13,22 +13,39 @@ const { content, locale = "en", page = "home", languageLinks = [] } = Astro.prop
 const nav = content?.nav ?? {
   home: "Home",
   servicesPricing: "Services & Pricing",
+  services: "Services",
+  packages: "Pricing",
   portfolio: "Portfolio",
   partners: "Partners",
   blog: "Blog",
   about: "About",
   contact: "Contact",
 };
+const headerCtaCopy: Record<string, { pricing: string; review: string }> = {
+  en: { pricing: "Pricing", review: "Get a free website review" },
+  de: { pricing: "Preise", review: "Kostenlosen Website-Check anfragen" },
+  hu: { pricing: "Árak", review: "Ingyenes weboldal-áttekintés" },
+  pl: { pricing: "Cennik", review: "Bezpłatny przegląd strony" },
+  es: { pricing: "Precios", review: "Revisión web gratuita" },
+  fr: { pricing: "Tarifs", review: "Revue de site gratuite" },
+  it: { pricing: "Prezzi", review: "Revisione gratuita del sito" },
+  cz: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
+  sk: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
+  pt: { pricing: "Preços", review: "Revisão gratuita do site" },
+  da: { pricing: "Priser", review: "Gratis website-gennemgang" },
+  nl: { pricing: "Prijzen", review: "Gratis websitecheck" },
+  ja: { pricing: "料金", review: "無料Webサイトレビュー" },
+};
+const headerCta = headerCtaCopy[locale] ?? headerCtaCopy.en;
 const navItems = [
-  { label: nav.home, href: `/${locale}/` },
-  { label: nav.servicesPricing ?? "Services & Pricing", href: `/${locale}/services-pricing/` },
+  { label: nav.services ?? "Services", href: `/${locale}/services-pricing/#problems` },
   { label: nav.portfolio ?? "Portfolio", href: `/${locale}/portfolio/` },
+  { label: headerCta.pricing, href: `/${locale}/services-pricing/#pricing` },
   { label: nav.partners ?? "Partners", href: `/${locale}/partners/` },
   { label: nav.blog ?? "Blog", href: `/${locale}/blog/` },
   { label: nav.about, href: `/${locale}/about/` },
 ];
-const quoteHref = `/${locale}/contact/`;
-const demosHref = `/${locale}/portfolio/`;
+const quoteHref = `/${locale}/contact/?package=digitalAudit&project=website-review&intent=website_review`;
 const switchPage = page === "home" || page in pageNavKeys ? page : "home";
 const languageLinkByLocale = new Map(languageLinks.map((item) => [item.locale, item.href]));
 const headerLabels = {
@@ -71,8 +88,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
       </div>
     </div>
     <ThemeToggle locale={locale} />
-    <a class="header-demo" href={demosHref} data-track-event="demo_nav_click" data-track-label="Header demos">{content?.ui?.demoCta ?? "See Live Demos"}</a>
-    <a class="header-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Header quote">{nav.contact}</a>
+    <a class="header-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Header website review">{headerCta.review}</a>
     <button class="menu-toggle" type="button" aria-label={headerCopy.openMenu} aria-expanded="false" data-menu-toggle>
       <span></span>
       <span></span>
@@ -85,8 +101,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
   <div class="mobile-languages">
     {localeCodes.map((code) => <a href={languageLinkByLocale.get(code) ?? getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
   </div>
-  <a class="mobile-demo" href={demosHref} data-track-event="demo_nav_click" data-track-label="Mobile demos">{content?.ui?.demoCta ?? "See Live Demos"}</a>
-  <a class="mobile-quote" href={quoteHref} data-track-event="quote_button_click" data-track-label="Mobile quote">{nav.contact}</a>
+  <a class="mobile-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Mobile website review">{headerCta.review}</a>
 </nav>
 
 <script>

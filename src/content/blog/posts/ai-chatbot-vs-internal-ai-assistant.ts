@@ -137,7 +137,7 @@ A first chatbot could answer ten recurring questions and route uncertain enquiri
 
 A first internal assistant could search one approved document collection and provide source-linked answers without changing any business system.
 
-Websiteli's [AI assistant services](/en/services/ai-assistants/) and [business automation services](/en/services/business-automation/) can support a controlled implementation. The [services and pricing page](/en/services-pricing/) explains broader project options.
+Websiteli's [AI assistant services](/en/services/internal-ai-assistants/) and [business automation services](/en/services/business-automation/) can support a controlled implementation. The [services and pricing page](/en/services-pricing/) explains broader project options.
 
 ## How to measure whether it works
 
@@ -256,7 +256,7 @@ Ein erster Chatbot kann zehn wiederkehrende Fragen beantworten und unsichere Anl
 
 Ein erster interner Assistent kann eine freigegebene Dokumentensammlung durchsuchen und Antworten mit Quellen liefern.
 
-Die [KI-Assistenten von Websiteli](/en/services/ai-assistants/) und die [Business-Automation](/en/services/business-automation/) unterstützen kontrollierte Umsetzungen. Weitere Optionen stehen auf [Services und Preise](/en/services-pricing/).
+Die [KI-Assistenten von Websiteli](/en/services/internal-ai-assistants/) und die [Business-Automation](/en/services/business-automation/) unterstützen kontrollierte Umsetzungen. Weitere Optionen stehen auf [Services und Preise](/en/services-pricing/).
 
 ## Erfolg messen
 
@@ -292,7 +292,7 @@ A nyilvános és privát információkat külön kell kezelni. Bizonytalanság e
 
 ## Első lépés
 
-Válassz egy szűk, gyakori feladatot. Lásd az [AI-asszisztenseket](/en/services/ai-assistants/) és a [kapcsolatot](/en/contact/).`),
+Válassz egy szűk, gyakori feladatot. Lásd az [AI-asszisztenseket](/en/services/internal-ai-assistants/) és a [kapcsolatot](/en/contact/).`),
   pl: makeTranslation("pl", "Chatbot AI czy wewnętrzny asystent AI: co powinna zbudować mała firma?", "Praktyczne porównanie chatbotów dla klientów i prywatnych asystentów wewnętrznych.", "Strategia AI", "8 min czytania", "Szwajcarskie i europejskie małe firmy", "Oba rozwiązania obsługują innych użytkowników, dane i ryzyka.", ["Chatbot obsługuje klientów, a asystent wewnętrzny pracowników.", "Dane publiczne i prywatne wymagają osobnych zabezpieczeń.", "Najlepiej zacząć od jednego ograniczonego zadania."], ["Najpierw określ problem biznesowy.", "Zachowaj prawa dostępu.", "Zapewnij przekazanie sprawy człowiekowi."], [{ question: "Jaka jest główna różnica?", answer: "Chatbot obsługuje klientów, a asystent wewnętrzny wspiera pracowników zatwierdzoną wiedzą firmy." }, { question: "Od czego zacząć?", answer: "Od rozwiązania związanego z najczęstszym, jasno zdefiniowanym problemem." }, { question: "Czy prywatne dane mogą trafić do publicznego chatbota?", answer: "Nie. Publiczne i prywatne źródła wiedzy należy rozdzielić." }], `## Krótka odpowiedź
 
 Chatbot obsługuje odwiedzających stronę, a wewnętrzny asystent AI wspiera pracowników zatwierdzoną wiedzą firmy.
@@ -311,7 +311,7 @@ Informacje publiczne i prywatne muszą być rozdzielone. Niepewne sprawy powinny
 
 ## Pierwszy krok
 
-Wybierz jedno wąskie zadanie. Zobacz [asystentów AI](/en/services/ai-assistants/) lub [kontakt](/en/contact/).`),
+Wybierz jedno wąskie zadanie. Zobacz [asystentów AI](/en/services/internal-ai-assistants/) lub [kontakt](/en/contact/).`),
   es: makeTranslation("es", "Chatbot de IA o asistente interno: ¿qué debería crear una pequeña empresa?", "Comparación práctica entre chatbots para clientes y asistentes internos privados.", "Estrategia de IA", "8 min de lectura", "Pequeñas empresas suizas y europeas", "Compara usuarios, datos, permisos, riesgos y primeros casos de uso.", ["Un chatbot atiende a clientes; un asistente interno ayuda al personal.", "La información pública y privada requiere controles separados.", "Conviene empezar con una tarea limitada."], ["Define primero el problema empresarial.", "Conserva los permisos de acceso.", "Mantén una derivación humana."], [{ question: "¿Cuál es la diferencia principal?", answer: "El chatbot atiende a usuarios externos y el asistente interno ayuda al personal con conocimiento aprobado." }, { question: "¿Por cuál empezar?", answer: "Por el que resuelva el problema repetitivo más claro." }, { question: "¿Debe usar datos privados un chatbot público?", answer: "No. Las fuentes públicas y privadas deben mantenerse separadas." }], `## Respuesta breve
 
 Un chatbot ayuda a visitantes y clientes. Un asistente interno ayuda al personal con información empresarial aprobada.
@@ -330,7 +330,7 @@ La información pública y privada debe permanecer separada. Los casos inciertos
 
 ## Primer paso
 
-Empieza con una tarea limitada. Consulta [asistentes de IA](/en/services/ai-assistants/) o [contacto](/en/contact/).`),
+Empieza con una tarea limitada. Consulta [asistentes de IA](/en/services/internal-ai-assistants/) o [contacto](/en/contact/).`),
   fr: makeTranslation("fr", "Chatbot IA ou assistant interne : que doit créer une petite entreprise ?", "Comparaison pratique entre chatbots clients et assistants IA internes privés.", "Stratégie IA", "8 min de lecture", "Petites entreprises suisses et européennes", "Comparez utilisateurs, données, permissions, risques et premiers cas d'usage.", ["Un chatbot sert les clients, un assistant interne aide les collaborateurs.", "Les informations publiques et privées nécessitent des contrôles séparés.", "Commencez par une tâche limitée."], ["Définissez d'abord le problème métier.", "Préservez les droits d'accès.", "Gardez une escalade humaine."], [{ question: "Quelle est la différence principale ?", answer: "Le chatbot sert les utilisateurs externes, l'assistant interne aide les collaborateurs avec des connaissances approuvées." }, { question: "Par quoi commencer ?", answer: "Par la solution liée au problème récurrent le plus clair." }, { question: "Un chatbot public doit-il utiliser des données privées ?", answer: "Non. Les sources publiques et privées doivent rester séparées." }], `## Réponse courte
 
 Un chatbot aide les visiteurs et les clients. Un assistant interne aide les collaborateurs avec des informations approuvées.
@@ -349,7 +349,7 @@ Les informations publiques et privées doivent rester séparées. Les cas incert
 
 ## Première étape
 
-Commencez par une tâche limitée. Voir les [assistants IA](/en/services/ai-assistants/) ou la page [contact](/en/contact/).`),
+Commencez par une tâche limitée. Voir les [assistants IA](/en/services/internal-ai-assistants/) ou la page [contact](/en/contact/).`),
   it: makeTranslation("it", "Chatbot AI o assistente interno: cosa dovrebbe creare una piccola impresa?", "Confronto pratico tra chatbot per clienti e assistenti AI interni privati.", "Strategia AI", "8 min di lettura", "Piccole imprese svizzere ed europee", "Confronta utenti, dati, autorizzazioni, rischi e primi casi d'uso.", ["Un chatbot serve i clienti, un assistente interno supporta il personale.", "Le informazioni pubbliche e private richiedono controlli separati.", "È meglio iniziare con un'attività limitata."], ["Definisci prima il problema aziendale.", "Mantieni i diritti di accesso.", "Prevedi il passaggio a una persona."], [{ question: "Qual è la differenza principale?", answer: "Il chatbot serve utenti esterni, l'assistente interno supporta il personale con conoscenze approvate." }, { question: "Da quale iniziare?", answer: "Da quello collegato al problema ricorrente più chiaro." }, { question: "Un chatbot pubblico deve usare dati privati?", answer: "No. Le fonti pubbliche e private devono restare separate." }], `## Risposta breve
 
 Un chatbot aiuta visitatori e clienti. Un assistente interno aiuta il personale con informazioni aziendali approvate.
@@ -368,7 +368,7 @@ Le informazioni pubbliche e private devono restare separate. I casi incerti devo
 
 ## Primo passo
 
-Inizia con un'attività limitata. Scopri gli [assistenti AI](/en/services/ai-assistants/) o [contattaci](/en/contact/).`),
+Inizia con un'attività limitata. Scopri gli [assistenti AI](/en/services/internal-ai-assistants/) o [contattaci](/en/contact/).`),
   cz: makeTranslation("cz", "AI chatbot, nebo interní AI asistent: co má vytvořit malá firma?", "Praktické srovnání zákaznických chatbotů a soukromých interních asistentů.", "AI strategie", "8 min čtení", "Švýcarské a evropské malé firmy", "Porovnání uživatelů, dat, oprávnění, rizik a prvních použití.", ["Chatbot slouží zákazníkům, interní asistent zaměstnancům.", "Veřejná a soukromá data potřebují oddělené řízení.", "Začněte jedním omezeným úkolem."], ["Nejprve určete obchodní problém.", "Zachovejte přístupová práva.", "Zajistěte předání člověku."], [{ question: "Jaký je hlavní rozdíl?", answer: "Chatbot slouží externím uživatelům, interní asistent podporuje zaměstnance schválenými znalostmi." }, { question: "Čím začít?", answer: "Řešením nejjasnějšího opakovaného problému." }, { question: "Má veřejný chatbot používat soukromá data?", answer: "Ne. Veřejné a soukromé zdroje musí být oddělené." }], `## Krátká odpověď
 
 Chatbot pomáhá návštěvníkům a zákazníkům. Interní AI asistent podporuje zaměstnance schválenými firemními informacemi.
@@ -387,7 +387,7 @@ Veřejné a soukromé informace musí zůstat oddělené. Nejisté případy mus
 
 ## První krok
 
-Začněte jedním úzkým úkolem. Více: [AI asistenti](/en/services/ai-assistants/) a [kontakt](/en/contact/).`),
+Začněte jedním úzkým úkolem. Více: [AI asistenti](/en/services/internal-ai-assistants/) a [kontakt](/en/contact/).`),
   sk: makeTranslation("sk", "AI chatbot alebo interný AI asistent: čo má vytvoriť malá firma?", "Praktické porovnanie zákazníckych chatbotov a súkromných interných asistentov.", "AI stratégia", "8 min čítania", "Švajčiarske a európske malé firmy", "Porovnanie používateľov, údajov, oprávnení, rizík a prvých použití.", ["Chatbot slúži zákazníkom, interný asistent zamestnancom.", "Verejné a súkromné údaje potrebujú oddelené riadenie.", "Začnite jednou obmedzenou úlohou."], ["Najprv určte obchodný problém.", "Zachovajte prístupové práva.", "Zaistite odovzdanie človeku."], [{ question: "Aký je hlavný rozdiel?", answer: "Chatbot slúži externým používateľom, interný asistent podporuje zamestnancov schválenými znalosťami." }, { question: "Čím začať?", answer: "Riešením najjasnejšieho opakovaného problému." }, { question: "Má verejný chatbot používať súkromné údaje?", answer: "Nie. Verejné a súkromné zdroje musia byť oddelené." }], `## Krátka odpoveď
 
 Chatbot pomáha návštevníkom a zákazníkom. Interný AI asistent podporuje zamestnancov schválenými informáciami.
@@ -406,7 +406,7 @@ Verejné a súkromné informácie musia zostať oddelené. Neisté prípady mus�
 
 ## Prvý krok
 
-Začnite jednou úzkou úlohou. Viac: [AI asistenti](/en/services/ai-assistants/) a [kontakt](/en/contact/).`),
+Začnite jednou úzkou úlohou. Viac: [AI asistenti](/en/services/internal-ai-assistants/) a [kontakt](/en/contact/).`),
   pt: makeTranslation("pt", "Chatbot de IA ou assistente interno: o que deve criar uma pequena empresa?", "Comparação prática entre chatbots para clientes e assistentes internos privados.", "Estratégia de IA", "8 min de leitura", "Pequenas empresas suíças e europeias", "Compare utilizadores, dados, permissões, riscos e primeiros casos de uso.", ["Um chatbot serve clientes; um assistente interno apoia colaboradores.", "Informação pública e privada exige controlos separados.", "Comece com uma tarefa limitada."], ["Defina primeiro o problema empresarial.", "Mantenha os direitos de acesso.", "Garanta encaminhamento humano."], [{ question: "Qual é a principal diferença?", answer: "O chatbot serve utilizadores externos, o assistente interno apoia colaboradores com conhecimento aprovado." }, { question: "Por qual começar?", answer: "Pelo que resolve o problema repetitivo mais claro." }, { question: "Um chatbot público deve usar dados privados?", answer: "Não. As fontes públicas e privadas devem ficar separadas." }], `## Resposta curta
 
 Um chatbot ajuda visitantes e clientes. Um assistente interno apoia colaboradores com informação empresarial aprovada.
@@ -425,7 +425,7 @@ A informação pública e privada deve ficar separada. Casos incertos devem ser 
 
 ## Primeiro passo
 
-Comece com uma tarefa limitada. Veja [assistentes de IA](/en/services/ai-assistants/) ou [contacto](/en/contact/).`),
+Comece com uma tarefa limitada. Veja [assistentes de IA](/en/services/internal-ai-assistants/) ou [contacto](/en/contact/).`),
   da: makeTranslation("da", "AI-chatbot eller intern AI-assistent: hvad bør en mindre virksomhed bygge?", "Praktisk sammenligning af kundechatbots og private interne AI-assistenter.", "AI-strategi", "8 min. læsning", "Schweiziske og europæiske mindre virksomheder", "Sammenlign brugere, data, rettigheder, risici og første anvendelser.", ["En chatbot hjælper kunder; en intern assistent hjælper medarbejdere.", "Offentlige og private data kræver separate kontroller.", "Start med én afgrænset opgave."], ["Definér først forretningsproblemet.", "Bevar adgangsrettigheder.", "Sørg for menneskelig overdragelse."], [{ question: "Hvad er hovedforskellen?", answer: "Chatbotten hjælper eksterne brugere, mens den interne assistent støtter medarbejdere med godkendt viden." }, { question: "Hvad bør man starte med?", answer: "Den løsning, der adresserer det tydeligste tilbagevendende problem." }, { question: "Bør en offentlig chatbot bruge private data?", answer: "Nej. Offentlige og private kilder skal holdes adskilt." }], `## Det korte svar
 
 En chatbot hjælper besøgende og kunder. En intern AI-assistent hjælper medarbejdere med godkendt virksomhedsviden.
@@ -444,7 +444,7 @@ Offentlige og private oplysninger skal holdes adskilt. Usikre sager skal sendes 
 
 ## Første skridt
 
-Start med én afgrænset opgave. Se [AI-assistenter](/en/services/ai-assistants/) eller [kontakt](/en/contact/).`),
+Start med én afgrænset opgave. Se [AI-assistenter](/en/services/internal-ai-assistants/) eller [kontakt](/en/contact/).`),
   nl: makeTranslation("nl", "AI-chatbot of interne AI-assistent: wat moet een klein bedrijf bouwen?", "Praktische vergelijking van klantchatbots en private interne AI-assistenten.", "AI-strategie", "8 min leestijd", "Zwitserse en Europese kleine bedrijven", "Vergelijk gebruikers, gegevens, rechten, risico's en eerste toepassingen.", ["Een chatbot helpt klanten; een interne assistent helpt medewerkers.", "Openbare en private gegevens vereisen aparte controles.", "Begin met één beperkte taak."], ["Bepaal eerst het bedrijfsprobleem.", "Behoud toegangsrechten.", "Zorg voor menselijke overdracht."], [{ question: "Wat is het belangrijkste verschil?", answer: "De chatbot bedient externe gebruikers, de interne assistent ondersteunt medewerkers met goedgekeurde kennis." }, { question: "Waarmee beginnen?", answer: "Met de oplossing voor het duidelijkste terugkerende probleem." }, { question: "Moet een openbare chatbot private gegevens gebruiken?", answer: "Nee. Openbare en private bronnen moeten gescheiden blijven." }], `## Het korte antwoord
 
 Een chatbot helpt bezoekers en klanten. Een interne AI-assistent ondersteunt medewerkers met goedgekeurde bedrijfsinformatie.
@@ -463,7 +463,7 @@ Openbare en private informatie moeten gescheiden blijven. Onzekere gevallen moet
 
 ## Eerste stap
 
-Begin met één beperkte taak. Bekijk [AI-assistenten](/en/services/ai-assistants/) of [contact](/en/contact/).`),
+Begin met één beperkte taak. Bekijk [AI-assistenten](/en/services/internal-ai-assistants/) of [contact](/en/contact/).`),
   ja: makeTranslation("ja", "AIチャットボットと社内AIアシスタント：中小企業はどちらを作るべきか", "顧客向けチャットボットと社内向けAIアシスタントを実務的に比較します。", "AI戦略", "8分で読めます", "スイスおよび欧州の中小企業", "利用者、データ、権限、リスク、最初の活用例を比較します。", ["チャットボットは顧客を、社内アシスタントは従業員を支援します。", "公開情報と非公開情報には別々の管理が必要です。", "最初は限定された業務から始めます。"], ["最初に業務課題を定義します。", "既存のアクセス権を維持します。", "人への引き継ぎを用意します。"], [{ question: "主な違いは何ですか？", answer: "チャットボットは外部利用者を支援し、社内アシスタントは承認済み知識で従業員を支援します。" }, { question: "どちらから始めるべきですか？", answer: "最も明確な反復業務を解決する方から始めます。" }, { question: "公開チャットボットで非公開データを使うべきですか？", answer: "いいえ。公開情報と非公開情報のソースは分離します。" }], `## 短い答え
 
 顧客向けチャットボットは訪問者を支援し、社内AIアシスタントは承認済み情報で従業員を支援します。
@@ -482,7 +482,7 @@ Begin met één beperkte taak. Bekijk [AI-assistenten](/en/services/ai-assistant
 
 ## 最初の一歩
 
-対象業務を一つに絞ります。[AIアシスタント](/en/services/ai-assistants/)と[お問い合わせ](/en/contact/)もご覧ください。`),
+対象業務を一つに絞ります。[AIアシスタント](/en/services/internal-ai-assistants/)と[お問い合わせ](/en/contact/)もご覧ください。`),
 } satisfies Record<LocaleCode, BlogPostTranslation>;
 
 export default {
@@ -506,7 +506,7 @@ export default {
     instagram: "Chatbot for customers or AI assistant for your team? Start with the bottleneck, protect permissions and keep human escalation.",
   },
   related: [
-    "/en/services/ai-assistants/",
+    "/en/services/internal-ai-assistants/",
     "/en/services/business-automation/",
     "/en/services/ai-content-pipelines/",
     "/en/services-pricing/",

@@ -23,7 +23,7 @@
     "eyebrow": "Agence suisse IT et IA pour PME",
     "title": "Sites, SEO, automatisation et maintenance pour aider les PME à grandir.",
     "text": "Websiteli crée et maintient des sites professionnels avec visibilité Google, capture de leads, analytics et automatisation IA pratique.",
-    "primaryCta": "Demander un audit gratuit",
+    "primaryCta": "Demander une revue de site gratuite",
     "secondaryCta": "Voir les démos live",
     "trustLine": "Basé en Suisse - Approche structurée - Support multilingue"
   },
@@ -182,14 +182,14 @@
       "Formulaires, réservation et analytics connectés dès le départ.",
       "Base évolutive vers publicité, tableaux de bord et IA."
     ],
-    "cta": "Demander un audit gratuit",
+    "cta": "Demander une revue de site gratuite",
     "emailSubject": "Idée pour votre présence digitale",
     "emailDraft": "Bonjour Websiteli, je dirige une entreprise et je souhaite créer un site web professionnel. Pourriez-vous m'indiquer les solutions que vous proposez ainsi que les prochaines étapes ? Merci beaucoup !"
   },
   "contact": {
     "eyebrow": "Contact",
     "title": "Dites-nous ce que vous voulez améliorer.",
-    "text": "Demandez un audit digital gratuit ou un plan de mise en place.",
+    "text": "Demandez une revue de site gratuite ou un plan de mise en place.",
     "button": "Envoyer la demande"
   },
   "ui": {

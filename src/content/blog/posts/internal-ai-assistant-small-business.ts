@@ -44,7 +44,7 @@ function makeTranslation(language: LocaleCode, copy: LocalizedCopy): BlogPostTra
       { question: copy.headings[3], answer: copy.paragraphs[3] },
       { question: copy.headings[4], answer: copy.paragraphs[4] },
     ],
-    body: `${body}\n\n[AI assistants](/en/services/ai-assistants/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
+    body: `${body}\n\n[AI assistants](/en/services/internal-ai-assistants/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
   };
 }
 
@@ -116,6 +116,6 @@ export default {
     facebook: "New guide: internal AI assistants for small businesses, including use cases, cost factors and risk controls.",
     instagram: "Internal AI assistant: start with one controlled source, one measurable task and clear human escalation.",
   },
-  related: ["/en/services/ai-assistants/", "/en/services/business-automation/", "/en/services/ai-integrations/", "/en/services-pricing/", "/en/contact/"],
+  related: ["/en/services/internal-ai-assistants/", "/en/services/business-automation/", "/en/services/ai-integrations/", "/en/services-pricing/", "/en/contact/"],
   translations,
 } satisfies BlogPostSource;

@@ -10,16 +10,37 @@ const outputDir = path.resolve("public/images/portfolio");
 
 const targets = [
   {
-    slug: "jenifer-ciuciu-kiss",
-    title: "Jenifer Ciuciu-Kiss - Personal Portfolio",
-    url: "https://jeniferciuciukiss.com",
-    output: "jenifer-ciuciu-kiss-portfolio.webp",
+    slug: "movere-clinic",
+    title: "Movere Clinic - Healthcare Website",
+    url: "https://movereclinic.com/",
+    output: "movere-clinic.webp",
   },
   {
-    slug: "shopify-consultant-portfolio",
-    title: "Shopify Consultant Portfolio Website",
-    url: "https://kuefmz.github.io/websiteli-portfolio-demo/",
-    output: "shopify-consultant-portfolio-demo.webp",
+    slug: "slap-ai",
+    title: "Slap AI - Product Website",
+    url: "https://slap-ai.com/",
+    output: "slap-ai.webp",
+    manual: true,
+    reason:
+      "https://slap-ai.com/ currently requires bypassing browser certificate warnings and hiding the consent overlay for a clean capture.",
+  },
+  {
+    slug: "jenifer-ciuciu-kiss",
+    title: "Jenifer Ciuciu-Kiss - Personal Portfolio",
+    url: "https://jeniferciuciukiss.com/",
+    output: "jenifer-ciuciu-kiss.webp",
+  },
+  {
+    slug: "semantic-web-science-association",
+    title: "Semantic Web Science Association - Association Website",
+    url: "https://swsa.semanticweb.org/",
+    output: "swsa.webp",
+  },
+  {
+    slug: "websiteli",
+    title: "Websiteli - Agency Website",
+    url: "https://websiteli.ch/en/",
+    output: "websiteli.webp",
   },
 ];
 
@@ -146,6 +167,11 @@ async function main() {
   console.log(`Using ${browser}`);
 
   for (const target of targets) {
+    if (target.manual) {
+      console.warn(`Skipped ${target.title}: ${target.reason}`);
+      console.warn(`Expected manual asset path: ${path.join(outputDir, target.output)}`);
+      continue;
+    }
     await captureTarget(browser, sharp, target);
   }
 }

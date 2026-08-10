@@ -14,7 +14,6 @@ import {
   type PageSlug,
   type LegacyPageSlug,
 } from "../../../content/locales";
-import { getDemoPageContent } from "../../../content/demos";
 import { getBlogIndexContent } from "../../../content/blog";
 import { getPartnerPageContent } from "../../../content/partners";
 
@@ -28,7 +27,6 @@ const redirectTarget = requestedPage in legacyRedirects ? getLocalizedPath(local
 
 const page = requestedPage as PageSlug;
 const content = getLocaleContent(locale);
-const demoContent = getDemoPageContent(locale);
 const blogContent = getBlogIndexContent(locale);
 const partnerContent = getPartnerPageContent(locale);
 const siteUrl = new URL("https://websiteli.ch");
@@ -45,15 +43,29 @@ const servicesPricingSeoByLocale: Partial<Record<LocaleCode, { title: string; de
       "Vergleichen Sie Websiteli-Pakete für Business-Websites, SEO-Grundlagen, Wartung, Leadgenerierung, Automation und KI-Daten-Upgrades in der Schweiz.",
   },
 };
+const portfolioSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
+  en: {
+    title: "Portfolio - Real Websites and Digital Products by Websiteli",
+    description: "See real public Websiteli projects first, then clearly separated concepts and demos for common website and automation needs.",
+  },
+  de: {
+    title: "Portfolio - Echte Websites und digitale Produkte von Websiteli",
+    description: "Sehen Sie echte öffentliche Websiteli-Projekte zuerst, danach klar getrennte Konzepte und Demos für typische Website- und Automationsbedürfnisse.",
+  },
+};
 const servicesPricingSeo = servicesPricingSeoByLocale[locale] ?? {
   title: `${content.nav.servicesPricing ?? "Services & Pricing"} - Websiteli`,
   description: content.packagesIntro.text,
+};
+const portfolioSeo = portfolioSeoByLocale[locale] ?? {
+  title: `${content.nav.portfolio ?? "Portfolio"} - Websiteli`,
+  description: "Websiteli portfolio with real public websites, Websiteli-owned work and clearly separated concept demos.",
 };
 const title =
   page === "partners"
     ? partnerContent.seo.title
     : page === "portfolio"
-    ? demoContent.seo.title
+    ? portfolioSeo.title
     : page === "blog"
       ? blogContent.seo.title
       : page === "services-pricing"
@@ -65,7 +77,7 @@ const description =
     : page === "services-pricing"
     ? servicesPricingSeo.description
     : page === "portfolio"
-      ? demoContent.seo.description
+      ? portfolioSeo.description
       : page === "blog"
         ? blogContent.seo.description
         : page === "about"
@@ -75,7 +87,7 @@ const servicesPricingFaqs = [
   {
     question: "Which package should I choose?",
     answer:
-      "Digital Audit is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+      "Website Review is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
   },
   {
     question: "Do clients own their website?",

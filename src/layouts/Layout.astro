@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import AttributionRuntime from "../components/AttributionRuntime.astro";
+import ExitIntentFeedback from "../components/ExitIntentFeedback.astro";
 import PricingRuntime from "../components/PricingRuntime.astro";
 import "../styles/global.css";
 
@@ -321,6 +322,7 @@ const structuredData = [
     <Header content={content} locale={locale} page={page} languageLinks={alternates} />
     <slot />
     <Footer content={content} locale={locale} />
+    <ExitIntentFeedback locale={locale} />
     <PricingRuntime />
   </body>
 </html>

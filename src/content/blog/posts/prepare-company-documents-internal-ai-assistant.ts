@@ -39,7 +39,7 @@ function makeTranslation(language: LocaleCode, copy: LocalizedCopy): BlogPostTra
       { question: copy.headings[4], answer: copy.paragraphs[4] },
       { question: copy.headings[5], answer: copy.paragraphs[5] },
     ],
-    body: `${body}\n\n[Internal AI assistants](/en/services/ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
+    body: `${body}\n\n[Internal AI assistants](/en/services/internal-ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
   };
 }
 
@@ -82,8 +82,8 @@ export default {
   published: true,
   status: "published",
   publishDate: "2026-08-04",
-  image: "/assets/blog/prepare-company-documents-internal-ai-assistant.png",
-  imageAlt: "Websiteli blog cover reading Prepare Documents for AI with organized company policies, document control, ownership, access permissions and an internal AI readiness dashboard.",
+  image: "/assets/blog/prepare-company-documents-internal-ai-assistant-social.webp",
+  imageAlt: "Social title card reading Prepare Documents for AI with the caption Clean sources, clear permissions and reliable answers beside an internal AI assistant workflow.",
   author: "Websiteli",
   date: "2026-08-04",
   updated: "2026-08-04",

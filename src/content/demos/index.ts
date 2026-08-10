@@ -97,7 +97,7 @@ const en: DemoPageContent = {
     viewLiveDemo: "View Live Demo",
     requestSimilar: "Request Similar Website",
     viewAnalysis: "View Opportunity Analysis",
-    primaryCta: "Request a Free Digital Audit",
+    primaryCta: "Request a Free Website Review",
     secondaryCta: "Book a Discovery Call",
     visitDemo: "Visit Demo",
     viewCaseStudy: "View Case Study",
@@ -370,7 +370,7 @@ const localized: Partial<Record<LocaleCode, LocalizedDemoPageContent>> = {
   pt: {
     seo: { title: "Demos de sites e automação AI - Websiteli", description: "Demos Websiteli para sites de pequenas empresas, automação AI, analytics, SEO e geração de leads.", keywords: en.seo.keywords },
     eyebrow: "Demos", title: "Veja o que a Websiteli pode criar.", text: "Conceitos demo para sites, automação, analytics e geração de leads.",
-    labels: { ...en.labels, recommendedPackage: "Pacote recomendado", features: "Tecnologias e funcionalidades", learnMore: "Saber mais", for: "Para", commonChallenges: "Desafios comuns", included: "Incluído", businessImpact: "Impacto no negócio", viewLiveDemo: "Ver demo ao vivo", requestSimilar: "Pedir site semelhante", viewAnalysis: "Ver análise de oportunidade", primaryCta: "Pedir auditoria digital gratuita", secondaryCta: "Marcar discovery call" },
+    labels: { ...en.labels, recommendedPackage: "Pacote recomendado", features: "Tecnologias e funcionalidades", learnMore: "Saber mais", for: "Para", commonChallenges: "Desafios comuns", included: "Incluído", businessImpact: "Impacto no negócio", viewLiveDemo: "Ver demo ao vivo", requestSimilar: "Pedir site semelhante", viewAnalysis: "Ver análise de oportunidade", primaryCta: "Pedir revisão gratuita do site", secondaryCta: "Marcar discovery call" },
     packageNames: { "Growth Setup": "Pacote de crescimento", "AI/Data Upgrade": "Upgrade de IA e dados" },
     items: {
       restaurant: { title: "Site para restaurante / café", shortDescription: "Site moderno para restaurante com reservas online, SEO, analytics, avaliações, mapas e formulários de contacto.", forText: "Para restaurantes, cafés, pastelarias e negócios locais de comida.", whyItMatters: "Um site profissional pode melhorar a visibilidade e facilitar reservas." },
@@ -384,7 +384,7 @@ const localized: Partial<Record<LocaleCode, LocalizedDemoPageContent>> = {
   da: {
     seo: { title: "Website-demoer og AI-automatisering - Websiteli", description: "Websiteli-demoer til små virksomheders websites, AI-automatisering, analytics, SEO og leadgenerering.", keywords: en.seo.keywords },
     eyebrow: "Demoer", title: "Se hvad Websiteli kan bygge.", text: "Praktiske demoer til websites, automatisering, analytics og leadgenerering.",
-    labels: { ...en.labels, recommendedPackage: "Anbefalet pakke", features: "Teknologier og funktioner", learnMore: "Læs mere", for: "For", commonChallenges: "Typiske udfordringer", included: "Inkluderet", businessImpact: "Forretningsværdi", viewLiveDemo: "Se live demo", requestSimilar: "Anmod om lignende website", viewAnalysis: "Se mulighedsanalyse", primaryCta: "Anmod om gratis digital audit", secondaryCta: "Book discovery call" },
+    labels: { ...en.labels, recommendedPackage: "Anbefalet pakke", features: "Teknologier og funktioner", learnMore: "Læs mere", for: "For", commonChallenges: "Typiske udfordringer", included: "Inkluderet", businessImpact: "Forretningsværdi", viewLiveDemo: "Se live demo", requestSimilar: "Anmod om lignende website", viewAnalysis: "Se mulighedsanalyse", primaryCta: "Anmod om gratis website-gennemgang", secondaryCta: "Book discovery call" },
     packageNames: { "Growth Setup": "Vækstpakke", "AI/Data Upgrade": "AI- og dataopgradering" },
     items: {
       restaurant: { title: "Restaurant- / caféwebsite", shortDescription: "Moderne restaurantwebsite med online reservationer, SEO, analytics, anmeldelser, kort og kontaktformularer.", forText: "For restauranter, caféer, bagerier og lokale madvirksomheder.", whyItMatters: "Et professionelt website kan forbedre synlighed og gøre reservationer lettere." },

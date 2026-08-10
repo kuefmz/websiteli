@@ -23,7 +23,7 @@
     "eyebrow": "Equipa suíça para pequenos negócios e serviços locais",
     "title": "Sites, SEO, automação e manutenção para pequenos negócios crescerem.",
     "text": "A Websiteli cria e mantém sites profissionais com visibilidade no Google, captação de leads, analytics e automação prática com IA.",
-    "primaryCta": "Pedir auditoria gratuita",
+    "primaryCta": "Pedir revisão gratuita do site",
     "secondaryCta": "Ver demos ao vivo",
     "trustLine": "Base na Suíça - Execução prática - Apoio multilingue"
   },
@@ -35,7 +35,7 @@
     "Entrega simples",
     "Manutenção de site"
   ],
-  "intro": "Não criamos apenas sites. Construímos e mantemos a base digital para confiança, visibilidade no Google, leads e automação.",
+  "intro": "A Websiteli cria sites que ajudam pequenas empresas a conseguir mais clientes, com automação, IA e ferramentas à medida quando fazem sentido.",
   "packagesIntro": {
     "eyebrow": "Pacotes principais",
     "title": "Três pacotes para presença, crescimento e automação.",
@@ -182,14 +182,14 @@
       "Reservas, formulários, WhatsApp e analytics ligados.",
       "Base preparada para anúncios, dashboards e IA."
     ],
-    "cta": "Pedir auditoria gratuita",
+    "cta": "Pedir revisão gratuita do site",
     "emailSubject": "Ideia para melhorar a sua presença digital",
     "emailDraft": "Olá, Websiteli. Tenho uma empresa e estou interessado em criar um website profissional. Poderiam informar-me sobre as opções que oferecem e quais seriam os próximos passos? Obrigado!"
   },
   "contact": {
     "eyebrow": "Contacto",
     "title": "Conte-nos o que quer melhorar.",
-    "text": "Peça uma auditoria digital gratuita ou um plano de setup.",
+    "text": "Peça uma revisão gratuita do site ou um plano de setup.",
     "button": "Enviar pedido"
   },
   "ui": {

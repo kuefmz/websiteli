@@ -234,7 +234,7 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /websiteliGetAttribution/);
   assert.match(contact, /first_utm_source/);
   assert.match(contact, /gclid/);
-  assert.match(contact, /<option value="digitalAudit">Digital Audit<\/option>/);
+  assert.match(contact, /<option value="digitalAudit">Website Review<\/option>/);
 
   assert.match(englishHome, /package=digitalAudit/);
   assert.match(portfolio, /shopify/i);
@@ -383,7 +383,7 @@ test("localized package labels do not leak English package names in Hungarian UI
   assert.match(hungarianHome, /Növekedési csomag/);
   assert.match(hungarianHome, /AI\/adat fejlesztés/);
   assert.match(hungarianHome, /package=digitalAudit/);
-  assert.match(hungarianContact, /<option value="digitalAudit">Digitális audit<\/option>/);
+  assert.match(hungarianContact, /<option value="digitalAudit">Weboldal-áttekintés<\/option>/);
   assert.match(hungarianContact, /<option value="digitalFoundation">Digitális alapcsomag<\/option>/);
   assert.doesNotMatch(hungarianContact, />Digital Audit<\/option>/);
   assert.doesNotMatch(hungarianContact, />Digital Foundation<\/option>/);

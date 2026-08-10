@@ -85,8 +85,8 @@ const en: ExampleProjectPageContent = {
     recommendedPackage: "Recommended Package",
     relatedDemo: "Related Demo",
     viewDemo: "View Demo",
-    requestAudit: "Request Audit",
-    primaryCta: "Request a Free Digital Audit",
+    requestAudit: "Request Review",
+    primaryCta: "Request a Free Website Review",
     secondaryCta: "Book a Discovery Call",
     learnMore: "Learn More",
   },
@@ -291,7 +291,7 @@ const localized: Partial<Record<LocaleCode, LocalizedExampleProjectPageContent>>
   da: {
     seo: { title: "Eksempelprojekter og mulighedsanalyser - Websiteli", description: "Illustrative Websiteli-analyser for websites, digital transformation, AI, analytics, SEO og leads.", keywords: en.seo.keywords },
     eyebrow: "Eksempelprojekter", title: "Forretningslogikken bag demoerne.", text: "Illustrative mulighedsvurderinger. Det er eksempler, ikke kundecases.",
-    labels: { ...en.labels, businessType: "Virksomhedstype", currentSituation: "Nuværende situation", potentialChallenges: "Mulige udfordringer", illustrativeOpportunity: "Illustrativ mulighed", assumptions: "Antagelser", recommendedPackage: "Anbefalet pakke", relatedDemo: "Relateret demo", viewDemo: "Se demo", requestAudit: "Anmod om audit", primaryCta: "Anmod om gratis digital audit", secondaryCta: "Book discovery call", learnMore: "Læs mere" },
+    labels: { ...en.labels, businessType: "Virksomhedstype", currentSituation: "Nuværende situation", potentialChallenges: "Mulige udfordringer", illustrativeOpportunity: "Illustrativ mulighed", assumptions: "Antagelser", recommendedPackage: "Anbefalet pakke", relatedDemo: "Relateret demo", viewDemo: "Se demo", requestAudit: "Anmod om gennemgang", primaryCta: "Anmod om gratis website-gennemgang", secondaryCta: "Book discovery call", learnMore: "Læs mere" },
     packageNames: { "Growth Setup": "Vækstpakke", "AI/Data Upgrade": "AI- og dataopgradering" },
     items: {
       "restaurant-visibility": { title: "Analyse af restaurants synlighed", businessType: "Restaurant / café", badge: "Illustrativ analyse", disclaimer: "Denne analyse er illustrativ og viser mulige muligheder. Resultater afhænger af virksomhed, branche, konkurrence og implementering.", currentSituation: ["Intet dedikeret website", "Kun tilstedeværelse på sociale medier", "Ingen online reservationer", "Ingen analytics-måling"], potentialChallenges: ["Kunder kan forlade siden uden kontakt", "Begrænset synlighed i søgemaskiner", "Besværlig bookingoplevelse"], assumptions: ["2.000 profilvisninger om måneden", "5% interesserede besøgende"], illustrativeOpportunity: ["Nemmere reservationer", "Bedre synlighed", "Bedre kundeoplevelse"] },

@@ -1,0 +1,427 @@
+---
+interface Props {
+  locale?: string;
+}
+
+const { locale = "en" } = Astro.props;
+const copyByLocale: Record<
+  string,
+  {
+    close: string;
+    heading: string;
+    text: string;
+    start: string;
+    dismiss: string;
+    reasonLabel: string;
+    reasonPlaceholder: string;
+    detailsLabel: string;
+    emailLabel: string;
+    consent: string;
+    privacy: string;
+    submit: string;
+    feedbackTab: string;
+    thankYou: string;
+    validation: string;
+    sending: string;
+    error: string;
+    website: string;
+    reasons: string[];
+  }
+> = {
+  en: {
+    close: "Close",
+    heading: "Before you go - can you help us improve?",
+    text: "We're improving Websiteli and would love to know what stopped you from continuing.",
+    start: "Give feedback",
+    dismiss: "No thanks",
+    reasonLabel: "What stopped you from continuing today?",
+    reasonPlaceholder: "Choose one",
+    detailsLabel: "Anything you'd like us to know?",
+    emailLabel: "Email (optional - only if you'd like a reply)",
+    consent: "I accept the",
+    privacy: "Privacy Policy",
+    submit: "Send feedback",
+    feedbackTab: "Feedback",
+    thankYou: "Thank you. Your feedback was sent.",
+    validation: "Please choose a reason and accept the privacy policy.",
+    sending: "Sending...",
+    error: "Something went wrong. Please email us directly.",
+    website: "Website",
+    reasons: [
+      "I couldn't understand the offer",
+      "I couldn't find pricing",
+      "I didn't see enough examples",
+      "I'm not ready yet",
+      "The service isn't what I need",
+      "The website was confusing",
+      "Something didn't work",
+      "Other",
+    ],
+  },
+  de: {
+    close: "Schließen",
+    heading: "Bevor Sie gehen - helfen Sie uns kurz?",
+    text: "Wir verbessern Websiteli und möchten wissen, was Sie vom Weitermachen abgehalten hat.",
+    start: "Feedback geben",
+    dismiss: "Nein danke",
+    reasonLabel: "Was hat Sie heute vom Weitermachen abgehalten?",
+    reasonPlaceholder: "Bitte auswählen",
+    detailsLabel: "Möchten Sie uns noch etwas sagen?",
+    emailLabel: "E-Mail (optional - nur wenn Sie eine Antwort möchten)",
+    consent: "Ich akzeptiere die",
+    privacy: "Datenschutzerklärung",
+    submit: "Feedback senden",
+    feedbackTab: "Feedback",
+    thankYou: "Danke. Ihr Feedback wurde gesendet.",
+    validation: "Bitte Grund auswählen und Datenschutzerklärung akzeptieren.",
+    sending: "Wird gesendet...",
+    error: "Etwas ist schiefgelaufen. Bitte schreiben Sie uns direkt per E-Mail.",
+    website: "Website",
+    reasons: ["Angebot unklar", "Preise nicht gefunden", "Nicht genug Beispiele", "Noch nicht bereit", "Service passt nicht", "Website war verwirrend", "Etwas funktionierte nicht", "Andere"],
+  },
+  fr: {
+    close: "Fermer",
+    heading: "Avant de partir - pouvez-vous nous aider?",
+    text: "Nous améliorons Websiteli et aimerions savoir ce qui vous a empêché de continuer.",
+    start: "Donner un avis",
+    dismiss: "Non merci",
+    reasonLabel: "Qu'est-ce qui vous a empêché de continuer aujourd'hui?",
+    reasonPlaceholder: "Choisir une option",
+    detailsLabel: "Quelque chose à ajouter?",
+    emailLabel: "E-mail (optionnel - seulement si vous souhaitez une réponse)",
+    consent: "J'accepte la",
+    privacy: "politique de confidentialité",
+    submit: "Envoyer l'avis",
+    feedbackTab: "Avis",
+    thankYou: "Merci. Votre avis a été envoyé.",
+    validation: "Choisissez une raison et acceptez la politique de confidentialité.",
+    sending: "Envoi...",
+    error: "Une erreur est survenue. Écrivez-nous directement par e-mail.",
+    website: "Site web",
+    reasons: ["Offre difficile à comprendre", "Prix introuvables", "Pas assez d'exemples", "Je ne suis pas prêt", "Le service ne correspond pas", "Le site était confus", "Quelque chose ne fonctionnait pas", "Autre"],
+  },
+  it: {
+    close: "Chiudi",
+    heading: "Prima di uscire - ci aiuti a migliorare?",
+    text: "Stiamo migliorando Websiteli e vorremmo sapere cosa ti ha fermato.",
+    start: "Lascia feedback",
+    dismiss: "No grazie",
+    reasonLabel: "Cosa ti ha fermato oggi?",
+    reasonPlaceholder: "Scegli un'opzione",
+    detailsLabel: "Vuoi aggiungere qualcosa?",
+    emailLabel: "Email (opzionale - solo se vuoi una risposta)",
+    consent: "Accetto la",
+    privacy: "privacy policy",
+    submit: "Invia feedback",
+    feedbackTab: "Feedback",
+    thankYou: "Grazie. Il feedback è stato inviato.",
+    validation: "Scegli un motivo e accetta la privacy policy.",
+    sending: "Invio...",
+    error: "Qualcosa è andato storto. Scrivici direttamente via email.",
+    website: "Sito web",
+    reasons: ["Offerta poco chiara", "Non ho trovato i prezzi", "Non abbastanza esempi", "Non sono pronto", "Il servizio non fa per me", "Il sito era confuso", "Qualcosa non funzionava", "Altro"],
+  },
+};
+const feedbackCopy = copyByLocale[locale] ?? copyByLocale.en;
+---
+
+<button class="feedback-tab" type="button" data-exit-feedback-tab hidden>{feedbackCopy.feedbackTab}</button>
+<div class="popup-backdrop" data-exit-feedback-backdrop hidden></div>
+
+<section class="conversion-popup exit-feedback-popup" data-exit-feedback role="dialog" aria-modal="true" aria-labelledby="exit-feedback-title" hidden>
+  <button class="popup-close" type="button" data-exit-feedback-close aria-label={feedbackCopy.close}>×</button>
+  <div data-exit-feedback-intro>
+    <p class="eyebrow">Feedback</p>
+    <h2 id="exit-feedback-title">{feedbackCopy.heading}</h2>
+    <p>{feedbackCopy.text}</p>
+    <div class="popup-actions">
+      <button class="button primary" type="button" data-exit-feedback-start>{feedbackCopy.start}</button>
+      <button class="popup-link" type="button" data-exit-feedback-dismiss>{feedbackCopy.dismiss}</button>
+    </div>
+  </div>
+
+  <form data-exit-feedback-form hidden novalidate>
+    <input name="topic" type="hidden" value="website-feedback" />
+    <input name="source" type="hidden" value="exit-feedback-popup" />
+    <label class="website-field" aria-hidden="true">
+      {feedbackCopy.website}
+      <input name="website" tabindex="-1" autocomplete="off" />
+    </label>
+    <label>
+      <span>{feedbackCopy.reasonLabel}</span>
+      <select name="reason" required>
+        <option value="">{feedbackCopy.reasonPlaceholder}</option>
+        {feedbackCopy.reasons.map((reason) => <option value={reason}>{reason}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>{feedbackCopy.detailsLabel}</span>
+      <textarea name="details" rows="3"></textarea>
+    </label>
+    <label>
+      <span>{feedbackCopy.emailLabel}</span>
+      <input name="email" type="email" autocomplete="email" />
+    </label>
+    <label class="newsletter-consent exit-feedback-consent">
+      <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
+      <span>{feedbackCopy.consent} <a href="/privacy/" target="_blank" rel="noopener">{feedbackCopy.privacy}</a>.</span>
+    </label>
+    <button class="button primary" type="submit">{feedbackCopy.submit}</button>
+    <p class="newsletter-status" data-exit-feedback-status aria-live="polite"></p>
+  </form>
+</section>
+
+<script define:vars={{ feedbackCopy }}>
+  const feedbackState = {
+    active: false,
+    startEligibleAt: Date.now() + 10000,
+    previousFocus: null,
+    deepestScroll: 0,
+  };
+  const feedbackDialog = document.querySelector("[data-exit-feedback]");
+  const feedbackBackdrop = document.querySelector("[data-exit-feedback-backdrop]");
+  const feedbackIntro = document.querySelector("[data-exit-feedback-intro]");
+  const feedbackForm = document.querySelector("[data-exit-feedback-form]");
+  const feedbackStatus = document.querySelector("[data-exit-feedback-status]");
+  const feedbackTab = document.querySelector("[data-exit-feedback-tab]");
+  const focusableSelector = "a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex='-1'])";
+  const endpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
+
+  function getStorage(storage, key) {
+    try {
+      return storage.getItem(key);
+    } catch {
+      return "";
+    }
+  }
+
+  function setStorage(storage, key, value) {
+    try {
+      storage.setItem(key, value);
+    } catch {}
+  }
+
+  function isAdminPath() {
+    return /^\/(?:admin|internal|cms)(?:\/|$)/.test(window.location.pathname);
+  }
+
+  function anotherModalIsOpen() {
+    return document.documentElement.classList.contains("has-conversion-popup");
+  }
+
+  function alreadyHandled() {
+    const lastShown = Number(getStorage(localStorage, "websiteli_exit_feedback_last_shown") || "0");
+    const shownRecently = lastShown > 0 && Date.now() - lastShown < 7 * 24 * 60 * 60 * 1000;
+
+    return (
+      shownRecently ||
+      getStorage(sessionStorage, "websiteli_exit_feedback_seen") === "true" ||
+      getStorage(localStorage, "websiteli_exit_feedback_dismissed") === "true" ||
+      getStorage(localStorage, "websiteli_exit_feedback_submitted") === "true"
+    );
+  }
+
+  function canOpenFeedback() {
+    return (
+      Date.now() >= feedbackState.startEligibleAt &&
+      !feedbackState.active &&
+      !alreadyHandled() &&
+      !anotherModalIsOpen() &&
+      !isAdminPath() &&
+      feedbackDialog instanceof HTMLElement &&
+      feedbackBackdrop instanceof HTMLElement
+    );
+  }
+
+  function getFocusable() {
+    if (!(feedbackDialog instanceof HTMLElement)) return [];
+    return Array.from(feedbackDialog.querySelectorAll(focusableSelector)).filter((item) => item instanceof HTMLElement && !item.closest("[hidden]"));
+  }
+
+  function trackFeedback(eventName, params = {}) {
+    window.trackWebsiteliEvent?.(eventName, {
+      event_category: "feedback",
+      page_path: window.location.pathname,
+      ...params,
+    });
+  }
+
+  function openFeedback(source = "exit_intent") {
+    if (!canOpenFeedback()) return;
+    feedbackState.previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    feedbackState.active = true;
+    setStorage(sessionStorage, "websiteli_exit_feedback_seen", "true");
+    setStorage(localStorage, "websiteli_exit_feedback_last_shown", String(Date.now()));
+    feedbackDialog.hidden = false;
+    feedbackBackdrop.hidden = false;
+    feedbackTab?.setAttribute("hidden", "");
+    document.documentElement.classList.add("has-conversion-popup");
+    getFocusable()[0]?.focus();
+    trackFeedback("exit_feedback_shown", { event_label: source, feedback_source: source });
+  }
+
+  function closeFeedback(reason = "dismissed") {
+    if (!(feedbackDialog instanceof HTMLElement) || !(feedbackBackdrop instanceof HTMLElement)) return;
+    feedbackDialog.hidden = true;
+    feedbackBackdrop.hidden = true;
+    feedbackState.active = false;
+    document.documentElement.classList.remove("has-conversion-popup");
+    if (reason === "dismissed") {
+      setStorage(localStorage, "websiteli_exit_feedback_dismissed", "true");
+      trackFeedback("exit_feedback_dismissed", { event_label: "Exit feedback dismissed" });
+    }
+    try {
+      feedbackState.previousFocus?.focus();
+    } catch {}
+  }
+
+  function startFeedback() {
+    if (!(feedbackIntro instanceof HTMLElement) || !(feedbackForm instanceof HTMLFormElement)) return;
+    feedbackIntro.hidden = true;
+    feedbackForm.hidden = false;
+    feedbackForm.querySelector("select, textarea, input, button")?.focus();
+    trackFeedback("exit_feedback_started", { event_label: "Exit feedback started" });
+  }
+
+  function getString(formData, key) {
+    return String(formData.get(key) || "").trim();
+  }
+
+  document.querySelector("[data-exit-feedback-start]")?.addEventListener("click", startFeedback);
+  document.querySelectorAll("[data-exit-feedback-close], [data-exit-feedback-dismiss]").forEach((button) => {
+    button.addEventListener("click", () => closeFeedback("dismissed"));
+  });
+  feedbackBackdrop?.addEventListener("click", () => closeFeedback("dismissed"));
+  feedbackTab?.addEventListener("click", () => openFeedback("mobile_feedback_tab"));
+
+  document.addEventListener("keydown", (event) => {
+    if (!feedbackState.active) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeFeedback("dismissed");
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = getFocusable();
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener("mousemove", (event) => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (event.clientY <= 18) openFeedback("desktop_exit_intent");
+  });
+
+  document.addEventListener(
+    "scroll",
+    () => {
+      const scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      feedbackState.deepestScroll = Math.max(feedbackState.deepestScroll, window.scrollY / scrollable);
+      if (!window.matchMedia("(pointer: coarse)").matches || feedbackState.deepestScroll < 0.35 || Date.now() < feedbackState.startEligibleAt || alreadyHandled() || isAdminPath()) return;
+      feedbackTab?.removeAttribute("hidden");
+    },
+    { passive: true },
+  );
+
+  feedbackForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(feedbackForm instanceof HTMLFormElement)) return;
+
+    const submitButton = feedbackForm.querySelector("button[type='submit']");
+    const formData = new FormData(feedbackForm);
+    const reason = getString(formData, "reason");
+    const details = getString(formData, "details");
+    const email = getString(formData, "email");
+    const honeypot = getString(formData, "website");
+    const privacyAccepted = getString(formData, "privacyPolicyAccepted") === "yes";
+
+    if (honeypot) {
+      feedbackForm.reset();
+      if (feedbackStatus) feedbackStatus.textContent = feedbackCopy.thankYou;
+      closeFeedback("submitted");
+      return;
+    }
+
+    if (!feedbackForm.checkValidity() || !reason || !privacyAccepted) {
+      feedbackForm.reportValidity();
+      if (feedbackStatus) feedbackStatus.textContent = feedbackCopy.validation;
+      return;
+    }
+
+    const attribution = window.websiteliGetAttribution?.() || {};
+    const payload = {
+      type: "feedback",
+      email,
+      need: "website-feedback",
+      message: `Exit feedback reason: ${reason}${details ? `\n\nAdditional note: ${details}` : ""}`,
+      metadata: {
+        language: document.documentElement.lang || "en",
+        pageUrl: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        feedbackTopic: "website-feedback",
+        feedbackReason: reason,
+        inquiryIntent: "exit_feedback",
+        source: "exit-feedback-popup",
+        sourcePath: window.location.pathname,
+        country: window.websiteliPricing?.country || "",
+        currency: window.websiteliPricing?.currency || "",
+        market: window.websiteliPricing?.pricingMarket || "",
+        utm_source: attribution.utm_source || "",
+        utm_medium: attribution.utm_medium || "",
+        utm_campaign: attribution.utm_campaign || "",
+        utm_term: attribution.utm_term || "",
+        utm_content: attribution.utm_content || "",
+        utm_id: attribution.utm_id || "",
+        gclid: attribution.gclid || "",
+        gbraid: attribution.gbraid || "",
+        wbraid: attribution.wbraid || "",
+        fbclid: attribution.fbclid || "",
+        msclkid: attribution.msclkid || "",
+        landingPage: attribution.landingPage || "",
+        firstSeenAt: attribution.firstSeenAt || "",
+        privacyPolicyAccepted: privacyAccepted,
+        privacyPolicyVersion: "2026-06-24",
+        privacyPolicyUrl: `${window.location.origin}/privacy/`,
+        timestamp: new Date().toISOString(),
+      },
+    };
+
+    submitButton?.setAttribute("disabled", "true");
+    if (feedbackStatus) feedbackStatus.textContent = feedbackCopy.sending;
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      feedbackForm.reset();
+      setStorage(localStorage, "websiteli_exit_feedback_submitted", "true");
+      trackFeedback("exit_feedback_submitted", {
+        event_label: reason,
+        feedback_reason: reason,
+        feedback_topic: "website-feedback",
+      });
+      if (feedbackStatus) feedbackStatus.textContent = feedbackCopy.thankYou;
+      window.setTimeout(() => closeFeedback("submitted"), 900);
+    } catch (error) {
+      if (feedbackStatus) feedbackStatus.textContent = feedbackCopy.error;
+      console.error(error);
+    } finally {
+      submitButton?.removeAttribute("disabled");
+    }
+  });
+</script>
