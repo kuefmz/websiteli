@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">10 Things Your Small-Business Website Needs Before You Spend Money on Ads</title>
+  <desc id="desc">Websiteli checklist title card based on the existing simple blog visual style, with a website preview and ten pre-advertising checks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#eaf3ff" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07111f" stop-opacity="0"/>
+      <stop offset="1" stop-color="#07111f" stop-opacity="0.42"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1390" cy="130" r="230" fill="#5eead4" opacity="0.10"/>
+  <circle cx="200" cy="780" r="270" fill="#60a5fa" opacity="0.12"/>
+  <rect width="1600" height="900" rx="40" fill="url(#fade)"/>
+
+  <text x="105" y="105" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">WEBSITELI • SMALL-BUSINESS WEBSITE CHECKLIST</text>
+  <text x="105" y="184" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">10 Things Your Small-Business</text>
+  <text x="105" y="250" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">Website Needs Before You</text>
+  <text x="105" y="316" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">Spend Money on Ads</text>
+  <text x="105" y="367" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="27">Fix the conversion path before you pay to send more people through it.</text>
+
+  <rect x="105" y="420" width="650" height="340" rx="30" fill="url(#panel)"/>
+  <rect x="145" y="458" width="570" height="56" rx="15" fill="#dbeafe"/>
+  <circle cx="178" cy="486" r="9" fill="#60a5fa"/>
+  <circle cx="207" cy="486" r="9" fill="#93c5fd"/>
+  <circle cx="236" cy="486" r="9" fill="#bfdbfe"/>
+  <rect x="155" y="551" width="275" height="22" rx="11" fill="#0f2747"/>
+  <rect x="155" y="592" width="500" height="15" rx="8" fill="#94a3b8"/>
+  <rect x="155" y="624" width="450" height="15" rx="8" fill="#cbd5e1"/>
+  <rect x="155" y="674" width="178" height="47" rx="24" fill="#0f766e"/>
+  <text x="196" y="705" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Convert</text>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">
+    <rect x="815" y="425" width="295" height="57" rx="17" fill="#ffffff"/><circle cx="850" cy="454" r="15" fill="#dbeafe"/><text x="845" y="461" fill="#17345a" text-anchor="middle">1</text><text x="879" y="461" fill="#0f172a">Clear offer</text>
+    <rect x="1135" y="425" width="330" height="57" rx="17" fill="#ffffff"/><circle cx="1170" cy="454" r="15" fill="#dbeafe"/><text x="1165" y="461" fill="#17345a" text-anchor="middle">2</text><text x="1199" y="461" fill="#0f172a">Relevant landing page</text>
+    <rect x="815" y="497" width="295" height="57" rx="17" fill="#ffffff"/><circle cx="850" cy="526" r="15" fill="#dbeafe"/><text x="845" y="533" fill="#17345a" text-anchor="middle">3</text><text x="879" y="533" fill="#0f172a">Mobile UX</text>
+    <rect x="1135" y="497" width="330" height="57" rx="17" fill="#ffffff"/><circle cx="1170" cy="526" r="15" fill="#dbeafe"/><text x="1165" y="533" fill="#17345a" text-anchor="middle">4</text><text x="1199" y="533" fill="#0f172a">Fast loading</text>
+    <rect x="815" y="569" width="295" height="57" rx="17" fill="#ffffff"/><circle cx="850" cy="598" r="15" fill="#dbeafe"/><text x="845" y="605" fill="#17345a" text-anchor="middle">5</text><text x="879" y="605" fill="#0f172a">Trust signals</text>
+    <rect x="1135" y="569" width="330" height="57" rx="17" fill="#ffffff"/><circle cx="1170" cy="598" r="15" fill="#dbeafe"/><text x="1165" y="605" fill="#17345a" text-anchor="middle">6</text><text x="1199" y="605" fill="#0f172a">Clear conversion</text>
+    <rect x="815" y="641" width="295" height="57" rx="17" fill="#ffffff"/><circle cx="850" cy="670" r="15" fill="#dbeafe"/><text x="845" y="677" fill="#17345a" text-anchor="middle">7</text><text x="879" y="677" fill="#0f172a">Tested form</text>
+    <rect x="1135" y="641" width="330" height="57" rx="17" fill="#ffffff"/><circle cx="1170" cy="670" r="15" fill="#dbeafe"/><text x="1165" y="677" fill="#17345a" text-anchor="middle">8</text><text x="1199" y="677" fill="#0f172a">Conversion tracking</text>
+    <rect x="815" y="713" width="295" height="57" rx="17" fill="#ffffff"/><circle cx="850" cy="742" r="15" fill="#dbeafe"/><text x="845" y="749" fill="#17345a" text-anchor="middle">9</text><text x="879" y="749" fill="#0f172a">Privacy setup</text>
+    <rect x="1135" y="713" width="330" height="57" rx="17" fill="#ffffff"/><circle cx="1170" cy="742" r="15" fill="#dbeafe"/><text x="1164" y="749" fill="#17345a" text-anchor="middle">10</text><text x="1199" y="749" fill="#0f172a">Lead follow-up</text>
+  </g>
+
+  <text x="105" y="835" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700">websiteli.ch • Websites built for clarity, measurement and conversion</text>
+</svg>

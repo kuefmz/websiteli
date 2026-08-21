@@ -6,6 +6,7 @@ import prepareCompanyDocumentsInternalAiAssistant from "./posts/prepare-company-
 import privateAiAssistantPrivacyChecklist from "./posts/private-ai-assistant-privacy-checklist";
 import scopeInternalAiAssistantPilot from "./posts/scope-internal-ai-assistant-pilot";
 import testInternalAiAssistantBeforeLaunch from "./posts/test-internal-ai-assistant-before-launch";
+import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
 import type { BlogPost } from "./index-base";
@@ -18,6 +19,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  websiteBeforePaidAdsChecklist,
   scopeInternalAiAssistantPilot,
   testInternalAiAssistantBeforeLaunch,
   prepareCompanyDocumentsInternalAiAssistant,
@@ -27,6 +29,10 @@ const additionalSources: BlogPostSource[] = [
   aiChatbotVsInternalAiAssistant,
   aiContentWorkflowSmallBusiness,
 ];
+
+const featuredImageOverrides: Partial<Record<string, string>> = {
+  "website-before-paid-ads-checklist": "/assets/blog/website-before-paid-ads-checklist.svg",
+};
 
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
   const translation = source.translations[locale];
@@ -39,7 +45,7 @@ function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost
     description: translation.description,
     category: translation.category,
     tags: Array.from(new Set([...translation.tags, ...base.getMarketKeywords()])),
-    featuredImage: source.image,
+    featuredImage: featuredImageOverrides[source.slug] ?? source.image,
     imageAlt: source.imageAlt ?? translation.title,
     author: source.author,
     publishedAt: source.date,
