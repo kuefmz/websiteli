@@ -30,6 +30,10 @@ const additionalSources: BlogPostSource[] = [
   aiContentWorkflowSmallBusiness,
 ];
 
+const featuredImageOverrides: Partial<Record<string, string>> = {
+  "website-before-paid-ads-checklist": "/assets/blog/website-before-paid-ads-checklist.svg",
+};
+
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
   const translation = source.translations[locale];
   if (!translation) return undefined;
@@ -41,7 +45,7 @@ function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost
     description: translation.description,
     category: translation.category,
     tags: Array.from(new Set([...translation.tags, ...base.getMarketKeywords()])),
-    featuredImage: source.image,
+    featuredImage: featuredImageOverrides[source.slug] ?? source.image,
     imageAlt: source.imageAlt ?? translation.title,
     author: source.author,
     publishedAt: source.date,
