@@ -6,6 +6,7 @@ import prepareCompanyDocumentsInternalAiAssistant from "./posts/prepare-company-
 import privateAiAssistantPrivacyChecklist from "./posts/private-ai-assistant-privacy-checklist";
 import scopeInternalAiAssistantPilot from "./posts/scope-internal-ai-assistant-pilot";
 import testInternalAiAssistantBeforeLaunch from "./posts/test-internal-ai-assistant-before-launch";
+import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
 import type { BlogPost } from "./index-base";
@@ -18,6 +19,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  websiteBeforePaidAdsChecklist,
   scopeInternalAiAssistantPilot,
   testInternalAiAssistantBeforeLaunch,
   prepareCompanyDocumentsInternalAiAssistant,
