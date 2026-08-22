@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Small-Business Lead Generation Funnel: From Search to Follow-Up</title>
+  <desc id="desc">Websiteli visual showing a simple lead-generation path from search or social traffic to a landing page, form and follow-up.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1390" cy="130" r="210" fill="#5eead4" opacity="0.10"/>
+  <circle cx="180" cy="790" r="250" fill="#60a5fa" opacity="0.10"/>
+  <text x="110" y="110" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">WEBSITELI • LEAD GENERATION</text>
+  <text x="110" y="205" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="800">Small-Business Lead</text>
+  <text x="110" y="275" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="800">Generation Funnel:</text>
+  <text x="110" y="345" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="800">From Search to Follow-Up</text>
+  <text x="110" y="405" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="27">Connect discovery, landing pages, forms, tracking and follow-up.</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="105" y="515" width="270" height="150" rx="26" fill="#ffffff"/>
+    <text x="145" y="570" fill="#0f172a" font-size="25" font-weight="800">SEARCH / SOCIAL</text>
+    <text x="145" y="610" fill="#475569" font-size="20">Right visitor</text>
+    <circle cx="325" cy="610" r="18" fill="#60a5fa"/>
+
+    <path d="M395 590 H480" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+    <path d="M465 575 L485 590 L465 605" fill="none" stroke="#5eead4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="505" y="515" width="270" height="150" rx="26" fill="#ffffff"/>
+    <text x="545" y="570" fill="#0f172a" font-size="25" font-weight="800">LANDING PAGE</text>
+    <text x="545" y="610" fill="#475569" font-size="20">Clear offer + CTA</text>
+    <rect x="700" y="595" width="34" height="28" rx="7" fill="#0f766e"/>
+
+    <path d="M795 590 H880" stroke="#60a5fa" stroke-width="6" stroke-linecap="round"/>
+    <path d="M865 575 L885 590 L865 605" fill="none" stroke="#60a5fa" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="905" y="515" width="240" height="150" rx="26" fill="#ffffff"/>
+    <text x="945" y="570" fill="#0f172a" font-size="25" font-weight="800">FORM / BOOKING</text>
+    <text x="945" y="610" fill="#475569" font-size="20">Useful details</text>
+
+    <path d="M1165 590 H1250" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+    <path d="M1235 575 L1255 590 L1235 605" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="1275" y="515" width="220" height="150" rx="26" fill="#ffffff"/>
+    <text x="1315" y="570" fill="#0f172a" font-size="25" font-weight="800">FOLLOW-UP</text>
+    <text x="1315" y="610" fill="#475569" font-size="20">Clear owner</text>
+  </g>
+
+  <rect x="110" y="730" width="1380" height="2" fill="#ffffff" opacity="0.14"/>
+  <text x="110" y="805" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">Measure the full journey before you buy more traffic.</text>
+  <text x="110" y="850" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="23">websiteli.ch</text>
+</svg>
