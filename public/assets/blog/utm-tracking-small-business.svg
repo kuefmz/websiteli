@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">UTM Tracking for Small Businesses: Know Which Marketing Brings Enquiries</title>
+  <desc id="desc">Websiteli blog cover showing campaign links from social, email and partners flowing through UTM labels into website enquiries.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#eaf3ff" stop-opacity="0.96"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1390" cy="135" r="220" fill="#5eead4" opacity="0.10"/>
+  <circle cx="190" cy="780" r="260" fill="#60a5fa" opacity="0.12"/>
+  <text x="110" y="105" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">WEBSITELI • PRACTICAL WEBSITE ANALYTICS</text>
+  <text x="110" y="190" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">UTM Tracking for Small Businesses:</text>
+  <text x="110" y="258" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">Know Which Marketing</text>
+  <text x="110" y="326" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800">Brings Enquiries</text>
+  <text x="110" y="380" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="28">Label campaign links. Track meaningful actions. Keep attribution understandable.</text>
+
+  <rect x="105" y="440" width="390" height="260" rx="28" fill="url(#panel)"/>
+  <text x="145" y="495" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">CAMPAIGN LINKS</text>
+  <rect x="145" y="530" width="300" height="48" rx="16" fill="#dbeafe"/>
+  <text x="170" y="562" fill="#0f2747" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">LinkedIn • social</text>
+  <rect x="145" y="594" width="300" height="48" rx="16" fill="#ccfbf1"/>
+  <text x="170" y="626" fill="#0f2747" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">Newsletter • email</text>
+  <rect x="145" y="658" width="300" height="48" rx="16" fill="#fef3c7"/>
+  <text x="170" y="690" fill="#0f2747" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">Partner • referral</text>
+
+  <path d="M500 570 C615 570 610 570 705 570" fill="none" stroke="#60a5fa" stroke-width="6" stroke-linecap="round"/>
+  <path d="M500 620 C615 620 610 620 705 620" fill="none" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+  <path d="M500 670 C615 670 610 670 705 670" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="705" y="475" width="390" height="225" rx="28" fill="url(#panel)"/>
+  <text x="745" y="530" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">UTM LABELS</text>
+  <text x="745" y="582" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="22">utm_source</text>
+  <text x="930" y="582" fill="#0f766e" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">linkedin</text>
+  <text x="745" y="624" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="22">utm_medium</text>
+  <text x="930" y="624" fill="#0f766e" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">social</text>
+  <text x="745" y="666" fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="22">utm_campaign</text>
+  <text x="930" y="666" fill="#0f766e" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">spring-2026</text>
+
+  <path d="M1095 590 C1180 590 1180 590 1240 590" fill="none" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+  <rect x="1240" y="500" width="255" height="200" rx="28" fill="#ffffff"/>
+  <text x="1275" y="552" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">WEBSITE</text>
+  <rect x="1275" y="582" width="185" height="18" rx="9" fill="#cbd5e1"/>
+  <rect x="1275" y="616" width="150" height="18" rx="9" fill="#dbeafe"/>
+  <rect x="1275" y="650" width="150" height="38" rx="19" fill="#0f766e"/>
+  <text x="1305" y="676" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Enquiry</text>
+
+  <text x="110" y="820" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">From campaign link → website visit → meaningful conversion</text>
+</svg>
