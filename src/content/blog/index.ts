@@ -8,6 +8,7 @@ import scopeInternalAiAssistantPilot from "./posts/scope-internal-ai-assistant-p
 import smallBusinessLeadGenerationFunnel from "./posts/small-business-lead-generation-funnel";
 import testInternalAiAssistantBeforeLaunch from "./posts/test-internal-ai-assistant-before-launch";
 import utmTrackingSmallBusiness from "./posts/utm-tracking-small-business";
+import websiteAccessibilitySmallBusiness from "./posts/website-accessibility-small-business";
 import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
@@ -21,6 +22,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  websiteAccessibilitySmallBusiness,
   utmTrackingSmallBusiness,
   smallBusinessLeadGenerationFunnel,
   websiteBeforePaidAdsChecklist,
