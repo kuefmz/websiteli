@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">How to Connect Your Website to a CRM: A Small-Business Guide</title>
+  <desc id="desc">Websiteli blog cover showing a website enquiry flowing into a structured CRM record.</desc>
+  <rect width="1536" height="1024" rx="40" fill="#f7f9fc"/>
+  <rect x="96" y="96" width="1344" height="832" rx="36" fill="#ffffff" stroke="#dfe6ef" stroke-width="4"/>
+  <g transform="translate(160 180)">
+    <rect width="164" height="52" rx="26" fill="#111827"/>
+    <text x="82" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#ffffff">WEBSITELI</text>
+    <text x="0" y="150" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#111827">How to Connect Your Website</text>
+    <text x="0" y="220" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#111827">to a CRM:</text>
+    <text x="0" y="290" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#111827">A Small-Business Guide</text>
+    <text x="0" y="364" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#526173">Capture the enquiry. Assign the lead. Keep the next step visible.</text>
+  </g>
+  <g transform="translate(1010 500)">
+    <rect width="250" height="122" rx="24" fill="#eef3f8" stroke="#cfd8e3" stroke-width="4"/>
+    <rect x="30" y="30" width="92" height="18" rx="9" fill="#111827" opacity=".18"/>
+    <rect x="30" y="68" width="158" height="16" rx="8" fill="#111827" opacity=".11"/>
+    <path d="M268 61h74" stroke="#111827" stroke-width="10" stroke-linecap="round"/>
+    <path d="M326 40l28 21-28 21" fill="none" stroke="#111827" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="372" y="-18" width="250" height="158" rx="26" fill="#111827"/>
+    <circle cx="422" cy="34" r="18" fill="#ffffff"/>
+    <rect x="456" y="18" width="118" height="18" rx="9" fill="#ffffff" opacity=".9"/>
+    <rect x="408" y="78" width="170" height="14" rx="7" fill="#ffffff" opacity=".55"/>
+    <rect x="408" y="104" width="122" height="14" rx="7" fill="#ffffff" opacity=".38"/>
+  </g>
+</svg>
