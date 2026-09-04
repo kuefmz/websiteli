@@ -33,24 +33,26 @@ const siteUrl = new URL("https://websiteli.ch");
 const label = content.nav[pageNavKeys[page]] ?? (page === "blog" ? blogContent.eyebrow : page);
 const servicesPricingSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
   en: {
-    title: "Website Packages, SEO and AI Automation Pricing - Websiteli",
+    title: "Website Services & Pricing in Switzerland | Websiteli",
     description:
-      "Compare Websiteli website packages for business websites, SEO setup, maintenance, lead generation, automation and AI/data upgrades in Switzerland.",
+      "Compare Websiteli website services and pricing for business websites, SEO, maintenance, lead generation, automation and AI projects in Switzerland.",
   },
   de: {
-    title: "Website-Pakete, SEO und KI-Automation Preise - Websiteli",
+    title: "Website-Services & Preise in der Schweiz | Websiteli",
     description:
-      "Vergleichen Sie Websiteli-Pakete für Business-Websites, SEO-Grundlagen, Wartung, Leadgenerierung, Automation und KI-Daten-Upgrades in der Schweiz.",
+      "Vergleichen Sie Websiteli-Services und Preise für Business-Websites, SEO, Wartung, Leadgenerierung, Automation und KI-Projekte in der Schweiz.",
   },
 };
 const portfolioSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
   en: {
-    title: "Portfolio - Real Websites and Digital Products by Websiteli",
-    description: "See real public Websiteli projects first, then clearly separated concepts and demos for common website and automation needs.",
+    title: "Web Design Portfolio: Real Websites Built by Websiteli",
+    description:
+      "See real websites and web applications built by Websiteli for healthcare, products, portfolios, research, trust and discovery projects.",
   },
   de: {
-    title: "Portfolio - Echte Websites und digitale Produkte von Websiteli",
-    description: "Sehen Sie echte öffentliche Websiteli-Projekte zuerst, danach klar getrennte Konzepte und Demos für typische Website- und Automationsbedürfnisse.",
+    title: "Webdesign-Portfolio: Echte Websites von Websiteli",
+    description:
+      "Sehen Sie echte Websites und Webanwendungen von Websiteli für Healthcare, Produkte, Portfolios, Forschung, Trust- und Discovery-Projekte.",
   },
 };
 const servicesPricingSeo = servicesPricingSeoByLocale[locale] ?? {

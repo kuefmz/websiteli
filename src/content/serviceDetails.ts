@@ -13,6 +13,40 @@ export type ServiceDetail = {
 };
 
 export const serviceDetails: Record<string, ServiceDetail> = {
+  "business-websites": {
+    seoTitle: "Business Website Design in Switzerland | Websiteli",
+    intro:
+      "Websiteli builds fast, professional business websites for small companies and SMEs that need clearer positioning, stronger trust and more qualified enquiries. Each project includes responsive implementation, SEO foundations, analytics and a clear contact path, with automation available when it supports the business.",
+    considerations: [
+      "Make the offer and ideal customer clear within the first screen.",
+      "Build service pages around real customer questions and search intent rather than generic company language.",
+      "Connect forms, analytics and Search Console from launch so enquiries and visibility can be measured.",
+      "Keep domain, website, analytics and search accounts under client ownership.",
+      "Add automation only when it removes a real follow-up or operational bottleneck.",
+    ],
+    faqs: [
+      {
+        question: "What is included in a Websiteli business website?",
+        answer:
+          "A typical business website includes responsive design and development, core page structure, clear contact paths, forms, SEO foundations, analytics setup and launch support. The exact scope depends on the business, content and required integrations.",
+      },
+      {
+        question: "How much does a business website cost in Switzerland?",
+        answer:
+          "Websiteli's Digital Foundation starts at CHF 990. The final price depends on the number of pages, content work, forms, multilingual requirements, integrations, tracking and any automation needed for the project.",
+      },
+      {
+        question: "Do you build websites for small businesses and SMEs?",
+        answer:
+          "Yes. Websiteli is designed around small businesses and SMEs that need a credible, owned website without unnecessary complexity. Projects can start with a focused website and expand later as the business grows.",
+      },
+      {
+        question: "Will the website be ready for SEO and analytics?",
+        answer:
+          "Yes. Websiteli includes technical SEO foundations such as metadata, structured page hierarchy and indexable implementation, plus analytics and Search Console setup where included in scope. Ongoing rankings still depend on content, competition and authority over time.",
+      },
+    ],
+  },
   "ai-content-pipelines": {
     seoTitle: "AI Content Pipeline for Small Businesses | Websiteli",
     intro:
