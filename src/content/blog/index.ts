@@ -13,6 +13,7 @@ import websiteBackupRecoverySmallBusiness from "./posts/website-backup-recovery-
 import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
+import { applySearchConsoleOptimization } from "./searchConsoleOptimizations";
 import type { BlogPost } from "./index-base";
 import type { BlogPostSource } from "./types";
 
@@ -89,15 +90,20 @@ export function getBlogPosts(locale: LocaleCode = "en"): BlogPost[] {
     .map((source) => getAdditionalPost(source, locale))
     .filter((post): post is BlogPost => Boolean(post));
 
-  return [...additionalPosts, ...base.getBlogPosts(locale)].sort(
-    (a, b) => Date.parse(b.publishDate) - Date.parse(a.publishDate),
-  );
+  return [...additionalPosts, ...base.getBlogPosts(locale)]
+    .map(applySearchConsoleOptimization)
+    .sort((a, b) => Date.parse(b.publishDate) - Date.parse(a.publishDate));
 }
 
 export function getBlogPost(slug: string, locale: LocaleCode = "en") {
   const source = additionalSources.find((item) => item.slug === slug);
-  if (source) return getAdditionalPost(source, locale);
-  return base.getBlogPost(slug, locale);
+  if (source) {
+    const post = getAdditionalPost(source, locale);
+    return post ? applySearchConsoleOptimization(post) : undefined;
+  }
+
+  const post = base.getBlogPost(slug, locale);
+  return post ? applySearchConsoleOptimization(post) : undefined;
 }
 
 export function getBlogStaticPaths() {
