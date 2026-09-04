@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Orgelia website preview</title>
+  <desc id="desc">Editorial project preview for Orgelia, a multilingual intimate-product and shop discovery platform.</desc>
+  <rect width="1200" height="760" rx="30" fill="#1F1720"/>
+  <rect x="56" y="48" width="1088" height="664" rx="24" fill="#FFF8F8"/>
+  <rect x="56" y="48" width="1088" height="58" rx="24" fill="#FFFFFF"/>
+  <circle cx="92" cy="77" r="7" fill="#E9D5D8"/>
+  <circle cx="116" cy="77" r="7" fill="#E9D5D8"/>
+  <circle cx="140" cy="77" r="7" fill="#E9D5D8"/>
+  <rect x="190" y="65" width="418" height="24" rx="12" fill="#F5E7E9"/>
+  <text x="216" y="82" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#6D5560">orgelia.com</text>
+  <rect x="108" y="150" width="984" height="508" rx="28" fill="#FFF1F3"/>
+  <text x="160" y="254" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" fill="#2B1B25">Orgelia</text>
+  <text x="160" y="308" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#765563">Find your f*cking favourite.</text>
+  <text x="160" y="365" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#7B6570">Discover shops, compare options and explore intimate products with confidence.</text>
+  <rect x="160" y="418" width="292" height="82" rx="18" fill="#FFFFFF"/>
+  <text x="188" y="450" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#9A7886">DISCOVER</text>
+  <text x="188" y="479" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#2B1B25">Shops near you</text>
+  <rect x="470" y="418" width="292" height="82" rx="18" fill="#FFFFFF"/>
+  <text x="498" y="450" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#9A7886">COMPARE</text>
+  <text x="498" y="479" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#2B1B25">Products &amp; choices</text>
+  <rect x="780" y="418" width="254" height="82" rx="18" fill="#E95D78"/>
+  <text x="813" y="467" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Explore Orgelia →</text>
+  <circle cx="902" cy="264" r="94" fill="#F6C6D0" opacity="0.65"/>
+  <circle cx="977" cy="224" r="66" fill="#E95D78" opacity="0.85"/>
+  <circle cx="1000" cy="321" r="52" fill="#F09AAE" opacity="0.9"/>
+</svg>
