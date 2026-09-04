@@ -10,6 +10,7 @@ import testInternalAiAssistantBeforeLaunch from "./posts/test-internal-ai-assist
 import utmTrackingSmallBusiness from "./posts/utm-tracking-small-business";
 import websiteAccessibilitySmallBusiness from "./posts/website-accessibility-small-business";
 import websiteBackupRecoverySmallBusiness from "./posts/website-backup-recovery-small-business";
+import websiteCrmIntegrationSmallBusiness from "./posts/website-crm-integration-small-business";
 import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
@@ -23,6 +24,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  websiteCrmIntegrationSmallBusiness,
   websiteBackupRecoverySmallBusiness,
   websiteAccessibilitySmallBusiness,
   utmTrackingSmallBusiness,
