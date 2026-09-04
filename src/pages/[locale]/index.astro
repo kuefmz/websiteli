@@ -11,11 +11,24 @@ export function getStaticPaths() {
 const locale = Astro.params.locale as LocaleCode;
 const content = getLocaleContent(locale);
 const home = getConversionHomeContent(locale);
+const homeSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
+  en: {
+    title: "Web Design Switzerland for Small Businesses | Websiteli",
+    description:
+      "Swiss web design for small businesses. Websites from CHF 990 with SEO foundations, analytics, forms and optional automation. See real work and pricing.",
+  },
+  de: {
+    title: "Webdesign Schweiz für KMU & kleine Unternehmen | Websiteli",
+    description:
+      "Webdesign aus der Schweiz für KMU und kleine Unternehmen: schnelle Websites ab CHF 990 mit SEO-Grundlagen, Analytics, Formularen und optionaler Automation.",
+  },
+};
+const homeSeo = homeSeoByLocale[locale] ?? home.seo;
 ---
 
 <Layout
-  title={home.seo.title}
-  description={home.seo.description}
+  title={homeSeo.title}
+  description={homeSeo.description}
   canonicalPath={getLocalizedPath(locale)}
   lang={locale}
   locale={locale}
