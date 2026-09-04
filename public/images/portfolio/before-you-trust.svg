@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Before You Trust website preview</title>
+  <desc id="desc">Editorial project preview for Before You Trust, a public-web trust research application.</desc>
+  <rect width="1200" height="760" rx="30" fill="#081320"/>
+  <rect x="56" y="48" width="1088" height="664" rx="24" fill="#F1F5F9"/>
+  <rect x="56" y="48" width="1088" height="58" rx="24" fill="#FFFFFF"/>
+  <circle cx="92" cy="77" r="7" fill="#CBD5E1"/>
+  <circle cx="116" cy="77" r="7" fill="#CBD5E1"/>
+  <circle cx="140" cy="77" r="7" fill="#CBD5E1"/>
+  <rect x="190" y="65" width="418" height="24" rx="12" fill="#E2E8F0"/>
+  <text x="216" y="82" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#475569">beforeyoutrust.org</text>
+  <rect x="108" y="150" width="984" height="508" rx="28" fill="#081320"/>
+  <rect x="160" y="196" width="182" height="34" rx="17" fill="#2563EB"/>
+  <text x="183" y="219" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">PUBLIC-WEB RESEARCH</text>
+  <text x="160" y="310" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF">Before You Trust</text>
+  <text x="160" y="367" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#CBD5E1">Check public-web findings before you trust.</text>
+  <rect x="160" y="426" width="650" height="72" rx="16" fill="#FFFFFF"/>
+  <text x="190" y="470" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#64748B">Search a person or company…</text>
+  <rect x="828" y="426" width="206" height="72" rx="16" fill="#2563EB"/>
+  <text x="880" y="470" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">Search</text>
+  <line x1="160" y1="548" x2="1034" y2="548" stroke="#334155" stroke-width="2"/>
+  <text x="160" y="591" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#94A3B8">Identity selection · public sources · transparent findings</text>
+</svg>
