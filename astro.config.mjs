@@ -9,11 +9,12 @@ export default defineConfig({
         const pathname = new URL(page).pathname;
         const isRootRedirect = pathname === "/";
         const isTopLevelRedirect = /^\/(?:about|blog|portfolio|partners)\/?$/.test(pathname);
+        const isTopLevelWebsiteRedirect = /^\/websites\/[^/]+\/?$/.test(pathname);
         const isLegacyLocalizedServices = /^\/[a-z]{2}\/services\/?$/.test(pathname);
         const isLegacyPackages = /^\/(?:[a-z]{2}\/)?packages\/?$/.test(pathname);
         const isRedirectNamespace = /^\/(?:[a-z]{2}\/)?(?:demos|example-projects)(?:\/|$)/.test(pathname);
 
-        return !isRootRedirect && !isTopLevelRedirect && !isLegacyLocalizedServices && !isLegacyPackages && !isRedirectNamespace;
+        return !isRootRedirect && !isTopLevelRedirect && !isTopLevelWebsiteRedirect && !isLegacyLocalizedServices && !isLegacyPackages && !isRedirectNamespace;
       },
     }),
   ],
