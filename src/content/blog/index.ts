@@ -41,6 +41,10 @@ const additionalSources: BlogPostSource[] = [
 
 const featuredImageOverrides: Partial<Record<string, string>> = {
   "website-before-paid-ads-checklist": "/assets/blog/website-before-paid-ads-checklist.svg",
+  "small-business-lead-generation-funnel": "/assets/blog/small-business-lead-generation-funnel.svg",
+  "utm-tracking-small-business": "/assets/blog/utm-tracking-small-business.svg",
+  "website-accessibility-small-business": "/assets/blog/website-accessibility-small-business.svg",
+  "website-backup-recovery-small-business": "/assets/blog/website-backup-recovery-small-business.svg",
 };
 
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
