@@ -15,6 +15,54 @@ const contactHref = getLocalizedPath(currentLocale, "contact");
 const eventPartnerHref = `/${currentLocale}/partners/event-organizers/`;
 const becomePartnerHref = `${contactHref}?package=digitalAudit&project=partners&intent=partner_inquiry`;
 const discoveryCallHref = `${contactHref}?package=digitalAudit&project=partners&intent=discovery_call`;
+const referralHref = `${contactHref}?package=digitalAudit&project=referral&intent=refer_client`;
+const referralCopy = {
+  en: {
+    eyebrow: "Referral reward",
+    title: "Refer a client. Get CHF 100.",
+    text: "Know a founder, small business, freelancer or company that needs a website, marketing setup, analytics, automation or an AI solution? Introduce them to Websiteli. If the introduction becomes a paid project, you receive CHF 100 as a thank-you.",
+    points: [
+      "You make the introduction — no selling required.",
+      "Websiteli handles the discovery call, proposal and delivery.",
+      "You receive CHF 100 after the referred client's first project is paid.",
+    ],
+    cta: "Refer someone",
+  },
+  de: {
+    eyebrow: "Empfehlungsbonus",
+    title: "Kunden empfehlen. CHF 100 erhalten.",
+    text: "Kennen Sie ein Unternehmen, einen Freelancer oder ein Startup, das eine Website, ein Marketing-Setup, Analytics, Automation oder eine KI-Lösung benötigt? Stellen Sie den Kontakt zu Websiteli her. Wenn daraus ein bezahltes Projekt entsteht, erhalten Sie CHF 100 als Dankeschön.",
+    points: [
+      "Sie stellen den Kontakt her — kein Verkauf nötig.",
+      "Websiteli übernimmt Erstgespräch, Angebot und Umsetzung.",
+      "Sie erhalten CHF 100, sobald das erste Projekt des empfohlenen Kunden bezahlt ist.",
+    ],
+    cta: "Kontakt empfehlen",
+  },
+  fr: {
+    eyebrow: "Prime de recommandation",
+    title: "Recommandez un client. Recevez CHF 100.",
+    text: "Vous connaissez une entreprise, un freelance ou une startup qui a besoin d'un site web, d'un setup marketing, d'analytics, d'automatisation ou d'une solution IA ? Mettez-la en relation avec Websiteli. Si la recommandation devient un projet payé, vous recevez CHF 100 en remerciement.",
+    points: [
+      "Vous faites simplement l'introduction — aucune vente nécessaire.",
+      "Websiteli gère l'appel découverte, l'offre et la réalisation.",
+      "Vous recevez CHF 100 après le paiement du premier projet du client recommandé.",
+    ],
+    cta: "Recommander quelqu'un",
+  },
+  it: {
+    eyebrow: "Premio referral",
+    title: "Segnala un cliente. Ricevi CHF 100.",
+    text: "Conosci un'azienda, un freelance o una startup che ha bisogno di un sito web, setup marketing, analytics, automazione o una soluzione AI? Presentali a Websiteli. Se la segnalazione diventa un progetto pagato, ricevi CHF 100 come ringraziamento.",
+    points: [
+      "Fai semplicemente l'introduzione — non devi vendere nulla.",
+      "Websiteli gestisce call iniziale, proposta e realizzazione.",
+      "Ricevi CHF 100 dopo il pagamento del primo progetto del cliente segnalato.",
+    ],
+    cta: "Segnala qualcuno",
+  },
+} as const;
+const referral = referralCopy[currentLocale as keyof typeof referralCopy] ?? referralCopy.en;
 const iconPaths = {
   layers: "M4 7 12 3l8 4-8 4-8-4Zm0 5 8 4 8-4M4 17l8 4 8-4",
   shield: "M12 3 5 6v5c0 4.5 2.8 8.5 7 10 4.2-1.5 7-5.5 7-10V6l-7-3Z",
@@ -79,6 +127,27 @@ function getInternalHref(page: string) {
           ))}
         </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="section-shell event-partner-spotlight referral-partner-spotlight" id="referral-partnership" aria-labelledby="referral-partnership-title">
+    <div class="event-partner-spotlight-panel">
+      <div>
+        <p class="eyebrow">{referral.eyebrow}</p>
+        <h2 id="referral-partnership-title">{referral.title}</h2>
+        <p>{referral.text}</p>
+      </div>
+      <ul>
+        {referral.points.map((point) => (
+          <li>
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
+            {point}
+          </li>
+        ))}
+      </ul>
+      <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="Partners page CHF 100 referral">
+        {referral.cta}
+      </a>
     </div>
   </section>
 
