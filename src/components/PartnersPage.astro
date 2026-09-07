@@ -1,8 +1,8 @@
 ---
 import FAQ from "./FAQ.astro";
-import ProcessStep from "./ProcessStep.astro";
-import { getLocalizedPath, type LocaleCode, type PageSlug } from "../content/locales";
+import { getLocalizedPath, type LocaleCode } from "../content/locales";
 import { getPartnerPageContent } from "../content/partners";
+import { realPortfolioProjects } from "../content/portfolio";
 
 interface Props {
   locale: string;
@@ -12,202 +12,241 @@ const { locale = "en" } = Astro.props;
 const currentLocale = locale as LocaleCode;
 const partnerContent = getPartnerPageContent(currentLocale);
 const contactHref = getLocalizedPath(currentLocale, "contact");
+const portfolioHref = getLocalizedPath(currentLocale, "portfolio");
 const eventPartnerHref = `/${currentLocale}/partners/event-organizers/`;
 const becomePartnerHref = `${contactHref}?package=digitalAudit&project=partners&intent=partner_inquiry`;
 const discoveryCallHref = `${contactHref}?package=digitalAudit&project=partners&intent=discovery_call`;
 const referralHref = `${contactHref}?package=digitalAudit&project=referral&intent=refer_client`;
+
 const referralCopy = {
   en: {
-    eyebrow: "Referral reward",
-    title: "Refer a client. Get CHF 100.",
-    text: "Know a founder, small business, freelancer or company that needs a website, marketing setup, analytics, automation or an AI solution? Introduce them to Websiteli. If the introduction becomes a paid project, you receive CHF 100 as a thank-you.",
-    points: [
-      "You make the introduction — no selling required.",
-      "Websiteli handles the discovery call, proposal and delivery.",
-      "You receive CHF 100 after the referred client's first project is paid.",
+    eyebrow: "Websiteli referral program",
+    title: "Know someone who needs a website? Get CHF 100.",
+    intro: "Refer a business to Websiteli. If they become a paying client, you receive CHF 100.",
+    noSelling: "No selling. No paperwork. Just make the introduction.",
+    servicesLabel: "You can refer",
+    services: [
+      { title: "Websites", text: "Business websites, landing pages, ecommerce and redesigns." },
+      { title: "Marketing & analytics", text: "SEO foundations, GA4, campaign tracking and marketing setup." },
+      { title: "Automation", text: "Lead flows, integrations and repetitive business workflows." },
+      { title: "AI & custom tools", text: "AI assistants, dashboards and tailored web applications." },
+    ],
+    stepsLabel: "How it works",
+    steps: [
+      { number: "1", title: "Make an introduction", text: "Connect us with someone who may need Websiteli." },
+      { number: "2", title: "We handle everything", text: "We scope, propose and deliver the project directly." },
+      { number: "3", title: "You get CHF 100", text: "We pay the reward after their first project is paid." },
     ],
     cta: "Refer someone",
+    proofEyebrow: "Real work",
+    proofTitle: "You are referring people to a builder with real projects.",
+    proofText: "A few examples of websites and digital products already built by Websiteli.",
+    caseStudy: "View case study",
+    viewWebsite: "View website",
+    agencyEyebrow: "For agencies & freelancers",
+    agencyTitle: "Want more than a referral reward?",
+    agencyText: "Websiteli can also work behind the scenes as your white-label technical partner for websites, automation and AI projects.",
+    agencyPrimary: "See partnership models",
+    agencySecondary: "Schedule a call",
+    terms: "Referral reward is paid after the referred client's first paid project is received by Websiteli.",
+    finalTitle: "Someone come to mind?",
+    finalText: "Send the introduction and we will take it from there.",
   },
   de: {
-    eyebrow: "Empfehlungsbonus",
-    title: "Kunden empfehlen. CHF 100 erhalten.",
-    text: "Kennen Sie ein Unternehmen, einen Freelancer oder ein Startup, das eine Website, ein Marketing-Setup, Analytics, Automation oder eine KI-Lösung benötigt? Stellen Sie den Kontakt zu Websiteli her. Wenn daraus ein bezahltes Projekt entsteht, erhalten Sie CHF 100 als Dankeschön.",
-    points: [
-      "Sie stellen den Kontakt her — kein Verkauf nötig.",
-      "Websiteli übernimmt Erstgespräch, Angebot und Umsetzung.",
-      "Sie erhalten CHF 100, sobald das erste Projekt des empfohlenen Kunden bezahlt ist.",
+    eyebrow: "Websiteli Empfehlungsprogramm",
+    title: "Kennen Sie jemanden, der eine Website braucht? CHF 100 erhalten.",
+    intro: "Empfehlen Sie ein Unternehmen an Websiteli. Wird daraus ein zahlender Kunde, erhalten Sie CHF 100.",
+    noSelling: "Kein Verkauf. Kein Papierkram. Stellen Sie einfach den Kontakt her.",
+    servicesLabel: "Das können Sie empfehlen",
+    services: [
+      { title: "Websites", text: "Unternehmenswebsites, Landingpages, Ecommerce und Redesigns." },
+      { title: "Marketing & Analytics", text: "SEO-Grundlagen, GA4, Kampagnen-Tracking und Marketing-Setup." },
+      { title: "Automation", text: "Lead-Flows, Integrationen und repetitive Geschäftsprozesse." },
+      { title: "KI & individuelle Tools", text: "KI-Assistenten, Dashboards und maßgeschneiderte Webanwendungen." },
     ],
-    cta: "Kontakt empfehlen",
+    stepsLabel: "So funktioniert es",
+    steps: [
+      { number: "1", title: "Kontakt herstellen", text: "Verbinden Sie uns mit jemandem, der Websiteli brauchen könnte." },
+      { number: "2", title: "Wir übernehmen", text: "Wir klären Umfang, Angebot und Umsetzung direkt." },
+      { number: "3", title: "CHF 100 erhalten", text: "Der Bonus wird nach Bezahlung des ersten Projekts ausgezahlt." },
+    ],
+    cta: "Jemanden empfehlen",
+    proofEyebrow: "Echte Projekte",
+    proofTitle: "Sie empfehlen einen Partner mit echten Projekten.",
+    proofText: "Einige Beispiele für Websites und digitale Produkte von Websiteli.",
+    caseStudy: "Case Study ansehen",
+    viewWebsite: "Website ansehen",
+    agencyEyebrow: "Für Agenturen & Freelancer",
+    agencyTitle: "Mehr als nur eine Empfehlung?",
+    agencyText: "Websiteli kann auch als White-Label-Technikpartner für Websites, Automation und KI-Projekte im Hintergrund arbeiten.",
+    agencyPrimary: "Partnerschaftsmodelle ansehen",
+    agencySecondary: "Gespräch buchen",
+    terms: "Der Empfehlungsbonus wird ausgezahlt, nachdem Websiteli die Zahlung für das erste Projekt des empfohlenen Kunden erhalten hat.",
+    finalTitle: "Fällt Ihnen jemand ein?",
+    finalText: "Stellen Sie den Kontakt her – wir übernehmen den Rest.",
   },
   fr: {
-    eyebrow: "Prime de recommandation",
-    title: "Recommandez un client. Recevez CHF 100.",
-    text: "Vous connaissez une entreprise, un freelance ou une startup qui a besoin d'un site web, d'un setup marketing, d'analytics, d'automatisation ou d'une solution IA ? Mettez-la en relation avec Websiteli. Si la recommandation devient un projet payé, vous recevez CHF 100 en remerciement.",
-    points: [
-      "Vous faites simplement l'introduction — aucune vente nécessaire.",
-      "Websiteli gère l'appel découverte, l'offre et la réalisation.",
-      "Vous recevez CHF 100 après le paiement du premier projet du client recommandé.",
+    eyebrow: "Programme de recommandation Websiteli",
+    title: "Vous connaissez quelqu'un qui a besoin d'un site ? Recevez CHF 100.",
+    intro: "Recommandez une entreprise à Websiteli. Si elle devient cliente, vous recevez CHF 100.",
+    noSelling: "Aucune vente. Aucune paperasse. Faites simplement l'introduction.",
+    servicesLabel: "Vous pouvez recommander",
+    services: [
+      { title: "Sites web", text: "Sites d'entreprise, landing pages, ecommerce et refontes." },
+      { title: "Marketing & analytics", text: "Bases SEO, GA4, tracking de campagnes et setup marketing." },
+      { title: "Automatisation", text: "Flux de leads, intégrations et processus répétitifs." },
+      { title: "IA & outils sur mesure", text: "Assistants IA, dashboards et applications web sur mesure." },
+    ],
+    stepsLabel: "Comment ça marche",
+    steps: [
+      { number: "1", title: "Faites l'introduction", text: "Mettez-nous en relation avec quelqu'un qui pourrait avoir besoin de Websiteli." },
+      { number: "2", title: "Nous gérons tout", text: "Nous cadrons, proposons et livrons le projet directement." },
+      { number: "3", title: "Recevez CHF 100", text: "La prime est versée après le paiement de son premier projet." },
     ],
     cta: "Recommander quelqu'un",
+    proofEyebrow: "Projets réels",
+    proofTitle: "Vous recommandez un partenaire avec de vrais projets.",
+    proofText: "Quelques exemples de sites et produits digitaux réalisés par Websiteli.",
+    caseStudy: "Voir l'étude de cas",
+    viewWebsite: "Voir le site",
+    agencyEyebrow: "Pour agences & freelances",
+    agencyTitle: "Vous voulez plus qu'une prime de recommandation ?",
+    agencyText: "Websiteli peut aussi travailler en marque blanche comme partenaire technique pour vos sites, automatisations et projets IA.",
+    agencyPrimary: "Voir les modèles de partenariat",
+    agencySecondary: "Planifier un appel",
+    terms: "La prime est versée après réception par Websiteli du paiement du premier projet du client recommandé.",
+    finalTitle: "Quelqu'un vous vient à l'esprit ?",
+    finalText: "Faites l'introduction et nous nous occupons du reste.",
   },
   it: {
-    eyebrow: "Premio referral",
-    title: "Segnala un cliente. Ricevi CHF 100.",
-    text: "Conosci un'azienda, un freelance o una startup che ha bisogno di un sito web, setup marketing, analytics, automazione o una soluzione AI? Presentali a Websiteli. Se la segnalazione diventa un progetto pagato, ricevi CHF 100 come ringraziamento.",
-    points: [
-      "Fai semplicemente l'introduzione — non devi vendere nulla.",
-      "Websiteli gestisce call iniziale, proposta e realizzazione.",
-      "Ricevi CHF 100 dopo il pagamento del primo progetto del cliente segnalato.",
+    eyebrow: "Programma referral Websiteli",
+    title: "Conosci qualcuno che ha bisogno di un sito? Ricevi CHF 100.",
+    intro: "Segnala un'azienda a Websiteli. Se diventa cliente pagante, ricevi CHF 100.",
+    noSelling: "Nessuna vendita. Nessuna burocrazia. Fai semplicemente l'introduzione.",
+    servicesLabel: "Puoi segnalare",
+    services: [
+      { title: "Siti web", text: "Siti aziendali, landing page, ecommerce e redesign." },
+      { title: "Marketing & analytics", text: "Basi SEO, GA4, tracking campagne e setup marketing." },
+      { title: "Automazione", text: "Lead flow, integrazioni e processi ripetitivi." },
+      { title: "AI & tool personalizzati", text: "Assistenti AI, dashboard e applicazioni web su misura." },
+    ],
+    stepsLabel: "Come funziona",
+    steps: [
+      { number: "1", title: "Fai l'introduzione", text: "Mettici in contatto con qualcuno che potrebbe aver bisogno di Websiteli." },
+      { number: "2", title: "Pensiamo a tutto noi", text: "Gestiamo scope, proposta e delivery direttamente." },
+      { number: "3", title: "Ricevi CHF 100", text: "Il premio viene pagato dopo il pagamento del primo progetto." },
     ],
     cta: "Segnala qualcuno",
+    proofEyebrow: "Lavori reali",
+    proofTitle: "Stai consigliando un partner con progetti reali.",
+    proofText: "Alcuni esempi di siti e prodotti digitali già realizzati da Websiteli.",
+    caseStudy: "Vedi case study",
+    viewWebsite: "Vedi sito",
+    agencyEyebrow: "Per agenzie & freelance",
+    agencyTitle: "Vuoi più di un semplice referral?",
+    agencyText: "Websiteli può anche lavorare dietro le quinte come partner tecnico white-label per siti, automazione e progetti AI.",
+    agencyPrimary: "Vedi i modelli di partnership",
+    agencySecondary: "Prenota una call",
+    terms: "Il premio referral viene pagato dopo che Websiteli ha ricevuto il pagamento del primo progetto del cliente segnalato.",
+    finalTitle: "Ti viene in mente qualcuno?",
+    finalText: "Fai l'introduzione e al resto pensiamo noi.",
   },
 } as const;
+
 const referral = referralCopy[currentLocale as keyof typeof referralCopy] ?? referralCopy.en;
-const iconPaths = {
-  layers: "M4 7 12 3l8 4-8 4-8-4Zm0 5 8 4 8-4M4 17l8 4 8-4",
-  shield: "M12 3 5 6v5c0 4.5 2.8 8.5 7 10 4.2-1.5 7-5.5 7-10V6l-7-3Z",
-  bot: "M8 10h8a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3Zm4 0V6m-3 8h.01M15 14h.01M9 17h6",
-  clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-13v5l3 2",
-  revenue: "M4 17 9 12l4 4 7-8M20 8v6h-6",
-  support: "M5 13a7 7 0 0 1 14 0v4a3 3 0 0 1-3 3h-2M5 13v4h3v-5H5Zm14 0v4h-3v-5h3Z",
-  megaphone: "M4 14h3l9 4V6l-9 4H4v4Zm3 0v5",
-  brush: "M19 4 8 15m0 0c-2 0-4 1.5-4 4 2.5 0 4-1.5 4-4Zm0 0 3 3",
-  heart: "M20.5 8.5c0 5-8.5 10-8.5 10s-8.5-5-8.5-10A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8.5 2.5Z",
-  calendar: "M7 3v4m10-4v4M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z",
-  search: "M10.5 18a7.5 7.5 0 1 1 5.3-2.2L21 21",
-  user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0",
-  share: "M18 8a3 3 0 1 0-2.8-4M6 14a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm12 6a3 3 0 1 0-2.8-4M8.7 12.6l6.6 3.8M15.3 7.6l-6.6 3.8",
-  briefcase: "M9 6V4h6v2m-9 0h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm-2 6h16",
-  chat: "M5 6h14v9H9l-4 4V6Z",
-  spark: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Zm6 12 1 2.5 2 1-2 1-1 2.5-1-2.5-2-1 2-1 1-2.5Z",
-  knowledge: "M4 5h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V5Zm3 0v13a3 3 0 0 0 3 3",
-  workflow: "M6 7h5v5H6V7Zm7.5 2.5H18a2 2 0 0 1 2 2V17M18 17h-5v-5h5v5ZM6 12v3a2 2 0 0 0 2 2h2",
-  code: "m8 9-4 3 4 3m8-6 4 3-4 3m-2-8-4 10",
-} as const;
+const proofProjects = realPortfolioProjects.filter((project) => project.image && project.verifiedUrl).slice(0, 4);
 
-function getIconPath(icon: string) {
-  return iconPaths[icon as keyof typeof iconPaths] ?? iconPaths.spark;
-}
-
-function getInternalHref(page: string) {
-  if (page === "contact") return becomePartnerHref;
-  return getLocalizedPath(currentLocale, page as PageSlug);
+function displayProjectName(name: string) {
+  return name === "Jenifer Ciuciu-Kiss" ? "Personal Website" : name;
 }
 ---
 
-<main class="partners-page">
-  <section class="partners-hero section-shell" aria-labelledby="partners-title">
-    <div class="partners-hero-copy">
-      <p class="eyebrow">{partnerContent.hero.eyebrow}</p>
-      <h1 id="partners-title">{partnerContent.hero.title}</h1>
-      <p class="partners-hero-subtitle">{partnerContent.hero.subtitle}</p>
-      <p class="hero-text">{partnerContent.hero.text}</p>
+<main class="partners-page referral-page">
+  <section class="section-shell referral-hero" aria-labelledby="partners-title">
+    <div class="referral-hero-copy">
+      <p class="eyebrow">{referral.eyebrow}</p>
+      <h1 id="partners-title">{referral.title}</h1>
+      <p class="referral-lead">{referral.intro}</p>
+      <p class="referral-no-selling">{referral.noSelling}</p>
       <div class="hero-actions">
-        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Hero become partner">{partnerContent.actions.becomePartner}</a>
-        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Hero schedule call">{partnerContent.actions.scheduleCall}</a>
+        <a class="button primary referral-primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="Referral hero CHF 100">{referral.cta}</a>
+        <a class="button secondary" href={portfolioHref} data-track-event="portfolio_cta_click" data-track-label="Referral hero portfolio">{referral.proofEyebrow}</a>
       </div>
+      <p class="referral-terms">{referral.terms}</p>
     </div>
-    <div class="partners-hero-aside">
-      <nav class="partners-hero-options" aria-label={partnerContent.aria.heroLinks}>
-        {partnerContent.internalLinks.map((item) => (
-          <a href={getInternalHref(item.href)}>
-            <span>{item.label}</span>
-            <strong>{item.title}</strong>
-          </a>
+
+    <div class="referral-hero-card" aria-label={referral.stepsLabel}>
+      <div class="reward-badge">
+        <span>CHF</span>
+        <strong>100</strong>
+        <small>referral reward</small>
+      </div>
+      <p class="eyebrow">{referral.stepsLabel}</p>
+      <div class="referral-steps">
+        {referral.steps.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <div>
+              <h2>{step.title}</h2>
+              <p>{step.text}</p>
+            </div>
+          </article>
         ))}
-      </nav>
-      <div class="partners-hero-benefits">
-        <p class="eyebrow">{partnerContent.aria.partnerBenefits}</p>
-        <ul class="hero-trust-badges" aria-label={partnerContent.aria.partnerBenefits}>
-          {partnerContent.trustPills.map((pill) => (
-            <li>
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
-              {pill}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   </section>
 
-  <section class="section-shell event-partner-spotlight referral-partner-spotlight" id="referral-partnership" aria-labelledby="referral-partnership-title">
-    <div class="event-partner-spotlight-panel">
-      <div>
-        <p class="eyebrow">{referral.eyebrow}</p>
-        <h2 id="referral-partnership-title">{referral.title}</h2>
-        <p>{referral.text}</p>
-      </div>
-      <ul>
-        {referral.points.map((point) => (
-          <li>
-            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
-            {point}
-          </li>
-        ))}
-      </ul>
-      <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="Partners page CHF 100 referral">
-        {referral.cta}
-      </a>
+  <section class="section-shell referral-services" aria-labelledby="referral-services-title">
+    <div class="section-heading compact-heading">
+      <p class="eyebrow">{referral.servicesLabel}</p>
+      <h2 id="referral-services-title">Websites, marketing, automation and AI.</h2>
     </div>
-  </section>
-
-  <section class="section-shell event-partner-spotlight" id="event-organizer-partnership" aria-labelledby="event-partner-spotlight-title">
-    <div class="event-partner-spotlight-panel">
-      <div>
-        <p class="eyebrow">{partnerContent.eventPartnerSpotlight.eyebrow}</p>
-        <h2 id="event-partner-spotlight-title">{partnerContent.eventPartnerSpotlight.title}</h2>
-        <p>{partnerContent.eventPartnerSpotlight.text}</p>
-      </div>
-      <ul>
-        {partnerContent.eventPartnerSpotlight.points.map((point) => (
-          <li>
-            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 8 3 3 7-7" /></svg>
-            {point}
-          </li>
-        ))}
-      </ul>
-      <a class="button primary" href={eventPartnerHref} data-track-event="partner_event_page_click" data-track-label="Partners page event organizer spotlight">
-        {partnerContent.eventPartnerSpotlight.cta}
-      </a>
-    </div>
-  </section>
-
-  <section class="section-shell section-block compact-top" id="why-partner">
-    <div class="section-heading">
-      <p class="eyebrow">{partnerContent.sections.why.eyebrow}</p>
-      <h2>{partnerContent.sections.why.title}</h2>
-      <p>{partnerContent.sections.why.text}</p>
-    </div>
-    <div class="partners-card-grid">
-      {partnerContent.why.map((item) => (
-        <article class="partner-card">
-          <span class="partner-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
-          </span>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
+    <div class="referral-service-grid">
+      {referral.services.map((service, index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{service.title}</h3>
+          <p>{service.text}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="partners-band" id="who-we-work-with">
-    <div class="section-shell partners-band-inner">
-      <div class="section-heading centered">
-        <p class="eyebrow">{partnerContent.sections.audiences.eyebrow}</p>
-        <h2>{partnerContent.sections.audiences.title}</h2>
-        <p>{partnerContent.sections.audiences.text}</p>
+  <section class="section-shell section-block compact-top referral-proof" aria-labelledby="referral-proof-title">
+    <div class="section-heading">
+      <p class="eyebrow">{referral.proofEyebrow}</p>
+      <h2 id="referral-proof-title">{referral.proofTitle}</h2>
+      <p>{referral.proofText}</p>
+    </div>
+    <div class="referral-project-grid">
+      {proofProjects.map((project) => (
+        <article class="referral-project-card">
+          <a href={`/${currentLocale}/portfolio/${project.slug}/`} class="referral-project-image" data-track-event="portfolio_case_study_click" data-track-label={`Referral page ${project.slug}`}>
+            <img src={project.image} alt={project.imageAlt ?? `${project.name} project preview`} width="1200" height="760" loading="lazy" decoding="async" />
+          </a>
+          <div>
+            <p class="project-kicker">{project.category}</p>
+            <h3>{displayProjectName(project.name)}</h3>
+            <div class="referral-project-links">
+              <a href={`/${currentLocale}/portfolio/${project.slug}/`}>{referral.caseStudy} →</a>
+              {project.url && <a href={project.url} target="_blank" rel="noopener">{referral.viewWebsite} ↗</a>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="agency-partner-band" id="agency-partnership">
+    <div class="section-shell agency-partner-inner">
+      <div>
+        <p class="eyebrow">{referral.agencyEyebrow}</p>
+        <h2>{referral.agencyTitle}</h2>
+        <p>{referral.agencyText}</p>
       </div>
-      <div class="partners-audience-grid">
-        {partnerContent.audiences.map((item) => (
-          <article class="partner-card compact">
-            <span class="partner-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
-            </span>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-          </article>
-        ))}
+      <div class="button-row">
+        <a class="button primary" href="#partnership-models">{referral.agencyPrimary}</a>
+        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Referral page agency call">{referral.agencySecondary}</a>
       </div>
     </div>
   </section>
@@ -227,62 +266,20 @@ function getInternalHref(page: string) {
           <ul>
             {item.points.map((point) => <li>{point}</li>)}
           </ul>
-          <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
+          <a class="button secondary" href={item.title.toLowerCase().includes("referral") ? referralHref : item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="section-shell section-block compact-top" id="beyond-websites">
-    <div class="section-heading">
-      <p class="eyebrow">{partnerContent.beyondWebsites.eyebrow}</p>
-      <h2>{partnerContent.beyondWebsites.title}</h2>
-      <p>{partnerContent.beyondWebsites.subtitle}</p>
-    </div>
-    <div class="partners-beyond-grid">
-      {partnerContent.beyondWebsites.features.map((item) => (
-        <article class="partner-card feature">
-          <span class="partner-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false"><path d={getIconPath(item.icon)} /></svg>
-          </span>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-          {item.items && (
-            <ul class="pill-list">
-              {item.items.map((point) => <li>{point}</li>)}
-            </ul>
-          )}
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="why-section partners-proof" id="why-agencies-choose-us">
-    <div class="section-shell why-inner">
-      <div class="section-heading">
-        <p class="eyebrow">{partnerContent.sections.agencyReasons.eyebrow}</p>
-        <h2>{partnerContent.sections.agencyReasons.title}</h2>
-        <p>{partnerContent.sections.agencyReasons.text}</p>
+  <section class="section-shell event-partner-spotlight compact-partner-spotlight" id="event-organizer-partnership" aria-labelledby="event-partner-spotlight-title">
+    <div class="event-partner-spotlight-panel">
+      <div>
+        <p class="eyebrow">{partnerContent.eventPartnerSpotlight.eyebrow}</p>
+        <h2 id="event-partner-spotlight-title">{partnerContent.eventPartnerSpotlight.title}</h2>
+        <p>{partnerContent.eventPartnerSpotlight.text}</p>
       </div>
-      <div class="partners-check-grid" aria-label={partnerContent.aria.agencyReasons}>
-        {partnerContent.agencyReasons.map((reason) => (
-          <div>
-            <span aria-hidden="true">&#10003;</span>
-            {reason}
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section-shell section-block" id="how-it-works">
-    <div class="section-heading centered">
-      <p class="eyebrow">{partnerContent.sections.steps.eyebrow}</p>
-      <h2>{partnerContent.sections.steps.title}</h2>
-      <p>{partnerContent.sections.steps.text}</p>
-    </div>
-    <div class="process-grid">
-      {partnerContent.steps.map((step, index) => <ProcessStep {...step} index={index + 1} />)}
+      <a class="button secondary" href={eventPartnerHref} data-track-event="partner_event_page_click" data-track-label="Referral page event partnership">{partnerContent.eventPartnerSpotlight.cta}</a>
     </div>
   </section>
 
@@ -292,21 +289,288 @@ function getInternalHref(page: string) {
       <h2>{partnerContent.sections.faq.title}</h2>
     </div>
     <div class="faq-list">
-      {partnerContent.faqs.map((item) => <FAQ {...item} />)}
+      {partnerContent.faqs.slice(0, 4).map((item) => <FAQ {...item} />)}
     </div>
   </section>
 
-  <section class="partners-final-band" aria-labelledby="partners-final-title">
+  <section class="partners-final-band referral-final-band" aria-labelledby="partners-final-title">
     <div class="section-shell partners-final-cta">
       <div>
-        <p class="eyebrow">{partnerContent.sections.finalCta.eyebrow}</p>
-        <h2 id="partners-final-title">{partnerContent.finalCta.title}</h2>
-        <p>{partnerContent.finalCta.text}</p>
+        <p class="eyebrow">CHF 100 referral reward</p>
+        <h2 id="partners-final-title">{referral.finalTitle}</h2>
+        <p>{referral.finalText}</p>
       </div>
       <div class="button-row">
-        <a class="button primary" href={becomePartnerHref} data-track-event="partner_cta_click" data-track-label="Final become partner">{partnerContent.actions.becomePartner}</a>
-        <a class="button secondary" href={discoveryCallHref} data-track-event="partner_cta_click" data-track-label="Final discovery call">{partnerContent.actions.bookDiscoveryCall}</a>
+        <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="Referral final CTA">{referral.cta}</a>
+        <a class="button secondary" href={discoveryCallHref}>{referral.agencySecondary}</a>
       </div>
     </div>
   </section>
 </main>
+
+<style>
+  .referral-page {
+    --referral-border: rgba(223, 28, 45, 0.2);
+  }
+
+  .referral-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding-top: clamp(3.5rem, 8vw, 7rem);
+    padding-bottom: clamp(3rem, 7vw, 6rem);
+  }
+
+  .referral-hero-copy h1 {
+    max-width: 820px;
+    margin: 0.35rem 0 1rem;
+    font-size: clamp(3rem, 6.5vw, 6.4rem);
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+  }
+
+  .referral-lead {
+    max-width: 680px;
+    margin: 0;
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    line-height: 1.45;
+    color: var(--text, #171821);
+    font-weight: 700;
+  }
+
+  .referral-no-selling {
+    margin: 1rem 0 0;
+    font-size: 1.05rem;
+    color: var(--muted, #637084);
+  }
+
+  .referral-primary {
+    box-shadow: 0 16px 38px rgba(223, 28, 45, 0.2);
+  }
+
+  .referral-terms {
+    max-width: 640px;
+    margin: 0.85rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--muted, #637084);
+  }
+
+  .referral-hero-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--referral-border);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 24px 70px rgba(20, 28, 45, 0.11);
+  }
+
+  .reward-badge {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reward-badge span {
+    color: #df1c2d;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .reward-badge strong {
+    font-size: clamp(3.5rem, 6vw, 5.8rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+  }
+
+  .reward-badge small {
+    grid-column: 1 / -1;
+    color: var(--muted, #637084);
+    font-weight: 700;
+  }
+
+  .referral-steps {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.8rem;
+  }
+
+  .referral-steps article {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(20, 28, 45, 0.09);
+  }
+
+  .referral-steps article > span {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+    background: #df1c2d;
+    color: white;
+    font-weight: 900;
+  }
+
+  .referral-steps h2 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .referral-steps p {
+    margin: 0.25rem 0 0;
+    color: var(--muted, #637084);
+    font-size: 0.93rem;
+  }
+
+  .referral-services {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .referral-service-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .referral-service-grid article {
+    padding: 1.35rem;
+    border: 1px solid rgba(20, 28, 45, 0.09);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.72);
+  }
+
+  .referral-service-grid article > span {
+    color: #df1c2d;
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .referral-service-grid h3 {
+    margin: 0.55rem 0 0.4rem;
+    font-size: 1.15rem;
+  }
+
+  .referral-service-grid p {
+    margin: 0;
+    color: var(--muted, #637084);
+    line-height: 1.55;
+  }
+
+  .referral-project-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .referral-project-card {
+    overflow: hidden;
+    border: 1px solid rgba(20, 28, 45, 0.1);
+    border-radius: 16px;
+    background: white;
+  }
+
+  .referral-project-image {
+    display: block;
+    aspect-ratio: 1.58;
+    overflow: hidden;
+    background: #eef1f5;
+  }
+
+  .referral-project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .referral-project-card > div {
+    padding: 1rem;
+  }
+
+  .referral-project-card h3 {
+    margin: 0.2rem 0 0.75rem;
+  }
+
+  .referral-project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .agency-partner-band {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    background: #171821;
+    color: white;
+  }
+
+  .agency-partner-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem;
+    align-items: center;
+    padding-top: clamp(2.2rem, 5vw, 4rem);
+    padding-bottom: clamp(2.2rem, 5vw, 4rem);
+  }
+
+  .agency-partner-inner h2 {
+    max-width: 720px;
+    margin: 0.4rem 0 0.7rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: white;
+  }
+
+  .agency-partner-inner p:not(.eyebrow) {
+    max-width: 720px;
+    margin: 0;
+    color: rgba(255,255,255,0.72);
+  }
+
+  .compact-partner-spotlight {
+    margin-top: 0;
+  }
+
+  .compact-partner-spotlight .event-partner-spotlight-panel {
+    grid-template-columns: 1fr auto;
+  }
+
+  @media (max-width: 900px) {
+    .referral-hero,
+    .agency-partner-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .referral-service-grid,
+    .referral-project-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .compact-partner-spotlight .event-partner-spotlight-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .referral-hero {
+      padding-top: 2.6rem;
+    }
+
+    .referral-hero-copy h1 {
+      font-size: clamp(2.7rem, 14vw, 4.2rem);
+    }
+
+    .referral-service-grid,
+    .referral-project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
