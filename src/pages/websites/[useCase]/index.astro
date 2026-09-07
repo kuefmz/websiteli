@@ -1,0 +1,35 @@
+---
+import { websiteUseCaseSlugs } from "../../../content/websiteUseCases";
+
+export function getStaticPaths() {
+  return websiteUseCaseSlugs.map((useCase) => ({ params: { useCase } }));
+}
+
+const useCase = Astro.params.useCase;
+const redirectTarget = `/en/websites/${useCase}/`;
+const canonicalUrl = `https://websiteli.ch${redirectTarget}`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <script is:inline define:vars={{ redirectTarget }}>
+      try {
+        window.sessionStorage?.setItem("websiteli_redirect_context", JSON.stringify({
+          landingPage: window.location.href,
+          referrer: document.referrer || "",
+        }));
+      } catch {}
+      const target = new URL(redirectTarget, window.location.origin);
+      target.search = window.location.search;
+      target.hash = window.location.hash;
+      window.location.replace(target.toString());
+    </script>
+    <title>Websiteli Website Use Case</title>
+  </head>
+  <body>
+    <a href={redirectTarget}>Continue to Websiteli</a>
+  </body>
+</html>

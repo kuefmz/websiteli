@@ -9,7 +9,7 @@ type SearchConsoleOptimization = {
   appendBody?: string;
 };
 
-const updatedAt = "2026-09-04";
+const updatedAt = "2026-09-08";
 
 const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOptimization>>> = {
   en: {
@@ -19,7 +19,7 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
         "Learn what an internal AI assistant is, how it differs from a public chatbot, what data it needs, and how a small business can pilot one safely.",
       tags: ["internal AI assistant", "internal AI", "small business AI", "RAG", "AI assistant"],
       related: ["ai-chatbot-vs-internal-ai-assistant", "scope-internal-ai-assistant-pilot", "prepare-company-documents-internal-ai-assistant"],
-      appendBody: `## From idea to a useful internal AI assistant\n\nThe strongest first version answers a narrow set of repeated internal questions from approved company material. Start with one team, one document set and a small evaluation set before expanding access.\n\nIf you want to turn the idea into a controlled pilot, see Websiteli's [internal AI assistant service](/en/services/internal-ai-assistants/) and the practical guide to [scoping an internal AI assistant pilot](/en/blog/scope-internal-ai-assistant-pilot/).`,
+      appendBody: `## From idea to a useful internal AI assistant\n\nThe strongest first version answers a narrow set of repeated internal questions from approved company material. Start with one team, one document set and a small evaluation set before expanding access.\n\nIf you want to turn the idea into a controlled pilot, see Websiteli's [internal AI assistant service](/en/services/internal-ai-assistants/), [RAG chatbot development](/en/services/rag-chatbots/) and the practical guide to [scoping an internal AI assistant pilot](/en/blog/scope-internal-ai-assistant-pilot/).`,
     },
     "ai-content-workflow-small-business": {
       title: "AI Content Workflow for Small Businesses: A Practical Pipeline",
@@ -34,7 +34,7 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
       description:
         "Website lifespan statistics and practical redesign signals for 2026. Learn when age matters, what to measure, and when a business website actually needs rebuilding.",
       tags: ["website lifespan statistics", "website redesign", "website lifecycle", "website statistics", "website maintenance"],
-      appendBody: `## Do you need a redesign or just focused improvements?\n\nWebsite age alone is not a reason to rebuild. A redesign becomes more defensible when the site is difficult to update, performs poorly, no longer matches the offer, loses search visibility or makes enquiries harder than they should be.\n\nIf you are deciding between incremental fixes and a rebuild, compare Websiteli's [business website service](/en/services/business-websites/) and [website pricing](/en/services-pricing/).`,
+      appendBody: `## Do you need a redesign or just focused improvements?\n\nWebsite age alone is not a reason to rebuild. A redesign becomes more defensible when the site is difficult to update, performs poorly, no longer matches the offer, loses search visibility or makes enquiries harder than they should be.\n\nIf you are deciding between incremental fixes and a rebuild, compare Websiteli's [business website service](/en/services/business-websites/), [website redesign service](/en/services/website-redesign/) and [website pricing](/en/services-pricing/).`,
     },
     "scope-internal-ai-assistant-pilot": {
       title: "How to Scope an Internal AI Assistant Pilot for a Small Business",
@@ -42,7 +42,7 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
         "A practical framework for scoping an internal AI assistant pilot: users, documents, permissions, evaluation questions, safeguards and success criteria.",
       tags: ["internal AI assistant pilot", "AI pilot", "internal AI assistant", "RAG pilot", "AI evaluation"],
       related: ["internal-ai-assistant-small-business", "prepare-company-documents-internal-ai-assistant", "test-internal-ai-assistant-before-launch"],
-      appendBody: `## Keep the pilot deliberately small\n\nA good pilot should prove one useful workflow before the project expands. Define the users, approved sources, permission boundaries, evaluation questions and failure conditions before adding more documents or teams.\n\nWebsiteli can help scope and build a controlled [internal AI assistant](/en/services/internal-ai-assistants/) around a real business use case.`,
+      appendBody: `## Keep the pilot deliberately small\n\nA good pilot should prove one useful workflow before the project expands. Define the users, approved sources, permission boundaries, evaluation questions and failure conditions before adding more documents or teams.\n\nWebsiteli can help scope and build a controlled [internal AI assistant](/en/services/internal-ai-assistants/) or [RAG chatbot](/en/services/rag-chatbots/) around a real business use case.`,
     },
     "website-lead-qualification": {
       title: "Website Lead Qualification: Ask Better Questions, Get Better Leads",
@@ -50,6 +50,14 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
         "Improve website lead qualification with better forms, routing and follow-up. Learn what to ask without creating friction for potential customers.",
       tags: ["website lead qualification", "website leads", "lead qualification", "lead generation", "website forms"],
       appendBody: `## Qualification should improve the conversation, not block it\n\nThe goal is to collect just enough context to route the enquiry and prepare a useful response. Every extra required field should earn its place by changing what happens next.\n\nFor a website that connects forms, tracking and follow-up, see Websiteli's [business website service](/en/services/business-websites/) and [lead generation automation](/en/services/lead-generation/).`,
+    },
+    "small-business-lead-generation-funnel": {
+      title: "Small Business Lead Generation Funnel: From Website Visit to Qualified Lead",
+      description:
+        "Build a practical small-business lead generation funnel from website visit to qualified lead, with stronger forms, source tracking, routing and follow-up.",
+      tags: ["small business lead generation", "website leads", "online lead generation", "lead generation funnel", "lead automation"],
+      related: ["website-lead-qualification", "utm-tracking-small-business", "website-before-paid-ads-checklist"],
+      appendBody: `## Connect traffic to a measurable lead process\n\nOnline lead generation works better when the website, form, source tracking and follow-up are treated as one system. A visitor should understand the offer, know the next step and receive a useful response without the business losing the source of the enquiry.\n\nSee Websiteli's [lead generation automation service](/en/services/lead-generation/) for form routing and follow-up, or [business website service](/en/services/business-websites/) if the conversion path itself needs rebuilding.`,
     },
     "website-first-impression": {
       title: "Website First Impressions: How Fast Visitors Judge Your Business",
@@ -72,6 +80,28 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
       tags: ["website cost Switzerland", "web design Switzerland", "website price Switzerland", "small business website", "Swiss web design"],
       appendBody: `## Compare scope, not only the headline price\n\nA useful quote should make ownership, page scope, forms, analytics, SEO foundations, launch support and ongoing costs explicit. A cheaper starting number can become more expensive if essential work is excluded.\n\nFor a concrete reference point, see [Websiteli website packages and pricing](/en/services-pricing/) and examples of [websites we've built](/en/portfolio/).`,
     },
+    "ai-chatbot-vs-internal-ai-assistant": {
+      title: "AI Chatbot vs Internal AI Assistant: Which Does Your Business Need?",
+      description:
+        "Compare AI chatbots, RAG chatbots and internal AI assistants by audience, data, permissions, use case and risk so you can choose the right business setup.",
+      tags: ["AI chatbot", "RAG chatbot", "internal AI assistant", "business AI", "AI assistant"],
+      related: ["internal-ai-assistant-small-business", "scope-internal-ai-assistant-pilot", "private-ai-assistant-privacy-checklist"],
+      appendBody: `## Choose the system around the user and the knowledge source\n\nA customer-facing AI chatbot and an internal assistant may use similar retrieval technology, but they serve different users and need different permissions, safeguards and evaluation. If answers must be grounded in a defined document collection, a RAG setup is often the relevant architecture to evaluate.\n\nCompare Websiteli's [AI chatbot development](/en/services/ai-chatbots/), [RAG chatbot development](/en/services/rag-chatbots/) and [internal AI assistants](/en/services/internal-ai-assistants/) before choosing the implementation.`,
+    },
+    "multilingual-website-switzerland": {
+      title: "Multilingual Website in Switzerland: SEO, Hreflang & Conversion Guide",
+      description:
+        "Plan a multilingual website in Switzerland with cleaner language URLs, hreflang, localized metadata, market-specific copy and conversion paths that work across languages.",
+      tags: ["multilingual website Switzerland", "multilingual SEO", "hreflang", "Swiss website", "website localization"],
+      appendBody: `## Treat each language as a real search and conversion experience\n\nA multilingual website should do more than translate visible text. Each language version needs a stable URL, localized metadata, appropriate hreflang signals and copy that matches how people in that market search and make decisions.\n\nSee Websiteli's [multilingual website service](/en/services/multilingual-websites/) or start with the [business website service](/en/services/business-websites/) if the overall site structure also needs work.`,
+    },
+    "why-business-websites-get-customers": {
+      title: "How Business Websites Get Customers: 7 Conversion Factors",
+      description:
+        "Learn how business websites turn search traffic into customers with clearer positioning, trust, service pages, SEO, faster UX, strong CTAs and measurable lead paths.",
+      tags: ["business website customers", "website leads", "website conversion", "business website", "lead generation"],
+      appendBody: `## Connect search visibility to a clear next step\n\nA page can rank and still fail to generate enquiries if the visitor cannot quickly understand the offer, see proof or choose a next step. Search visibility and conversion should therefore be improved together rather than as separate projects.\n\nWebsiteli's [business website service](/en/services/business-websites/) focuses on that full path, while [lead generation automation](/en/services/lead-generation/) can connect forms, tracking, routing and follow-up after the website starts producing interest.`,
+    },
   },
   de: {
     "ai-chatbot-vs-internal-ai-assistant": {
@@ -80,7 +110,7 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
         "AI-Chatbot oder interner KI-Assistent? Erfahren Sie die Unterschiede bei Zielgruppe, Daten, Zugriffsrechten, Datenschutz und typischen Unternehmensanwendungen.",
       tags: ["interner KI-Assistent", "AI Chatbot", "KI Assistent Unternehmen", "RAG", "Unternehmens-KI"],
       related: ["internal-ai-assistant-small-business", "scope-internal-ai-assistant-pilot", "prepare-company-documents-internal-ai-assistant"],
-      appendBody: `## Welche Lösung passt zu Ihrem Unternehmen?\n\nEin öffentlicher Chatbot hilft typischerweise Kunden oder Website-Besuchern. Ein interner KI-Assistent arbeitet dagegen mit freigegebenem Unternehmenswissen und braucht deshalb klarere Regeln für Quellen, Berechtigungen und Qualität.\n\nWenn Sie einen internen Anwendungsfall testen möchten, sehen Sie sich die [Websiteli-Lösung für interne KI-Assistenten](/de/services/internal-ai-assistants/) an.`,
+      appendBody: `## Welche Lösung passt zu Ihrem Unternehmen?\n\nEin öffentlicher Chatbot hilft typischerweise Kunden oder Website-Besuchern. Ein interner KI-Assistent arbeitet dagegen mit freigegebenem Unternehmenswissen und braucht deshalb klarere Regeln für Quellen, Berechtigungen und Qualität.\n\nWenn Sie einen internen Anwendungsfall testen möchten, sehen Sie sich die [Websiteli-Lösung für interne KI-Assistenten](/de/services/internal-ai-assistants/) oder [RAG-Chatbots](/de/services/rag-chatbots/) an.`,
     },
     "website-vs-facebook": {
       title: "Website oder Facebook-Seite? Was Unternehmen wirklich brauchen",
@@ -94,7 +124,15 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
       description:
         "Wie gewinnt eine Website Kunden? Die wichtigsten Faktoren für mehr Anfragen: klare Positionierung, Vertrauen, SEO, schnelle Ladezeit, gute CTAs und weniger Reibung.",
       tags: ["Kunden gewinnen Website", "mehr Anfragen Website", "Unternehmenswebsite", "Leadgenerierung", "Website Conversion"],
-      appendBody: `## Mehr Besucher sind nicht automatisch mehr Kunden\n\nEine Website gewinnt Kunden, wenn die richtige Person schnell versteht, was angeboten wird, warum sie dem Unternehmen vertrauen kann und welcher nächste Schritt sinnvoll ist. Reichweite ohne diese Klarheit erzeugt oft nur mehr Absprünge.\n\nWebsiteli verbindet diese Grundlagen in [Business-Websites für Unternehmen](/de/services/business-websites/) mit Analytics, SEO und klaren Kontaktwegen.`,
+      appendBody: `## Mehr Besucher sind nicht automatisch mehr Kunden\n\nEine Website gewinnt Kunden, wenn die richtige Person schnell versteht, was angeboten wird, warum sie dem Unternehmen vertrauen kann und welcher nächste Schritt sinnvoll ist. Reichweite ohne diese Klarheit erzeugt oft nur mehr Absprünge.\n\nWebsiteli verbindet diese Grundlagen in [Business-Websites für Unternehmen](/de/services/business-websites/) mit Analytics, SEO und klaren Kontaktwegen. Für Formular-Routing und Follow-up gibt es zusätzlich [Leadgenerierung & Automation](/de/services/lead-generation/).`,
+    },
+    "small-business-lead-generation-funnel": {
+      title: "Leadgenerierung für kleine Unternehmen: Website, Formulare & Follow-up",
+      description:
+        "So wird aus Website-Traffic ein messbarer Lead-Prozess: klare Angebote, bessere Formulare, UTM-Tracking, Lead-Routing und schnelles Follow-up.",
+      tags: ["Leadgenerierung", "Website Leads", "Online Leadgenerierung", "Lead Funnel", "Lead Automation"],
+      related: ["website-lead-qualification", "utm-tracking-small-business", "website-before-paid-ads-checklist"],
+      appendBody: `## Website und Follow-up als ein System behandeln\n\nGute Leadgenerierung endet nicht beim Absenden eines Formulars. Quelle, Anfrage, Qualifizierung und nächste Aktion sollten zusammen messbar sein, damit weniger Anfragen verloren gehen.\n\nWebsiteli verbindet diese Schritte mit [Leadgenerierung & Automation](/de/services/lead-generation/) und [Business-Websites](/de/services/business-websites/).`,
     },
   },
 };

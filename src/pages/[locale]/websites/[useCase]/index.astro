@@ -1,0 +1,340 @@
+---
+import CTASection from "../../../../components/CTASection.astro";
+import FAQ from "../../../../components/FAQ.astro";
+import Layout from "../../../../layouts/Layout.astro";
+import { pricing } from "../../../../config/pricing";
+import { getPackageLabels } from "../../../../config/packageLabels";
+import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
+import { getProjectsByUseCase } from "../../../../content/portfolio";
+import { getServiceBySlug, serviceCategoryDetails, type ServicePage } from "../../../../content/services";
+import {
+  getRelatedWebsiteUseCases,
+  getWebsiteUseCaseBySlug,
+  websiteUseCaseSlugs,
+  type WebsiteUseCase,
+} from "../../../../content/websiteUseCases";
+
+export function getStaticPaths() {
+  return localeCodes.flatMap((locale) => websiteUseCaseSlugs.map((useCase) => ({ params: { locale, useCase } })));
+}
+
+// Website-use-case copy is currently authored in English only. Render a complete
+// English experience on every generated route and consolidate search signals on
+// the English canonical until localized copy exists for the other languages.
+const locale: LocaleCode = "en";
+const useCase = getWebsiteUseCaseBySlug(Astro.params.useCase) as WebsiteUseCase;
+
+if (!useCase) {
+  throw new Error(`Unknown website use case: ${Astro.params.useCase}`);
+}
+
+const content = getLocaleContent(locale);
+const packageLabels = getPackageLabels(locale);
+const swissPricing = pricing.CH;
+const packagePrice = swissPricing.packages[useCase.packageKey];
+const packageLabel = packageLabels[useCase.packageKey] ?? useCase.packageKey;
+const canonicalPath = `/en/websites/${useCase.slug}/`;
+const alternates = [{ locale: "en", href: canonicalPath }];
+const contactHref = `/en/contact/?package=${useCase.packageKey}&sourcePage=${canonicalPath}&intent=${useCase.formIntent}`;
+const portfolioHref = `/en/portfolio/`;
+const pricingHref = `/en/services-pricing/#pricing`;
+const projects = getProjectsByUseCase(useCase.slug);
+const primaryProject = projects[0];
+const relatedServices = useCase.relatedServices.map((slug) => getServiceBySlug(slug)).filter((service): service is ServicePage => Boolean(service));
+const relatedUseCases = getRelatedWebsiteUseCases(useCase);
+const siteUrl = new URL("https://websiteli.ch");
+
+function formatChf(amount: number) {
+  return `${swissPricing.symbol} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)}`;
+}
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: useCase.title,
+    serviceType: "Website design and development",
+    provider: {
+      "@type": "Organization",
+      name: "Websiteli",
+      url: siteUrl.toString(),
+    },
+    areaServed: ["Switzerland", "Europe", "International"],
+    description: useCase.metaDescription,
+    offers: {
+      "@type": "Offer",
+      name: packageLabel,
+      priceCurrency: swissPricing.currency,
+      price: packagePrice.from,
+      description: useCase.pricingText,
+      availability: "https://schema.org/InStock",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://websiteli.ch/en/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Websites",
+        item: "https://websiteli.ch/en/services/business-websites/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: useCase.title,
+        item: `https://websiteli.ch${canonicalPath}`,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: useCase.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  },
+  ...(projects.length
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: `${useCase.title} portfolio examples`,
+          itemListElement: projects.map((project, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "CreativeWork",
+              name: project.name,
+              url: project.url ?? `https://websiteli.ch${canonicalPath}#project`,
+              image: project.image ? new URL(project.image, siteUrl).toString() : undefined,
+              description: project.description,
+            },
+          })),
+        },
+      ]
+    : []),
+];
+---
+
+<Layout
+  title={useCase.metaTitle}
+  description={useCase.metaDescription}
+  canonicalPath={canonicalPath}
+  lang="en"
+  locale="en"
+  page="websites"
+  image={primaryProject?.image}
+  alternates={alternates}
+  content={content}
+  schema={schema}
+>
+  <main class="subpage use-case-page">
+    <section class="section-shell page-hero use-case-hero">
+      <div class="use-case-hero-copy">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/en/">Home</a>
+          <span>/</span>
+          <a href="/en/services/business-websites/">Websites</a>
+          <span>/</span>
+          <span>{useCase.shortTitle}</span>
+        </nav>
+        <p class="eyebrow">{useCase.eyebrow}</p>
+        <h1>{useCase.title}</h1>
+        <p>{useCase.heroText}</p>
+        <div class="button-row">
+          <a class="button primary" href={contactHref} data-track-event="use_case_cta_click" data-track-label={useCase.slug}>Request a similar website</a>
+          <a class="button secondary" href={portfolioHref}>See portfolio</a>
+        </div>
+      </div>
+
+      {primaryProject && (
+        <a
+          class="use-case-hero-visual"
+          href={primaryProject.verifiedUrl && primaryProject.url ? primaryProject.url : "#project"}
+          target={primaryProject.verifiedUrl && primaryProject.url ? "_blank" : undefined}
+          rel={primaryProject.verifiedUrl && primaryProject.url ? "noopener" : undefined}
+          data-track-event="use_case_project_visual_click"
+          data-track-label={primaryProject.slug}
+        >
+          <span class="project-kicker">Real project</span>
+          {primaryProject.image ? (
+            <img src={primaryProject.image} alt={primaryProject.imageAlt ?? `${primaryProject.name} website screenshot`} loading="eager" decoding="async" width="1200" height="760" />
+          ) : (
+            <div class="screenshot-pending compact">
+              <span>{primaryProject.category}</span>
+              <strong>{primaryProject.name}</strong>
+            </div>
+          )}
+          <span class="use-case-hero-caption">
+            <strong>{primaryProject.name}</strong>
+            <small>{primaryProject.category}</small>
+          </span>
+        </a>
+      )}
+    </section>
+
+    {primaryProject && (
+      <section class="section-shell section-block compact-top" id="project">
+        <div class="section-heading">
+          <p class="eyebrow">Real project showcase</p>
+          <h2>Built around {primaryProject.name}, then generalized for businesses like yours.</h2>
+          <p>{useCase.projectIntro}</p>
+        </div>
+
+        <div class="detail-grid">
+          <article class="detail-panel use-case-project-brief" itemscope itemtype="https://schema.org/CreativeWork">
+            <p class="project-kicker" itemprop="genre">{primaryProject.category}</p>
+            <h2 itemprop="name">{primaryProject.name}</h2>
+            <p itemprop="description">{primaryProject.description}</p>
+            <ul class="compact-list">
+              {primaryProject.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+            <div class="button-row">
+              {primaryProject.verifiedUrl && primaryProject.url && (
+                <a class="button primary" href={primaryProject.url} target="_blank" rel="noopener" data-track-event="use_case_project_click" data-track-label={primaryProject.slug}>View live project</a>
+              )}
+              <a class="button secondary" href={`${contactHref}&relatedProject=${primaryProject.slug}`} data-track-event="use_case_project_request_click" data-track-label={primaryProject.slug}>Request similar</a>
+            </div>
+          </article>
+
+          <article class="detail-panel">
+            <p class="eyebrow">Project features</p>
+            <h2>What this project demonstrates</h2>
+            <ul class="feature-list">
+              {primaryProject.projectFeatures.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+
+          <article class="detail-panel wide">
+            <p class="eyebrow">Business outcomes</p>
+            <h2>What a similar website should make easier</h2>
+            <div class="use-case-outcome-grid">
+              {primaryProject.businessOutcomes.map((item) => (
+                <div>
+                  <span>Outcome</span>
+                  <strong>{item}</strong>
+                </div>
+              ))}
+            </div>
+          </article>
+        </div>
+      </section>
+    )}
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Use case</p>
+        <h2>{useCase.needsTitle}</h2>
+      </div>
+      <div class="value-grid">
+        {useCase.needs.map((item) => (
+          <article class="mini-card">
+            <h3>{item}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">What we build</p>
+        <h2>{useCase.buildsTitle}</h2>
+        <ul class="feature-list">
+          {useCase.builds.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article class="detail-panel use-case-price-card">
+        <p class="eyebrow">Pricing signal</p>
+        <h2>{packageLabel}</h2>
+        <p class="plan-price">from {formatChf(packagePrice.from)}</p>
+        <p>{useCase.pricingText}</p>
+        <div class="button-row">
+          <a class="button primary" href={contactHref} data-track-event="use_case_pricing_cta_click" data-track-label={useCase.slug}>Discuss scope</a>
+          <a class="button secondary" href={pricingHref}>Compare packages</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Process</p>
+        <h2>A practical path from real example to your website.</h2>
+      </div>
+      <div class="process-grid">
+        {useCase.process.map((step, index) => (
+          <article class="process-step">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions before building a similar website.</h2>
+      </div>
+      <div class="faq-list">
+        {useCase.faqs.map((item) => <FAQ {...item} />)}
+      </div>
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Related services</p>
+        <h2>Useful next pages</h2>
+        <div class="link-grid">
+          {relatedServices.map((service) => (
+            <a href={`/en/services/${service.slug}/`} data-track-event="use_case_related_service_click" data-track-label={`${useCase.slug}:${service.slug}`}>
+              <span>{serviceCategoryDetails[service.category].eyebrow}</span>
+              <strong>{service.title}</strong>
+            </a>
+          ))}
+        </div>
+      </article>
+      <article class="detail-panel">
+        <p class="eyebrow">Related use cases</p>
+        <h2>Other real-project website types</h2>
+        <div class="link-grid">
+          {relatedUseCases.map((item) => (
+            <a href={`/en/websites/${item.slug}/`} data-track-event="use_case_related_use_case_click" data-track-label={`${useCase.slug}:${item.slug}`}>
+              <span>{item.eyebrow}</span>
+              <strong>{item.title}</strong>
+            </a>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <section class="section-shell inline-cta">
+      <a class="button primary" href={contactHref} data-track-event="use_case_cta_click" data-track-label={`${useCase.slug}:bottom`}>Request a similar website</a>
+      <a class="button secondary" href={portfolioHref}>See real projects</a>
+    </section>
+
+    <CTASection content={content} />
+  </main>
+
+  <script define:vars={{ useCaseSlug: useCase.slug, projectSlug: primaryProject?.slug ?? "" }}>
+    window.trackWebsiteliEvent?.("website_use_case_page_viewed", {
+      event_category: "website_use_case",
+      event_label: useCaseSlug,
+      use_case_slug: useCaseSlug,
+      project_slug: projectSlug,
+    });
+  </script>
+</Layout>

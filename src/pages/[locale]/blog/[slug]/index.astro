@@ -28,6 +28,7 @@ const canonicalPath = `/${canonicalLocale}/blog/${post.slug}/`;
 const siteUrl = Astro.site ?? new URL("https://websiteli.ch");
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(post.featuredImage, siteUrl).toString();
+const socialImageUrl = new URL(post.socialImage, siteUrl).toString();
 const articleUi = {
   contents: locale === "de" ? "Inhalt" : locale === "hu" ? "Tartalom" : locale === "pl" ? "Spis treści" : locale === "fr" ? "Sommaire" : locale === "es" ? "Contenido" : locale === "it" ? "Indice" : locale === "cz" ? "Obsah" : locale === "sk" ? "Obsah" : locale === "pt" ? "Conteúdo" : locale === "da" ? "Indhold" : locale === "nl" ? "Inhoud" : locale === "ja" ? "目次" : "Contents",
   summary: locale === "de" ? "Artikelzusammenfassung" : locale === "hu" ? "Cikk összefoglaló" : locale === "pl" ? "Podsumowanie artykułu" : locale === "fr" ? "Résumé de l'article" : locale === "es" ? "Resumen del artículo" : locale === "it" ? "Riassunto dell'articolo" : locale === "cz" ? "Shrnutí článku" : locale === "sk" ? "Zhrnutie článku" : locale === "pt" ? "Resumo do artigo" : locale === "da" ? "Artikelresumé" : locale === "nl" ? "Samenvatting" : locale === "ja" ? "記事の要約" : "Article summary",
@@ -60,17 +61,28 @@ const imageSchema = {
   "@type": "ImageObject",
   url: imageUrl,
   contentUrl: imageUrl,
+  name: post.title,
   caption: articleUi.imageCaption,
-  width: 1536,
-  height: 1024,
+  width: post.featuredImageWidth,
+  height: post.featuredImageHeight,
+};
+const socialImageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  url: socialImageUrl,
+  contentUrl: socialImageUrl,
+  name: `${post.title} social sharing image`,
+  caption: articleUi.imageCaption,
+  width: post.socialImageWidth,
+  height: post.socialImageHeight,
 };
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.title,
   description: post.description,
-  image: imageSchema,
-  thumbnailUrl: imageUrl,
+  image: [socialImageSchema, imageSchema],
+  thumbnailUrl: socialImageUrl,
   datePublished: post.publishedAt,
   dateModified: post.updatedAt,
   author: authorSchema,
@@ -116,10 +128,13 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
   locale={locale}
   page="blog"
   ogType="article"
-  image={post.featuredImage}
+  image={post.socialImage}
+  imageAlt={post.imageAlt}
+  imageWidth={post.socialImageWidth}
+  imageHeight={post.socialImageHeight}
   alternates={postAlternates}
   content={content}
-  schema={[articleSchema, breadcrumbSchema, imageSchema, personSchema, ...(faqSchema ? [faqSchema] : [])]}
+  schema={[articleSchema, breadcrumbSchema, imageSchema, socialImageSchema, personSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
   <div class="reading-progress" data-reading-progress aria-hidden="true"></div>
   <main class="subpage article-page">
@@ -150,7 +165,7 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
         <div class="article-content">
           <figure class="article-figure">
             <a href={post.featuredImage} target="_blank" rel="noopener noreferrer" aria-label="Open article image">
-              <img class="article-image" src={post.featuredImage} alt={post.imageAlt} width="1536" height="1024" loading="eager" />
+              <img class="article-image" src={post.featuredImage} alt={post.imageAlt} width={post.featuredImageWidth} height={post.featuredImageHeight} loading="eager" decoding="async" fetchpriority="high" />
             </a>
             <figcaption>{articleUi.imageCaption}</figcaption>
           </figure>
@@ -204,7 +219,7 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
             </section>
           )}
           <ArticleCTA locale={locale} variant="final" />
-          <ArticleShare url={canonicalUrl} title={post.title} image={imageUrl} social={post.social} />
+          <ArticleShare url={canonicalUrl} title={post.title} image={socialImageUrl} social={post.social} />
           {nextPost && (
             <nav class="article-nav" aria-label="Article navigation">
               <a href={`/${locale}/blog/${nextPost.slug}/`}><span>{articleUi.next}</span>{nextPost.title}</a>

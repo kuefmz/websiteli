@@ -47,7 +47,7 @@ export default {
   ],
   published: true,
   status: "published",
-  image: "/assets/blog/your-website-shouldnt-end-at-contact-us.png",
+  image: "/assets/blog/your-website-shouldnt-end-at-contact-us.webp",
   imageAlt: "Editorial workflow illustration showing a website connected to lead capture, CRM, AI assistant, automation, bookings, invoices, analytics, and business growth.",
   author: "Websiteli",
   date: "2026-07-15",

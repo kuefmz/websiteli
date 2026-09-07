@@ -10,12 +10,6 @@ const outputDir = path.resolve("public/images/portfolio");
 
 const targets = [
   {
-    slug: "movere-clinic",
-    title: "Movere Clinic - Healthcare Website",
-    url: "https://movereclinic.com/",
-    output: "movere-clinic.webp",
-  },
-  {
     slug: "slap-ai",
     title: "Slap AI - Product Website",
     url: "https://slap-ai.com/",
@@ -25,10 +19,30 @@ const targets = [
       "https://slap-ai.com/ currently requires bypassing browser certificate warnings and hiding the consent overlay for a clean capture.",
   },
   {
+    slug: "movere-clinic",
+    title: "Movere Clinic - Healthcare Website",
+    url: "https://movereclinic.com/",
+    output: "movere-clinic.webp",
+  },
+  {
     slug: "jenifer-ciuciu-kiss",
     title: "Jenifer Ciuciu-Kiss - Personal Portfolio",
     url: "https://jeniferciuciukiss.com/",
     output: "jenifer-ciuciu-kiss.webp",
+  },
+  {
+    slug: "before-you-trust",
+    title: "Before You Trust - Trust Research Web Application",
+    url: "https://www.beforeyoutrust.org/",
+    output: "before-you-trust.webp",
+    viewportHeight: 2000,
+  },
+  {
+    slug: "orgelia",
+    title: "Orgelia - Product Discovery Platform",
+    url: "https://orgelia.com/",
+    output: "orgelia.webp",
+    viewportHeight: 2000,
   },
   {
     slug: "semantic-web-science-association",
@@ -133,7 +147,7 @@ async function captureTarget(browser, sharp, target) {
     "--no-sandbox",
     "--run-all-compositor-stages-before-draw",
     "--force-device-scale-factor=1",
-    `--window-size=${viewport.width},${viewport.height}`,
+    `--window-size=${viewport.width},${target.viewportHeight ?? viewport.height}`,
     "--virtual-time-budget=5000",
     `--screenshot=${tempPng}`,
     target.url,

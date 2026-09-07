@@ -808,7 +808,7 @@ export default {
   tags: ["local business website", "website for local business", "local marketing", "small business website", "local SEO", "online presence"],
   published: true,
   status: "published",
-  image: "/assets/blog/local-business-website.png",
+  image: "/assets/blog/local-business-website.webp",
   imageAlt: "Local business website checklist showing services, location, reviews, mobile usability, and contact options.",
   author: "Websiteli",
   date: "2026-07-02",

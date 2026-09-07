@@ -13,6 +13,7 @@ import websiteBackupRecoverySmallBusiness from "./posts/website-backup-recovery-
 import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
+import { getBlogImageMeta } from "./imageMeta";
 import { applySearchConsoleOptimization } from "./searchConsoleOptimizations";
 import type { BlogPost } from "./index-base";
 import type { BlogPostSource } from "./types";
@@ -39,19 +40,12 @@ const additionalSources: BlogPostSource[] = [
   aiContentWorkflowSmallBusiness,
 ];
 
-const featuredImageOverrides: Partial<Record<string, string>> = {
-  "website-backup-recovery-small-business": "/assets/blog/website-backup-recovery-small-business.svg",
-  "website-accessibility-small-business": "/assets/blog/website-accessibility-small-business.svg",
-  "utm-tracking-small-business": "/assets/blog/utm-tracking-small-business.svg",
-  "small-business-lead-generation-funnel": "/assets/blog/small-business-lead-generation-funnel.svg",
-  "website-before-paid-ads-checklist": "/assets/blog/website-before-paid-ads-checklist.svg",
-  "scope-internal-ai-assistant-pilot": "/assets/blog/scope-internal-ai-assistant-pilot.svg",
-  "test-internal-ai-assistant-before-launch": "/assets/blog/test-internal-ai-assistant-before-launch.svg",
-};
-
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
   const translation = source.translations[locale];
   if (!translation) return undefined;
+  const imageMeta = getBlogImageMeta(source.image);
+  const socialImage = source.socialImage ?? source.image;
+  const socialImageMeta = getBlogImageMeta(socialImage);
 
   return {
     slug: source.slug,
@@ -60,7 +54,12 @@ function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost
     description: translation.description,
     category: translation.category,
     tags: Array.from(new Set([...translation.tags, ...base.getMarketKeywords()])),
-    featuredImage: featuredImageOverrides[source.slug] ?? source.image,
+    featuredImage: source.image,
+    featuredImageWidth: imageMeta.width,
+    featuredImageHeight: imageMeta.height,
+    socialImage,
+    socialImageWidth: socialImageMeta.width,
+    socialImageHeight: socialImageMeta.height,
     imageAlt: source.imageAlt ?? translation.title,
     author: source.author,
     publishedAt: source.date,

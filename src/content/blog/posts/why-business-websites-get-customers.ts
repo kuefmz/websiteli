@@ -685,7 +685,7 @@ export default {
   tags: ["business website", "website conversion", "website statistics", "website trust", "website speed", "mobile website", "SEO statistics", "accessibility", "small business website"],
   published: true,
   status: "published",
-  image: "/assets/blog/business-websites-get-customers-statistics.png",
+  image: "/assets/blog/business-websites-get-customers-statistics.webp",
   imageAlt: "Infographic showing verified statistics about business websites, including trust, mobile use, speed, accessibility, and search visibility.",
   author: "Websiteli",
   date: "2026-07-05",

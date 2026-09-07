@@ -10,6 +10,7 @@ import { packageKeyByName, pricing } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { getBlogIndexContent, getBlogPosts, getMarketKeywords } from "../content/blog";
 import { getFeaturedServices, getServiceCategoryServices } from "../content/services";
+import { getWebsiteUseCaseForProject } from "../content/websiteUseCases";
 
 interface Props {
   content: any;
@@ -76,6 +77,7 @@ const portfolioPageCopy: Record<
     viewWebsite: string;
     linkPending: string;
     requestSimilar: string;
+    exploreUseCase: string;
     finalCta: string;
   }
 > = {
@@ -91,6 +93,7 @@ const portfolioPageCopy: Record<
     viewWebsite: "View website",
     linkPending: "Website link being verified",
     requestSimilar: "Request something similar",
+    exploreUseCase: "Explore use case",
     finalCta: "Get a free website review",
   },
   de: {
@@ -105,6 +108,7 @@ const portfolioPageCopy: Record<
     viewWebsite: "Website ansehen",
     linkPending: "Website-Link wird geprüft",
     requestSimilar: "Ähnliches anfragen",
+    exploreUseCase: "Use Case ansehen",
     finalCta: "Kostenlosen Website-Check anfragen",
   },
   fr: {
@@ -119,6 +123,7 @@ const portfolioPageCopy: Record<
     viewWebsite: "Voir le site",
     linkPending: "Lien du site en vérification",
     requestSimilar: "Demander un projet similaire",
+    exploreUseCase: "Voir le cas d'usage",
     finalCta: "Demander une revue gratuite du site",
   },
   it: {
@@ -133,6 +138,7 @@ const portfolioPageCopy: Record<
     viewWebsite: "Vedi sito",
     linkPending: "Link del sito in verifica",
     requestSimilar: "Richiedi qualcosa di simile",
+    exploreUseCase: "Vedi caso d'uso",
     finalCta: "Revisione gratuita del sito",
   },
 };
@@ -283,6 +289,7 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
         <div class="portfolio-visual-grid">
           {realPortfolioProjects.map((project) => {
             const requestHref = `${contactHref}?package=digitalFoundation&relatedProject=${project.slug}&sourcePage=/${locale}/portfolio/&intent=request_similar_project`;
+            const websiteUseCase = getWebsiteUseCaseForProject(project);
             return (
             <article class:list={["portfolio-visual-card", project.featured && "featured-project"]} itemscope itemtype="https://schema.org/CreativeWork">
               <div class="portfolio-visual-preview">
@@ -307,6 +314,9 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
                     <span class="button secondary disabled-button" title={project.verificationNote}>{portfolioUi.linkPending}</span>
                   )}
                   <a class="button secondary" href={requestHref} data-track-event="portfolio_project_request_click" data-track-label={project.slug}>{portfolioUi.requestSimilar}</a>
+                  {websiteUseCase && (
+                    <a class="button secondary" href={`/${locale}/websites/${websiteUseCase.slug}/`} data-track-event="portfolio_use_case_click" data-track-label={`${project.slug}:${websiteUseCase.slug}`}>{portfolioUi.exploreUseCase}</a>
+                  )}
                 </div>
               </div>
             </article>
@@ -383,7 +393,7 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
         <div class="blog-grid">
           {blogPosts.map((post) => (
             <article class="blog-card" data-blog-card data-blog-text={`${post.title} ${post.description} ${post.tags.join(" ")}`}>
-              <img src={post.featuredImage} alt={post.imageAlt} loading="lazy" width="1536" height="1024" />
+              <img src={post.featuredImage} alt={post.imageAlt} loading="lazy" decoding="async" width={post.featuredImageWidth} height={post.featuredImageHeight} />
               <div>
                 <p class="eyebrow">{blogContent.featured}</p>
                 <h2>{post.title}</h2>

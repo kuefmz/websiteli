@@ -14,6 +14,7 @@ import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
 import websiteMaintenanceChecklist from "./posts/website-maintenance-checklist";
 import websiteLeadQualification from "./posts/website-lead-qualification";
 import multilingualWebsiteSwitzerland from "./posts/multilingual-website-switzerland";
+import { getBlogImageMeta } from "./imageMeta";
 import type { BlogPostSource } from "./types";
 
 export type BlogPost = {
@@ -24,6 +25,11 @@ export type BlogPost = {
   category: string;
   tags: string[];
   featuredImage: string;
+  featuredImageWidth: number;
+  featuredImageHeight: number;
+  socialImage: string;
+  socialImageWidth: number;
+  socialImageHeight: number;
   imageAlt: string;
   author: string;
   publishedAt: string;
@@ -352,6 +358,9 @@ function getTranslation(source: BlogPostSource, locale: LocaleCode) {
     facebook: source.social?.facebook ?? `${title}\n\n${description}`,
     instagram: source.social?.instagram ?? `${title}\n\n${excerpt}\n\n${getInstagramReadMore(locale)}`,
   };
+  const imageMeta = getBlogImageMeta(source.image);
+  const socialImage = source.socialImage ?? source.image;
+  const socialImageMeta = getBlogImageMeta(socialImage);
 
   return {
     slug: source.slug,
@@ -361,6 +370,11 @@ function getTranslation(source: BlogPostSource, locale: LocaleCode) {
     category,
     tags,
     featuredImage: source.image,
+    featuredImageWidth: imageMeta.width,
+    featuredImageHeight: imageMeta.height,
+    socialImage,
+    socialImageWidth: socialImageMeta.width,
+    socialImageHeight: socialImageMeta.height,
     imageAlt: source.imageAlt ?? title,
     author: source.author,
     publishedAt,

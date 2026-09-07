@@ -26,6 +26,7 @@ export type BlogPostSource = {
   status?: "draft" | "scheduled" | "published";
   description?: string;
   image: string;
+  socialImage?: string;
   imageAlt?: string;
   author: string;
   date: string;

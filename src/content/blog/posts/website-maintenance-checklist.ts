@@ -47,7 +47,7 @@ export default {
   ],
   published: true,
   status: "published",
-  image: "/assets/blog/website-maintenance-checklist.png",
+  image: "/assets/blog/website-maintenance-checklist.webp",
   imageAlt: "Laptop showing a website maintenance dashboard with checklist items, performance, analytics, SEO, accessibility, security and contact icons.",
   author: "Websiteli",
   date: "2026-07-26",
