@@ -1,0 +1,172 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import { realPortfolioProjects, type PortfolioProject } from "../../../../content/portfolio";
+import { getWebsiteUseCaseForProject } from "../../../../content/websiteUseCases";
+
+export function getStaticPaths() {
+  return realPortfolioProjects.map((project) => ({
+    params: { project: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props as { project: PortfolioProject };
+const displayName = project.name === "Jenifer Ciuciu-Kiss" ? "Personal Website" : project.name;
+const canonicalPath = `/en/portfolio/${project.slug}/`;
+const liveHref = project.verifiedUrl && project.url ? project.url : undefined;
+const requestHref = `/en/contact/?package=digitalFoundation&relatedProject=${project.slug}&sourcePage=${canonicalPath}&intent=request_similar_project`;
+const useCase = getWebsiteUseCaseForProject(project);
+const metaTitle = `${displayName} Case Study | Websiteli`;
+const metaDescription = `${project.description} Explore the build, project features and outcomes behind this Websiteli portfolio project.`;
+const siteUrl = new URL("https://websiteli.ch");
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: displayName,
+    description: project.description,
+    url: `https://websiteli.ch${canonicalPath}`,
+    image: project.image ? new URL(project.image, siteUrl).toString() : undefined,
+    creator: {
+      "@type": "Organization",
+      name: "Websiteli",
+      url: "https://websiteli.ch/",
+    },
+    sameAs: liveHref,
+    keywords: project.tags.join(", "),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://websiteli.ch/en/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Portfolio",
+        item: "https://websiteli.ch/en/portfolio/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: displayName,
+        item: `https://websiteli.ch${canonicalPath}`,
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  canonicalPath={canonicalPath}
+  lang="en"
+  locale="en"
+  page="portfolio"
+  image={project.image}
+  imageAlt={project.imageAlt}
+  schema={schema}
+>
+  <main class="subpage portfolio-case-study">
+    <section class="section-shell page-hero">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/en/">Home</a>
+        <span>/</span>
+        <a href="/en/portfolio/">Portfolio</a>
+        <span>/</span>
+        <span>{displayName}</span>
+      </nav>
+      <p class="eyebrow">{project.category}</p>
+      <h1>{displayName} case study</h1>
+      <p>{project.description}</p>
+      <div class="button-row">
+        {liveHref && (
+          <a class="button primary" href={liveHref} target="_blank" rel="noopener" data-track-event="case_study_live_project_click" data-track-label={project.slug}>View live website</a>
+        )}
+        <a class="button secondary" href={requestHref} data-track-event="case_study_request_click" data-track-label={project.slug}>Request something similar</a>
+      </div>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      {project.image ? (
+        <figure class="portfolio-case-visual">
+          <img src={project.image} alt={project.imageAlt ?? `${displayName} project screenshot`} width="1200" height="760" loading="eager" decoding="async" />
+        </figure>
+      ) : (
+        <div class="screenshot-pending">
+          <span>{project.category}</span>
+          <strong>{displayName}</strong>
+        </div>
+      )}
+    </section>
+
+    <section class="section-shell detail-grid compact-top">
+      <article class="detail-panel">
+        <p class="eyebrow">Project snapshot</p>
+        <h2>What this project is</h2>
+        <p>{project.description}</p>
+        <ul class="pill-list">
+          {project.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </article>
+
+      <article class="detail-panel">
+        <p class="eyebrow">What we built</p>
+        <h2>Key project features</h2>
+        <ul class="feature-list">
+          {project.projectFeatures.map((feature) => <li>{feature}</li>)}
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-shell section-block compact-top">
+      <div class="section-heading">
+        <p class="eyebrow">Outcome</p>
+        <h2>What the project demonstrates</h2>
+        <p>Each portfolio project is included because it demonstrates a concrete website, product or digital-system capability rather than a fictional concept.</p>
+      </div>
+      <div class="outcome-grid">
+        {project.businessOutcomes.map((outcome) => (
+          <article class="outcome-card">
+            <h3>{outcome}</h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {useCase && (
+      <section class="section-shell detail-grid compact-top">
+        <article class="detail-panel wide">
+          <p class="eyebrow">Related website type</p>
+          <h2>Planning a similar {useCase.shortTitle.toLowerCase()} project?</h2>
+          <p>{useCase.heroText}</p>
+          <div class="button-row">
+            <a class="button secondary" href={`/en/websites/${useCase.slug}/`} data-track-event="case_study_use_case_click" data-track-label={`${project.slug}:${useCase.slug}`}>Explore this website use case</a>
+            <a class="button primary" href={requestHref} data-track-event="case_study_request_click" data-track-label={`${project.slug}:related-use-case`}>Discuss your project</a>
+          </div>
+        </article>
+      </section>
+    )}
+
+    <section class="section-shell inline-cta">
+      <a class="button secondary" href="/en/portfolio/">See all portfolio projects</a>
+      <a class="button primary" href={requestHref} data-track-event="case_study_request_click" data-track-label={`${project.slug}:bottom`}>Request something similar</a>
+    </section>
+  </main>
+
+  <script define:vars={{ projectSlug: project.slug }}>
+    window.trackWebsiteliEvent?.("portfolio_case_study_view", {
+      event_category: "portfolio",
+      event_label: projectSlug,
+      project_slug: projectSlug,
+      page_path: window.location.pathname,
+    });
+  </script>
+</Layout>
