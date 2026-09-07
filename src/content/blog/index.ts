@@ -39,8 +39,15 @@ const additionalSources: BlogPostSource[] = [
   aiContentWorkflowSmallBusiness,
 ];
 
+// dev-only visual QA: prefer the more polished illustration style already used by the older blog.
 const featuredImageOverrides: Partial<Record<string, string>> = {
-  "website-before-paid-ads-checklist": "/assets/blog/website-before-paid-ads-checklist.svg",
+  "website-backup-recovery-small-business": "/assets/blog/website-maintenance-checklist.png",
+  "website-accessibility-small-business": "/assets/blog/website-first-impression.png",
+  "utm-tracking-small-business": "/assets/blog/business-websites-get-customers-statistics.png",
+  "small-business-lead-generation-funnel": "/assets/blog/your-website-shouldnt-end-at-contact-us.png",
+  "website-before-paid-ads-checklist": "/assets/blog/10-features-business-website-needs.png",
+  "scope-internal-ai-assistant-pilot": "/assets/blog/internal-ai-assistant-small-business.png",
+  "test-internal-ai-assistant-before-launch": "/assets/blog/private-ai-assistant-privacy-checklist.png",
 };
 
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {

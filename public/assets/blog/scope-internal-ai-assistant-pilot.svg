@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">How to Scope an Internal AI Assistant Pilot</title>
+  <desc id="desc">A Websiteli-style pilot blueprint connecting one use case to approved sources, permissions, evaluation and a go or no-go decision.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eaf3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1410" cy="150" r="220" fill="#5eead4" opacity="0.10"/>
+  <circle cx="170" cy="790" r="260" fill="#60a5fa" opacity="0.12"/>
+  <text x="110" y="118" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">WEBSITELI • INTERNAL AI PILOT</text>
+  <text x="110" y="215" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="800">Scope an Internal AI Assistant</text>
+  <text x="110" y="288" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="800">Pilot That Can Actually Be Measured</text>
+  <text x="110" y="345" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="28">One use case. Trusted sources. Clear permissions. A real decision at the end.</text>
+
+  <rect x="105" y="430" width="1390" height="300" rx="34" fill="url(#panel)"/>
+  <text x="155" y="490" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">PILOT BLUEPRINT</text>
+
+  <rect x="150" y="545" width="250" height="110" rx="24" fill="#dbeafe"/>
+  <text x="190" y="588" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">01</text>
+  <text x="190" y="625" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">One use case</text>
+  <path d="M415 600 H485" stroke="#60a5fa" stroke-width="8" stroke-linecap="round"/>
+  <path d="M472 585 L492 600 L472 615" fill="none" stroke="#60a5fa" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="505" y="545" width="250" height="110" rx="24" fill="#ffffff" stroke="#bfdbfe" stroke-width="3"/>
+  <text x="545" y="588" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">02</text>
+  <text x="545" y="625" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">Trusted sources</text>
+  <path d="M770 600 H840" stroke="#60a5fa" stroke-width="8" stroke-linecap="round"/>
+  <path d="M827 585 L847 600 L827 615" fill="none" stroke="#60a5fa" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="860" y="545" width="250" height="110" rx="24" fill="#ffffff" stroke="#bfdbfe" stroke-width="3"/>
+  <text x="900" y="588" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">03</text>
+  <text x="900" y="625" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">Permissions</text>
+  <path d="M1125 600 H1195" stroke="#60a5fa" stroke-width="8" stroke-linecap="round"/>
+  <path d="M1182 585 L1202 600 L1182 615" fill="none" stroke="#60a5fa" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="1215" y="545" width="230" height="110" rx="24" fill="#0f766e"/>
+  <text x="1255" y="588" fill="#ccfbf1" font-family="Arial, Helvetica, sans-serif" font-size="18">04</text>
+  <text x="1255" y="625" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">Evaluate</text>
+
+  <rect x="360" y="760" width="880" height="76" rx="24" fill="#ffffff" opacity="0.98"/>
+  <circle cx="410" cy="798" r="17" fill="#0f766e"/>
+  <path d="M401 798 l8 8 15 -18" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="450" y="807" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">Success criteria → evidence → go / change / stop</text>
+</svg>

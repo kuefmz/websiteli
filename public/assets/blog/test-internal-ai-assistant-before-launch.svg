@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">How to Test an Internal AI Assistant Before Launch</title>
+  <desc id="desc">A Websiteli-style quality assurance dashboard showing answer quality, source checks, permissions, citations and a launch gate.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#17345a"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eaf3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="1420" cy="150" r="225" fill="#5eead4" opacity="0.10"/>
+  <circle cx="180" cy="800" r="270" fill="#60a5fa" opacity="0.12"/>
+  <text x="110" y="118" fill="#9bd9ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">WEBSITELI • AI QUALITY ASSURANCE</text>
+  <text x="110" y="215" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="800">Test Your Internal AI Assistant</text>
+  <text x="110" y="288" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="800">Before Launch</text>
+  <text x="110" y="345" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="28">Accuracy, sources, permissions, citations and safe escalation.</text>
+
+  <rect x="105" y="425" width="910" height="330" rx="32" fill="url(#card)"/>
+  <text x="155" y="485" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">LAUNCH READINESS TEST</text>
+  <rect x="155" y="520" width="810" height="54" rx="16" fill="#dbeafe"/>
+  <text x="185" y="554" fill="#0f2747" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Question: “Which policy applies to this request?”</text>
+  <rect x="155" y="600" width="245" height="100" rx="20" fill="#ffffff" stroke="#bfdbfe" stroke-width="3"/>
+  <text x="185" y="640" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">SOURCE</text>
+  <text x="185" y="675" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">Current ✓</text>
+  <rect x="425" y="600" width="245" height="100" rx="20" fill="#ffffff" stroke="#bfdbfe" stroke-width="3"/>
+  <text x="455" y="640" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">PERMISSION</text>
+  <text x="455" y="675" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">Allowed ✓</text>
+  <rect x="695" y="600" width="270" height="100" rx="20" fill="#ffffff" stroke="#bfdbfe" stroke-width="3"/>
+  <text x="725" y="640" fill="#64748b" font-family="Arial, Helvetica, sans-serif" font-size="18">CITATION</text>
+  <text x="725" y="675" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800">Verified ✓</text>
+
+  <rect x="1080" y="438" width="390" height="78" rx="22" fill="#ffffff"/>
+  <circle cx="1122" cy="477" r="16" fill="#0f766e"/>
+  <path d="M1114 477 l7 7 14 -17" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1155" y="485" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700">Answer quality</text>
+  <rect x="1080" y="536" width="390" height="78" rx="22" fill="#ffffff"/>
+  <circle cx="1122" cy="575" r="16" fill="#0f766e"/>
+  <path d="M1114 575 l7 7 14 -17" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1155" y="583" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700">Restricted data</text>
+  <rect x="1080" y="634" width="390" height="78" rx="22" fill="#ffffff"/>
+  <circle cx="1122" cy="673" r="16" fill="#0f766e"/>
+  <path d="M1114 673 l7 7 14 -17" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1155" y="681" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700">Safe escalation</text>
+  <rect x="1080" y="732" width="390" height="70" rx="22" fill="#0f766e"/>
+  <text x="1172" y="777" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800">LAUNCH GATE</text>
+  <text x="110" y="840" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Fluent answers are not enough. Test the evidence and the boundaries.</text>
+</svg>
