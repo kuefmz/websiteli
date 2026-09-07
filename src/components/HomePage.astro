@@ -4,7 +4,6 @@ import { pricing } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { getConversionHomeContent } from "../content/home";
 import { getFeaturedPortfolioProjects, realPortfolioProjects } from "../content/portfolio";
-import { getWebsiteUseCaseForProject } from "../content/websiteUseCases";
 import type { LocaleCode } from "../content/locales";
 
 interface Props {
@@ -13,11 +12,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const home = getConversionHomeContent(locale);
-const featuredProjects = getFeaturedPortfolioProjects(5);
-const featuredProjectCards = featuredProjects.map((project) => ({
-  project,
-  websiteUseCase: getWebsiteUseCaseForProject(project),
-}));
+const featuredProjects = getFeaturedPortfolioProjects(7);
 const heroProjects = realPortfolioProjects;
 const heroProjectData = heroProjects.map((project) => ({
   slug: project.slug,
@@ -154,7 +149,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <p>{home.portfolio.text}</p>
     </div>
     <div class="work-card-grid">
-      {featuredProjectCards.map(({ project, websiteUseCase }) => (
+      {featuredProjects.map((project) => (
         <article class:list={["work-card", project.featured && "featured-work"]}>
           <div class="work-preview">
             {project.image ? (
@@ -179,9 +174,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
               ) : (
                 <span class="text-link muted-link" title={project.verificationNote}>{home.portfolio.linkPending}</span>
               )}
-              {websiteUseCase && (
-                <a class="text-link" href={`/${locale}/websites/${websiteUseCase.slug}/`} data-track-event="homepage_use_case_click" data-track-label={`${project.slug}:${websiteUseCase.slug}`}>Explore use case →</a>
-              )}
+              <a class="text-link" href={`/en/portfolio/${project.slug}/`} data-track-event="homepage_case_study_click" data-track-label={project.slug}>View case study →</a>
             </div>
           </div>
         </article>
