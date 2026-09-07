@@ -393,7 +393,7 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
         <div class="blog-grid">
           {blogPosts.map((post) => (
             <article class="blog-card" data-blog-card data-blog-text={`${post.title} ${post.description} ${post.tags.join(" ")}`}>
-              <img src={post.featuredImage} alt={post.imageAlt} loading="lazy" width="1536" height="1024" />
+              <img src={post.featuredImage} alt={post.imageAlt} loading="lazy" decoding="async" width={post.featuredImageWidth} height={post.featuredImageHeight} />
               <div>
                 <p class="eyebrow">{blogContent.featured}</p>
                 <h2>{post.title}</h2>

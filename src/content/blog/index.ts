@@ -13,6 +13,7 @@ import websiteBackupRecoverySmallBusiness from "./posts/website-backup-recovery-
 import websiteBeforePaidAdsChecklist from "./posts/website-before-paid-ads-checklist";
 import whatShouldSmallBusinessAutomateFirst from "./posts/what-should-small-business-automate-first";
 import * as base from "./index-base";
+import { getBlogImageMeta } from "./imageMeta";
 import { applySearchConsoleOptimization } from "./searchConsoleOptimizations";
 import type { BlogPost } from "./index-base";
 import type { BlogPostSource } from "./types";
@@ -39,20 +40,12 @@ const additionalSources: BlogPostSource[] = [
   aiContentWorkflowSmallBusiness,
 ];
 
-// dev-only visual QA: prefer the more polished illustration style already used by the older blog.
-const featuredImageOverrides: Partial<Record<string, string>> = {
-  "website-backup-recovery-small-business": "/assets/blog/website-maintenance-checklist.png",
-  "website-accessibility-small-business": "/assets/blog/website-first-impression.png",
-  "utm-tracking-small-business": "/assets/blog/business-websites-get-customers-statistics.png",
-  "small-business-lead-generation-funnel": "/assets/blog/your-website-shouldnt-end-at-contact-us.png",
-  "website-before-paid-ads-checklist": "/assets/blog/10-features-business-website-needs.png",
-  "scope-internal-ai-assistant-pilot": "/assets/blog/internal-ai-assistant-small-business.png",
-  "test-internal-ai-assistant-before-launch": "/assets/blog/private-ai-assistant-privacy-checklist.png",
-};
-
 function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost | undefined {
   const translation = source.translations[locale];
   if (!translation) return undefined;
+  const imageMeta = getBlogImageMeta(source.image);
+  const socialImage = source.socialImage ?? source.image;
+  const socialImageMeta = getBlogImageMeta(socialImage);
 
   return {
     slug: source.slug,
@@ -61,7 +54,12 @@ function getAdditionalPost(source: BlogPostSource, locale: LocaleCode): BlogPost
     description: translation.description,
     category: translation.category,
     tags: Array.from(new Set([...translation.tags, ...base.getMarketKeywords()])),
-    featuredImage: featuredImageOverrides[source.slug] ?? source.image,
+    featuredImage: source.image,
+    featuredImageWidth: imageMeta.width,
+    featuredImageHeight: imageMeta.height,
+    socialImage,
+    socialImageWidth: socialImageMeta.width,
+    socialImageHeight: socialImageMeta.height,
     imageAlt: source.imageAlt ?? translation.title,
     author: source.author,
     publishedAt: source.date,

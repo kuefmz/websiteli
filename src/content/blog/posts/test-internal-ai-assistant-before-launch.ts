@@ -177,7 +177,7 @@ export default {
   published: true,
   status: "published",
   publishDate: "2026-08-05",
-  image: "/assets/blog/prepare-company-documents-internal-ai-assistant.png",
+  image: "/assets/blog/test-internal-ai-assistant-before-launch.webp",
   imageAlt: "Websiteli guide to testing an internal AI assistant with acceptance criteria, source checks, permissions, citations and launch monitoring.",
   author: "Websiteli",
   date: "2026-08-05",

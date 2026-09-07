@@ -300,7 +300,7 @@ export default {
   ],
   published: true,
   status: "published",
-  image: "/assets/blog/website-life-cycle-statistics.png",
+  image: "/assets/blog/website-life-cycle-statistics.webp",
   imageAlt: "Infographic showing the lifecycle of a website from launch to discovery, maintenance, decay, and renewal.",
   author: "Websiteli",
   date: "2026-07-09",

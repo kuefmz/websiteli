@@ -15,6 +15,9 @@ interface Props {
   page?: string;
   ogType?: "website" | "article";
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   alternates?: { locale: string; href: string }[];
   content?: any;
   schema?: Record<string, any>[];
@@ -30,6 +33,9 @@ const {
   page = "home",
   ogType = "website",
   image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
   alternates = [],
   content,
   schema = [],
@@ -217,10 +223,14 @@ const structuredData = [
     <meta property="og:site_name" content="websiteli.ch" />
     <meta property="og:locale" content={`${lang}_CH`} />
     <meta property="og:image" content={imageUrl} />
+    {imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+    {imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
+    {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    {imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
     <meta name="p:domain_verify" content="ac1419886e97f1aea245f6ba61ae70c7"/>
     <AttributionRuntime />
     <script src="https://t.contentsquare.net/uxa/97586d67d97bf.js" defer></script>

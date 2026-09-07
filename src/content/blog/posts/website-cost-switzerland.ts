@@ -759,7 +759,7 @@ export default {
   tags: ["website cost switzerland", "website price", "affordable website", "business website cost", "Swiss website pricing", "website cost guide"],
   published: true,
   status: "published",
-  image: "/assets/blog/website-cost-switzerland.png",
+  image: "/assets/blog/website-cost-switzerland.webp",
   imageAlt: "Swiss business website pricing guide showing package scope, CHF starting prices, and maintenance factors.",
   author: "Websiteli",
   date: "2026-07-03",

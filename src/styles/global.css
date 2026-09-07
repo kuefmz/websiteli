@@ -3000,6 +3000,7 @@ h3 {
 
 .blog-card img,
 .article-image {
+  display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;

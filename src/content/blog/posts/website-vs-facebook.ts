@@ -3,7 +3,8 @@ import type { BlogPostSource } from "../types";
 export default {
   "slug": "website-vs-facebook",
   "published": true,
-  "image": "/assets/blog/website-vs-facebook.png",
+  "image": "/assets/blog/website-vs-facebook.webp",
+  "imageAlt": "Split comparison graphic showing a business website on one side and a Facebook business page on the other.",
   "author": "Websiteli",
   "date": "2026-07-01",
   "updated": "2026-07-01",
