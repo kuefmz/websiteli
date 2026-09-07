@@ -18,7 +18,10 @@ export function getStaticPaths() {
   return localeCodes.flatMap((locale) => websiteUseCaseSlugs.map((useCase) => ({ params: { locale, useCase } })));
 }
 
-const locale = Astro.params.locale as LocaleCode;
+// Website-use-case copy is currently authored in English only. Render a complete
+// English experience on every generated route and consolidate search signals on
+// the English canonical until localized copy exists for the other languages.
+const locale: LocaleCode = "en";
 const useCase = getWebsiteUseCaseBySlug(Astro.params.useCase) as WebsiteUseCase;
 
 if (!useCase) {
@@ -30,11 +33,11 @@ const packageLabels = getPackageLabels(locale);
 const swissPricing = pricing.CH;
 const packagePrice = swissPricing.packages[useCase.packageKey];
 const packageLabel = packageLabels[useCase.packageKey] ?? useCase.packageKey;
-const canonicalPath = `/${locale}/websites/${useCase.slug}/`;
-const alternates = localeCodes.map((code) => ({ locale: code, href: `/${code}/websites/${useCase.slug}/` }));
-const contactHref = `/${locale}/contact/?package=${useCase.packageKey}&sourcePage=${canonicalPath}&intent=${useCase.formIntent}`;
-const portfolioHref = `/${locale}/portfolio/`;
-const pricingHref = `/${locale}/services-pricing/#pricing`;
+const canonicalPath = `/en/websites/${useCase.slug}/`;
+const alternates = [{ locale: "en", href: canonicalPath }];
+const contactHref = `/en/contact/?package=${useCase.packageKey}&sourcePage=${canonicalPath}&intent=${useCase.formIntent}`;
+const portfolioHref = `/en/portfolio/`;
+const pricingHref = `/en/services-pricing/#pricing`;
 const projects = getProjectsByUseCase(useCase.slug);
 const primaryProject = projects[0];
 const relatedServices = useCase.relatedServices.map((slug) => getServiceBySlug(slug)).filter((service): service is ServicePage => Boolean(service));
@@ -75,13 +78,13 @@ const schema = [
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: `https://websiteli.ch/${locale}/`,
+        item: "https://websiteli.ch/en/",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Websites",
-        item: `https://websiteli.ch/${locale}/services/business-websites/`,
+        item: "https://websiteli.ch/en/services/business-websites/",
       },
       {
         "@type": "ListItem",
@@ -130,8 +133,8 @@ const schema = [
   title={useCase.metaTitle}
   description={useCase.metaDescription}
   canonicalPath={canonicalPath}
-  lang={locale}
-  locale={locale}
+  lang="en"
+  locale="en"
   page="websites"
   image={primaryProject?.image}
   alternates={alternates}
@@ -142,9 +145,9 @@ const schema = [
     <section class="section-shell page-hero use-case-hero">
       <div class="use-case-hero-copy">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href={`/${locale}/`}>Home</a>
+          <a href="/en/">Home</a>
           <span>/</span>
-          <a href={`/${locale}/services/business-websites/`}>Websites</a>
+          <a href="/en/services/business-websites/">Websites</a>
           <span>/</span>
           <span>{useCase.shortTitle}</span>
         </nav>
@@ -297,7 +300,7 @@ const schema = [
         <h2>Useful next pages</h2>
         <div class="link-grid">
           {relatedServices.map((service) => (
-            <a href={`/${locale}/services/${service.slug}/`} data-track-event="use_case_related_service_click" data-track-label={`${useCase.slug}:${service.slug}`}>
+            <a href={`/en/services/${service.slug}/`} data-track-event="use_case_related_service_click" data-track-label={`${useCase.slug}:${service.slug}`}>
               <span>{serviceCategoryDetails[service.category].eyebrow}</span>
               <strong>{service.title}</strong>
             </a>
@@ -309,7 +312,7 @@ const schema = [
         <h2>Other real-project website types</h2>
         <div class="link-grid">
           {relatedUseCases.map((item) => (
-            <a href={`/${locale}/websites/${item.slug}/`} data-track-event="use_case_related_use_case_click" data-track-label={`${useCase.slug}:${item.slug}`}>
+            <a href={`/en/websites/${item.slug}/`} data-track-event="use_case_related_use_case_click" data-track-label={`${useCase.slug}:${item.slug}`}>
               <span>{item.eyebrow}</span>
               <strong>{item.title}</strong>
             </a>
