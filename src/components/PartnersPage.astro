@@ -153,7 +153,39 @@ const referralCopy = {
   },
 } as const;
 
+const oneOffReferralCopy = {
+  en: {
+    badge: "One-off",
+    title: "One-off Referral",
+    summary: "Introduce a client to Websiteli. If they become a paying client, you receive a flat CHF 100 — and that's it.",
+    points: ["One simple introduction", "No selling or project work", "Flat CHF 100 after their first project is paid"],
+    cta: "Refer a client",
+  },
+  de: {
+    badge: "Einmalig",
+    title: "Einmalige Empfehlung",
+    summary: "Stellen Sie Websiteli einen Kunden vor. Wird daraus ein zahlender Kunde, erhalten Sie einmalig CHF 100 — das ist alles.",
+    points: ["Eine einfache Vorstellung", "Kein Verkauf und keine Projektarbeit", "Einmalig CHF 100 nach Bezahlung des ersten Projekts"],
+    cta: "Kunden empfehlen",
+  },
+  fr: {
+    badge: "Ponctuel",
+    title: "Recommandation ponctuelle",
+    summary: "Présentez un client à Websiteli. S'il devient client payant, vous recevez un montant fixe de CHF 100 — rien de plus à gérer.",
+    points: ["Une simple mise en relation", "Aucune vente ni gestion de projet", "CHF 100 fixes après le paiement du premier projet"],
+    cta: "Recommander un client",
+  },
+  it: {
+    badge: "Una tantum",
+    title: "Referral una tantum",
+    summary: "Presenta un cliente a Websiteli. Se diventa un cliente pagante, ricevi CHF 100 una tantum — e finisce lì.",
+    points: ["Una semplice presentazione", "Nessuna vendita o gestione del progetto", "CHF 100 una tantum dopo il pagamento del primo progetto"],
+    cta: "Segnala un cliente",
+  },
+} as const;
+
 const referral = referralCopy[currentLocale as keyof typeof referralCopy] ?? referralCopy.en;
+const oneOffReferral = oneOffReferralCopy[currentLocale as keyof typeof oneOffReferralCopy] ?? oneOffReferralCopy.en;
 const proofProjects = realPortfolioProjects.filter((project) => project.image && project.verifiedUrl).slice(0, 4);
 
 function displayProjectName(name: string) {
@@ -258,7 +290,7 @@ function displayProjectName(name: string) {
       <p>{partnerContent.sections.models.text}</p>
     </div>
     <div class="partners-model-grid">
-      {partnerContent.models.map((item) => (
+      {partnerContent.models.slice(1).map((item) => (
         <article class:list={["pricing-card", "partner-model-card", item.recommended && "recommended", item.featured && "featured"]}>
           {item.badge && <span class="card-badge">{item.badge}</span>}
           <h3>{item.title}</h3>
@@ -266,9 +298,18 @@ function displayProjectName(name: string) {
           <ul>
             {item.points.map((point) => <li>{point}</li>)}
           </ul>
-          <a class="button secondary" href={item.title.toLowerCase().includes("referral") ? referralHref : item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
+          <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
         </article>
       ))}
+      <article class="pricing-card partner-model-card referral-model-card">
+        <span class="card-badge">{oneOffReferral.badge}</span>
+        <h3>{oneOffReferral.title}</h3>
+        <p>{oneOffReferral.summary}</p>
+        <ul>
+          {oneOffReferral.points.map((point) => <li>{point}</li>)}
+        </ul>
+        <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="One-off CHF 100 referral model">{oneOffReferral.cta}</a>
+      </article>
     </div>
   </section>
 
