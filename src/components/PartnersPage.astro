@@ -290,6 +290,15 @@ function displayProjectName(name: string) {
       <p>{partnerContent.sections.models.text}</p>
     </div>
     <div class="partners-model-grid">
+      <article class="pricing-card partner-model-card referral-model-card">
+        <span class="card-badge">{oneOffReferral.badge}</span>
+        <h3>{oneOffReferral.title}</h3>
+        <p>{oneOffReferral.summary}</p>
+        <ul>
+          {oneOffReferral.points.map((point) => <li>{point}</li>)}
+        </ul>
+        <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="One-off CHF 100 referral model">{oneOffReferral.cta}</a>
+      </article>
       {partnerContent.models.slice(1).map((item) => (
         <article class:list={["pricing-card", "partner-model-card", item.recommended && "recommended", item.featured && "featured"]}>
           {item.badge && <span class="card-badge">{item.badge}</span>}
@@ -301,15 +310,6 @@ function displayProjectName(name: string) {
           <a class="button secondary" href={item.featured ? discoveryCallHref : becomePartnerHref} data-track-event="partner_model_click" data-track-label={item.title}>{partnerContent.actions.discussModel}</a>
         </article>
       ))}
-      <article class="pricing-card partner-model-card referral-model-card">
-        <span class="card-badge">{oneOffReferral.badge}</span>
-        <h3>{oneOffReferral.title}</h3>
-        <p>{oneOffReferral.summary}</p>
-        <ul>
-          {oneOffReferral.points.map((point) => <li>{point}</li>)}
-        </ul>
-        <a class="button primary" href={referralHref} data-track-event="partner_referral_click" data-track-label="One-off CHF 100 referral model">{oneOffReferral.cta}</a>
-      </article>
     </div>
   </section>
 
