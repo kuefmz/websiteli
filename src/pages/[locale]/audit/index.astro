@@ -1,0 +1,31 @@
+---
+import FunnelLayout from "../../../layouts/FunnelLayout.astro";
+import AuditFunnel from "../../../components/AuditFunnel.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "en" } },
+    { params: { locale: "de" } },
+  ];
+}
+
+const locale = Astro.params.locale === "de" ? "de" : "en";
+const meta = locale === "de"
+  ? {
+      title: "Kostenloser Website-Check | Websiteli",
+      description: "Erhalten Sie einen schnellen Conversion-Check und sehen Sie, wo Ihre Website wahrscheinlich Anfragen, Buchungen oder Wachstumspotenzial verliert.",
+    }
+  : {
+      title: "Free Website Check | Websiteli",
+      description: "Get a quick conversion-focused website diagnosis and see where your site may be losing enquiries, bookings or growth opportunities.",
+    };
+---
+
+<FunnelLayout
+  title={meta.title}
+  description={meta.description}
+  canonicalPath={`/${locale}/audit/`}
+  lang={locale}
+>
+  <AuditFunnel locale={locale} />
+</FunnelLayout>
