@@ -28,6 +28,57 @@ const meta = locale === "de"
   canonicalPath={`/${locale}/audit/`}
   lang={locale}
 >
+  <script is:inline>
+    (() => {
+      const endpointMarker = "script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
+      const nativeFetch = window.fetch.bind(window);
+
+      // The existing Apps Script backend handles `type: \"form\"`. The audit UI
+      // originally posted `type: \"website_audit\"`, which made the frontend look
+      // successful while the lead was never written to Websiteli Leads. Normalize
+      // audit submissions at the page boundary so they use the proven backend path
+      // while preserving the audit-specific metadata for reporting and follow-up.
+      window.fetch = (input, init = {}) => {
+        try {
+          const requestUrl =
+            typeof input === "string"
+              ? input
+              : input instanceof Request
+                ? input.url
+                : String(input);
+
+          if (requestUrl.includes(endpointMarker) && typeof init.body === "string") {
+            const payload = JSON.parse(init.body);
+            if (payload?.type === "website_audit") {
+              const originalMessage = String(payload.message || "").trim();
+              payload.type = "form";
+              payload.name = payload.name || "Website audit lead";
+              payload.need = payload.need || payload.metadata?.packageKey || "website-review";
+              payload.message = originalMessage.startsWith("Website audit request")
+                ? originalMessage
+                : `Website audit request. ${originalMessage}`.trim();
+              payload.metadata = {
+                ...(payload.metadata || {}),
+                originalType: "website_audit",
+                inquiryIntent: "website_audit",
+                source: "websiteli_audit_funnel",
+              };
+
+              init = {
+                ...init,
+                body: JSON.stringify(payload),
+              };
+            }
+          }
+        } catch (error) {
+          console.warn("Could not normalize website audit submission", error);
+        }
+
+        return nativeFetch(input, init);
+      };
+    })();
+  </script>
+
   <AuditFunnel locale={locale} />
 
   <script define:vars={{ calendlyProfile }}>
@@ -66,8 +117,8 @@ const meta = locale === "de"
         if (!(clicked instanceof HTMLAnchorElement)) return;
 
         // The audit component enriches this CTA after lead submission. Re-apply the
-        // verified Calendly destination at click time so that the off-site booking
-        // link always wins while keeping the component's own tracking listener.
+        // Calendly destination at click time so that the booking link wins while
+        // keeping the component's own tracking listener.
         decorateCalendlyLink(clicked);
 
         const packageName = root.querySelector("[data-thanks-package]")?.textContent?.trim() || "";
