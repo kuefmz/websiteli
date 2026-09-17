@@ -1,0 +1,72 @@
+---
+import AttributionRuntime from "../components/AttributionRuntime.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  lang?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  lang = "en",
+} = Astro.props;
+const siteUrl = new URL("https://websiteli.ch");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0d1015" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href="/assets/websiteli-logo.png?v=3" />
+    <link rel="apple-touch-icon" href="/assets/websiteli-logo.png?v=3" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="websiteli.ch" />
+    <meta property="og:image" content="https://websiteli.ch/assets/websiteli-og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://websiteli.ch/assets/websiteli-og.png" />
+    <AttributionRuntime />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+
+      const attribution = window.websiteliGetAttribution?.() || {};
+      const attributionParams = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
+      const gtagConfig = { page_location: window.location.href, ...attributionParams };
+      if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
+        gtagConfig.debug_mode = true;
+      }
+      window.gtag('set', attributionParams);
+      window.gtag('config', 'G-TGZY875FGJ', gtagConfig);
+
+      window.trackWebsiteliEvent = function(eventName, params = {}) {
+        const liveAttribution = window.websiteliGetAnalyticsAttributionParams?.() || {};
+        const eventParams = { ...liveAttribution, ...params };
+        if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
+          eventParams.debug_mode = true;
+        }
+        window.gtag?.('event', eventName, eventParams);
+      };
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

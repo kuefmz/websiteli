@@ -4,6 +4,7 @@ import { pricing } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { getConversionHomeContent } from "../content/home";
 import { getFeaturedPortfolioProjects, realPortfolioProjects } from "../content/portfolio";
+import { getWebsiteUseCaseForProject } from "../content/websiteUseCases";
 import type { LocaleCode } from "../content/locales";
 
 interface Props {
@@ -12,7 +13,11 @@ interface Props {
 
 const { locale } = Astro.props;
 const home = getConversionHomeContent(locale);
-const featuredProjects = getFeaturedPortfolioProjects(7);
+const featuredProjects = getFeaturedPortfolioProjects(5);
+const featuredProjectCards = featuredProjects.map((project) => ({
+  project,
+  websiteUseCase: getWebsiteUseCaseForProject(project),
+}));
 const heroProjects = realPortfolioProjects;
 const heroProjectData = heroProjects.map((project) => ({
   slug: project.slug,
@@ -22,6 +27,7 @@ const heroProjectData = heroProjects.map((project) => ({
   verifiedUrl: project.verifiedUrl,
 }));
 const contactHref = `/${locale}/contact/?package=digitalAudit&project=website-review&intent=website_review`;
+const auditHref = locale === "de" ? "/de/audit/?source=homepage" : locale === "en" ? "/en/audit/?source=homepage" : contactHref;
 const portfolioHref = `/${locale}/portfolio/`;
 const workHref = "#work";
 const pricingHref = `/${locale}/services-pricing/#pricing`;
@@ -72,8 +78,8 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <p class="hero-secondary">{home.hero.secondary}</p>
       <p class="hero-price-signal">{home.hero.priceSignal}</p>
       <div class="hero-actions">
-        <a class="button primary" href={workHref} data-track-event="portfolio_cta_click" data-track-label="Hero see work">{home.hero.primaryCta}</a>
-        <a class="button secondary" href={contactHref} data-track-event="website_review_cta_click" data-track-label="Hero website review">{home.hero.secondaryCta}</a>
+        <a class="button primary" href={auditHref} data-track-event="audit_cta_click" data-track-label="Hero website review">{home.hero.secondaryCta}</a>
+        <a class="button secondary" href={workHref} data-track-event="portfolio_cta_click" data-track-label="Hero see work">{home.hero.primaryCta}</a>
       </div>
     </div>
 
@@ -149,7 +155,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <p>{home.portfolio.text}</p>
     </div>
     <div class="work-card-grid">
-      {featuredProjects.map((project) => (
+      {featuredProjectCards.map(({ project, websiteUseCase }) => (
         <article class:list={["work-card", project.featured && "featured-work"]}>
           <div class="work-preview">
             {project.image ? (
@@ -174,7 +180,9 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
               ) : (
                 <span class="text-link muted-link" title={project.verificationNote}>{home.portfolio.linkPending}</span>
               )}
-              <a class="text-link" href={`/en/portfolio/${project.slug}/`} data-track-event="homepage_case_study_click" data-track-label={project.slug}>View case study →</a>
+              {websiteUseCase && (
+                <a class="text-link" href={`/${locale}/websites/${websiteUseCase.slug}/`} data-track-event="homepage_use_case_click" data-track-label={`${project.slug}:${websiteUseCase.slug}`}>Explore use case →</a>
+              )}
             </div>
           </div>
         </article>
@@ -325,7 +333,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <h2>{home.finalCta.title}</h2>
       <p>{home.finalCta.text}</p>
     </div>
-    <a class="button primary" href={contactHref} data-track-event="website_review_cta_click" data-track-label="Homepage final website review">{home.finalCta.cta}</a>
+    <a class="button primary" href={auditHref} data-track-event="audit_cta_click" data-track-label="Homepage final website review">{home.finalCta.cta}</a>
   </section>
 </main>
 

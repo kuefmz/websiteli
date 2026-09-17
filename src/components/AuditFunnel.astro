@@ -1,0 +1,772 @@
+---
+import { pricing } from "../config/pricing";
+
+interface Props {
+  locale?: "en" | "de";
+}
+
+const { locale = "en" } = Astro.props;
+const isGerman = locale === "de";
+const chPricing = pricing.CH;
+const endpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
+const privacyPolicyVersion = "2026-06-24";
+
+const copy = isGerman
+  ? {
+      home: "Zurück zu Websiteli",
+      eyebrow: "Kostenloser Website-Check",
+      title: "Bringt Ihre Website wirklich neue Kunden?",
+      intro: "Beantworten Sie drei kurze Fragen. In weniger als einer Minute sehen Sie, wo Ihre Website wahrscheinlich Chancen verliert.",
+      websiteLabel: "Ihre Website",
+      websitePlaceholder: "ihrefirma.ch",
+      websiteButton: "Website prüfen",
+      websiteError: "Bitte geben Sie eine gültige Website-Adresse ein.",
+      trust: "Schweizer Anbieter · Kostenlos · Kein technisches Wissen nötig",
+      goalTitle: "Was soll Ihre Website besser für Sie tun?",
+      goalText: "Wählen Sie das wichtigste Ziel.",
+      goals: [
+        { value: "enquiries", label: "Mehr Anfragen erhalten", hint: "Mehr qualifizierte Kontakte" },
+        { value: "bookings", label: "Mehr Termine oder Buchungen", hint: "Weniger Reibung bis zur Buchung" },
+        { value: "professional", label: "Professioneller wirken", hint: "Mehr Vertrauen beim ersten Eindruck" },
+        { value: "google", label: "Bei Google besser gefunden werden", hint: "Mehr organische Sichtbarkeit" },
+        { value: "unsure", label: "Ich bin nicht sicher", hint: "Zeigen Sie mir die grösste Chance" },
+      ],
+      frictionTitle: "Was frustriert Sie aktuell am meisten?",
+      frictionText: "Damit wird das Ergebnis auf Ihre Situation zugeschnitten.",
+      frictions: [
+        { value: "no-enquiries", label: "Kaum jemand kontaktiert uns", hint: "Traffic kommt nicht als Anfrage an" },
+        { value: "no-visibility", label: "Ich weiss nicht, wie Kunden uns finden", hint: "Tracking und Sichtbarkeit sind unklar" },
+        { value: "outdated", label: "Die Website wirkt veraltet", hint: "Design oder Botschaft passen nicht mehr" },
+        { value: "manual-work", label: "Zu vieles läuft noch manuell", hint: "Anfragen und Follow-up kosten Zeit" },
+        { value: "not-sure", label: "Ich weiss es nicht genau", hint: "Wir priorisieren den wahrscheinlichsten Engpass" },
+      ],
+      resultEyebrow: "Ihr Schnellcheck",
+      resultTitle: "Hier verliert Ihr System wahrscheinlich Kunden.",
+      resultNote: "Dieser Schnellcheck basiert auf Ihren Antworten und ist kein technischer Crawl Ihrer Website.",
+      scoreLabel: "Conversion-Bereitschaft",
+      mapTitle: "Wahrscheinliche Engpässe",
+      priority: "Priorität",
+      review: "Prüfen",
+      later: "Später",
+      strong: "Solide",
+      modules: {
+        website: "Website",
+        lead: "Lead-Erfassung",
+        followup: "Follow-up",
+        analytics: "Analytics",
+        automation: "Automatisierung",
+      },
+      recommendationEyebrow: "Passender nächster Schritt",
+      from: "ab",
+      humanTitle: "Möchten Sie die menschlich geprüfte Version?",
+      humanText: "Hinterlassen Sie Ihre E-Mail. Wir prüfen die Website und senden Ihnen die drei Änderungen mit dem grössten Hebel.",
+      emailLabel: "E-Mail",
+      emailPlaceholder: "sie@firma.ch",
+      consentBefore: "Ich akzeptiere die",
+      consentLink: "Datenschutzerklärung",
+      submit: "Meine 3 Empfehlungen erhalten",
+      sending: "Wird gesendet…",
+      submitError: "Das hat nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an info@websiteli.ch.",
+      consentError: "Bitte akzeptieren Sie die Datenschutzerklärung.",
+      thanksEyebrow: "Geschafft",
+      thanksTitle: "Ihre Anfrage ist bei Websiteli.",
+      thanksText: "Wir prüfen Ihre Website und melden uns mit den drei wichtigsten Verbesserungen. Kein Sales-Spam.",
+      nextButton: "15-Minuten-Review anfragen",
+      homeButton: "Websiteli ansehen",
+      progress: "Schritt",
+      resultProgress: "Ergebnis",
+      websiteStarted: "Website eingegeben",
+    }
+  : {
+      home: "Back to Websiteli",
+      eyebrow: "Free website check",
+      title: "Is your website actually bringing you customers?",
+      intro: "Answer three quick questions. In under a minute, see where your website is most likely losing opportunities.",
+      websiteLabel: "Your website",
+      websitePlaceholder: "yourbusiness.ch",
+      websiteButton: "Check my website",
+      websiteError: "Please enter a valid website address.",
+      trust: "Swiss-based · Free · No technical knowledge needed",
+      goalTitle: "What would you most like your website to do better?",
+      goalText: "Choose the outcome that matters most.",
+      goals: [
+        { value: "enquiries", label: "Get more enquiries", hint: "Turn more visitors into qualified leads" },
+        { value: "bookings", label: "Get more bookings", hint: "Make the path to booking easier" },
+        { value: "professional", label: "Look more professional", hint: "Build trust faster" },
+        { value: "google", label: "Rank better on Google", hint: "Improve organic visibility" },
+        { value: "unsure", label: "I'm not sure", hint: "Show me the biggest opportunity" },
+      ],
+      frictionTitle: "What's frustrating you most right now?",
+      frictionText: "This helps tailor the result to your situation.",
+      frictions: [
+        { value: "no-enquiries", label: "Hardly anyone contacts us", hint: "Traffic is not turning into enquiries" },
+        { value: "no-visibility", label: "I don't know how people find us", hint: "Tracking and visibility are unclear" },
+        { value: "outdated", label: "The website looks outdated", hint: "The design or message no longer fits" },
+        { value: "manual-work", label: "Too much still happens manually", hint: "Leads and follow-up take too much time" },
+        { value: "not-sure", label: "I'm not really sure", hint: "We'll prioritise the most likely bottleneck" },
+      ],
+      resultEyebrow: "Your quick check",
+      resultTitle: "Here's where your system is most likely leaking customers.",
+      resultNote: "This quick diagnosis is based on your answers; it is not a technical crawl of your website.",
+      scoreLabel: "Conversion readiness",
+      mapTitle: "Likely bottlenecks",
+      priority: "Priority",
+      review: "Review",
+      later: "Later",
+      strong: "Solid",
+      modules: {
+        website: "Website",
+        lead: "Lead capture",
+        followup: "Follow-up",
+        analytics: "Analytics",
+        automation: "Automation",
+      },
+      recommendationEyebrow: "Best next step",
+      from: "from",
+      humanTitle: "Want the human-reviewed version?",
+      humanText: "Leave your email. We'll review the site and send the three changes most likely to make the biggest difference.",
+      emailLabel: "Email",
+      emailPlaceholder: "you@company.ch",
+      consentBefore: "I accept the",
+      consentLink: "Privacy Policy",
+      submit: "Send my 3 recommendations",
+      sending: "Sending…",
+      submitError: "That didn't work. Please try again or email info@websiteli.ch.",
+      consentError: "Please accept the privacy policy.",
+      thanksEyebrow: "Done",
+      thanksTitle: "Your request is with Websiteli.",
+      thanksText: "We'll review your website and come back with the three highest-impact improvements. No sales spam.",
+      nextButton: "Request a 15-minute review",
+      homeButton: "Explore Websiteli",
+      progress: "Step",
+      resultProgress: "Result",
+      websiteStarted: "Website entered",
+    };
+
+const recommendationPackages = {
+  digitalFoundation: {
+    name: "Digital Foundation",
+    price: `${chPricing.symbol} ${chPricing.packages.digitalFoundation.from.toLocaleString("en-US")}`,
+    en: "Best when the website itself needs clearer positioning, stronger trust signals or a modern conversion-focused rebuild.",
+    de: "Ideal, wenn die Website selbst klarer positioniert, vertrauenswürdiger oder conversion-stärker aufgebaut werden muss.",
+  },
+  growthSetup: {
+    name: "Growth Setup",
+    price: `${chPricing.symbol} ${chPricing.packages.growthSetup.from.toLocaleString("en-US")}`,
+    en: "Best when the website needs better lead capture, analytics, SEO foundations and a clearer path from visitor to enquiry.",
+    de: "Ideal, wenn Lead-Erfassung, Analytics, SEO-Grundlagen und der Weg vom Besucher zur Anfrage verbessert werden sollen.",
+  },
+  aiDataUpgrade: {
+    name: "AI/Data Upgrade",
+    price: `${chPricing.symbol} ${chPricing.packages.aiDataUpgrade.from.toLocaleString("en-US")}`,
+    en: "Best when the website works, but lead handling, follow-up or repetitive business tasks still depend too heavily on manual work.",
+    de: "Ideal, wenn die Website funktioniert, aber Lead-Bearbeitung, Follow-up oder wiederkehrende Aufgaben noch zu manuell sind.",
+  },
+};
+
+const homeHref = `/${locale}/`;
+const languageLinks = {
+  en: locale === "en" ? "/en/audit/" : "/en/audit/",
+  de: "/de/audit/",
+};
+---
+
+<div class="audit-funnel" data-audit-funnel>
+  <header class="funnel-header">
+    <a class="brand" href={homeHref} aria-label={copy.home}>
+      <img src="/assets/websiteli-logo.png?v=3" width="34" height="34" alt="" />
+      <span>websiteli</span>
+    </a>
+    <div class="funnel-header-actions">
+      <nav class="language-switch" aria-label="Language">
+        <a class:list={[locale === "en" && "active"]} href={languageLinks.en}>EN</a>
+        <a class:list={[locale === "de" && "active"]} href={languageLinks.de}>DE</a>
+      </nav>
+      <a class="back-link" href={homeHref}>{copy.home}</a>
+    </div>
+  </header>
+
+  <main class="funnel-main">
+    <div class="funnel-card">
+      <div class="progress-wrap" aria-hidden="true">
+        <div class="progress-copy"><span data-progress-label>{copy.progress} 1 / 3</span><span data-progress-percent>33%</span></div>
+        <div class="progress-track"><span data-progress-bar style="width:33%"></span></div>
+      </div>
+
+      <section class="funnel-step is-active" data-step="website">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1>{copy.title}</h1>
+        <p class="lead">{copy.intro}</p>
+
+        <form class="website-form" data-website-form novalidate>
+          <label for="audit-website">{copy.websiteLabel}</label>
+          <div class="website-input-wrap">
+            <span aria-hidden="true">↗</span>
+            <input id="audit-website" name="auditWebsite" inputmode="url" autocomplete="url" placeholder={copy.websitePlaceholder} required />
+          </div>
+          <p class="field-error" data-website-error aria-live="polite"></p>
+          <button class="primary-button" type="submit">{copy.websiteButton}<span aria-hidden="true">→</span></button>
+        </form>
+
+        <p class="trust-line"><span aria-hidden="true">✓</span>{copy.trust}</p>
+      </section>
+
+      <section class="funnel-step" data-step="goal" hidden>
+        <p class="step-kicker">02</p>
+        <h2>{copy.goalTitle}</h2>
+        <p class="lead compact">{copy.goalText}</p>
+        <div class="choice-grid" data-choice-group="goal">
+          {copy.goals.map((goal) => (
+            <button class="choice-card" type="button" data-value={goal.value}>
+              <span class="choice-radio" aria-hidden="true"></span>
+              <span><strong>{goal.label}</strong><small>{goal.hint}</small></span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="funnel-step" data-step="friction" hidden>
+        <p class="step-kicker">03</p>
+        <h2>{copy.frictionTitle}</h2>
+        <p class="lead compact">{copy.frictionText}</p>
+        <div class="choice-grid" data-choice-group="friction">
+          {copy.frictions.map((friction) => (
+            <button class="choice-card" type="button" data-value={friction.value}>
+              <span class="choice-radio" aria-hidden="true"></span>
+              <span><strong>{friction.label}</strong><small>{friction.hint}</small></span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="funnel-step" data-step="result" hidden>
+        <div class="result-heading">
+          <div>
+            <p class="eyebrow">{copy.resultEyebrow}</p>
+            <h2>{copy.resultTitle}</h2>
+          </div>
+          <div class="score-ring" data-score-ring>
+            <strong><span data-score>--</span><small>/100</small></strong>
+            <span>{copy.scoreLabel}</span>
+          </div>
+        </div>
+        <p class="diagnostic-note">{copy.resultNote}</p>
+
+        <div class="opportunity-map">
+          <div class="map-heading"><strong>{copy.mapTitle}</strong><span data-website-domain></span></div>
+          <div class="map-row" data-module="website"><span>{copy.modules.website}</span><b data-status></b></div>
+          <div class="map-row" data-module="lead"><span>{copy.modules.lead}</span><b data-status></b></div>
+          <div class="map-row" data-module="followup"><span>{copy.modules.followup}</span><b data-status></b></div>
+          <div class="map-row" data-module="analytics"><span>{copy.modules.analytics}</span><b data-status></b></div>
+          <div class="map-row" data-module="automation"><span>{copy.modules.automation}</span><b data-status></b></div>
+        </div>
+
+        <div class="recommendation-card">
+          <p class="eyebrow">{copy.recommendationEyebrow}</p>
+          <div class="recommendation-title">
+            <h3 data-rec-name>Growth Setup</h3>
+            <span>{copy.from} <strong data-rec-price></strong></span>
+          </div>
+          <p data-rec-text></p>
+        </div>
+
+        <form class="lead-capture" data-audit-lead-form novalidate>
+          <div class="lead-copy">
+            <h3>{copy.humanTitle}</h3>
+            <p>{copy.humanText}</p>
+          </div>
+          <label for="audit-email">{copy.emailLabel}</label>
+          <input id="audit-email" name="email" type="email" autocomplete="email" placeholder={copy.emailPlaceholder} required />
+          <label class="honeypot" aria-hidden="true">Fax<input name="fax" tabindex="-1" autocomplete="off" /></label>
+          <label class="consent-row">
+            <input name="privacy" type="checkbox" value="yes" required />
+            <span>{copy.consentBefore} <a href="/privacy/" target="_blank" rel="noopener">{copy.consentLink}</a>.</span>
+          </label>
+          <button class="primary-button" type="submit">{copy.submit}<span aria-hidden="true">→</span></button>
+          <p class="form-status" data-form-status aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="funnel-step thanks-step" data-step="thanks" hidden>
+        <div class="success-mark" aria-hidden="true">✓</div>
+        <p class="eyebrow">{copy.thanksEyebrow}</p>
+        <h2>{copy.thanksTitle}</h2>
+        <p class="lead">{copy.thanksText}</p>
+        <div class="thanks-summary">
+          <span data-thanks-domain></span>
+          <strong data-thanks-package></strong>
+        </div>
+        <div class="thanks-actions">
+          <a class="primary-button link-button" data-followup-link href={`/${locale}/contact/?project=website-review&intent=audit_followup`}>{copy.nextButton}<span aria-hidden="true">→</span></a>
+          <a class="secondary-button" href={homeHref}>{copy.homeButton}</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="funnel-footer">
+    <span>© {new Date().getFullYear()} Websiteli</span>
+    <a href="/privacy/">{copy.consentLink}</a>
+  </footer>
+</div>
+
+<script define:vars={{ copy, locale, endpoint, recommendationPackages, privacyPolicyVersion }}>
+  (() => {
+    const root = document.querySelector("[data-audit-funnel]");
+    if (!root) return;
+
+    const state = {
+      website: "",
+      goal: "",
+      friction: "",
+      score: 0,
+      packageKey: "growthSetup",
+    };
+
+    const steps = Array.from(root.querySelectorAll("[data-step]"));
+    const progressLabel = root.querySelector("[data-progress-label]");
+    const progressPercent = root.querySelector("[data-progress-percent]");
+    const progressBar = root.querySelector("[data-progress-bar]");
+
+    function track(name, params = {}) {
+      window.trackWebsiteliEvent?.(name, {
+        event_category: "website_audit_funnel",
+        locale,
+        ...params,
+      });
+    }
+
+    function showStep(name) {
+      steps.forEach((step) => {
+        const active = step.dataset.step === name;
+        step.hidden = !active;
+        step.classList.toggle("is-active", active);
+      });
+
+      const progress = {
+        website: [copy.progress + " 1 / 3", "33%", "33%"],
+        goal: [copy.progress + " 2 / 3", "66%", "66%"],
+        friction: [copy.progress + " 3 / 3", "100%", "100%"],
+        result: [copy.resultProgress, "100%", "100%"],
+        thanks: [copy.resultProgress, "100%", "100%"],
+      }[name];
+
+      if (progress) {
+        if (progressLabel) progressLabel.textContent = progress[0];
+        if (progressPercent) progressPercent.textContent = progress[1];
+        if (progressBar) progressBar.style.width = progress[2];
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function normalizeWebsite(value) {
+      const trimmed = value.trim();
+      if (!trimmed) return null;
+      const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+      try {
+        const url = new URL(candidate);
+        if (!url.hostname.includes(".")) return null;
+        return url;
+      } catch {
+        return null;
+      }
+    }
+
+    const websiteForm = root.querySelector("[data-website-form]");
+    const websiteError = root.querySelector("[data-website-error]");
+    websiteForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(websiteForm);
+      const parsed = normalizeWebsite(String(formData.get("auditWebsite") || ""));
+      if (!parsed) {
+        if (websiteError) websiteError.textContent = copy.websiteError;
+        return;
+      }
+
+      if (websiteError) websiteError.textContent = "";
+      state.website = parsed.toString();
+      track("audit_start", { website_domain: parsed.hostname });
+      track("audit_step_complete", { step_name: "website", website_domain: parsed.hostname });
+      showStep("goal");
+    });
+
+    root.querySelectorAll("[data-choice-group]").forEach((group) => {
+      group.addEventListener("click", (event) => {
+        const button = event.target instanceof Element ? event.target.closest("[data-value]") : null;
+        if (!(button instanceof HTMLButtonElement)) return;
+        const value = button.dataset.value || "";
+        const field = group.dataset.choiceGroup;
+        if (!field) return;
+
+        group.querySelectorAll("[data-value]").forEach((item) => item.classList.toggle("selected", item === button));
+        state[field] = value;
+        track("audit_step_complete", { step_name: field, answer: value });
+
+        window.setTimeout(() => {
+          if (field === "goal") showStep("friction");
+          if (field === "friction") renderResult();
+        }, 160);
+      });
+    });
+
+    function getDiagnosis() {
+      let score = 82;
+      const statuses = {
+        website: "review",
+        lead: "review",
+        followup: "later",
+        analytics: "review",
+        automation: "later",
+      };
+      let packageKey = "growthSetup";
+
+      if (state.goal === "enquiries") {
+        score -= 5;
+        statuses.lead = "priority";
+        statuses.analytics = "review";
+      } else if (state.goal === "bookings") {
+        score -= 6;
+        statuses.lead = "priority";
+        statuses.followup = "review";
+      } else if (state.goal === "professional") {
+        score -= 5;
+        statuses.website = "priority";
+        packageKey = "digitalFoundation";
+      } else if (state.goal === "google") {
+        score -= 7;
+        statuses.website = "review";
+        statuses.analytics = "priority";
+      }
+
+      if (state.friction === "no-enquiries") {
+        score -= 18;
+        statuses.lead = "priority";
+        statuses.followup = "review";
+        packageKey = "growthSetup";
+      } else if (state.friction === "no-visibility") {
+        score -= 14;
+        statuses.analytics = "priority";
+        statuses.lead = "review";
+        packageKey = "growthSetup";
+      } else if (state.friction === "outdated") {
+        score -= 20;
+        statuses.website = "priority";
+        statuses.lead = "review";
+        packageKey = "digitalFoundation";
+      } else if (state.friction === "manual-work") {
+        score -= 22;
+        statuses.followup = "priority";
+        statuses.automation = "priority";
+        statuses.analytics = "review";
+        packageKey = "aiDataUpgrade";
+      } else {
+        score -= 10;
+        statuses.analytics = "priority";
+        statuses.lead = "review";
+      }
+
+      return {
+        score: Math.max(42, Math.min(84, score)),
+        statuses,
+        packageKey,
+      };
+    }
+
+    function statusCopy(status) {
+      return {
+        priority: copy.priority,
+        review: copy.review,
+        later: copy.later,
+        strong: copy.strong,
+      }[status] || copy.review;
+    }
+
+    function renderResult() {
+      const diagnosis = getDiagnosis();
+      state.score = diagnosis.score;
+      state.packageKey = diagnosis.packageKey;
+      const rec = recommendationPackages[state.packageKey];
+      const parsed = normalizeWebsite(state.website);
+      const domain = parsed?.hostname?.replace(/^www\./, "") || state.website;
+
+      const score = root.querySelector("[data-score]");
+      const domainLabel = root.querySelector("[data-website-domain]");
+      const recName = root.querySelector("[data-rec-name]");
+      const recPrice = root.querySelector("[data-rec-price]");
+      const recText = root.querySelector("[data-rec-text]");
+
+      if (score) score.textContent = String(diagnosis.score);
+      if (domainLabel) domainLabel.textContent = domain;
+      if (recName) recName.textContent = rec.name;
+      if (recPrice) recPrice.textContent = rec.price;
+      if (recText) recText.textContent = locale === "de" ? rec.de : rec.en;
+
+      Object.entries(diagnosis.statuses).forEach(([module, status]) => {
+        const row = root.querySelector(`[data-module="${module}"]`);
+        const badge = row?.querySelector("[data-status]");
+        if (!row || !badge) return;
+        row.dataset.level = status;
+        badge.textContent = statusCopy(status);
+      });
+
+      showStep("result");
+      track("audit_result_view", {
+        website_domain: domain,
+        goal: state.goal,
+        friction: state.friction,
+        score: state.score,
+        recommended_package: state.packageKey,
+      });
+    }
+
+    const leadForm = root.querySelector("[data-audit-lead-form]");
+    const formStatus = root.querySelector("[data-form-status]");
+    leadForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(leadForm);
+      const email = String(formData.get("email") || "").trim();
+      const privacyAccepted = formData.get("privacy") === "yes";
+      const honeypot = String(formData.get("fax") || "").trim();
+
+      if (honeypot) {
+        showStep("thanks");
+        return;
+      }
+
+      if (!leadForm.checkValidity() || !email || !privacyAccepted) {
+        leadForm.reportValidity();
+        if (formStatus) formStatus.textContent = privacyAccepted ? "" : copy.consentError;
+        return;
+      }
+
+      const submitButton = leadForm.querySelector("button[type='submit']");
+      submitButton?.setAttribute("disabled", "true");
+      if (formStatus) formStatus.textContent = copy.sending;
+
+      const attribution = window.websiteliGetAttribution?.() || {};
+      const parsed = normalizeWebsite(state.website);
+      const domain = parsed?.hostname?.replace(/^www\./, "") || state.website;
+      const rec = recommendationPackages[state.packageKey];
+      const payload = {
+        type: "website_audit",
+        name: "Website audit lead",
+        email,
+        phone: "",
+        company: domain,
+        need: state.packageKey,
+        message: `Website audit request for ${state.website}. Goal: ${state.goal}. Friction: ${state.friction}. Quick diagnostic score: ${state.score}/100. Recommended package: ${rec.name}.`,
+        metadata: {
+          language: locale,
+          pageUrl: window.location.href,
+          website: state.website,
+          websiteDomain: domain,
+          auditGoal: state.goal,
+          auditFriction: state.friction,
+          auditScore: state.score,
+          packageKey: state.packageKey,
+          source: "websiteli_audit_funnel",
+          sourcePage: window.location.pathname,
+          sourcePath: window.location.pathname,
+          referrer: document.referrer,
+          userAgent: navigator.userAgent,
+          utm_source: attribution.utm_source || "",
+          utm_medium: attribution.utm_medium || "",
+          utm_campaign: attribution.utm_campaign || "",
+          utm_term: attribution.utm_term || "",
+          utm_content: attribution.utm_content || "",
+          utm_id: attribution.utm_id || "",
+          gclid: attribution.gclid || "",
+          fbclid: attribution.fbclid || "",
+          landingPage: attribution.landingPage || "",
+          privacyPolicyAccepted: true,
+          privacyPolicyVersion,
+          privacyPolicyUrl: `${window.location.origin}/privacy/`,
+          timestamp: new Date().toISOString(),
+        },
+      };
+
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+        });
+
+        track("audit_email_submit", {
+          website_domain: domain,
+          score: state.score,
+          recommended_package: state.packageKey,
+          goal: state.goal,
+          friction: state.friction,
+        });
+
+        const thanksDomain = root.querySelector("[data-thanks-domain]");
+        const thanksPackage = root.querySelector("[data-thanks-package]");
+        const followupLink = root.querySelector("[data-followup-link]");
+        if (thanksDomain) thanksDomain.textContent = domain;
+        if (thanksPackage) thanksPackage.textContent = rec.name;
+        if (followupLink instanceof HTMLAnchorElement) {
+          const url = new URL(followupLink.href, window.location.origin);
+          url.searchParams.set("package", state.packageKey);
+          url.searchParams.set("website", state.website);
+          url.searchParams.set("intent", "audit_followup");
+          followupLink.href = url.pathname + url.search;
+          followupLink.addEventListener("click", () => track("audit_followup_cta_click", {
+            website_domain: domain,
+            recommended_package: state.packageKey,
+          }), { once: true });
+        }
+        showStep("thanks");
+      } catch (error) {
+        console.error(error);
+        if (formStatus) formStatus.textContent = copy.submitError;
+      } finally {
+        submitButton?.removeAttribute("disabled");
+      }
+    });
+  })();
+</script>
+
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(html) { background: #0b0d12; color-scheme: dark; }
+  :global(body) {
+    margin: 0;
+    min-width: 320px;
+    background:
+      radial-gradient(circle at 12% -10%, rgba(227, 38, 53, 0.17), transparent 32rem),
+      radial-gradient(circle at 100% 0%, rgba(119, 90, 255, 0.10), transparent 28rem),
+      #0b0d12;
+    color: #f7f7f8;
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .audit-funnel { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+  .funnel-header, .funnel-footer { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+  .funnel-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 0; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-weight: 800; letter-spacing: -0.03em; font-size: 1.08rem; }
+  .brand img { border-radius: 9px; }
+  .funnel-header-actions { display: flex; align-items: center; gap: 18px; }
+  .back-link { color: #aeb2bc; text-decoration: none; font-size: .88rem; }
+  .back-link:hover { color: #fff; }
+  .language-switch { display: inline-flex; padding: 3px; border: 1px solid #292d36; border-radius: 999px; background: rgba(255,255,255,.035); }
+  .language-switch a { min-width: 35px; padding: 6px 8px; border-radius: 999px; color: #8f949f; text-decoration: none; text-align: center; font-size: .72rem; font-weight: 800; }
+  .language-switch a.active { color: #fff; background: #252932; }
+
+  .funnel-main { flex: 1; width: min(760px, calc(100% - 28px)); margin: 24px auto 44px; display: flex; align-items: flex-start; justify-content: center; }
+  .funnel-card { width: 100%; border: 1px solid #282c34; border-radius: 28px; padding: clamp(24px, 5vw, 48px); background: rgba(17, 20, 27, .94); box-shadow: 0 32px 80px rgba(0,0,0,.28); backdrop-filter: blur(18px); }
+  .progress-wrap { margin-bottom: clamp(30px, 5vw, 50px); }
+  .progress-copy { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; color: #8d929d; font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .progress-track { height: 4px; border-radius: 99px; overflow: hidden; background: #282c34; }
+  .progress-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #e32635, #ff6b77); transition: width .32s ease; }
+
+  .funnel-step[hidden] { display: none !important; }
+  .funnel-step.is-active { animation: enter .26s ease both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .eyebrow, .step-kicker { margin: 0 0 12px; color: #ff6875; font-size: .78rem; line-height: 1; font-weight: 800; text-transform: uppercase; letter-spacing: .13em; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1, h2 { max-width: 690px; margin-bottom: 16px; letter-spacing: -.045em; line-height: 1.03; }
+  h1 { font-size: clamp(2.25rem, 8vw, 4.1rem); }
+  h2 { font-size: clamp(2rem, 6.5vw, 3.3rem); }
+  h3 { letter-spacing: -.025em; }
+  .lead { max-width: 620px; margin-bottom: 30px; color: #b9bdc7; font-size: clamp(1.04rem, 2.8vw, 1.22rem); line-height: 1.62; }
+  .lead.compact { margin-bottom: 26px; font-size: 1rem; }
+
+  .website-form label, .lead-capture > label:not(.consent-row):not(.honeypot) { display: block; margin: 0 0 8px; color: #d9dbe0; font-size: .83rem; font-weight: 700; }
+  .website-input-wrap { display: flex; align-items: center; gap: 10px; min-height: 62px; padding: 0 16px; border: 1px solid #393e49; border-radius: 15px; background: #0d1016; transition: border-color .18s, box-shadow .18s; }
+  .website-input-wrap:focus-within { border-color: #e32635; box-shadow: 0 0 0 3px rgba(227,38,53,.13); }
+  .website-input-wrap span { color: #777d88; }
+  input { width: 100%; min-width: 0; border: 1px solid #393e49; border-radius: 14px; padding: 16px; background: #0d1016; color: #fff; outline: none; font: inherit; font-size: 16px; }
+  .website-input-wrap input { border: 0; padding: 0; background: transparent; }
+  input:focus { border-color: #e32635; box-shadow: 0 0 0 3px rgba(227,38,53,.13); }
+  input::placeholder { color: #666c77; }
+  .field-error, .form-status { min-height: 19px; margin: 8px 0 0; color: #ff8992; font-size: .82rem; }
+
+  .primary-button, .secondary-button { min-height: 58px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; padding: 14px 20px; font: inherit; font-weight: 800; cursor: pointer; text-decoration: none; transition: transform .15s ease, background .15s ease, opacity .15s ease; }
+  .primary-button { width: 100%; margin-top: 10px; background: #e32635; color: #fff; box-shadow: 0 12px 28px rgba(227,38,53,.2); }
+  .primary-button:hover { transform: translateY(-1px); background: #f02b3a; }
+  .primary-button:disabled { cursor: wait; opacity: .55; transform: none; }
+  .secondary-button { background: #20242c; color: #fff; border: 1px solid #333843; }
+  .trust-line { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 18px 0 0; color: #7f8590; font-size: .78rem; text-align: center; }
+  .trust-line span { color: #6dd5a4; font-weight: 900; }
+
+  .choice-grid { display: grid; gap: 11px; }
+  .choice-card { width: 100%; min-height: 76px; display: grid; grid-template-columns: 22px 1fr 20px; gap: 13px; align-items: center; padding: 15px 16px; border: 1px solid #303540; border-radius: 16px; background: #11151c; color: #fff; text-align: left; cursor: pointer; font: inherit; transition: border-color .16s, background .16s, transform .16s; }
+  .choice-card:hover, .choice-card.selected { border-color: rgba(227,38,53,.85); background: #17161d; transform: translateY(-1px); }
+  .choice-radio { width: 19px; height: 19px; border: 2px solid #505663; border-radius: 50%; position: relative; }
+  .choice-card.selected .choice-radio { border-color: #ff5360; }
+  .choice-card.selected .choice-radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: #ff5360; }
+  .choice-card strong { display: block; margin-bottom: 3px; font-size: .98rem; }
+  .choice-card small { display: block; color: #858b97; line-height: 1.35; }
+  .choice-arrow { color: #656b75; font-size: 1.1rem; }
+
+  .result-heading { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .score-ring { width: 126px; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; align-content: center; border: 8px solid #2d313a; outline: 1px solid #414650; background: radial-gradient(circle, #171b23 0 56%, transparent 57%); text-align: center; }
+  .score-ring strong { font-size: 1.65rem; line-height: 1; }
+  .score-ring strong small { color: #7f8590; font-size: .72rem; }
+  .score-ring > span { margin-top: 6px; max-width: 78px; color: #8c919b; font-size: .64rem; line-height: 1.2; }
+  .diagnostic-note { margin: 4px 0 24px; padding: 10px 12px; border-left: 2px solid #464b55; color: #8c919c; font-size: .78rem; line-height: 1.5; }
+
+  .opportunity-map { overflow: hidden; margin: 0 0 18px; border: 1px solid #2e333d; border-radius: 18px; background: #0e1218; }
+  .map-heading, .map-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 17px; }
+  .map-heading { border-bottom: 1px solid #2a2f38; background: #151920; }
+  .map-heading strong { font-size: .9rem; }
+  .map-heading span { color: #7e8490; font-size: .76rem; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .map-row + .map-row { border-top: 1px solid #222730; }
+  .map-row span { color: #d5d8de; font-size: .9rem; }
+  .map-row b { padding: 5px 8px; border-radius: 999px; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; background: #252a33; color: #a2a8b2; }
+  .map-row[data-level="priority"] b { background: rgba(227,38,53,.15); color: #ff7984; }
+  .map-row[data-level="review"] b { background: rgba(239,182,65,.12); color: #efc86c; }
+  .map-row[data-level="strong"] b { background: rgba(69,190,133,.12); color: #6ed5a4; }
+
+  .recommendation-card { margin: 0 0 18px; padding: 20px; border: 1px solid rgba(227,38,53,.34); border-radius: 18px; background: linear-gradient(135deg, rgba(227,38,53,.09), rgba(113,85,255,.045)); }
+  .recommendation-card .eyebrow { margin-bottom: 10px; }
+  .recommendation-title { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .recommendation-title h3 { margin-bottom: 8px; font-size: 1.25rem; }
+  .recommendation-title > span { color: #8d929d; font-size: .75rem; white-space: nowrap; }
+  .recommendation-title strong { color: #fff; font-size: .95rem; }
+  .recommendation-card > p:last-child { margin: 4px 0 0; color: #aeb3bd; font-size: .9rem; line-height: 1.55; }
+
+  .lead-capture { margin-top: 20px; padding-top: 23px; border-top: 1px solid #2b3039; }
+  .lead-copy h3 { margin-bottom: 7px; font-size: 1.25rem; }
+  .lead-copy p { margin-bottom: 18px; color: #9298a3; font-size: .9rem; line-height: 1.5; }
+  .consent-row { display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 9px; margin-top: 13px; color: #838995; font-size: .77rem; line-height: 1.45; }
+  .consent-row input { width: 17px; height: 17px; margin: 1px 0 0; padding: 0; accent-color: #e32635; }
+  .consent-row a { color: #b8bdc7; }
+  .honeypot { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+
+  .thanks-step { text-align: center; padding-block: 20px; }
+  .thanks-step .lead { margin-inline: auto; }
+  .success-mark { width: 66px; height: 66px; display: grid; place-items: center; margin: 0 auto 22px; border-radius: 50%; background: rgba(82,205,146,.12); border: 1px solid rgba(82,205,146,.3); color: #67d9a3; font-size: 1.7rem; font-weight: 900; }
+  .thanks-summary { max-width: 460px; margin: 0 auto 24px; padding: 14px 16px; display: flex; justify-content: space-between; gap: 12px; border: 1px solid #303540; border-radius: 14px; background: #0e1218; font-size: .84rem; }
+  .thanks-summary span { color: #8c929d; overflow: hidden; text-overflow: ellipsis; }
+  .thanks-actions { max-width: 460px; margin-inline: auto; display: grid; gap: 10px; }
+  .link-button { margin-top: 0; }
+
+  .funnel-footer { display: flex; justify-content: space-between; gap: 20px; padding: 0 0 24px; color: #666c76; font-size: .75rem; }
+  .funnel-footer a { color: inherit; }
+
+  @media (max-width: 640px) {
+    .funnel-header { width: min(100% - 24px, 1120px); padding-top: 12px; }
+    .brand span, .back-link { display: none; }
+    .funnel-header-actions { margin-left: auto; }
+    .funnel-main { width: min(100% - 16px, 760px); margin-top: 8px; margin-bottom: 24px; }
+    .funnel-card { border-radius: 22px; padding: 22px 18px 26px; }
+    .progress-wrap { margin-bottom: 31px; }
+    .result-heading { grid-template-columns: 1fr; }
+    .score-ring { width: 108px; margin-top: 2px; }
+    .recommendation-title { display: block; }
+    .recommendation-title > span { display: inline-block; margin-bottom: 8px; }
+    .choice-card { min-height: 72px; }
+    .funnel-footer { width: min(100% - 28px, 1120px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
