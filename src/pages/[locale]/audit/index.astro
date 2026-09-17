@@ -10,6 +10,7 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale === "de" ? "de" : "en";
+const calendlyProfile = "https://calendly.com/jenifer-ciuciu-kiss-websiteli";
 const meta = locale === "de"
   ? {
       title: "Kostenloser Website-Check | Websiteli",
@@ -28,4 +29,61 @@ const meta = locale === "de"
   lang={locale}
 >
   <AuditFunnel locale={locale} />
+
+  <script define:vars={{ calendlyProfile }}>
+    (() => {
+      const root = document.querySelector("[data-audit-funnel]");
+      if (!root) return;
+
+      function buildCalendlyUrl() {
+        const url = new URL(calendlyProfile);
+        const emailInput = root.querySelector("#audit-email");
+        const email = emailInput instanceof HTMLInputElement ? emailInput.value.trim() : "";
+        if (email) url.searchParams.set("email", email);
+
+        const attribution = window.websiteliGetAttribution?.() || {};
+        url.searchParams.set("utm_source", attribution.utm_source || "websiteli");
+        url.searchParams.set("utm_medium", attribution.utm_medium || "website");
+        url.searchParams.set("utm_campaign", attribution.utm_campaign || "website_audit");
+        url.searchParams.set("utm_content", "audit_15_minute_review");
+        if (attribution.utm_term) url.searchParams.set("utm_term", attribution.utm_term);
+
+        return url;
+      }
+
+      function decorateCalendlyLink(anchor) {
+        anchor.href = buildCalendlyUrl().toString();
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.dataset.bookingProvider = "calendly";
+      }
+
+      const initialLink = root.querySelector("[data-followup-link]");
+      if (initialLink instanceof HTMLAnchorElement) decorateCalendlyLink(initialLink);
+
+      root.addEventListener("click", (event) => {
+        const clicked = event.target instanceof Element ? event.target.closest("[data-followup-link]") : null;
+        if (!(clicked instanceof HTMLAnchorElement)) return;
+
+        // The audit component enriches this CTA after lead submission. Re-apply the
+        // verified Calendly destination at click time so that the off-site booking
+        // link always wins while keeping the component's own tracking listener.
+        decorateCalendlyLink(clicked);
+
+        const packageName = root.querySelector("[data-thanks-package]")?.textContent?.trim() || "";
+        const websiteDomain = root.querySelector("[data-thanks-domain]")?.textContent?.trim() || "";
+        const eventParams = {
+          event_category: "website_audit_funnel",
+          booking_provider: "calendly",
+          booking_duration_minutes: 15,
+          recommended_package: packageName,
+          website_domain: websiteDomain,
+          page_path: window.location.pathname,
+        };
+
+        window.trackWebsiteliEvent?.("booking_click", eventParams);
+        window.trackWebsiteliEvent?.("calendly_booking_click", eventParams);
+      }, true);
+    })();
+  </script>
 </FunnelLayout>
