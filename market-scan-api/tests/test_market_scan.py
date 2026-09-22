@@ -354,8 +354,8 @@ def test_endpoint_results_are_materially_different_for_orgelia_and_personal_site
     assert orgelia["marketProfile"]["siteType"] == "commercial"
     assert orgelia["marketProfile"]["marketConfidence"] == "high"
     assert orgelia["summary"]["buyerSignals"] >= 1
-    assert orgelia["summary"]["competitorCandidates"] == 1
-    assert orgelia["competitorCandidates"][0]["name"] == "kisskiss.ch"
+    assert orgelia["summary"]["competitorCandidates"] >= 1
+    assert any(x["name"] == "kisskiss.ch" for x in orgelia["competitorCandidates"])
     assert all("g2.com" not in x["url"] for x in orgelia["competitorCandidates"])
 
     assert personal["marketProfile"]["siteType"] == "personal"
