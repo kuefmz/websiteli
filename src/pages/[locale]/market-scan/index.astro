@@ -1,5 +1,5 @@
 ---
-import FunnelLayout from "../../../layouts/FunnelLayout.astro";
+import Layout from "../../../layouts/Layout.astro";
 import MarketScan from "../../../components/MarketScan.astro";
 
 export function getStaticPaths() {
@@ -14,7 +14,19 @@ const meta = locale === "de" ? {
   title:"Free Market Scan | Websiteli",
   description:"Give Websiteli one URL and uncover public buyer signals, Reddit discussions, review mentions, competitor candidates and content opportunities."
 };
+const alternates = [
+  { locale: "en", href: "/en/market-scan/" },
+  { locale: "de", href: "/de/market-scan/" },
+];
 ---
-<FunnelLayout title={meta.title} description={meta.description} canonicalPath={`/${locale}/market-scan/`} lang={locale}>
+<Layout
+  title={meta.title}
+  description={meta.description}
+  canonicalPath={`/${locale}/market-scan/`}
+  lang={locale}
+  locale={locale}
+  page="market-scan"
+  alternates={alternates}
+>
   <MarketScan locale={locale} apiBase={apiBase} />
-</FunnelLayout>
+</Layout>
