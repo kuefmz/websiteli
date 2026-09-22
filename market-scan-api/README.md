@@ -1,14 +1,29 @@
 # Websiteli Market Scan API
 
-Backend for the Websiteli Market Scan lead-generation tool.
+Python/FastAPI backend for the Websiteli Market Scan lead-generation tool.
 
 ## Product flow
 
-A visitor enters one public website URL on `/{locale}/market-scan/`. The frontend calls this API and shows a preview (score, counts and top priorities). The full report is held server-side for one hour and is emailed only after the visitor submits an email address and consent.
+A visitor enters one public website URL on `/{locale}/market-scan/`. The Astro frontend calls this API and shows a preview (score, counts and top priorities). The full report is held server-side for one hour and is emailed only after the visitor submits an email address and consent.
 
 The same submission also uses Websiteli’s existing Google Apps Script newsletter endpoint (`type: "newsletter"`, campaign `market-scan-report`). The full report is not exposed in the browser before email submission.
 
-## What the MVP now analyses
+## Stack
+
+- Python 3.12+
+- FastAPI
+- Uvicorn
+- httpx
+- BeautifulSoup + lxml
+- Pydantic
+- Python standard-library SMTP for report delivery
+
+The frontend API contract remains unchanged from the original Node implementation:
+- `GET /health`
+- `POST /api/scan`
+- `POST /api/email-report`
+
+## What the MVP analyses
 
 Given one public website URL, it:
 
@@ -26,17 +41,20 @@ Given one public website URL, it:
 
 The UI intentionally says **review mentions** and **competitor candidates**. These are discovery signals, not complete platform datasets.
 
-## Lead capture
+## Security protections
 
-The Market Scan uses the **same newsletter endpoint and payload shape as the existing Websiteli newsletter**:
+The Python rewrite hardens the crawler before public deployment:
 
-- `type: "newsletter"`
-- `campaign: "market-scan-report"`
-- privacy consent + policy version
-- source URL, referrer and attribution/UTM metadata
-- scanned domain and scan summary metadata
+- only HTTP/HTTPS URLs are accepted;
+- localhost and local hostnames are rejected;
+- DNS targets are resolved and private, loopback, link-local, reserved, multicast and other non-public IPs are rejected;
+- redirect destinations are validated again and redirect count is capped;
+- response bodies are capped at 2 MB;
+- unexpected response content types are rejected;
+- scan concurrency is bounded;
+- per-IP scan and email rate limits are enabled.
 
-This lets Market Scan subscriptions enter the existing newsletter workflow without introducing another lead endpoint.
+These controls substantially reduce SSRF and abuse risk, although a public crawler should still be monitored and periodically security-reviewed.
 
 ## Run locally
 
@@ -44,8 +62,12 @@ Terminal 1:
 
 ```bash
 cd market-scan-api
-npm install
-npm run dev
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8787
 ```
 
 Terminal 2, from the repository root:
@@ -54,12 +76,16 @@ Terminal 2, from the repository root:
 PUBLIC_MARKET_SCAN_API_URL=http://localhost:8787 npm run dev
 ```
 
-Test the API directly:
+Open:
 
-```bash
-curl -X POST http://localhost:8787/api/scan \
-  -H "content-type: application/json" \
-  -d '{"url":"https://websiteli.ch"}'
+```text
+http://localhost:4321/en/market-scan/
+```
+
+or:
+
+```text
+http://localhost:4321/de/market-scan/
 ```
 
 Health check:
@@ -68,26 +94,60 @@ Health check:
 curl http://localhost:8787/health
 ```
 
+Test a scan directly:
+
+```bash
+curl -X POST http://localhost:8787/api/scan \
+  -H "content-type: application/json" \
+  -d '{"url":"https://websiteli.ch"}'
+```
+
+Without SMTP configuration, scanning works but `/api/email-report` returns a 503. This is expected for local preview testing.
+
+## Test report email locally
+
+Export SMTP values in the backend terminal before starting Uvicorn:
+
+```bash
+export SMTP_HOST="YOUR_SMTP_HOST"
+export SMTP_PORT="587"
+export SMTP_USER="YOUR_EMAIL"
+export SMTP_PASS="YOUR_PASSWORD"
+export REPORT_FROM_EMAIL="YOUR_EMAIL"
+export REPORT_REPLY_TO="YOUR_EMAIL"
+
+uvicorn main:app --reload --host 127.0.0.1 --port 8787
+```
+
+Never commit SMTP passwords or app passwords.
+
 ## Production environment
 
 - `PORT` — supplied by the host.
 - `ALLOWED_ORIGINS` — comma-separated frontend origins, normally `https://websiteli.ch`.
-- `SMTP_HOST` — SMTP server used to deliver the generated report.
+- `SMTP_HOST` — SMTP server used to deliver generated reports.
 - `SMTP_PORT` — normally `587` (STARTTLS) or `465` (TLS).
 - `SMTP_USER` — SMTP username.
-- `SMTP_PASS` — SMTP password/app password. Never commit this value.
+- `SMTP_PASS` — SMTP password/app password.
 - `REPORT_FROM_EMAIL` — optional sender address; defaults to `SMTP_USER`.
 - `REPORT_REPLY_TO` — optional reply-to address.
+- `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
+- `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
+- `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
 
-Deploy `market-scan-api/` as a Node web service. Then build/deploy the existing static Astro frontend with:
+For a Python web-service deployment, use the `market-scan-api` directory and start with:
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port $PORT
+```
+
+Then build/deploy the existing static Astro frontend with:
 
 ```bash
 PUBLIC_MARKET_SCAN_API_URL=https://YOUR-API-HOST npm run build
 ```
 
-Suggested free MVP deployment: connect the existing GitHub repository to a Node-capable host and set the service root directory to `market-scan-api`.
-
-## Accuracy and production notes
+## Accuracy and persistence notes
 
 The scanner never fabricates large counts. Metrics are the number of records actually returned during that scan.
 
@@ -95,4 +155,4 @@ Public search providers can rate-limit automated requests. A zero-result section
 
 The website opportunity score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
 
-Generated reports are stored only in the API process memory and expire after one hour. A successful email send deletes the cached report immediately. This MVP does not require a report database.
+Generated reports are stored only in API process memory and expire after one hour. A successful email send deletes the cached report immediately. This is suitable for local testing and a single-instance MVP, but a multi-instance production deployment should use a shared TTL store.
