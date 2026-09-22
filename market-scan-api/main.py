@@ -390,6 +390,14 @@ async def ddg_search(query: str, limit: int = 12) -> list[dict[str, Any]]:
     return [x for x in results if x["title"]]
 
 
+async def ddg_search_many(queries: list[str], per_query: int = 8) -> list[dict[str, Any]]:
+    clean_queries = [clean_text(q) for q in queries if clean_text(q)]
+    if not clean_queries:
+        return []
+    batches = await asyncio.gather(*(ddg_search(query, per_query) for query in clean_queries))
+    return unique_by([item for batch in batches for item in batch])
+
+
 async def reddit_search(query: str) -> list[dict[str, Any]]:
     url = f"https://www.reddit.com/search.json?q={quote_plus(query)}&limit=40&sort=relevance&t=year"
     try:
@@ -602,21 +610,55 @@ def filter_relevant(items: list[dict[str, Any]], terms: list[str], minimum: floa
     return unique_by([item for _, item in scored])
 
 
-def build_market_queries(profile: dict[str, Any], brand: str) -> dict[str, str]:
+def expanded_market_terms(profile: dict[str, Any]) -> list[str]:
     terms = [clean_text(x) for x in profile.get("queryTerms", []) if clean_text(x)]
+    positioning = clean_text(profile.get("positioning", "")).lower()
+    expansions = []
+    if re.search(r"\bpleasure products?\b|\badult products?\b|\bintimate products?\b", positioning):
+        expansions.extend(["sex toys", "intimate products"])
+    if re.search(r"\bprice comparison\b|compare prices", positioning):
+        expansions.append("price comparison")
+    output = []
+    for term in [*expansions, *terms]:
+        term_l = term.lower()
+        if term_l not in [x.lower() for x in output]:
+            output.append(term)
+    return output[:4]
+
+
+def build_market_queries(profile: dict[str, Any], brand: str) -> dict[str, Any]:
+    terms = expanded_market_terms(profile)
     if not terms:
         return {}
-    selected = terms[:3]
-    concept = " OR ".join(f'"{term}"' for term in selected)
     location = clean_text(profile.get("marketLocation", ""))
     geo = f" {location}" if location else ""
-    reddit_terms = " ".join(selected[:2])
+
+    buyer = []
+    pain = []
+    competitors = []
+    reddit = []
+    for term in terms[:3]:
+        buyer.extend([
+            f'"{term}"{geo} recommendations',
+            f'"{term}"{geo} compare prices',
+        ])
+        pain.extend([
+            f'"{term}"{geo} problems',
+            f'"{term}"{geo} complaints',
+        ])
+        competitors.extend([
+            f'"{term}"{geo} shops',
+            f'"{term}"{geo} alternatives',
+        ])
+        reddit.append(f'site:reddit.com "{term}"{geo}')
+
     return {
-        "buyer": f'({concept}){geo} recommendations compare best',
-        "pain": f'({concept}){geo} problems complaints challenges',
-        "competitors": f'({concept}){geo} shops stores alternatives competitors',
-        "reddit": f'{reddit_terms}{geo}'.strip(),
-        "reviews": f'"{brand}" reviews',
+        "terms": terms,
+        "buyer": buyer,
+        "pain": pain,
+        "competitors": competitors,
+        "reddit": reddit,
+        "reviews": [f'"{brand}" reviews'],
     }
 
 
@@ -910,27 +952,31 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             query_terms = profile["queryTerms"]
             queries = build_market_queries(profile, brand)
 
+            search_terms = expanded_market_terms(profile)
             if profile["siteType"] == "commercial" and queries:
-                reddit, buyer_web, pain_web, market_results, review_results = await asyncio.gather(
-                    reddit_search(queries["reddit"]),
-                    ddg_search(queries["buyer"], 12),
-                    ddg_search(queries["pain"], 12),
-                    ddg_search(queries["competitors"], 14),
-                    ddg_search(queries["reviews"], 12),
+                primary_reddit_query = " ".join(search_terms[:2]) + (f" {profile.get('marketLocation')}" if profile.get("marketLocation") else "")
+                reddit, reddit_web, buyer_web, pain_web, market_results, review_results = await asyncio.gather(
+                    reddit_search(primary_reddit_query.strip()),
+                    ddg_search_many(queries["reddit"], 6),
+                    ddg_search_many(queries["buyer"], 6),
+                    ddg_search_many(queries["pain"], 6),
+                    ddg_search_many(queries["competitors"], 8),
+                    ddg_search_many(queries["reviews"], 10),
                 )
             else:
-                reddit, buyer_web, pain_web, market_results = [], [], [], []
+                reddit, reddit_web, buyer_web, pain_web, market_results = [], [], [], [], []
                 review_results = await ddg_search(f'"{brand}" reviews', 12)
 
-        relevant_reddit = filter_relevant(reddit, query_terms, 0.72)
-        relevant_buyer_web = filter_relevant(buyer_web, query_terms, 0.72)
-        relevant_pain_web = filter_relevant(pain_web, query_terms, 0.72)
+        relevance_terms = search_terms or query_terms
+        relevant_reddit = filter_relevant(unique_by(reddit + reddit_web), relevance_terms, 0.72)
+        relevant_buyer_web = filter_relevant(buyer_web, relevance_terms, 0.72)
+        relevant_pain_web = filter_relevant(pain_web, relevance_terms, 0.72)
         reddit_buyer, reddit_pains = classify_signals(relevant_reddit)
         web_buyer, _ = classify_signals(relevant_buyer_web)
         _, web_pains = classify_signals(relevant_pain_web)
         buyer_signals = unique_by(reddit_buyer + web_buyer)
         pain_points = unique_by(reddit_pains + web_pains)
-        relevant_market = filter_relevant(market_results, query_terms, 0.78)
+        relevant_market = filter_relevant(market_results, relevance_terms, 0.78)
         competitors = market_candidates(relevant_market, host)
         diagnostics = website_diagnostics(pages)
         content_opportunities = (
@@ -973,7 +1019,8 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
                 "relevanceThreshold": 0.72,
                 "competitorThreshold": 0.78,
                 "rawCounts": {
-                    "reddit": len(reddit),
+                    "redditApi": len(reddit),
+                    "redditWeb": len(reddit_web),
                     "buyerWeb": len(buyer_web),
                     "painWeb": len(pain_web),
                     "marketWeb": len(market_results),
