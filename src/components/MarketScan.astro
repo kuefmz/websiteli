@@ -5,7 +5,7 @@ const de = locale === "de";
 const c = de ? {
   eyebrow:"Kostenloser Market Scan",
   title:"Gib uns eine URL. Wir kartieren deinen Markt.",
-  intro:"Ein echter Live-Scan deiner Website plus öffentliche Markt-, Reddit-, Wettbewerber- und Review-Signale. Keine erfundenen Zahlen.",
+  intro:"Ein Live-Scan deiner Website plus öffentliche Markt-, Reddit-, Wettbewerber- und Review-Signale — mit nachvollziehbaren Quellen statt erfundenen Zahlen.",
   placeholder:"deinefirma.ch",
   button:"Kostenlosen Scan starten",
   scanning:"Wir recherchieren deinen Markt…",
@@ -15,30 +15,35 @@ const c = de ? {
   pages:"Seiten gecrawlt", buyer:"Buyer Signals", reddit:"Reddit-Diskussionen", reviews:"Review-Erwähnungen",
   competitors:"Wettbewerber-Kandidaten", content:"Content-Chancen", ads:"Ad Angles", actions:"Prioritäten",
   scoreTitle:"Website Opportunity Score",
-  scoreNote:"Transparenter Heuristik-Score aus beobachtbaren Website-Signalen — kein Umsatzversprechen.",
+  scoreNote:"Transparenter Heuristik-Score aus 9 beobachtbaren Website-Signalen — kein Umsatzversprechen.",
   priorities:"Was wir zuerst ändern würden",
   diagnostics:"Website-Diagnose",
   signals:"Buyer Signals", pains:"Wiederkehrende Pain Points", compTitle:"Wettbewerber-Kandidaten",
+  redditTitle:"Reddit-Diskussionen", reviewsTitle:"Review-Erwähnungen",
   contentTitle:"Content-Chancen", adTitle:"Ad Angles zum Testen",
   source:"Quelle öffnen", empty:"Für diesen Bereich wurden beim aktuellen Scan keine belastbaren öffentlichen Signale gefunden.",
-  newsletterEyebrow:"Vollständiger Report",
-  newsletterTitle:"Wohin sollen wir deinen vollständigen Market Scan schicken?",
-  newsletterText:"Du siehst hier die Zusammenfassung. Gib deine E-Mail an und wir senden dir den vollständigen Report mit Website-Diagnose, Quellen, Buyer Signals, Wettbewerbern, Content-Chancen und Ad Angles.",
-  email:"E-Mail", subscribe:"Vollständigen Report per E-Mail senden", sending:"Report wird gesendet…",
+  reportTitle:"Dein vollständiger Market Scan",
+  reportIntro:"Du kannst den vollständigen Report jetzt ansehen. Nach 90 Sekunden wird er gesperrt; danach schicken wir ihn dir kostenlos per E-Mail.",
+  preview:"Kostenlose Report-Vorschau",
+  locksIn:"Report wird gesperrt in",
+  locked:"Deine Report-Vorschau ist abgelaufen",
+  lockedText:"Gib deine E-Mail ein und wir schicken dir den vollständigen Market Scan mit allen Diagnosen, Quellen, Buyer Signals, Wettbewerbern, Content-Chancen und Ad Angles.",
+  email:"E-Mail", subscribe:"Vollständigen Report senden", sending:"Report wird gesendet…",
   consent:"Ich möchte meinen Market-Scan-Report und Websiteli Growth Notes per E-Mail erhalten und akzeptiere die",
   privacy:"Datenschutzerklärung",
   subscribed:"Gesendet — prüfe deinen Posteingang. Dein vollständiger Market Scan ist unterwegs.",
   subscribeError:"Das hat nicht geklappt. Bitte versuche es erneut.",
   subscribeValidation:"Bitte gib eine gültige E-Mail ein und bestätige die Einwilligung.",
-  ctaTitle:"Willst du, dass Websiteli die wichtigsten Punkte direkt umsetzt?",
+  ctaTitle:"Soll Websiteli die wichtigsten Punkte direkt umsetzen?",
   ctaText:"Wir priorisieren die Chancen und können Website, SEO, Tracking, Ads oder Automatisierung umsetzen.",
   cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
   method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
-  pass:"OK", review:"Prüfen"
+  pass:"OK", review:"Prüfen",
+  priority:"Priorität", area:"Bereich", scanTime:"Scan-Zeit"
 } : {
   eyebrow:"Free Market Scan",
   title:"Give us one URL. We’ll map your market.",
-  intro:"A real live crawl of your website plus public market, Reddit, competitor and review signals. No invented numbers.",
+  intro:"A live crawl of your website plus public market, Reddit, competitor and review signals — with traceable sources instead of invented numbers.",
   placeholder:"yourbusiness.ch",
   button:"Run my free scan",
   scanning:"Researching your market…",
@@ -48,16 +53,20 @@ const c = de ? {
   pages:"Pages crawled", buyer:"Buyer signals", reddit:"Reddit discussions", reviews:"Review mentions",
   competitors:"Competitor candidates", content:"Content opportunities", ads:"Ad angles", actions:"Priorities",
   scoreTitle:"Website opportunity score",
-  scoreNote:"Transparent heuristic score based on observable website signals — not a revenue promise.",
+  scoreNote:"Transparent heuristic score based on 9 observable website signals — not a revenue promise.",
   priorities:"What we would fix first",
   diagnostics:"Website diagnosis",
   signals:"Buyer signals", pains:"Recurring pain points", compTitle:"Competitor candidates",
+  redditTitle:"Reddit discussions", reviewsTitle:"Review mentions",
   contentTitle:"Content opportunities", adTitle:"Ad angles worth testing",
   source:"Open source", empty:"No sufficiently strong public signals were found for this section in the current scan.",
-  newsletterEyebrow:"Full report",
-  newsletterTitle:"Where should we send your complete Market Scan?",
-  newsletterText:"You can see the summary here. Enter your email and we’ll send the full report with website diagnostics, sources, buyer signals, competitors, content opportunities and ad angles.",
-  email:"Email", subscribe:"Email my full report", sending:"Sending your report…",
+  reportTitle:"Your complete Market Scan",
+  reportIntro:"You can explore the full report now. After 90 seconds it locks; then we’ll send the complete report to you free by email.",
+  preview:"Free report preview",
+  locksIn:"Report locks in",
+  locked:"Your report preview has ended",
+  lockedText:"Enter your email and we’ll send the complete Market Scan with every diagnosis, source, buyer signal, competitor, content opportunity and ad angle.",
+  email:"Email", subscribe:"Send my full report", sending:"Sending your report…",
   consent:"I want my Market Scan report and Websiteli Growth Notes by email and accept the",
   privacy:"Privacy Policy",
   subscribed:"Sent — check your inbox. Your complete Market Scan is on its way.",
@@ -67,125 +76,187 @@ const c = de ? {
   ctaText:"We can prioritise the opportunities and implement the website, SEO, tracking, ads or automation.",
   cta:"Book a 30-minute call", again:"Scan another website",
   method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
-  pass:"OK", review:"Review"
+  pass:"OK", review:"Review",
+  priority:"Priority", area:"Area", scanTime:"Scan time"
 };
 const newsletterEndpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
 const privacyPolicyVersion = "2026-06-24";
 ---
 
-<div class="market-scan" data-market-scan data-api-base={apiBase}>
-  <header class="scan-header">
-    <a href={`/${locale}/`} class="brand"><img src="/assets/websiteli-logo.png?v=3" alt="" width="38" height="38" /><span>websiteli</span></a>
-    <a href={`/${locale}/`} class="back">← Websiteli</a>
-  </header>
-
-  <main>
-    <section class="hero" data-form-view>
-      <div class="hero-proof">Live crawl <span>•</span> Public sources <span>•</span> Actionable recommendations</div>
+<main class="market-scan" data-market-scan data-api-base={apiBase}>
+  <section class="scan-hero section-shell" data-form-view>
+    <div class="scan-hero-copy">
       <p class="eyebrow">{c.eyebrow}</p>
       <h1>{c.title}</h1>
-      <p class="intro">{c.intro}</p>
-      <form data-scan-form novalidate>
-        <div class="input-row">
-          <span class="url-icon" aria-hidden="true">↗</span>
+      <p class="scan-intro">{c.intro}</p>
+      <form class="scan-form" data-scan-form novalidate>
+        <label class="scan-url">
+          <span class="url-prefix" aria-hidden="true">↗</span>
           <input name="url" inputmode="url" autocomplete="url" placeholder={c.placeholder} required />
-          <button type="submit">{c.button}<span>→</span></button>
-        </div>
+          <button class="button" type="submit">{c.button}<span aria-hidden="true">→</span></button>
+        </label>
         <p class="status" data-status aria-live="polite"></p>
       </form>
-      <p class="trust">✓ {c.note}</p>
-      <div class="what-you-get">
+      <p class="scan-trust">✓ {c.note}</p>
+      <div class="scan-tags" aria-label="Included in the scan">
         <span>Buyer intent</span><span>Competitors</span><span>Website gaps</span><span>Content ideas</span><span>Ad angles</span>
       </div>
-    </section>
+    </div>
+    <aside class="scan-demo-card" aria-hidden="true">
+      <div class="demo-top"><span>Market Scan</span><span class="demo-live">● Live</span></div>
+      <div class="demo-score"><strong>82</strong><span>/100</span></div>
+      <div class="demo-lines"><i></i><i></i><i></i></div>
+      <div class="demo-grid"><span>Buyer signals</span><strong>24</strong><span>Competitors</span><strong>9</strong><span>Actions</span><strong>6</strong></div>
+    </aside>
+  </section>
 
-    <section class="loading" data-loading hidden>
-      <div class="spinner"></div>
+  <section class="scan-loading section-shell" data-loading hidden>
+    <div class="loading-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="eyebrow">{c.eyebrow}</p>
       <h2>{c.scanning}</h2>
       <p data-loading-domain></p>
       <div class="loading-steps">
-        <span>01 <b>Website crawl</b></span>
-        <span>02 <b>Market discovery</b></span>
-        <span>03 <b>Signal analysis</b></span>
-        <span>04 <b>Priority plan</b></span>
+        <span><b>01</b> Website crawl</span>
+        <span><b>02</b> Market discovery</span>
+        <span><b>03</b> Signal analysis</span>
+        <span><b>04</b> Priority plan</span>
       </div>
       <div class="progress-track"><span data-loading-bar></span></div>
+    </div>
+  </section>
+
+  <section class="scan-results section-shell" data-results hidden>
+    <header class="result-header">
+      <div>
+        <p class="eyebrow">{c.summary}</p>
+        <h1 data-brand></h1>
+        <p class="scanned-url" data-scanned-url></p>
+      </div>
+      <div class="scan-time"><span>{c.scanTime}</span><strong><span data-elapsed>—</span>s</strong></div>
+    </header>
+
+    <section class="overview-grid">
+      <article class="score-card">
+        <div class="score-ring"><strong data-score>—</strong><span>/100</span></div>
+        <div><h2>{c.scoreTitle}</h2><p>{c.scoreNote}</p></div>
+      </article>
+      <article class="priority-card">
+        <p class="eyebrow">{c.priorities}</p>
+        <div data-priority-preview></div>
+      </article>
     </section>
 
-    <section class="results" data-results hidden>
-      <div class="result-top">
+    <div class="metric-grid">
+      <article><strong data-metric="pagesCrawled">0</strong><span>{c.pages}</span></article>
+      <article><strong data-metric="buyerSignals">0</strong><span>{c.buyer}</span></article>
+      <article><strong data-metric="redditDiscussions">0</strong><span>{c.reddit}</span></article>
+      <article><strong data-metric="reviewMentions">0</strong><span>{c.reviews}</span></article>
+      <article><strong data-metric="competitorCandidates">0</strong><span>{c.competitors}</span></article>
+      <article><strong data-metric="contentOpportunities">0</strong><span>{c.content}</span></article>
+      <article><strong data-metric="adAngles">0</strong><span>{c.ads}</span></article>
+      <article><strong data-metric="priorityActions">0</strong><span>{c.actions}</span></article>
+    </div>
+
+    <section class="report-shell" data-report-shell>
+      <header class="report-heading">
         <div>
-          <p class="eyebrow">{c.summary}</p>
-          <h2 data-brand></h2>
-          <p class="scanned-url" data-scanned-url></p>
+          <p class="eyebrow">{c.preview}</p>
+          <h2>{c.reportTitle}</h2>
+          <p>{c.reportIntro}</p>
         </div>
-        <div class="elapsed"><strong data-elapsed>—</strong><span>seconds</span></div>
-      </div>
-
-      <div class="result-lead">
-        <article class="score-card">
-          <div class="score-ring"><strong data-score>—</strong><span>/100</span></div>
-          <div><h3>{c.scoreTitle}</h3><p>{c.scoreNote}</p></div>
-        </article>
-        <article class="priority-preview">
-          <p class="eyebrow">{c.priorities}</p>
-          <div data-priority-preview></div>
-        </article>
-      </div>
-
-      <div class="metric-grid">
-        <article><strong data-metric="pagesCrawled">0</strong><span>{c.pages}</span></article>
-        <article><strong data-metric="buyerSignals">0</strong><span>{c.buyer}</span></article>
-        <article><strong data-metric="redditDiscussions">0</strong><span>{c.reddit}</span></article>
-        <article><strong data-metric="reviewMentions">0</strong><span>{c.reviews}</span></article>
-        <article><strong data-metric="competitorCandidates">0</strong><span>{c.competitors}</span></article>
-        <article><strong data-metric="contentOpportunities">0</strong><span>{c.content}</span></article>
-        <article><strong data-metric="adAngles">0</strong><span>{c.ads}</span></article>
-        <article><strong data-metric="priorityActions">0</strong><span>{c.actions}</span></article>
-      </div>
-
-      <section class="locked-report">
-        <div class="lock-icon" aria-hidden="true">✉</div>
-        <div>
-          <p class="eyebrow">{c.newsletterEyebrow}</p>
-          <h2>{c.newsletterTitle}</h2>
-          <p>{c.newsletterText}</p>
-          <div class="locked-items">
-            <span>✓ {c.diagnostics}</span>
-            <span>✓ {c.signals}</span>
-            <span>✓ {c.pains}</span>
-            <span>✓ {c.compTitle}</span>
-            <span>✓ {c.contentTitle}</span>
-            <span>✓ {c.adTitle}</span>
-          </div>
+        <div class="report-timer" data-report-timer>
+          <span>{c.locksIn}</span>
+          <strong data-countdown>1:30</strong>
         </div>
-        <form data-market-newsletter novalidate>
-          <input name="campaign" type="hidden" value="market-scan-report" />
-          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
-          <label><span>{c.email}</span><input name="email" type="email" autocomplete="email" required placeholder="you@company.com" /></label>
-          <label class="consent">
-            <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
-            <span>{c.consent} <a href="/privacy/" target="_blank" rel="noopener">{c.privacy}</a>.</span>
-          </label>
-          <button type="submit">{c.subscribe}<span>→</span></button>
-          <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
-        </form>
-      </section>
+      </header>
 
-      <p class="method-note">{c.method}</p>
+      <div class="report-content" data-report-content>
+        <section class="report-section">
+          <div class="section-title"><span>01</span><h3>{c.priorities}</h3></div>
+          <div class="action-list" data-actions></div>
+        </section>
 
-      <section class="conversion">
+        <section class="report-section">
+          <div class="section-title"><span>02</span><h3>{c.diagnostics}</h3></div>
+          <div class="diagnostics" data-diagnostics></div>
+        </section>
+
+        <div class="report-two-col">
+          <section class="report-section">
+            <div class="section-title"><span>03</span><h3>{c.signals}</h3></div>
+            <div class="source-list" data-buyer-signals></div>
+          </section>
+          <section class="report-section">
+            <div class="section-title"><span>04</span><h3>{c.pains}</h3></div>
+            <div class="source-list" data-pain-points></div>
+          </section>
+        </div>
+
+        <div class="report-two-col">
+          <section class="report-section">
+            <div class="section-title"><span>05</span><h3>{c.redditTitle}</h3></div>
+            <div class="source-list" data-reddit></div>
+          </section>
+          <section class="report-section">
+            <div class="section-title"><span>06</span><h3>{c.reviewsTitle}</h3></div>
+            <div class="source-list" data-reviews></div>
+          </section>
+        </div>
+
+        <section class="report-section">
+          <div class="section-title"><span>07</span><h3>{c.compTitle}</h3></div>
+          <div class="competitor-grid" data-competitors></div>
+        </section>
+
+        <div class="report-two-col">
+          <section class="report-section">
+            <div class="section-title"><span>08</span><h3>{c.contentTitle}</h3></div>
+            <div class="source-list" data-content-opportunities></div>
+          </section>
+          <section class="report-section">
+            <div class="section-title"><span>09</span><h3>{c.adTitle}</h3></div>
+            <div class="angle-list" data-ad-angles></div>
+          </section>
+        </div>
+      </div>
+
+      <div class="report-lock" data-report-lock hidden>
+        <div class="lock-card">
+          <span class="lock-mark" aria-hidden="true">✦</span>
+          <p class="eyebrow">{c.newsletterEyebrow ?? c.preview}</p>
+          <h2>{c.locked}</h2>
+          <p>{c.lockedText}</p>
+          <form data-market-newsletter novalidate>
+            <input name="campaign" type="hidden" value="market-scan-report" />
+            <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+            <label class="email-field"><span>{c.email}</span><input name="email" type="email" autocomplete="email" required placeholder="you@company.com" /></label>
+            <label class="consent">
+              <input name="privacyPolicyAccepted" type="checkbox" value="yes" required />
+              <span>{c.consent} <a href="/privacy/" target="_blank" rel="noopener">{c.privacy}</a>.</span>
+            </label>
+            <button class="button" type="submit">{c.subscribe}<span aria-hidden="true">→</span></button>
+            <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <p class="method-note">{c.method}</p>
+
+    <section class="scan-cta">
+      <div>
         <p class="eyebrow">Websiteli</p>
         <h2>{c.ctaTitle}</h2>
         <p>{c.ctaText}</p>
-        <div class="actions">
-          <a href="https://calendly.com/jenifer-ciuciu-kiss-websiteli/30min" target="_blank" rel="noopener noreferrer" data-book>{c.cta}<span>→</span></a>
-          <button type="button" data-again>{c.again}</button>
-        </div>
-      </section>
+      </div>
+      <div class="cta-actions">
+        <a class="button" href="https://calendly.com/jenifer-ciuciu-kiss-websiteli/30min" target="_blank" rel="noopener noreferrer" data-book>{c.cta}<span>→</span></a>
+        <button class="button secondary" type="button" data-again>{c.again}</button>
+      </div>
     </section>
-  </main>
-</div>
+  </section>
+</main>
 
 <script define:vars={{ c, locale, newsletterEndpoint, privacyPolicyVersion }}>
 (() => {
@@ -197,44 +268,120 @@ const privacyPolicyVersion = "2026-06-24";
   const results = root.querySelector("[data-results]");
   const status = root.querySelector("[data-status]");
   const apiBase = root.dataset.apiBase.replace(/\/$/, "");
+  const PREVIEW_SECONDS = 90;
   let latestScan = null;
   let loadingTimer = null;
+  let reportTimer = null;
 
   const track = (name, params={}) => window.trackWebsiteliEvent?.(name, { event_category:"market_scan", locale, ...params });
   track("market_scan_view");
 
-  function normalize(value) {
-    const v = String(value || "").trim();
-    if (!v) return null;
-    try {
-      const url = new URL(/^https?:\/\//i.test(v) ? v : `https://${v}`);
-      return url.hostname.includes(".") ? url : null;
-    } catch { return null; }
-  }
-  function clear(el) { while (el?.firstChild) el.firstChild.remove(); }
-  function empty(el) { const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; el.appendChild(p); }
+  const clear = (el) => { while (el?.firstChild) el.firstChild.remove(); };
+  const text = (value) => String(value ?? "").trim();
+  const makeEmpty = () => {
+    const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; return p;
+  };
+  const normalize = (value) => {
+    const v=text(value);
+    if(!v) return null;
+    try { const url=new URL(/^https?:\/\//i.test(v)?v:`https://${v}`); return url.hostname.includes(".")?url:null; }
+    catch { return null; }
+  };
 
-  function renderActions(items) {
-    const preview=root.querySelector("[data-priority-preview]"); clear(preview);
-    if(!items?.length){ const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; preview.appendChild(p); return; }
+  function renderPriorities(items){
+    const preview=root.querySelector("[data-priority-preview]");
+    const full=root.querySelector("[data-actions]");
+    clear(preview); clear(full);
+    if(!items?.length){ preview.appendChild(makeEmpty()); full.appendChild(makeEmpty()); return; }
     items.slice(0,3).forEach((item,i)=>{
-      const row=document.createElement("div");
-      const n=document.createElement("b"); n.textContent=String(i+1).padStart(2,"0");
-      const text=document.createElement("span"); text.textContent=item.title;
-      row.append(n,text); preview.appendChild(row);
+      const row=document.createElement("div"); row.className="priority-row";
+      row.innerHTML=`<b>${String(i+1).padStart(2,"0")}</b><span></span>`;
+      row.querySelector("span").textContent=item.title;
+      preview.appendChild(row);
+    });
+    items.forEach((item,i)=>{
+      const article=document.createElement("article");
+      const top=document.createElement("div"); top.className="action-top";
+      const num=document.createElement("span"); num.textContent=String(i+1).padStart(2,"0");
+      const meta=document.createElement("small"); meta.textContent=`${item.priority || c.priority} · ${item.area || c.area}`;
+      const h=document.createElement("h4"); h.textContent=item.title;
+      const p=document.createElement("p"); p.textContent=item.detail || "";
+      top.append(num,meta); article.append(top,h,p); full.appendChild(article);
     });
   }
 
-  function render(data) {
+  function renderDiagnostics(items){
+    const el=root.querySelector("[data-diagnostics]"); clear(el);
+    if(!items?.length){ el.appendChild(makeEmpty()); return; }
+    items.forEach(item=>{
+      const row=document.createElement("div"); row.className="diagnostic-row";
+      const copy=document.createElement("div");
+      const strong=document.createElement("strong"); strong.textContent=item.label;
+      const small=document.createElement("small"); small.textContent=item.detail || "";
+      const badge=document.createElement("span"); badge.className=item.passed?"pass":"review"; badge.textContent=item.passed?c.pass:c.review;
+      copy.append(strong,small); row.append(copy,badge); el.appendChild(row);
+    });
+  }
+
+  function sourceItem(item){
+    const article=document.createElement("article");
+    const strong=document.createElement("strong"); strong.textContent=item.title || item.name || "Signal";
+    article.appendChild(strong);
+    const body=text(item.body || item.snippet || item.context);
+    if(body){ const p=document.createElement("p"); p.textContent=body.slice(0,420); article.appendChild(p); }
+    const url=item.url || item.source;
+    if(url){
+      const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=c.source+" ↗";
+      a.addEventListener("click",()=>track("market_scan_source_click",{source_url:url}));
+      article.appendChild(a);
+    }
+    return article;
+  }
+  function renderSources(selector,items,limit=12){
+    const el=root.querySelector(selector); clear(el);
+    if(!items?.length){ el.appendChild(makeEmpty()); return; }
+    items.slice(0,limit).forEach(item=>el.appendChild(sourceItem(item)));
+  }
+  function renderCompetitors(items){
+    const el=root.querySelector("[data-competitors]"); clear(el);
+    if(!items?.length){ el.appendChild(makeEmpty()); return; }
+    items.slice(0,12).forEach(item=>{
+      const a=document.createElement("a"); a.className="competitor-card"; a.href=item.url; a.target="_blank"; a.rel="noopener noreferrer";
+      const strong=document.createElement("strong"); strong.textContent=item.name || item.title;
+      const p=document.createElement("p"); p.textContent=text(item.context || item.snippet).slice(0,180);
+      a.append(strong,p); el.appendChild(a);
+    });
+  }
+  function renderAngles(items){
+    const el=root.querySelector("[data-ad-angles]"); clear(el);
+    if(!items?.length){ el.appendChild(makeEmpty()); return; }
+    items.forEach((item,i)=>{
+      const article=document.createElement("article");
+      const n=document.createElement("span"); n.textContent=String(i+1).padStart(2,"0");
+      const p=document.createElement("p"); p.textContent=item;
+      article.append(n,p); el.appendChild(article);
+    });
+  }
+
+  function render(data){
     latestScan=data;
-    root.querySelector("[data-brand]").textContent=data.brand || "Market scan";
-    root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || "";
-    root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||0)/1000).toFixed(1);
-    root.querySelector("[data-score]").textContent=String(data.website?.opportunityScore ?? "—");
-    Object.entries(data.summary||{}).forEach(([key,value]) => {
+    const report=data.report || {};
+    root.querySelector("[data-brand]").textContent=data.brand || report.brand || "Market scan";
+    root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || report.scannedUrl || "";
+    root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||report.elapsedMs||0)/1000).toFixed(1);
+    root.querySelector("[data-score]").textContent=String(data.website?.opportunityScore ?? report.website?.opportunityScore ?? "—");
+    Object.entries(data.summary||report.summary||{}).forEach(([key,value])=>{
       const el=root.querySelector(`[data-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);
     });
-    renderActions(data.priorityActions);
+    renderPriorities(report.priorityActions || data.priorityActions || []);
+    renderDiagnostics(report.website?.diagnostics || []);
+    renderSources("[data-buyer-signals]",report.buyerSignals || []);
+    renderSources("[data-pain-points]",report.painPoints || []);
+    renderSources("[data-reddit]",report.redditDiscussions || [],10);
+    renderSources("[data-reviews]",report.reviewMentions || []);
+    renderCompetitors(report.competitorCandidates || []);
+    renderSources("[data-content-opportunities]",report.contentOpportunities || []);
+    renderAngles(report.adAngles || []);
   }
 
   function startLoadingProgress(domain){
@@ -246,115 +393,99 @@ const privacyPolicyVersion = "2026-06-24";
     if(loadingTimer) window.clearInterval(loadingTimer);
     loadingTimer=null; const bar=root.querySelector("[data-loading-bar]"); if(bar) bar.style.width="100%";
   }
+  function unlockReport(){
+    if(reportTimer) window.clearInterval(reportTimer);
+    const shell=root.querySelector("[data-report-shell]");
+    shell?.classList.remove("is-locked");
+    root.querySelector("[data-report-lock]").hidden=true;
+    root.querySelector("[data-report-timer]").hidden=false;
+    root.querySelector("[data-countdown]").textContent="1:30";
+  }
+  function startPreviewTimer(){
+    unlockReport();
+    let remaining=PREVIEW_SECONDS;
+    const countdown=root.querySelector("[data-countdown]");
+    const update=()=>{
+      const m=Math.floor(remaining/60); const s=String(remaining%60).padStart(2,"0");
+      countdown.textContent=`${m}:${s}`;
+      if(remaining<=0){
+        window.clearInterval(reportTimer); reportTimer=null;
+        root.querySelector("[data-report-shell]")?.classList.add("is-locked");
+        root.querySelector("[data-report-lock]").hidden=false;
+        root.querySelector("[data-report-timer]").hidden=true;
+        track("market_scan_report_locked",{website_domain:(()=>{try{return new URL(latestScan?.scannedUrl||"").hostname}catch{return ""}})()});
+        return;
+      }
+      remaining-=1;
+    };
+    update(); reportTimer=window.setInterval(update,1000);
+  }
 
-  form?.addEventListener("submit", async (event) => {
+  form?.addEventListener("submit", async (event)=>{
     event.preventDefault(); status.textContent="";
     const url=normalize(new FormData(form).get("url"));
     if(!url){ status.textContent=c.error; return; }
     const button=form.querySelector('button[type="submit"]'); button?.setAttribute("disabled","true");
-    formView.hidden=true; results.hidden=true; loading.hidden=false; startLoadingProgress(url.hostname);
+    unlockReport(); formView.hidden=true; results.hidden=true; loading.hidden=false; startLoadingProgress(url.hostname);
     track("market_scan_start",{website_domain:url.hostname});
-
-    try {
-      const response=await fetch(`${apiBase}/api/scan`,{
-        method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({url:url.toString()})
-      });
+    try{
+      const response=await fetch(`${apiBase}/api/scan`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({url:url.toString()})});
       const data=await response.json().catch(()=>({}));
-      if(!response.ok) throw new Error(data.error || c.error);
+      if(!response.ok) throw new Error(data.detail || data.error || c.error);
       render(data); stopLoadingProgress();
-      window.setTimeout(()=>{ loading.hidden=true; results.hidden=false; window.scrollTo({top:0,behavior:"smooth"}); },220);
+      window.setTimeout(()=>{
+        loading.hidden=true; results.hidden=false; startPreviewTimer();
+        results.scrollIntoView({behavior:"smooth",block:"start"});
+      },220);
       track("market_scan_complete",{website_domain:url.hostname,...data.summary,opportunity_score:data.website?.opportunityScore,elapsed_ms:data.elapsedMs});
-    } catch (error) {
+    }catch(error){
       stopLoadingProgress(); loading.hidden=true; formView.hidden=false;
       status.textContent=error?.message || c.error;
       track("market_scan_error",{website_domain:url.hostname,error_message:String(error?.message||"unknown")});
-    } finally { button?.removeAttribute("disabled"); }
+    }finally{ button?.removeAttribute("disabled"); }
   });
 
   const newsletterForm=root.querySelector("[data-market-newsletter]");
-  newsletterForm?.addEventListener("submit", async (event)=>{
+  newsletterForm?.addEventListener("submit",async(event)=>{
     event.preventDefault();
     const fd=new FormData(newsletterForm);
-    const email=String(fd.get("email")||"").trim();
-    const honeypot=String(fd.get("website")||"").trim();
-    const accepted=String(fd.get("privacyPolicyAccepted")||"")==="yes";
+    const email=text(fd.get("email")); const honeypot=text(fd.get("website"));
+    const accepted=text(fd.get("privacyPolicyAccepted"))==="yes";
     const msg=newsletterForm.querySelector("[data-newsletter-status]");
     const button=newsletterForm.querySelector('button[type="submit"]');
-
     if(honeypot){ newsletterForm.reset(); if(msg) msg.textContent=c.subscribed; return; }
-    if(!newsletterForm.checkValidity() || !email || !accepted){
-      newsletterForm.reportValidity(); if(msg) msg.textContent=c.subscribeValidation; return;
-    }
+    if(!newsletterForm.checkValidity() || !email || !accepted){ newsletterForm.reportValidity(); if(msg) msg.textContent=c.subscribeValidation; return; }
 
     const attribution=window.websiteliGetAttribution?.() || {};
     const scannedUrl=latestScan?.scannedUrl || "";
     const payload={
-      type:"newsletter",
-      email,
-      campaign:"market-scan-report",
-      sourceUrl:window.location.href,
-      language:document.documentElement.lang || locale,
-      website:honeypot,
+      type:"newsletter",email,campaign:"market-scan-report",sourceUrl:window.location.href,
+      language:document.documentElement.lang || locale,website:honeypot,
       metadata:{
         language:document.documentElement.lang || locale,
-        country:window.websiteliPricing?.country || "",
-        currency:window.websiteliPricing?.currency || "",
-        market:window.websiteliPricing?.pricingMarket || "",
-        pageUrl:window.location.href,
-        referrer:document.referrer,
-        userAgent:navigator.userAgent,
-        campaign:"market-scan-report",
-        scannedUrl,
-        scannedDomain:(()=>{try{return new URL(scannedUrl).hostname}catch{return ""}})(),
-        opportunityScore:latestScan?.website?.opportunityScore ?? "",
-        buyerSignals:latestScan?.summary?.buyerSignals ?? 0,
-        competitorCandidates:latestScan?.summary?.competitorCandidates ?? 0,
-        priorityActions:latestScan?.summary?.priorityActions ?? 0,
-        utm_source:attribution.utm_source || "",
-        utm_medium:attribution.utm_medium || "",
-        utm_campaign:attribution.utm_campaign || "",
-        utm_term:attribution.utm_term || "",
-        utm_content:attribution.utm_content || "",
-        utm_id:attribution.utm_id || "",
-        gclid:attribution.gclid || "",
-        gbraid:attribution.gbraid || "",
-        wbraid:attribution.wbraid || "",
-        fbclid:attribution.fbclid || "",
-        msclkid:attribution.msclkid || "",
-        landingPage:attribution.landingPage || "",
-        firstSeenAt:attribution.firstSeenAt || "",
-        first_utm_source:attribution.first_utm_source || "",
-        first_utm_medium:attribution.first_utm_medium || "",
-        first_utm_campaign:attribution.first_utm_campaign || "",
-        first_gclid:attribution.first_gclid || "",
-        first_fbclid:attribution.first_fbclid || "",
-        privacyPolicyAccepted:true,
-        privacyPolicyVersion,
-        privacyPolicyUrl:`${window.location.origin}/privacy/`,
-        timestamp:new Date().toISOString()
+        country:window.websiteliPricing?.country || "",currency:window.websiteliPricing?.currency || "",market:window.websiteliPricing?.pricingMarket || "",
+        pageUrl:window.location.href,referrer:document.referrer,userAgent:navigator.userAgent,campaign:"market-scan-report",
+        scannedUrl,scannedDomain:(()=>{try{return new URL(scannedUrl).hostname}catch{return ""}})(),
+        opportunityScore:latestScan?.website?.opportunityScore ?? "",buyerSignals:latestScan?.summary?.buyerSignals ?? 0,
+        competitorCandidates:latestScan?.summary?.competitorCandidates ?? 0,priorityActions:latestScan?.summary?.priorityActions ?? 0,
+        utm_source:attribution.utm_source||"",utm_medium:attribution.utm_medium||"",utm_campaign:attribution.utm_campaign||"",
+        utm_term:attribution.utm_term||"",utm_content:attribution.utm_content||"",utm_id:attribution.utm_id||"",
+        gclid:attribution.gclid||"",gbraid:attribution.gbraid||"",wbraid:attribution.wbraid||"",fbclid:attribution.fbclid||"",msclkid:attribution.msclkid||"",
+        landingPage:attribution.landingPage||"",firstSeenAt:attribution.firstSeenAt||"",first_utm_source:attribution.first_utm_source||"",
+        first_utm_medium:attribution.first_utm_medium||"",first_utm_campaign:attribution.first_utm_campaign||"",
+        first_gclid:attribution.first_gclid||"",first_fbclid:attribution.first_fbclid||"",
+        privacyPolicyAccepted:true,privacyPolicyVersion,privacyPolicyUrl:`${window.location.origin}/privacy/`,timestamp:new Date().toISOString()
       }
     };
-
     button?.setAttribute("disabled","true"); if(msg) msg.textContent=c.sending;
     try{
-      const emailResponse=await fetch(`${apiBase}/api/email-report`,{
-        method:"POST",
-        headers:{"content-type":"application/json"},
-        body:JSON.stringify({scanId:latestScan?.scanId,email,consent:true})
-      });
+      const emailResponse=await fetch(`${apiBase}/api/email-report`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({scanId:latestScan?.scanId,email,consent:true})});
       const emailResult=await emailResponse.json().catch(()=>({}));
-      if(!emailResponse.ok) throw new Error(emailResult.error || c.subscribeError);
-
-      await fetch(newsletterEndpoint,{
-        method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)
-      });
-
+      if(!emailResponse.ok) throw new Error(emailResult.detail || emailResult.error || c.subscribeError);
+      await fetch(newsletterEndpoint,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
       newsletterForm.reset(); if(msg) msg.textContent=c.subscribed;
       try{localStorage.setItem("websiteli_market_scan_subscribed","true")}catch{}
-      window.trackWebsiteliEvent?.("newsletter_subscribe",{
-        event_category:"lead",event_label:"Market Scan report",campaign:"market-scan-report",locale,
-        source_path:window.location.pathname,privacy_policy_accepted:"yes"
-      });
+      window.trackWebsiteliEvent?.("newsletter_subscribe",{event_category:"lead",event_label:"Market Scan report",campaign:"market-scan-report",locale,source_path:window.location.pathname,privacy_policy_accepted:"yes"});
       track("market_scan_report_emailed",{website_domain:payload.metadata.scannedDomain,opportunity_score:payload.metadata.opportunityScore});
     }catch(error){
       if(msg) msg.textContent=error?.message || c.subscribeError;
@@ -363,7 +494,8 @@ const privacyPolicyVersion = "2026-06-24";
   });
 
   root.querySelector("[data-again]")?.addEventListener("click",()=>{
-    results.hidden=true; formView.hidden=false; form?.reset(); status.textContent=""; latestScan=null;
+    if(reportTimer) window.clearInterval(reportTimer); reportTimer=null;
+    unlockReport(); results.hidden=true; formView.hidden=false; form?.reset(); status.textContent=""; latestScan=null;
     window.scrollTo({top:0,behavior:"smooth"}); track("market_scan_again");
   });
   root.querySelector("[data-book]")?.addEventListener("click",()=>track("market_scan_booking_click",{
@@ -374,25 +506,46 @@ const privacyPolicyVersion = "2026-06-24";
 </script>
 
 <style>
-  :global(body){margin:0;background:#0d1015;color:#f7f4ed;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  [hidden]{display:none!important}.market-scan{min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(192,149,94,.2),transparent 32%),#0d1015}
-  .scan-header{max-width:1180px;margin:auto;padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.1rem}.brand img{border-radius:10px}.back{color:#b8bbc3;text-decoration:none;font-size:.92rem}
-  main{max-width:1100px;margin:auto;padding:58px 28px 100px}.hero{text-align:center;max-width:900px;margin:4vh auto 0}
-  .hero-proof{display:inline-flex;gap:8px;flex-wrap:wrap;justify-content:center;border:1px solid #2a3039;border-radius:99px;padding:8px 13px;color:#9298a4;font-size:.78rem;margin-bottom:24px;background:#12161c}.hero-proof span{color:#c79a63}
-  .eyebrow{text-transform:uppercase;letter-spacing:.14em;color:#c99a61;font-size:.76rem;font-weight:800;margin:0 0 16px}
-  h1{font-size:clamp(2.8rem,7vw,5.8rem);line-height:.95;letter-spacing:-.06em;margin:0 auto 24px;max-width:960px}.intro{font-size:clamp(1.05rem,2vw,1.28rem);line-height:1.6;color:#b9bdc7;max-width:770px;margin:0 auto 34px}
-  .input-row{display:flex;align-items:center;background:#171b22;border:1px solid #353b45;border-radius:18px;padding:7px 7px 7px 15px;max-width:830px;margin:auto;box-shadow:0 26px 80px rgba(0,0,0,.32)}.url-icon{color:#777e88}
-  .input-row input{flex:1;background:transparent;border:0;color:#fff;padding:18px 12px;font-size:1.06rem;outline:0;min-width:0}.input-row button,.lead-magnet button,.actions a{border:0;background:#c79a63;color:#101216;border-radius:12px;padding:16px 22px;font-size:1rem;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;gap:12px;align-items:center;justify-content:center}.input-row button:disabled,.lead-magnet button:disabled{opacity:.6;cursor:wait}
-  .status{color:#ff9c9c;min-height:24px}.trust{color:#858b95;font-size:.87rem;margin-top:14px}.what-you-get{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:25px}.what-you-get span{background:#12161c;border:1px solid #272d36;color:#aeb3bd;padding:8px 11px;border-radius:10px;font-size:.78rem}
-  .loading{text-align:center;padding:13vh 0}.loading p{color:#7d8490}.spinner{width:46px;height:46px;border:3px solid #333945;border-top-color:#c79a63;border-radius:50%;margin:0 auto 30px;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading h2{font-size:2rem;margin-bottom:8px}.loading-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:28px}.loading-steps span{border:1px solid #292e37;background:#141820;padding:11px 15px;border-radius:99px;color:#757b86;font-size:.82rem}.loading-steps b{color:#c9ccd2;margin-left:6px}.progress-track{height:4px;background:#222731;border-radius:99px;overflow:hidden;max-width:540px;margin:26px auto 0}.progress-track span{display:block;height:100%;width:10%;background:#c79a63;transition:width .4s ease}
-  .result-top{display:flex;justify-content:space-between;gap:30px;align-items:end;margin:20px 0 26px}.result-top h2{font-size:clamp(2.2rem,5vw,4rem);margin:0;letter-spacing:-.04em}.scanned-url{color:#858b96;word-break:break-all}.elapsed{text-align:right}.elapsed strong{display:block;font-size:2rem;color:#c79a63}.elapsed span{color:#7e8490;font-size:.8rem}
-  .result-lead{display:grid;grid-template-columns:.8fr 1.2fr;gap:16px;margin-bottom:16px}.score-card,.priority-preview{border:1px solid #2a3039;background:#141820;border-radius:20px;padding:24px}.score-card{display:flex;align-items:center;gap:20px}.score-ring{width:94px;height:94px;border:8px solid #c79a63;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.score-ring strong{font-size:1.8rem}.score-ring span{font-size:.72rem;color:#8c929d}.score-card h3{margin:0 0 6px}.score-card p{margin:0;color:#8f96a1;line-height:1.5;font-size:.82rem}.priority-preview [data-priority-preview]>div{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #252b34}.priority-preview [data-priority-preview]>div:last-child{border:0}.priority-preview b{color:#c79a63;font-size:.75rem}.priority-preview span{font-size:.88rem;color:#d5d7dc}
-  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric-grid article{padding:18px;border:1px solid #292e37;background:#141820;border-radius:16px}.metric-grid strong{display:block;font-size:1.8rem}.metric-grid span{color:#9197a2;font-size:.8rem}
-  .locked-report{display:grid;grid-template-columns:auto 1.2fr 1fr;gap:24px;align-items:start;margin:24px 0;padding:30px;border:1px solid #493b2c;background:linear-gradient(135deg,#171b22,#211c17);border-radius:22px}.lock-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:#2a2119;color:#d6a66e;font-size:1.25rem}.locked-report h2{margin:0 0 10px;font-size:clamp(1.5rem,3vw,2.15rem)}.locked-report>div>p:not(.eyebrow){color:#a2a7b0;line-height:1.55}.locked-items{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;margin-top:14px;color:#c4c7ce;font-size:.8rem}.locked-report form>label:not(.consent):not(.hp){display:grid;gap:7px;font-size:.76rem;color:#a9afb8}.locked-report input[type="email"]{box-sizing:border-box;width:100%;background:#0f1319;border:1px solid #343a44;border-radius:11px;color:#fff;padding:14px;font-size:1rem}.locked-report button{width:100%;border:0;background:#c79a63;color:#101216;border-radius:12px;padding:15px 18px;font-size:.95rem;font-weight:800;cursor:pointer}.locked-report button:disabled{opacity:.6;cursor:wait}.consent{display:flex;gap:9px;margin:11px 0;font-size:.75rem;color:#8d949f;line-height:1.4}.consent a{color:#c99a61}.newsletter-status{font-size:.78rem;color:#b9bec7;min-height:18px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
-  .diagnostic-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #222731}.diagnostic-row:last-child{border:0}.diagnostic-row div{display:grid;gap:4px}.diagnostic-row small{color:#818894}.diagnostic-row>span{align-self:center;border-radius:99px;padding:5px 9px;font-size:.68rem;font-weight:800}.diagnostic-row .pass{background:#183326;color:#8ce0ad}.diagnostic-row .review{background:#382820;color:#f0b684}
-  .source-list article{padding:17px 0;border-bottom:1px solid #222731}.source-list article:last-child{border-bottom:0}.source-list strong{display:block;font-size:.96rem}.source-list p{color:#9298a4;line-height:1.55;font-size:.86rem;margin:7px 0}.source-list a{color:#c79a63;text-decoration:none;font-size:.78rem;font-weight:700}.empty{color:#777e89;line-height:1.5}
-  .angle-list{display:grid;gap:10px;padding-top:14px}.angle-list article{display:flex;gap:12px;padding:15px;border-radius:14px;background:#181d25}.angle-list span{color:#c79a63;font-weight:800;font-size:.75rem}.angle-list p{margin:0;color:#d5d7dc;font-size:.9rem;line-height:1.5}.method-note{color:#747b86;font-size:.8rem;line-height:1.55;margin:20px 4px 0}
-  .conversion{margin-top:54px;padding:46px;border-radius:26px;background:linear-gradient(135deg,#191d24,#242019);border:1px solid #363029}.conversion h2{font-size:clamp(2rem,4vw,3rem);max-width:760px;margin:0 0 14px}.conversion>p:not(.eyebrow){color:#aeb2ba;max-width:720px;line-height:1.6}.actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.actions button{background:transparent;border:1px solid #393f49;color:#d6d8dc;border-radius:12px;padding:15px 19px;cursor:pointer;font-weight:700}
-  @media(max-width:820px){main{padding:36px 20px 80px}.input-row{display:grid;grid-template-columns:auto 1fr;background:#171b22}.input-row button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:1fr 1fr}.result-lead,.locked-report{grid-template-columns:1fr}.locked-items{grid-template-columns:1fr}.result-top{align-items:start;flex-direction:column}.elapsed{text-align:left}.conversion{padding:28px}.scan-header{padding:18px 20px}.score-card{align-items:flex-start}.hero-proof{border-radius:15px}}
+  [hidden]{display:none!important}
+  .market-scan{padding:0 0 92px}
+  .scan-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:clamp(36px,6vw,84px);align-items:center;min-height:min(820px,92vh);padding-top:128px;padding-bottom:64px}
+  .scan-hero-copy{max-width:760px}.eyebrow{margin:0 0 12px;color:var(--brand);font-size:.78rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  .scan-hero h1,.result-header h1{margin:0;letter-spacing:-.05em;line-height:.96}.scan-hero h1{font-size:clamp(3rem,6.3vw,5.7rem)}
+  .scan-intro{max-width:690px;margin:22px 0 30px;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.24rem);line-height:1.62}
+  .scan-form{max-width:760px}.scan-url{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow)}
+  .url-prefix{display:grid;width:42px;height:42px;place-items:center;color:var(--brand);font-weight:900}.scan-url input{min-width:0;border:0;outline:0;padding:14px 8px;background:transparent;color:var(--ink);font-size:1rem}
+  .button{display:inline-flex;min-height:46px;align-items:center;justify-content:center;gap:10px;border:1px solid var(--brand);border-radius:8px;padding:0 18px;background:var(--brand);color:white;font-weight:900;cursor:pointer;box-shadow:0 14px 30px color-mix(in srgb,var(--brand) 18%,transparent)}
+  .button:hover{background:var(--brand-strong);border-color:var(--brand-strong)}.button:disabled{opacity:.58;cursor:wait}
+  .status{min-height:22px;margin:10px 0 0;color:var(--brand);font-size:.86rem}.scan-trust{margin:8px 0 0;color:var(--muted);font-size:.85rem}.scan-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .scan-tags span{display:inline-flex;min-height:34px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:0 11px;background:var(--surface);color:var(--muted);font-size:.78rem;font-weight:800}
+  .scan-demo-card{position:relative;overflow:hidden;min-height:390px;padding:26px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 94%,transparent),color-mix(in srgb,var(--surface-soft) 88%,var(--mint) 12%));box-shadow:var(--shadow)}
+  .scan-demo-card:before{position:absolute;right:-55px;bottom:-55px;width:210px;height:210px;border-radius:50%;background:color-mix(in srgb,var(--brand) 12%,transparent);content:"";filter:blur(4px)}
+  .demo-top{position:relative;display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-weight:850}.demo-live{color:var(--brand)}
+  .demo-score{position:relative;display:flex;align-items:baseline;margin:58px 0 30px}.demo-score strong{font-size:5.4rem;letter-spacing:-.07em}.demo-score span{color:var(--muted)}
+  .demo-lines{display:grid;gap:9px}.demo-lines i{display:block;height:8px;border-radius:99px;background:color-mix(in srgb,var(--line) 82%,var(--ink) 18%)}.demo-lines i:nth-child(2){width:82%}.demo-lines i:nth-child(3){width:64%}
+  .demo-grid{position:relative;display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}.demo-grid strong{color:var(--ink)}
+  .scan-loading{padding:150px 0 90px}.loading-card{display:grid;justify-items:center;max-width:760px;margin:auto;padding:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-align:center}
+  .spinner{width:46px;height:46px;margin-bottom:24px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-card h2{margin:0 0 8px}.loading-card>p:not(.eyebrow){margin:0;color:var(--muted)}
+  .loading-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px}.loading-steps span{border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:.78rem}.loading-steps b{color:var(--brand)}
+  .progress-track{width:min(100%,540px);height:5px;margin-top:28px;overflow:hidden;border-radius:99px;background:var(--line)}.progress-track span{display:block;width:10%;height:100%;background:var(--brand);transition:width .4s ease}
+  .scan-results{padding-top:126px}.result-header{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:28px}.result-header h1{font-size:clamp(2.6rem,5vw,4.7rem)}.scanned-url{margin:12px 0 0;color:var(--muted);overflow-wrap:anywhere}
+  .scan-time{display:grid;gap:3px;text-align:right}.scan-time>span{color:var(--muted);font-size:.75rem;text-transform:uppercase;font-weight:850}.scan-time strong{font-size:1.55rem}
+  .overview-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.score-card,.priority-card,.metric-grid article,.report-section,.report-heading,.scan-cta{border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.07)}
+  .score-card{display:flex;gap:22px;align-items:center;padding:24px}.score-ring{display:grid;width:104px;height:104px;flex:0 0 auto;place-items:center;border:7px solid var(--brand);border-radius:50%}.score-ring strong{grid-area:1/1;font-size:2rem}.score-ring span{grid-area:1/1;margin-top:42px;color:var(--muted);font-size:.68rem}
+  .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}.priority-row{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}.priority-row b{color:var(--brand);font-size:.75rem}.priority-row span{font-size:.9rem;font-weight:760}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.metric-grid article{padding:18px}.metric-grid strong{display:block;font-size:1.75rem}.metric-grid span{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}
+  .report-shell{position:relative;margin-top:36px}.report-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding:28px}.report-heading h2{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.55rem)}.report-heading>div>p:not(.eyebrow){max-width:760px;margin:0;color:var(--muted);line-height:1.58}
+  .report-timer{display:grid;min-width:150px;gap:4px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 7%,var(--surface));text-align:right}.report-timer span{color:var(--muted);font-size:.72rem;font-weight:850;text-transform:uppercase}.report-timer strong{color:var(--brand-strong);font-size:1.3rem}
+  .report-content{display:grid;gap:16px;margin-top:16px;transition:filter .25s ease,opacity .25s ease}.report-section{padding:24px;min-width:0}.section-title{display:flex;gap:10px;align-items:center;margin-bottom:16px}.section-title>span{display:grid;width:32px;height:32px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand);font-size:.7rem;font-weight:900}.section-title h3{margin:0;font-size:1.1rem}
+  .report-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}.action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.action-list article{padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft)}.action-top{display:flex;justify-content:space-between;gap:12px}.action-top span{color:var(--brand);font-weight:900}.action-top small{color:var(--muted);font-weight:800}.action-list h4{margin:14px 0 7px;font-size:1rem}.action-list p{margin:0;color:var(--muted);font-size:.85rem;line-height:1.55}
+  .diagnostic-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.diagnostic-row:last-child{border-bottom:0}.diagnostic-row>div{display:grid;gap:4px}.diagnostic-row small{color:var(--muted)}.diagnostic-row>span{align-self:center;border-radius:999px;padding:5px 9px;font-size:.68rem;font-weight:900}.diagnostic-row .pass{background:color-mix(in srgb,var(--mint) 18%,var(--surface));color:color-mix(in srgb,var(--mint) 75%,var(--ink))}.diagnostic-row .review{background:color-mix(in srgb,var(--gold) 17%,var(--surface));color:color-mix(in srgb,var(--gold) 75%,var(--ink))}
+  .source-list article{padding:14px 0;border-bottom:1px solid var(--line)}.source-list article:last-child{border-bottom:0}.source-list strong{font-size:.92rem}.source-list p{margin:6px 0;color:var(--muted);font-size:.82rem;line-height:1.5}.source-list a{color:var(--brand-strong);font-size:.77rem;font-weight:850}.empty{margin:0;color:var(--muted);font-size:.86rem;line-height:1.5}
+  .competitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.competitor-card{display:block;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft);transition:transform .16s ease,border-color .16s ease}.competitor-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 40%,var(--line))}.competitor-card p{margin:7px 0 0;color:var(--muted);font-size:.8rem;line-height:1.45}
+  .angle-list{display:grid;gap:9px}.angle-list article{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:13px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft)}.angle-list span{color:var(--brand);font-size:.72rem;font-weight:900}.angle-list p{margin:0;font-size:.85rem;line-height:1.5}
+  .report-shell.is-locked .report-content{filter:blur(8px);opacity:.24;pointer-events:none;user-select:none}.report-lock{position:absolute;inset:86px 0 0;z-index:5;display:grid;place-items:start center;padding:90px 20px;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--bg) 72%,transparent) 12%,color-mix(in srgb,var(--bg) 94%,transparent) 44%,var(--bg) 100%)}
+  .lock-card{width:min(620px,100%);padding:30px;border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-align:center}.lock-mark{display:grid;width:48px;height:48px;margin:0 auto 14px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:1.25rem}.lock-card h2{margin:0 0 10px}.lock-card>p:not(.eyebrow){margin:0 auto 22px;color:var(--muted);line-height:1.55}
+  .lock-card form{display:grid;gap:10px;text-align:left}.email-field{display:grid;gap:6px}.email-field>span{color:var(--muted);font-size:.76rem;font-weight:800}.email-field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;background:var(--surface-soft);color:var(--ink);outline:0}.email-field input:focus{border-color:var(--brand)}.consent{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:.76rem;line-height:1.45}.consent input{margin-top:3px}.consent a{color:var(--brand-strong);text-decoration:underline}.newsletter-status{min-height:18px;margin:0;color:var(--muted);font-size:.78rem}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
+  .method-note{margin:16px 4px 0;color:var(--muted);font-size:.78rem;line-height:1.5}.scan-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:50px;padding:30px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 8%,var(--surface)),var(--surface))}.scan-cta h2{margin:0 0 8px}.scan-cta>div>p:not(.eyebrow){margin:0;color:var(--muted);line-height:1.55}.cta-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.button.secondary{border-color:var(--line);background:var(--surface);color:var(--ink);box-shadow:none}
+  @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.scan-demo-card{display:none}.overview-grid,.report-two-col,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:720px){.scan-hero,.scan-results{width:min(1160px,calc(100% - 28px))}.scan-hero{padding-top:112px}.scan-url{grid-template-columns:auto minmax(0,1fr)}.scan-url .button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:1fr}.result-header{align-items:flex-start;flex-direction:column}.scan-time{text-align:left}.score-card{align-items:flex-start}.report-heading{display:grid}.report-timer{width:100%;text-align:left}.report-two-col,.action-list,.competitor-grid{grid-template-columns:1fr}.report-lock{padding-top:50px}.lock-card{padding:22px}.scan-cta{padding:24px}.cta-actions .button{width:100%}}
 </style>
