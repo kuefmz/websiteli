@@ -383,6 +383,8 @@ async def ddg_search(query: str, limit: int = 12) -> list[dict[str, Any]]:
             "title": title,
             "snippet": clean_text(snippet_tag.get_text(" ", strip=True) if snippet_tag else ""),
             "url": decode_ddg_url(a.get("href") or ""),
+            "query": query,
+            "provider": "DuckDuckGo",
         })
     return [x for x in results if x["title"]]
 
@@ -408,6 +410,8 @@ async def reddit_search(query: str) -> list[dict[str, Any]]:
             "score": int(data.get("score") or 0),
             "comments": int(data.get("num_comments") or 0),
             "url": f"https://www.reddit.com{permalink}" if permalink else "",
+            "query": query,
+            "provider": "Reddit",
         })
     return results
 
@@ -507,27 +511,96 @@ def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, A
     }
 
 
-def result_relevance(item: dict[str, Any], terms: list[str]) -> int:
+def result_relevance(item: dict[str, Any], terms: list[str]) -> float:
     haystack = f"{item.get('title','')} {item.get('snippet','')} {item.get('body','')}".lower()
-    tokens = set(_content_tokens(haystack))
-    score = 0
+    hay_tokens = set(_content_tokens(haystack))
+    best = 0.0
     for term in terms:
         term_tokens = [t for t in _content_tokens(term) if len(t) >= 4]
         if not term_tokens:
             continue
-        overlap = sum(1 for token in term_tokens if token in tokens)
-        if overlap == len(term_tokens):
-            score += 4
-        elif overlap:
-            score += overlap
-    return score
+        overlap = sum(1 for token in term_tokens if token in hay_tokens)
+        ratio = overlap / len(term_tokens)
+        phrase_bonus = 0.35 if term.lower() in haystack else 0.0
+        best = max(best, ratio + phrase_bonus)
+    return round(best, 3)
 
 
-def filter_relevant(items: list[dict[str, Any]], terms: list[str], minimum: int = 2) -> list[dict[str, Any]]:
-    scored = [(result_relevance(item, terms), item) for item in items]
-    scored = [(score, item) for score, item in scored if score >= minimum]
+def filter_relevant(items: list[dict[str, Any]], terms: list[str], minimum: float = 0.72) -> list[dict[str, Any]]:
+    scored = []
+    for item in items:
+        score = result_relevance(item, terms)
+        if score < minimum:
+            continue
+        enriched = dict(item)
+        enriched["relevance"] = score
+        scored.append((score, enriched))
     scored.sort(key=lambda pair: pair[0], reverse=True)
     return unique_by([item for _, item in scored])
+
+
+def build_market_queries(profile: dict[str, Any], brand: str) -> dict[str, str]:
+    terms = [clean_text(x) for x in profile.get("queryTerms", []) if clean_text(x)]
+    primary = terms[0] if terms else ""
+    secondary = terms[1] if len(terms) > 1 else ""
+    if not primary:
+        return {}
+    quoted = f'"{primary}"'
+    if secondary and secondary.lower() not in primary.lower():
+        quoted += f' "{secondary}"'
+    return {
+        "buyer": f'{quoted} (recommendations OR "looking for" OR best OR compare)',
+        "pain": f'{quoted} (problems OR complaints OR challenges OR frustrating)',
+        "competitors": f'{quoted} (alternatives OR competitors OR "similar to")',
+        "reddit": f'{primary} {secondary}'.strip(),
+        "reviews": f'"{brand}" reviews',
+    }
+
+
+def site_specific_content_opportunities(profile: dict[str, Any], pages: list[dict[str, Any]], signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    opportunities = []
+    seen = set()
+    for item in signals:
+        title = clean_text(item.get("title"))
+        if not title or title.lower() in seen:
+            continue
+        seen.add(title.lower())
+        opportunities.append({
+            "title": title,
+            "source": item.get("url", ""),
+            "context": clean_text(item.get("snippet") or item.get("body") or "")[:260],
+            "basis": "external-signal",
+        })
+        if len(opportunities) >= 4:
+            return opportunities
+
+    terms = profile.get("queryTerms") or []
+    offer = clean_text(terms[0] if terms else "")
+    if not offer:
+        return opportunities
+
+    page_text = " ".join(
+        " ".join([p.get("title", ""), p.get("description", ""), " ".join(p.get("headings", []))])
+        for p in pages
+    ).lower()
+    candidates = [
+        (f"{offer}: pricing, scope and what is included", ["pricing", "price", "cost"]),
+        (f"{offer}: how it works and what to expect", ["how it works", "process", "steps"]),
+        (f"{offer}: who it is for and when it is a good fit", ["who it is for", "ideal for", "best for"]),
+        (f"{offer}: alternatives and how to choose", ["alternative", "compare", "comparison"]),
+    ]
+    for title, markers in candidates:
+        if any(marker in page_text for marker in markers):
+            continue
+        opportunities.append({
+            "title": title,
+            "source": "",
+            "context": "Suggested because this decision-stage topic was not clearly represented in the sampled website pages.",
+            "basis": "website-gap",
+        })
+        if len(opportunities) >= 4:
+            break
+    return opportunities
 
 
 def extract_review_mentions(results: list[dict[str, Any]], own_host: str, brand: str) -> list[dict[str, Any]]:
@@ -645,11 +718,9 @@ def make_ad_angles(pains: list[dict[str, Any]], buyer: list[dict[str, Any]], key
             angles.append("Comparison angle: explain when to choose you instead of the common alternatives buyers are evaluating.")
         if re.search(r"problem|issue|doesn.?t work|frustrat|hate|schwierig|nerv", text, re.I):
             angles.append("Pain-to-outcome angle: open with the recurring frustration, then show the specific business outcome you create.")
-    angles.extend([
-        "Proof angle: lead with a concrete before/after example, result or implementation screenshot instead of generic capability claims.",
-        f"Category angle: build a focused campaign around “{keywords[0]['term'] if keywords else 'your core service'}” and a single high-intent use case.",
-    ])
-    return list(dict.fromkeys(angles))[:10]
+    if pains or buyer:
+        angles.append("Proof angle: use a concrete before/after example or implementation result that addresses the strongest observed buyer concern.")
+    return list(dict.fromkeys(angles))[:6]
 
 
 def market_candidates(results: list[dict[str, Any]], own_host: str) -> list[dict[str, Any]]:
@@ -746,7 +817,7 @@ async def health() -> dict[str, Any]:
     return {
         "ok": True,
         "service": "websiteli-market-scan",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "emailConfigured": email_configured(),
     }
 
@@ -771,33 +842,32 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             brand = re.split(r"[|–—-]", title)[0].strip() if title else host
             profile = infer_market_profile(pages, brand)
             query_terms = profile["queryTerms"]
-            market_query = " ".join(query_terms[:2]).strip()
-            topic_query = market_query or brand
+            queries = build_market_queries(profile, brand)
 
-            if profile["siteType"] == "commercial" and market_query:
-                reddit, buyer_web, pain_web, market_results = await asyncio.gather(
-                    reddit_search(topic_query),
-                    ddg_search(f'"{market_query}" recommendations OR best', 12),
-                    ddg_search(f'"{market_query}" problems OR complaints OR challenges', 12),
-                    ddg_search(f'"{market_query}" alternatives OR competitors', 14),
+            if profile["siteType"] == "commercial" and queries:
+                reddit, buyer_web, pain_web, market_results, review_results = await asyncio.gather(
+                    reddit_search(queries["reddit"]),
+                    ddg_search(queries["buyer"], 12),
+                    ddg_search(queries["pain"], 12),
+                    ddg_search(queries["competitors"], 14),
+                    ddg_search(queries["reviews"], 12),
                 )
             else:
                 reddit, buyer_web, pain_web, market_results = [], [], [], []
+                review_results = await ddg_search(f'"{brand}" reviews', 12)
 
-            review_results = await ddg_search(f'"{brand}" reviews', 12)
-
-        relevant_reddit = filter_relevant(reddit, query_terms, 2)
-        relevant_web = filter_relevant(unique_by(buyer_web + pain_web), query_terms, 2)
+        relevant_reddit = filter_relevant(reddit, query_terms, 0.72)
+        relevant_buyer_web = filter_relevant(buyer_web, query_terms, 0.72)
+        relevant_pain_web = filter_relevant(pain_web, query_terms, 0.72)
         reddit_buyer, reddit_pains = classify_signals(relevant_reddit)
-        web_buyer, web_pains = classify_signals(relevant_web)
+        web_buyer, _ = classify_signals(relevant_buyer_web)
+        _, web_pains = classify_signals(relevant_pain_web)
         buyer_signals = unique_by(reddit_buyer + web_buyer)
         pain_points = unique_by(reddit_pains + web_pains)
-        relevant_market = filter_relevant(market_results, query_terms, 2)
+        relevant_market = filter_relevant(market_results, query_terms, 0.78)
         competitors = market_candidates(relevant_market, host)
         diagnostics = website_diagnostics(pages)
-        content_opportunities = make_content_opportunities(relevant_reddit + relevant_web, keywords)
-        if profile["siteType"] != "commercial":
-            content_opportunities = content_opportunities[:4]
+        content_opportunities = site_specific_content_opportunities(profile, pages, relevant_reddit + relevant_buyer_web + relevant_pain_web)
         ad_angles = make_ad_angles(pain_points, buyer_signals, keywords) if profile["siteType"] == "commercial" else []
         actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors)
         review_mentions = extract_review_mentions(review_results, host, brand)
@@ -828,6 +898,12 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             },
             "executive": exec_summary,
             "marketProfile": profile,
+            "research": {
+                "queries": queries if profile["siteType"] == "commercial" else {"reviews": f'"{brand}" reviews'},
+                "relevanceThreshold": 0.72,
+                "competitorThreshold": 0.78,
+                "note": "External findings are shown only when they pass a site-specific relevance threshold. Empty sections are preferred over unrelated results.",
+            },
             "priorityActions": actions,
             "buyerSignals": buyer_signals[:10],
             "painPoints": pain_points[:10],
