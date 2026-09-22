@@ -1,8 +1,59 @@
 import express from "express";
 import cors from "cors";
 import * as cheerio from "cheerio";
+import nodemailer from "nodemailer";
+import crypto from "node:crypto";
 
 const app = express();
+const reportCache = new Map();
+const REPORT_TTL_MS = 60 * 60 * 1000;
+
+function cleanupReports() {
+  const now = Date.now();
+  for (const [id, entry] of reportCache.entries()) if (now - entry.createdAt > REPORT_TTL_MS) reportCache.delete(id);
+}
+
+function getMailer() {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return null;
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT || 587),
+    secure: String(SMTP_PORT || "587") === "465",
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+  });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[ch]));
+}
+
+function listHtml(items, render) {
+  if (!items?.length) return "<p style=\"color:#666\">No strong public signals were found for this section.</p>";
+  return `<ul style=\"padding-left:20px\">${items.map(render).join("")}</ul>`;
+}
+
+function reportEmailHtml(report) {
+  const actionHtml = listHtml(report.priorityActions, (x) => `<li style=\"margin:0 0 14px\"><strong>${escapeHtml(x.priority)} · ${escapeHtml(x.area)} — ${escapeHtml(x.title)}</strong><br><span>${escapeHtml(x.detail)}</span></li>`);
+  const diagnosticHtml = listHtml(report.website?.diagnostics, (x) => `<li style=\"margin:0 0 10px\"><strong>${escapeHtml(x.passed ? "OK" : "Review")} — ${escapeHtml(x.label)}</strong>: ${escapeHtml(x.detail)}</li>`);
+  const sourceHtml = (items) => listHtml(items, (x) => `<li style=\"margin:0 0 12px\"><strong>${escapeHtml(x.title || x.name || "Signal")}</strong>${x.url || x.source ? ` — <a href=\"${escapeHtml(x.url || x.source)}\">source</a>` : ""}<br><span>${escapeHtml((x.body || x.snippet || x.context || "").slice(0,360))}</span></li>`);
+  const angleHtml = listHtml(report.adAngles, (x) => `<li style=\"margin:0 0 10px\">${escapeHtml(x)}</li>`);
+  return `<!doctype html><html><body style=\"font-family:Arial,sans-serif;color:#171717;line-height:1.5;max-width:760px;margin:auto;padding:28px\">
+    <div style=\"font-size:13px;color:#8a6a45;text-transform:uppercase;letter-spacing:.08em;font-weight:700\">Websiteli Market Scan</div>
+    <h1 style=\"margin:8px 0 4px\">${escapeHtml(report.brand)}</h1>
+    <p style=\"color:#666\">${escapeHtml(report.scannedUrl)}</p>
+    <div style=\"background:#f5f2ec;border-radius:14px;padding:18px;margin:22px 0\"><strong style=\"font-size:32px\">${escapeHtml(report.website?.opportunityScore)}/100</strong><br>Website opportunity score</div>
+    <h2>What we would fix first</h2>${actionHtml}
+    <h2>Website diagnosis</h2>${diagnosticHtml}
+    <h2>Buyer signals</h2>${sourceHtml(report.buyerSignals)}
+    <h2>Recurring pain points</h2>${sourceHtml(report.painPoints)}
+    <h2>Competitor candidates</h2>${sourceHtml(report.competitorCandidates)}
+    <h2>Content opportunities</h2>${sourceHtml(report.contentOpportunities)}
+    <h2>Ad angles worth testing</h2>${angleHtml}
+    <p style=\"margin-top:30px;padding:18px;background:#111;color:#fff;border-radius:12px\">Want Websiteli to implement the highest-impact fixes? <a style=\"color:#d9aa72\" href=\"https://calendly.com/jenifer-ciuciu-kiss-websiteli/30min\">Book a 30-minute call →</a></p>
+    <p style=\"font-size:12px;color:#777\">Public data providers can rate-limit automated requests. Review mentions and competitors are discovery signals rather than complete platform datasets.</p>
+  </body></html>`;
+}
 const port = Number(process.env.PORT || 8787);
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://localhost:4321,https://websiteli.ch")
   .split(",")
@@ -343,7 +394,7 @@ function marketCandidates(results, ownHost) {
   return uniqueBy(candidates, (x) => x.name).slice(0, 12);
 }
 
-app.get("/health", (_req, res) => res.json({ ok:true, service:"websiteli-market-scan", version:"0.2.0" }));
+app.get("/health", (_req, res) => res.json({ ok:true, service:"websiteli-market-scan", version:"0.3.0", emailConfigured:Boolean(getMailer()) }));
 
 app.post("/api/scan", async (req, res) => {
   const startedAt = Date.now();
@@ -380,7 +431,7 @@ app.post("/api/scan", async (req, res) => {
       title:x.title, snippet:x.snippet, url:x.url,
     })).filter((x) => x.url).slice(0,12);
 
-    res.json({
+    const fullReport = {
       scannedUrl:url.toString(),
       brand,
       elapsedMs:Date.now()-startedAt,
@@ -421,10 +472,48 @@ app.post("/api/scan", async (req, res) => {
           "Public search providers may rate-limit requests, so zero results can mean unavailable data rather than zero market activity."
         ]
       }
+    };
+    cleanupReports();
+    const scanId = crypto.randomUUID();
+    reportCache.set(scanId, { createdAt:Date.now(), report:fullReport });
+    res.json({
+      scanId,
+      scannedUrl:fullReport.scannedUrl,
+      brand:fullReport.brand,
+      elapsedMs:fullReport.elapsedMs,
+      summary:fullReport.summary,
+      website:{ opportunityScore:fullReport.website.opportunityScore },
+      priorityActions:fullReport.priorityActions.slice(0,3),
+      reportLocked:true
     });
+);
   } catch (error) {
     res.status(400).json({ error:error?.message || "Scan failed" });
   }
+});
+
+app.post("/api/email-report", async (req, res) => {
+  cleanupReports();
+  const scanId = String(req.body?.scanId || "");
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  const consent = req.body?.consent === true;
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) return res.status(400).json({ error:"Please provide a valid email address" });
+  if (!consent) return res.status(400).json({ error:"Consent is required" });
+  const cached = reportCache.get(scanId);
+  if (!cached) return res.status(410).json({ error:"This report expired. Please run a new scan." });
+  const mailer = getMailer();
+  if (!mailer) return res.status(503).json({ error:"Report email delivery is not configured yet." });
+
+  const from = process.env.REPORT_FROM_EMAIL || process.env.SMTP_USER;
+  await mailer.sendMail({
+    from,
+    to:email,
+    replyTo:process.env.REPORT_REPLY_TO || from,
+    subject:`Your Websiteli Market Scan — ${cached.report.brand}`,
+    html:reportEmailHtml(cached.report),
+  });
+  reportCache.delete(scanId);
+  res.json({ ok:true });
 });
 
 app.listen(port, () => console.log(`Websiteli Market Scan API listening on :${port}`));
