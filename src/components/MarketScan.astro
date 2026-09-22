@@ -16,7 +16,7 @@ const c = de ? {
   competitors:"Wettbewerber-Kandidaten", content:"Content-Chancen", ads:"Ad Angles", actions:"Prioritäten",
   scoreTitle:"Website Opportunity Score",
   scoreNote:"Transparenter Heuristik-Score aus 9 beobachtbaren Website-Signalen — kein Umsatzversprechen.",
-  priorities:"Was wir zuerst ändern würden",
+  priorities:"Priorisierter Aktionsplan",
   diagnostics:"Website-Diagnose",
   signals:"Buyer Signals", pains:"Wiederkehrende Pain Points", compTitle:"Wettbewerber-Kandidaten",
   redditTitle:"Reddit-Diskussionen", reviewsTitle:"Review-Erwähnungen",
@@ -39,6 +39,13 @@ const c = de ? {
   ctaText:"Wir priorisieren die Chancen und können Website, SEO, Tracking, Ads oder Automatisierung umsetzen.",
   cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
   method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
+  evidenceSnapshot:"Ergebnisübersicht",
+  demandCategory:"Kundennachfrage", customerVoiceCategory:"Kundenstimme", competitionCategory:"Wettbewerb", growthCategory:"Wachstumschancen",
+  actionSummary:"Die wichtigsten nächsten Schritte, nach Wirkung und Themenbereich geordnet.",
+  demandSummary:"Was potenzielle Kunden suchen, fragen und worüber sie sich beschweren.",
+  evidenceSummary:"Öffentliche Gespräche und Reviews, die die Marktanalyse stützen.",
+  competitionSummary:"Welche Alternativen und Wettbewerber in der Recherche wiederholt auftauchen.",
+  growthSummary:"Konkrete Content- und Werbeansätze, die aus den gefundenen Signalen abgeleitet wurden.",
   pass:"Gesund", review:"Chance",
   healthy:"Gesund", opportunities:"Chancen",
   diagnosisGood:"Die Website ist strukturell solide. Die wichtigsten Grundlagen sind vorhanden.",
@@ -58,7 +65,7 @@ const c = de ? {
   competitors:"Competitor candidates", content:"Content opportunities", ads:"Ad angles", actions:"Priorities",
   scoreTitle:"Website opportunity score",
   scoreNote:"Transparent heuristic score based on 9 observable website signals — not a revenue promise.",
-  priorities:"What we would fix first",
+  priorities:"Priority action plan",
   diagnostics:"Website diagnosis",
   signals:"Buyer signals", pains:"Recurring pain points", compTitle:"Competitor candidates",
   redditTitle:"Reddit discussions", reviewsTitle:"Review mentions",
@@ -81,6 +88,13 @@ const c = de ? {
   ctaText:"We can prioritise the opportunities and implement the website, SEO, tracking, ads or automation.",
   cta:"Book a 30-minute call", again:"Scan another website",
   method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
+  evidenceSnapshot:"Results at a glance",
+  demandCategory:"Customer demand", customerVoiceCategory:"Customer voice", competitionCategory:"Competitive landscape", growthCategory:"Growth opportunities",
+  actionSummary:"The most important next steps, organised by impact and focus area.",
+  demandSummary:"What potential customers are actively looking for, asking about and struggling with.",
+  evidenceSummary:"Public conversations and review mentions that support the market findings.",
+  competitionSummary:"The alternatives and competitors that repeatedly surfaced in the research.",
+  growthSummary:"Concrete content and campaign ideas derived from the market signals we found.",
   pass:"Healthy", review:"Opportunity",
   healthy:"Healthy", opportunities:"Opportunities",
   diagnosisGood:"The website fundamentals look strong overall, with the key structural elements in place.",
@@ -206,16 +220,18 @@ const privacyPolicyVersion = "2026-06-24";
       </article>
     </section>
 
-    <div class="metric-grid">
-      <article><strong data-metric="pagesCrawled">0</strong><span>{c.pages}</span></article>
-      <article><strong data-metric="buyerSignals">0</strong><span>{c.buyer}</span></article>
-      <article><strong data-metric="redditDiscussions">0</strong><span>{c.reddit}</span></article>
-      <article><strong data-metric="reviewMentions">0</strong><span>{c.reviews}</span></article>
-      <article><strong data-metric="competitorCandidates">0</strong><span>{c.competitors}</span></article>
-      <article><strong data-metric="contentOpportunities">0</strong><span>{c.content}</span></article>
-      <article><strong data-metric="adAngles">0</strong><span>{c.ads}</span></article>
-      <article><strong data-metric="priorityActions">0</strong><span>{c.actions}</span></article>
-    </div>
+    <section class="evidence-snapshot">
+      <div class="snapshot-heading">
+        <p class="eyebrow">{c.evidenceSnapshot}</p>
+        <span data-coverage-note></span>
+      </div>
+      <div class="metric-grid">
+        <article><strong data-summary-metric="buyerDemand">0</strong><span>{c.demandCategory}</span></article>
+        <article><strong data-summary-metric="customerVoice">0</strong><span>{c.customerVoiceCategory}</span></article>
+        <article><strong data-summary-metric="competition">0</strong><span>{c.competitionCategory}</span></article>
+        <article><strong data-summary-metric="growth">0</strong><span>{c.growthCategory}</span></article>
+      </div>
+    </section>
 
     <section class="report-shell" data-report-shell>
       <header class="report-heading">
@@ -231,14 +247,13 @@ const privacyPolicyVersion = "2026-06-24";
       </header>
 
       <div class="report-content" data-report-content>
-        <section class="report-section">
-          <div class="section-title"><span>01</span><h3>{c.priorities}</h3></div>
-          <div class="action-list" data-actions></div>
+        <section class="report-section action-plan-section">
+          <div class="section-title"><span>01</span><div><h3>{c.priorities}</h3><p>{c.actionSummary}</p></div></div>
+          <div class="action-groups" data-action-groups></div>
         </section>
 
         <section class="report-section diagnosis-section">
-          <div class="section-title"><span>02</span><h3>{c.diagnostics}</h3></div>
-          <p class="section-summary" data-diagnosis-summary></p>
+          <div class="section-title"><span>02</span><div><h3>{c.diagnostics}</h3><p data-diagnosis-summary></p></div></div>
           <div class="diagnosis-groups">
             <div class="diagnosis-group">
               <div class="group-heading">
@@ -257,43 +272,52 @@ const privacyPolicyVersion = "2026-06-24";
           </div>
         </section>
 
-        <div class="report-two-col">
-          <section class="report-section">
-            <div class="section-title"><span>03</span><h3>{c.signals}</h3></div>
-            <div class="source-list" data-buyer-signals></div>
-          </section>
-          <section class="report-section">
-            <div class="section-title"><span>04</span><h3>{c.pains}</h3></div>
-            <div class="source-list" data-pain-points></div>
-          </section>
-        </div>
+        <section class="report-section category-section">
+          <div class="section-title"><span>03</span><div><h3>{c.demandCategory}</h3><p>{c.demandSummary}</p></div></div>
+          <div class="report-two-col">
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.signals}</strong><span data-count-buyer></span></div>
+              <div class="source-list" data-buyer-signals></div>
+            </div>
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.pains}</strong><span data-count-pains></span></div>
+              <div class="source-list" data-pain-points></div>
+            </div>
+          </div>
+        </section>
 
-        <div class="report-two-col">
-          <section class="report-section">
-            <div class="section-title"><span>05</span><h3>{c.redditTitle}</h3></div>
-            <div class="source-list" data-reddit></div>
-          </section>
-          <section class="report-section">
-            <div class="section-title"><span>06</span><h3>{c.reviewsTitle}</h3></div>
-            <div class="source-list" data-reviews></div>
-          </section>
-        </div>
+        <section class="report-section category-section">
+          <div class="section-title"><span>04</span><div><h3>{c.customerVoiceCategory}</h3><p>{c.evidenceSummary}</p></div></div>
+          <div class="report-two-col">
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.redditTitle}</strong><span data-count-reddit></span></div>
+              <div class="source-list" data-reddit></div>
+            </div>
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.reviewsTitle}</strong><span data-count-reviews></span></div>
+              <div class="source-list" data-reviews></div>
+            </div>
+          </div>
+        </section>
 
-        <section class="report-section">
-          <div class="section-title"><span>07</span><h3>{c.compTitle}</h3></div>
+        <section class="report-section category-section">
+          <div class="section-title"><span>05</span><div><h3>{c.competitionCategory}</h3><p>{c.competitionSummary}</p></div></div>
           <div class="competitor-grid" data-competitors></div>
         </section>
 
-        <div class="report-two-col">
-          <section class="report-section">
-            <div class="section-title"><span>08</span><h3>{c.contentTitle}</h3></div>
-            <div class="source-list" data-content-opportunities></div>
-          </section>
-          <section class="report-section">
-            <div class="section-title"><span>09</span><h3>{c.adTitle}</h3></div>
-            <div class="angle-list" data-ad-angles></div>
-          </section>
-        </div>
+        <section class="report-section category-section">
+          <div class="section-title"><span>06</span><div><h3>{c.growthCategory}</h3><p>{c.growthSummary}</p></div></div>
+          <div class="report-two-col">
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.contentTitle}</strong><span data-count-content></span></div>
+              <div class="source-list" data-content-opportunities></div>
+            </div>
+            <div class="insight-block">
+              <div class="insight-heading"><strong>{c.adTitle}</strong><span data-count-ads></span></div>
+              <div class="angle-list" data-ad-angles></div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <div class="report-lock" data-report-lock hidden>
@@ -363,25 +387,56 @@ const privacyPolicyVersion = "2026-06-24";
     catch { return null; }
   };
 
+  function actionCategory(area){
+    const a=String(area||"").toLowerCase();
+    if(/seo|search|technical|measurement/.test(a)) return locale==="de"?"Sichtbarkeit & Technik":"Visibility & foundation";
+    if(/conversion|ux|lead/.test(a)) return locale==="de"?"Conversion & UX":"Conversion & UX";
+    if(/messaging|positioning|brand/.test(a)) return locale==="de"?"Messaging & Positionierung":"Messaging & positioning";
+    if(/content|growth|experiment|ads?/.test(a)) return locale==="de"?"Wachstum & Nachfrage":"Growth & demand";
+    return locale==="de"?"Weitere Chancen":"Other opportunities";
+  }
+
   function renderPriorities(items){
     const preview=root.querySelector("[data-priority-preview]");
-    const full=root.querySelector("[data-actions]");
-    clear(preview); clear(full);
-    if(!items?.length){ preview.appendChild(makeEmpty()); full.appendChild(makeEmpty()); return; }
+    const grouped=root.querySelector("[data-action-groups]");
+    clear(preview); clear(grouped);
+    if(!items?.length){ preview.appendChild(makeEmpty()); grouped.appendChild(makeEmpty()); return; }
+
     items.slice(0,3).forEach((item,i)=>{
       const row=document.createElement("div"); row.className="priority-row";
-      row.innerHTML=`<b>${String(i+1).padStart(2,"0")}</b><span></span>`;
-      row.querySelector("span").textContent=item.title;
-      preview.appendChild(row);
+      const num=document.createElement("b"); num.textContent=String(i+1).padStart(2,"0");
+      const copy=document.createElement("div"); copy.className="priority-copy";
+      const title=document.createElement("span"); title.textContent=item.title;
+      const meta=document.createElement("small"); meta.textContent=`${item.priority || c.priority} · ${actionCategory(item.area)}`;
+      copy.append(title,meta); row.append(num,copy); preview.appendChild(row);
     });
+
+    const groups=new Map();
     items.forEach((item,i)=>{
-      const article=document.createElement("article");
-      const top=document.createElement("div"); top.className="action-top";
-      const num=document.createElement("span"); num.textContent=String(i+1).padStart(2,"0");
-      const meta=document.createElement("small"); meta.textContent=`${item.priority || c.priority} · ${item.area || c.area}`;
-      const h=document.createElement("h4"); h.textContent=item.title;
-      const p=document.createElement("p"); p.textContent=item.detail || "";
-      top.append(num,meta); article.append(top,h,p); full.appendChild(article);
+      const category=actionCategory(item.area);
+      if(!groups.has(category)) groups.set(category,[]);
+      groups.get(category).push({...item,_index:i});
+    });
+
+    groups.forEach((groupItems,category)=>{
+      const section=document.createElement("section"); section.className="action-group";
+      const header=document.createElement("div"); header.className="action-group-heading";
+      const h=document.createElement("h4"); h.textContent=category;
+      const count=document.createElement("span"); count.textContent=String(groupItems.length);
+      header.append(h,count); section.appendChild(header);
+
+      const grid=document.createElement("div"); grid.className="action-list";
+      groupItems.forEach(item=>{
+        const article=document.createElement("article");
+        const top=document.createElement("div"); top.className="action-top";
+        const num=document.createElement("span"); num.className="action-number"; num.textContent=String(item._index+1).padStart(2,"0");
+        const badge=document.createElement("small"); badge.className=`priority-badge ${String(item.priority||"").toLowerCase()}`; badge.textContent=item.priority || c.priority;
+        top.append(num,badge);
+        const h=document.createElement("h5"); h.textContent=item.title;
+        const p=document.createElement("p"); p.textContent=item.detail || "";
+        article.append(top,h,p); grid.appendChild(article);
+      });
+      section.appendChild(grid); grouped.appendChild(section);
     });
   }
 
@@ -525,11 +580,25 @@ const privacyPolicyVersion = "2026-06-24";
     root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || report.scannedUrl || "";
     root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||report.elapsedMs||0)/1000).toFixed(1);
     root.querySelector("[data-score]").textContent=String(data.website?.opportunityScore ?? report.website?.opportunityScore ?? "—");
-    Object.entries(data.summary||report.summary||{}).forEach(([key,value])=>{
-      const el=root.querySelector(`[data-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);
-    });
+    const summary=data.summary||report.summary||{};
+    const setSummary=(key,value)=>{const el=root.querySelector(`[data-summary-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);};
+    setSummary("buyerDemand", summary.buyerSignals ?? 0);
+    setSummary("customerVoice", (summary.redditDiscussions ?? 0) + (summary.reviewMentions ?? 0));
+    setSummary("competition", summary.competitorCandidates ?? 0);
+    setSummary("growth", (summary.contentOpportunities ?? 0) + (summary.adAngles ?? 0));
+    const coverage=root.querySelector("[data-coverage-note]");
+    if(coverage) coverage.textContent=locale==="de"?`Basierend auf ${summary.pagesCrawled ?? 0} analysierten Seiten`:`Based on ${summary.pagesCrawled ?? 0} pages analysed`;
+    const countMap={
+      "[data-count-buyer]":summary.buyerSignals,
+      "[data-count-reddit]":summary.redditDiscussions,
+      "[data-count-reviews]":summary.reviewMentions,
+      "[data-count-content]":summary.contentOpportunities,
+      "[data-count-ads]":summary.adAngles
+    };
+    Object.entries(countMap).forEach(([selector,value])=>{const el=root.querySelector(selector); if(el) el.textContent=value?String(value):"";});
     renderPriorities(report.priorityActions || data.priorityActions || []);
     renderDiagnostics(report.website?.diagnostics || []);
+    const painCount=root.querySelector("[data-count-pains]"); if(painCount) painCount.textContent=report.painPoints?.length?String(report.painPoints.length):"";
     renderSources("[data-buyer-signals]",report.buyerSignals || [],3);
     renderSources("[data-pain-points]",report.painPoints || [],3);
     renderSources("[data-reddit]",report.redditDiscussions || [],3);
@@ -697,24 +766,31 @@ const privacyPolicyVersion = "2026-06-24";
   .scan-time{display:grid;gap:3px;text-align:right}.scan-time>span{color:var(--muted);font-size:.75rem;text-transform:uppercase;font-weight:850}.scan-time strong{font-size:1.55rem}
   .overview-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.score-card,.priority-card,.metric-grid article,.report-section,.report-heading,.scan-cta{border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.07)}
   .score-card{display:flex;gap:22px;align-items:center;padding:24px}.score-ring{display:grid;width:104px;height:104px;flex:0 0 auto;place-items:center;border:7px solid var(--brand);border-radius:50%}.score-ring strong{grid-area:1/1;font-size:2rem}.score-ring span{grid-area:1/1;margin-top:42px;color:var(--muted);font-size:.68rem}
-  .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}.priority-row{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}.priority-row b{color:var(--brand);font-size:.75rem;line-height:1.45}.priority-row span{font-size:.9rem;font-weight:760;line-height:1.45}
-  .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.metric-grid article{padding:18px}.metric-grid strong{display:block;font-size:1.75rem}.metric-grid span{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}
+  .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}
+  .priority-row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}
+  .priority-row b{display:grid;width:32px;height:32px;place-items:center;border-radius:9px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand);font-size:.72rem;line-height:1}
+  .priority-copy{display:grid;gap:4px}.priority-copy span{font-size:.9rem;font-weight:780;line-height:1.42}.priority-copy small{color:var(--muted);font-size:.7rem;font-weight:750}
+  .evidence-snapshot{margin-top:18px}.snapshot-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:0 2px 9px}.snapshot-heading .eyebrow{margin:0}.snapshot-heading>span{color:var(--muted);font-size:.72rem}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric-grid article{padding:20px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 12px 34px rgba(26,32,42,.05)}.metric-grid strong{display:block;font-size:1.7rem}.metric-grid span{display:block;margin-top:4px;color:var(--muted);font-size:.79rem;font-weight:760}
   .report-shell{position:relative;margin-top:36px}.report-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding:28px}.report-heading h2{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.55rem)}.report-heading>div>p:not(.eyebrow){max-width:760px;margin:0;color:var(--muted);line-height:1.58}
   .report-timer{display:grid;min-width:150px;gap:4px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 7%,var(--surface));text-align:right}.report-timer span{color:var(--muted);font-size:.72rem;font-weight:850;text-transform:uppercase}.report-timer strong{color:var(--brand-strong);font-size:1.3rem}
   .report-content{display:grid;gap:22px;margin-top:18px;transition:filter .25s ease,opacity .25s ease}
   .report-section{padding:30px;min-width:0;border-radius:18px!important;background:color-mix(in srgb,var(--surface) 98%,white 2%)!important}
-  .section-title{display:flex;gap:12px;align-items:center;margin-bottom:16px}
-  .section-title>span{display:grid;width:30px;height:30px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:.72rem;font-weight:900}
-  .section-title h3{margin:0;font-size:1.24rem;letter-spacing:-.02em}
+  .section-title{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px}
+  .section-title>span{display:grid;width:34px;height:34px;flex:0 0 auto;place-items:center;border-radius:9px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:.72rem;font-weight:900}
+  .section-title>div{display:grid;gap:5px}.section-title h3{margin:0;font-size:1.24rem;letter-spacing:-.02em}.section-title p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.55}
   .section-summary{max-width:840px;margin:0 0 22px;color:var(--muted);font-size:.95rem;line-height:1.65}
   .report-two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .insight-block{min-width:0}.insight-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;padding:0 2px}.insight-heading strong{font-size:.9rem}.insight-heading span{display:grid;min-width:26px;height:26px;place-items:center;border-radius:999px;background:var(--surface-soft);color:var(--muted);font-size:.7rem;font-weight:900}
+  .action-groups{display:grid;gap:22px}.action-group{display:grid;gap:10px}.action-group-heading{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px}.action-group-heading h4{margin:0;font-size:.86rem;text-transform:uppercase;letter-spacing:.05em}.action-group-heading span{display:grid;width:26px;height:26px;place-items:center;border-radius:999px;background:var(--surface-soft);color:var(--muted);font-size:.7rem;font-weight:900}
   .action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-  .action-list article{padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
+  .action-list article{padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
   .action-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
-  .action-top span{color:var(--brand);font-size:.78rem;font-weight:900}
-  .action-top small{color:var(--muted);font-size:.75rem;font-weight:800}
-  .action-list h4{margin:14px 0 8px;font-size:1.06rem;line-height:1.35}
-  .action-list p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.65}
+  .action-number{display:grid!important;width:30px;height:30px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)!important;font-size:.72rem!important;font-weight:900}
+  .priority-badge{display:inline-flex;min-height:25px;align-items:center;padding:0 9px;border-radius:999px;background:var(--surface);color:var(--muted);font-size:.68rem!important;font-weight:850}
+  .priority-badge.high{background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand-strong)}
+  .action-list h5{margin:14px 0 8px;font-size:1.02rem;line-height:1.38}
+  .action-list p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.65}
   .diagnosis-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
   .diagnosis-group{display:grid;align-content:start;gap:12px}
   .group-heading{display:flex;align-items:center;justify-content:space-between;padding:0 2px}
@@ -748,5 +824,5 @@ const privacyPolicyVersion = "2026-06-24";
   .lock-card form{display:grid;gap:10px;text-align:left}.email-field{display:grid;gap:6px}.email-field>span{color:var(--muted);font-size:.76rem;font-weight:800}.email-field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;background:var(--surface-soft);color:var(--ink);outline:0}.email-field input:focus{border-color:var(--brand)}.consent{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:.76rem;line-height:1.45}.consent input{margin-top:3px}.consent a{color:var(--brand-strong);text-decoration:underline}.newsletter-status{min-height:18px;margin:0;color:var(--muted);font-size:.78rem}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
   .method-note{margin:16px 4px 0;color:var(--muted);font-size:.78rem;line-height:1.5}.scan-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:50px;padding:30px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 8%,var(--surface)),var(--surface))}.scan-cta h2{margin:0 0 8px}.scan-cta>div>p:not(.eyebrow){margin:0;color:var(--muted);line-height:1.55}.cta-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.button.secondary{border-color:var(--line);background:var(--surface);color:var(--ink);box-shadow:none}
   @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.market-map-visual{display:none}.overview-grid,.report-two-col,.diagnosis-groups,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:720px){.scan-hero,.scan-results{width:min(1160px,calc(100% - 28px))}.scan-hero{padding-top:112px}.scan-url{grid-template-columns:auto minmax(0,1fr)}.scan-url .button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:1fr}.result-header{align-items:flex-start;flex-direction:column}.scan-time{text-align:left}.score-card{align-items:flex-start}.report-heading{display:grid}.report-timer{width:100%;text-align:left}.report-two-col,.action-list,.competitor-grid{grid-template-columns:1fr}.report-lock{padding-top:50px}.lock-card{padding:22px}.scan-cta{padding:24px}.cta-actions .button{width:100%}}
+  @media(max-width:720px){.scan-hero,.scan-results{width:min(1160px,calc(100% - 28px))}.scan-hero{padding-top:112px}.scan-url{grid-template-columns:auto minmax(0,1fr)}.scan-url .button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.snapshot-heading{align-items:flex-start;flex-direction:column;gap:4px}.overview-grid{grid-template-columns:1fr}.result-header{align-items:flex-start;flex-direction:column}.scan-time{text-align:left}.score-card{align-items:flex-start}.report-heading{display:grid}.report-timer{width:100%;text-align:left}.report-two-col,.action-list,.competitor-grid{grid-template-columns:1fr}.report-lock{padding-top:50px}.lock-card{padding:22px}.scan-cta{padding:24px}.cta-actions .button{width:100%}}
 </style>
