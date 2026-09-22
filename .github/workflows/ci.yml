@@ -56,3 +56,9 @@ jobs:
           cd market-scan-api
           python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
           pytest -q
+
+      - name: Run live Market Scan classification check
+        timeout-minutes: 3
+        run: |
+          cd market-scan-api
+          python scripts/live_quality_check.py
