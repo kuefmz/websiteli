@@ -671,7 +671,7 @@ def website_diagnostics(pages: list[dict[str, Any]]) -> dict[str, Any]:
         {"key":"analytics","label":"Analytics","passed":any(p["hasAnalytics"] for p in pages),"detail":"Analytics marker detected" if any(p["hasAnalytics"] for p in pages) else "No common analytics marker detected"},
         {"key":"schema","label":"Structured data","passed":any(p["hasSchema"] for p in pages),"detail":"JSON-LD detected" if any(p["hasSchema"] for p in pages) else "No JSON-LD detected"},
         {"key":"mobile","label":"Mobile viewport","passed":bool(home.get("viewport")),"detail":"Viewport meta tag detected" if home.get("viewport") else "Viewport meta tag missing"},
-        {"key":"content","label":"Service clarity","passed":len(all_text) > 1800 and len(pages) >= 3,"detail":f"{len(pages)} pages sampled"},
+        {"key":"content","label":"Content depth","passed":len(all_text) > 1800 and len(pages) >= 3,"detail":f"{len(pages)} pages sampled"},
     ]
     score = round(sum(1 for x in checks if x["passed"]) / len(checks) * 100)
     return {"score": score, "checks": checks}
@@ -774,7 +774,7 @@ def report_email_html(report: dict[str, Any]) -> str:
 <div style="font-size:13px;color:#8a6a45;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Websiteli Market Scan</div>
 <h1 style="margin:8px 0 4px">{esc(report["brand"])}</h1>
 <p style="color:#666">{esc(report["scannedUrl"])}</p>
-<div style="background:#f5f2ec;border-radius:14px;padding:18px;margin:22px 0"><strong style="font-size:32px">{score}/100</strong><br>Website opportunity score</div>
+<div style="background:#f5f2ec;border-radius:14px;padding:18px;margin:22px 0"><strong style="font-size:32px">{score}/100</strong><br>Website fundamentals score</div>
 <h2>What we would fix first</h2>{actions}
 <h2>Website diagnosis</h2>{diagnostics}
 <h2>Buyer signals</h2>{list_html(report["buyerSignals"], source_renderer)}
