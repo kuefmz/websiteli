@@ -704,7 +704,9 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             "summary": full_report["summary"],
             "website": {"opportunityScore": full_report["website"]["opportunityScore"]},
             "priorityActions": full_report["priorityActions"][:3],
-            "reportLocked": True,
+            "report": full_report,
+            "reportLocked": False,
+            "previewSeconds": 90,
         }
     except HTTPException:
         raise
