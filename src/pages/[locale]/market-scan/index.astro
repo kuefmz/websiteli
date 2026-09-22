@@ -1,0 +1,20 @@
+---
+import FunnelLayout from "../../../layouts/FunnelLayout.astro";
+import MarketScan from "../../../components/MarketScan.astro";
+
+export function getStaticPaths() {
+  return [{ params: { locale: "en" } }, { params: { locale: "de" } }];
+}
+const locale = Astro.params.locale === "de" ? "de" : "en";
+const apiBase = import.meta.env.PUBLIC_MARKET_SCAN_API_URL || "http://localhost:8787";
+const meta = locale === "de" ? {
+  title:"Kostenloser Market Scan | Websiteli",
+  description:"Gib Websiteli eine URL und erhalte öffentliche Buyer Signals, Reddit-Diskussionen, Review-Erwähnungen, Wettbewerber-Kandidaten und Content-Chancen."
+} : {
+  title:"Free Market Scan | Websiteli",
+  description:"Give Websiteli one URL and uncover public buyer signals, Reddit discussions, review mentions, competitor candidates and content opportunities."
+};
+---
+<FunnelLayout title={meta.title} description={meta.description} canonicalPath={`/${locale}/market-scan/`} lang={locale}>
+  <MarketScan locale={locale} apiBase={apiBase} />
+</FunnelLayout>
