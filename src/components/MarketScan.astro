@@ -40,7 +40,7 @@ const c = de ? {
   cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
   method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
   evidenceSnapshot:"Executive Summary",
-  execEyebrow:"Was wirklich zählt", execPositioning:"Erkannte Positionierung", execOpportunity:"Größte Chance", execConfidence:"Markt-Sicherheit", execSignals:"Belastbare externe Signale",
+  execEyebrow:"Was wirklich zählt", execPositioning:"Erkannte Positionierung", execOpportunity:"Größte Chance", execConfidence:"Positionierungs-Sicherheit", execSignals:"Belastbare externe Signale",
   demandCategory:"Kundennachfrage", customerVoiceCategory:"Kundenstimme", competitionCategory:"Wettbewerb", growthCategory:"Wachstumschancen",
   actionSummary:"Die wichtigsten nächsten Schritte, nach Wirkung und Themenbereich geordnet.",
   demandSummary:"Was potenzielle Kunden suchen, fragen und worüber sie sich beschweren.",
@@ -90,7 +90,7 @@ const c = de ? {
   cta:"Book a 30-minute call", again:"Scan another website",
   method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
   evidenceSnapshot:"Executive summary",
-  execEyebrow:"What actually matters", execPositioning:"Detected positioning", execOpportunity:"Biggest opportunity", execConfidence:"Market confidence", execSignals:"Relevant external signals",
+  execEyebrow:"What actually matters", execPositioning:"Detected positioning", execOpportunity:"Biggest opportunity", execConfidence:"Positioning confidence", execSignals:"Relevant external signals",
   demandCategory:"Customer demand", customerVoiceCategory:"Customer voice", competitionCategory:"Competitive landscape", growthCategory:"Growth opportunities",
   actionSummary:"The most important next steps, organised by impact and focus area.",
   demandSummary:"What potential customers are actively looking for, asking about and struggling with.",
@@ -615,7 +615,7 @@ const privacyPolicyVersion = "2026-06-24";
     setText("[data-exec-positioning]", executive.positioning || profile.positioning || (locale==="de"?"Keine klare Positionierung erkannt":"No clear positioning detected"));
     setText("[data-exec-action]", executive.topAction || report.priorityActions?.[0]?.title || "");
     setText("[data-exec-site-type]", locale==="de"?`Seitentyp: ${profile.siteType || "—"}`:`Site type: ${profile.siteType || "—"}`);
-    setText("[data-exec-confidence]", locale==="de"?`Markt-Sicherheit: ${profile.marketConfidence || "—"}`:`Market confidence: ${profile.marketConfidence || "—"}`);
+    setText("[data-exec-confidence]", locale==="de"?`Positionierungs-Sicherheit: ${profile.marketConfidence || "—"}`:`Positioning confidence: ${profile.marketConfidence || "—"}`);
 
     const externalSignalCount=(summary.buyerSignals||0)+(summary.redditDiscussions||0)+(summary.reviewMentions||0)+(summary.competitorCandidates||0);
     setText("[data-relevant-signal-count]", externalSignalCount);
