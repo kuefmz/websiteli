@@ -23,7 +23,7 @@ const c = de ? {
   contentTitle:"Content-Chancen", adTitle:"Ad Angles zum Testen",
   source:"Quelle öffnen", empty:"Für diesen Bereich wurden beim aktuellen Scan keine belastbaren öffentlichen Signale gefunden.",
   reportTitle:"Dein vollständiger Market Scan",
-  reportIntro:"Du kannst den vollständigen Report jetzt ansehen. Nach 90 Sekunden wird er gesperrt; danach schicken wir ihn dir kostenlos per E-Mail.",
+  reportIntro:"Prüfe jetzt den vollständigen Report. Wenn die Vorschau endet, kannst du dir den kompletten Market Scan kostenlos per E-Mail schicken lassen.",
   preview:"Kostenlose Report-Vorschau",
   newsletterEyebrow:"Vollständiger Report",
   locksIn:"Report wird gesperrt in",
@@ -39,7 +39,10 @@ const c = de ? {
   ctaText:"Wir priorisieren die Chancen und können Website, SEO, Tracking, Ads oder Automatisierung umsetzen.",
   cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
   method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
-  pass:"OK", review:"Prüfen",
+  pass:"Gesund", review:"Chance",
+  healthy:"Gesund", opportunities:"Chancen",
+  diagnosisGood:"Die Website ist strukturell solide. Die wichtigsten Grundlagen sind vorhanden.",
+  diagnosisImprove:"Die Website ist insgesamt solide, mit einigen klaren Chancen für bessere Sichtbarkeit und Conversion.",
   priority:"Priorität", area:"Bereich", scanTime:"Scan-Zeit"
 } : {
   eyebrow:"Free Market Scan",
@@ -62,7 +65,7 @@ const c = de ? {
   contentTitle:"Content opportunities", adTitle:"Ad angles worth testing",
   source:"Open source", empty:"No sufficiently strong public signals were found for this section in the current scan.",
   reportTitle:"Your complete Market Scan",
-  reportIntro:"You can explore the full report now. After 90 seconds it locks; then we’ll send the complete report to you free by email.",
+  reportIntro:"Review the full report now. When the preview ends, you can have the complete Market Scan sent to your inbox.",
   preview:"Free report preview",
   newsletterEyebrow:"Full report",
   locksIn:"Report locks in",
@@ -78,7 +81,10 @@ const c = de ? {
   ctaText:"We can prioritise the opportunities and implement the website, SEO, tracking, ads or automation.",
   cta:"Book a 30-minute call", again:"Scan another website",
   method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
-  pass:"OK", review:"Review",
+  pass:"Healthy", review:"Opportunity",
+  healthy:"Healthy", opportunities:"Opportunities",
+  diagnosisGood:"The website fundamentals look strong overall, with the key structural elements in place.",
+  diagnosisImprove:"The site looks solid overall, with a few clear opportunities to improve visibility and conversion.",
   priority:"Priority", area:"Area", scanTime:"Scan time"
 };
 const newsletterEndpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
@@ -179,9 +185,25 @@ const privacyPolicyVersion = "2026-06-24";
           <div class="action-list" data-actions></div>
         </section>
 
-        <section class="report-section">
+        <section class="report-section diagnosis-section">
           <div class="section-title"><span>02</span><h3>{c.diagnostics}</h3></div>
-          <div class="diagnostics" data-diagnostics></div>
+          <p class="section-summary" data-diagnosis-summary></p>
+          <div class="diagnosis-groups">
+            <div class="diagnosis-group">
+              <div class="group-heading">
+                <strong>{c.healthy}</strong>
+                <span data-diagnosis-healthy-count>0</span>
+              </div>
+              <div class="diagnosis-card-grid" data-diagnostics-healthy></div>
+            </div>
+            <div class="diagnosis-group">
+              <div class="group-heading">
+                <strong>{c.opportunities}</strong>
+                <span data-diagnosis-opportunity-count>0</span>
+              </div>
+              <div class="diagnosis-card-grid" data-diagnostics-opportunities></div>
+            </div>
+          </div>
         </section>
 
         <div class="report-two-col">
@@ -312,17 +334,97 @@ const privacyPolicyVersion = "2026-06-24";
     });
   }
 
+  function diagnosisCopy(item){
+    const label=item.label || "";
+    const deCopy=locale==="de";
+    const map={
+      "Homepage title":{
+        title:deCopy?"Klare Seitentitel":"Clear page titles",
+        healthy:deCopy?"Die wichtigsten Seiten verwenden klare Titel, die für Nutzer und Suchmaschinen verständlich sind.":"Key pages use clear titles that are understandable to both users and search engines.",
+        opportunity:deCopy?"Die Seitentitel könnten Angebot und Nutzen klarer kommunizieren.":"Page titles could communicate the offer and value proposition more clearly."
+      },
+      "Meta description":{
+        title:deCopy?"Suchbeschreibungen vorhanden":"Search descriptions in place",
+        healthy:deCopy?"Wichtige Seiten enthalten unterstützende Beschreibungen für die Suchergebnisse.":"Important pages include supporting descriptions for search visibility.",
+        opportunity:deCopy?"Einige Suchbeschreibungen fehlen oder könnten den Nutzen stärker vermitteln.":"Some search descriptions are missing or could communicate more value."
+      },
+      "Clear H1 structure":{
+        title:deCopy?"Klare Seitenstruktur":"Strong page structure",
+        healthy:deCopy?"Die Überschriften-Hierarchie wirkt klar und gut lesbar.":"The heading hierarchy looks clear and easy to scan.",
+        opportunity:deCopy?"Die Hauptbotschaft könnte durch eine klarere Überschriften-Struktur stärker werden.":"The main message could be strengthened with a clearer heading structure."
+      },
+      "Conversion CTA":{
+        title:deCopy?"Klarer Conversion-Pfad":"Visible conversion path",
+        healthy:deCopy?"Besucher erhalten einen klaren nächsten Schritt.":"Visitors are given a clear next step to take.",
+        opportunity:deCopy?"Der primäre Call-to-Action könnte sichtbarer und konsistenter sein.":"The primary call to action could be more obvious and more consistent."
+      },
+      "Lead capture":{
+        title:deCopy?"Lead Capture vorhanden":"Lead capture is present",
+        healthy:deCopy?"Die Website bietet klare Möglichkeiten zur Kontaktaufnahme oder Conversion.":"The site offers clear ways for visitors to get in touch or convert.",
+        opportunity:deCopy?"Die Kontakt- oder Lead-Capture-Möglichkeiten könnten prominenter sein.":"Lead capture could be made more prominent or easier to use."
+      },
+      "Analytics":{
+        title:deCopy?"Tracking vorhanden":"Tracking is in place",
+        healthy:deCopy?"Messung scheint eingerichtet zu sein und unterstützt datenbasierte Optimierung.":"Measurement appears to be set up, which supports data-driven optimisation.",
+        opportunity:deCopy?"Tracking sollte ergänzt werden, damit wichtige Nutzeraktionen messbar werden.":"Tracking should be added so important user actions can be measured."
+      },
+      "Structured data":{
+        title:deCopy?"Strukturierte Daten":"Structured data",
+        healthy:deCopy?"Strukturierte Daten sind vorhanden und können die Suchsichtbarkeit unterstützen.":"Structured data appears to be present and can support search visibility.",
+        opportunity:deCopy?"Strukturierte Daten scheinen zu fehlen und sind eine klare technische SEO-Chance.":"Structured data appears to be missing and is a clear technical SEO opportunity."
+      },
+      "Mobile viewport":{
+        title:deCopy?"Mobil optimiert":"Mobile-ready setup",
+        healthy:deCopy?"Die Website ist technisch für mobile Geräte vorbereitet.":"The site appears technically prepared for mobile devices.",
+        opportunity:deCopy?"Die mobile Basis sollte verbessert werden, um die Nutzung auf kleinen Geräten zu stärken.":"Mobile readiness should be improved for a smoother experience on smaller devices."
+      },
+      "Service clarity":{
+        title:deCopy?"Klares Angebot":"Offer clarity",
+        healthy:deCopy?"Die analysierten Seiten vermitteln das Angebot insgesamt verständlich.":"The sampled pages give a reasonably clear picture of the offer.",
+        opportunity:deCopy?"Das Angebot könnte durch fokussierte Service- oder Use-Case-Seiten klarer erklärt werden.":"The offer could be explained more clearly through focused service or use-case pages."
+      }
+    };
+    const entry=map[label] || {
+      title:label,
+      healthy:deCopy?"Dieser Bereich wirkt im aktuellen Scan solide.":"This area looks healthy in the current scan.",
+      opportunity:deCopy?"Dieser Bereich bietet eine potenzielle Verbesserungsmöglichkeit.":"This area looks like a potential improvement opportunity."
+    };
+    return {title:entry.title,description:item.passed?entry.healthy:entry.opportunity,status:item.passed?c.healthy:c.opportunities};
+  }
+
   function renderDiagnostics(items){
-    const el=root.querySelector("[data-diagnostics]"); clear(el);
-    if(!items?.length){ el.appendChild(makeEmpty()); return; }
+    const healthyEl=root.querySelector("[data-diagnostics-healthy]");
+    const opportunityEl=root.querySelector("[data-diagnostics-opportunities]");
+    const healthyCount=root.querySelector("[data-diagnosis-healthy-count]");
+    const opportunityCount=root.querySelector("[data-diagnosis-opportunity-count]");
+    const summary=root.querySelector("[data-diagnosis-summary]");
+    clear(healthyEl); clear(opportunityEl);
+    if(!items?.length){
+      healthyEl?.appendChild(makeEmpty());
+      opportunityEl?.appendChild(makeEmpty());
+      if(healthyCount) healthyCount.textContent="0";
+      if(opportunityCount) opportunityCount.textContent="0";
+      if(summary) summary.textContent=c.empty;
+      return;
+    }
+    const healthy=[];
+    const opportunities=[];
     items.forEach(item=>{
-      const row=document.createElement("div"); row.className="diagnostic-row";
-      const copy=document.createElement("div");
-      const strong=document.createElement("strong"); strong.textContent=item.label;
-      const small=document.createElement("small"); small.textContent=item.detail || "";
-      const badge=document.createElement("span"); badge.className=item.passed?"pass":"review"; badge.textContent=item.passed?c.pass:c.review;
-      copy.append(strong,small); row.append(copy,badge); el.appendChild(row);
+      const present=diagnosisCopy(item);
+      const card=document.createElement("article");
+      card.className=`diagnosis-card ${item.passed?"healthy":"opportunity"}`;
+      const top=document.createElement("div"); top.className="diagnosis-card-top";
+      const title=document.createElement("strong"); title.textContent=present.title;
+      const badge=document.createElement("span"); badge.className="status-pill"; badge.textContent=present.status;
+      const p=document.createElement("p"); p.textContent=present.description;
+      top.append(title,badge); card.append(top,p);
+      (item.passed?healthy:opportunities).push(card);
     });
+    if(!healthy.length) healthyEl?.appendChild(makeEmpty()); else healthy.forEach(card=>healthyEl?.appendChild(card));
+    if(!opportunities.length) opportunityEl?.appendChild(makeEmpty()); else opportunities.forEach(card=>opportunityEl?.appendChild(card));
+    if(healthyCount) healthyCount.textContent=String(healthy.length);
+    if(opportunityCount) opportunityCount.textContent=String(opportunities.length);
+    if(summary) summary.textContent=opportunities.length?c.diagnosisImprove:c.diagnosisGood;
   }
 
   function sourceItem(item){
@@ -377,13 +479,13 @@ const privacyPolicyVersion = "2026-06-24";
     });
     renderPriorities(report.priorityActions || data.priorityActions || []);
     renderDiagnostics(report.website?.diagnostics || []);
-    renderSources("[data-buyer-signals]",report.buyerSignals || []);
-    renderSources("[data-pain-points]",report.painPoints || []);
-    renderSources("[data-reddit]",report.redditDiscussions || [],10);
-    renderSources("[data-reviews]",report.reviewMentions || []);
-    renderCompetitors(report.competitorCandidates || []);
-    renderSources("[data-content-opportunities]",report.contentOpportunities || []);
-    renderAngles(report.adAngles || []);
+    renderSources("[data-buyer-signals]",report.buyerSignals || [],3);
+    renderSources("[data-pain-points]",report.painPoints || [],3);
+    renderSources("[data-reddit]",report.redditDiscussions || [],3);
+    renderSources("[data-reviews]",report.reviewMentions || [],3);
+    renderCompetitors((report.competitorCandidates || []).slice(0,6));
+    renderSources("[data-content-opportunities]",report.contentOpportunities || [],4);
+    renderAngles((report.adAngles || []).slice(0,5));
   }
 
   function startLoadingProgress(domain){
@@ -534,20 +636,56 @@ const privacyPolicyVersion = "2026-06-24";
   .scan-time{display:grid;gap:3px;text-align:right}.scan-time>span{color:var(--muted);font-size:.75rem;text-transform:uppercase;font-weight:850}.scan-time strong{font-size:1.55rem}
   .overview-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.score-card,.priority-card,.metric-grid article,.report-section,.report-heading,.scan-cta{border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.07)}
   .score-card{display:flex;gap:22px;align-items:center;padding:24px}.score-ring{display:grid;width:104px;height:104px;flex:0 0 auto;place-items:center;border:7px solid var(--brand);border-radius:50%}.score-ring strong{grid-area:1/1;font-size:2rem}.score-ring span{grid-area:1/1;margin-top:42px;color:var(--muted);font-size:.68rem}
-  .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}.priority-row{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}.priority-row b{color:var(--brand);font-size:.75rem}.priority-row span{font-size:.9rem;font-weight:760}
+  .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}.priority-row{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}.priority-row b{color:var(--brand);font-size:.75rem;line-height:1.45}.priority-row span{font-size:.9rem;font-weight:760;line-height:1.45}
   .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.metric-grid article{padding:18px}.metric-grid strong{display:block;font-size:1.75rem}.metric-grid span{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}
   .report-shell{position:relative;margin-top:36px}.report-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding:28px}.report-heading h2{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.55rem)}.report-heading>div>p:not(.eyebrow){max-width:760px;margin:0;color:var(--muted);line-height:1.58}
   .report-timer{display:grid;min-width:150px;gap:4px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 7%,var(--surface));text-align:right}.report-timer span{color:var(--muted);font-size:.72rem;font-weight:850;text-transform:uppercase}.report-timer strong{color:var(--brand-strong);font-size:1.3rem}
-  .report-content{display:grid;gap:16px;margin-top:16px;transition:filter .25s ease,opacity .25s ease}.report-section{padding:24px;min-width:0}.section-title{display:flex;gap:10px;align-items:center;margin-bottom:16px}.section-title>span{display:grid;width:32px;height:32px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand);font-size:.7rem;font-weight:900}.section-title h3{margin:0;font-size:1.1rem}
-  .report-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}.action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.action-list article{padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft)}.action-top{display:flex;justify-content:space-between;gap:12px}.action-top span{color:var(--brand);font-weight:900}.action-top small{color:var(--muted);font-weight:800}.action-list h4{margin:14px 0 7px;font-size:1rem}.action-list p{margin:0;color:var(--muted);font-size:.85rem;line-height:1.55}
-  .diagnostic-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.diagnostic-row:last-child{border-bottom:0}.diagnostic-row>div{display:grid;gap:4px}.diagnostic-row small{color:var(--muted)}.diagnostic-row>span{align-self:center;border-radius:999px;padding:5px 9px;font-size:.68rem;font-weight:900}.diagnostic-row .pass{background:color-mix(in srgb,var(--mint) 18%,var(--surface));color:color-mix(in srgb,var(--mint) 75%,var(--ink))}.diagnostic-row .review{background:color-mix(in srgb,var(--gold) 17%,var(--surface));color:color-mix(in srgb,var(--gold) 75%,var(--ink))}
-  .source-list article{padding:14px 0;border-bottom:1px solid var(--line)}.source-list article:last-child{border-bottom:0}.source-list strong{font-size:.92rem}.source-list p{margin:6px 0;color:var(--muted);font-size:.82rem;line-height:1.5}.source-list a{color:var(--brand-strong);font-size:.77rem;font-weight:850}.empty{margin:0;color:var(--muted);font-size:.86rem;line-height:1.5}
-  .competitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.competitor-card{display:block;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft);transition:transform .16s ease,border-color .16s ease}.competitor-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 40%,var(--line))}.competitor-card p{margin:7px 0 0;color:var(--muted);font-size:.8rem;line-height:1.45}
-  .angle-list{display:grid;gap:9px}.angle-list article{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:13px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft)}.angle-list span{color:var(--brand);font-size:.72rem;font-weight:900}.angle-list p{margin:0;font-size:.85rem;line-height:1.5}
+  .report-content{display:grid;gap:22px;margin-top:18px;transition:filter .25s ease,opacity .25s ease}
+  .report-section{padding:30px;min-width:0;border-radius:18px!important;background:color-mix(in srgb,var(--surface) 98%,white 2%)!important}
+  .section-title{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+  .section-title>span{display:grid;width:30px;height:30px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:.72rem;font-weight:900}
+  .section-title h3{margin:0;font-size:1.24rem;letter-spacing:-.02em}
+  .section-summary{max-width:840px;margin:0 0 22px;color:var(--muted);font-size:.95rem;line-height:1.65}
+  .report-two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .action-list article{padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
+  .action-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .action-top span{color:var(--brand);font-size:.78rem;font-weight:900}
+  .action-top small{color:var(--muted);font-size:.75rem;font-weight:800}
+  .action-list h4{margin:14px 0 8px;font-size:1.06rem;line-height:1.35}
+  .action-list p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.65}
+  .diagnosis-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .diagnosis-group{display:grid;align-content:start;gap:12px}
+  .group-heading{display:flex;align-items:center;justify-content:space-between;padding:0 2px}
+  .group-heading strong{font-size:.9rem;letter-spacing:.01em}
+  .group-heading span{display:grid;min-width:28px;height:28px;place-items:center;border-radius:999px;background:var(--surface-soft);color:var(--muted);font-size:.74rem;font-weight:900}
+  .diagnosis-card-grid{display:grid;gap:10px}
+  .diagnosis-card{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
+  .diagnosis-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .diagnosis-card strong{font-size:.96rem;line-height:1.35}
+  .diagnosis-card p{margin:8px 0 0;color:var(--muted);font-size:.86rem;line-height:1.6}
+  .status-pill{display:inline-flex;align-items:center;min-height:26px;padding:0 9px;border-radius:999px;font-size:.67rem;font-weight:900;white-space:nowrap}
+  .diagnosis-card.healthy .status-pill{background:color-mix(in srgb,var(--mint) 18%,var(--surface));color:color-mix(in srgb,var(--mint) 72%,var(--ink))}
+  .diagnosis-card.opportunity .status-pill{background:color-mix(in srgb,var(--gold) 18%,var(--surface));color:color-mix(in srgb,var(--gold) 72%,var(--ink))}
+  .source-list{display:grid;gap:10px}
+  .source-list article{padding:17px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
+  .source-list strong{display:block;font-size:.94rem;line-height:1.4}
+  .source-list p{margin:7px 0 11px;color:var(--muted);font-size:.85rem;line-height:1.58}
+  .source-list a{display:inline-flex;align-items:center;color:var(--brand-strong);font-size:.75rem;font-weight:900}
+  .empty{margin:0;color:var(--muted);font-size:.86rem;line-height:1.5}
+  .competitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .competitor-card{display:block;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft);transition:transform .16s ease,border-color .16s ease}
+  .competitor-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 38%,var(--line))}
+  .competitor-card strong{display:block;font-size:.95rem}
+  .competitor-card p{margin:8px 0 0;color:var(--muted);font-size:.83rem;line-height:1.55}
+  .angle-list{display:grid;gap:10px}
+  .angle-list article{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
+  .angle-list span{color:var(--brand);font-size:.74rem;font-weight:900}
+  .angle-list p{margin:0;font-size:.88rem;line-height:1.6}
   .report-shell.is-locked .report-content{filter:blur(8px);opacity:.24;pointer-events:none;user-select:none}.report-lock{position:absolute;inset:86px 0 0;z-index:5;display:grid;place-items:start center;padding:90px 20px;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--bg) 72%,transparent) 12%,color-mix(in srgb,var(--bg) 94%,transparent) 44%,var(--bg) 100%)}
   .lock-card{width:min(620px,100%);padding:30px;border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-align:center}.lock-mark{display:grid;width:48px;height:48px;margin:0 auto 14px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:1.25rem}.lock-card h2{margin:0 0 10px}.lock-card>p:not(.eyebrow){margin:0 auto 22px;color:var(--muted);line-height:1.55}
   .lock-card form{display:grid;gap:10px;text-align:left}.email-field{display:grid;gap:6px}.email-field>span{color:var(--muted);font-size:.76rem;font-weight:800}.email-field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;background:var(--surface-soft);color:var(--ink);outline:0}.email-field input:focus{border-color:var(--brand)}.consent{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:.76rem;line-height:1.45}.consent input{margin-top:3px}.consent a{color:var(--brand-strong);text-decoration:underline}.newsletter-status{min-height:18px;margin:0;color:var(--muted);font-size:.78rem}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
   .method-note{margin:16px 4px 0;color:var(--muted);font-size:.78rem;line-height:1.5}.scan-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:50px;padding:30px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 8%,var(--surface)),var(--surface))}.scan-cta h2{margin:0 0 8px}.scan-cta>div>p:not(.eyebrow){margin:0;color:var(--muted);line-height:1.55}.cta-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.button.secondary{border-color:var(--line);background:var(--surface);color:var(--ink);box-shadow:none}
-  @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.scan-demo-card{display:none}.overview-grid,.report-two-col,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.scan-demo-card{display:none}.overview-grid,.report-two-col,.diagnosis-groups,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:720px){.scan-hero,.scan-results{width:min(1160px,calc(100% - 28px))}.scan-hero{padding-top:112px}.scan-url{grid-template-columns:auto minmax(0,1fr)}.scan-url .button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid{grid-template-columns:1fr}.result-header{align-items:flex-start;flex-direction:column}.scan-time{text-align:left}.score-card{align-items:flex-start}.report-heading{display:grid}.report-timer{width:100%;text-align:left}.report-two-col,.action-list,.competitor-grid{grid-template-columns:1fr}.report-lock{padding-top:50px}.lock-card{padding:22px}.scan-cta{padding:24px}.cta-actions .button{width:100%}}
 </style>
