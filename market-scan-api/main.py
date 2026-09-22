@@ -58,7 +58,7 @@ STOPWORDS = {
     "the","and","for","that","with","this","from","your","you","are","our","was","were","have","has","had","not",
     "but","can","will","all","more","their","about","into","than","they","what","when","where","which","who","how",
     "why","a","an","to","of","in","on","at","as","is","it","be","or","we","i","my","me","us","by","if","so","do",
-    "get","new","home","page","contact","privacy","cookie","cookies","read","learn","click","menu","blog","about",
+    "get","new","home","page","contact","privacy","cookie","cookies","read","learn","click","menu","blog","about","want","wants","wanted",
     "stay","loop","join","email","newsletter","subscribe","footer","copyright","rights","reserved",
     "und","der","die","das","ein","eine","mit","für","von","auf","ist","im","zu","wir","sie","ihr","ihre"
 }
