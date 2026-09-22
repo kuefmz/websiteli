@@ -846,7 +846,7 @@ def website_diagnostics(pages: list[dict[str, Any]]) -> dict[str, Any]:
     return {"score": score, "checks": checks}
 
 
-def priority_actions(diagnostics: dict[str, Any], pages: list[dict[str, Any]], buyer: list[dict[str, Any]], pains: list[dict[str, Any]], competitors: list[dict[str, Any]]) -> list[dict[str, str]]:
+def priority_actions(diagnostics: dict[str, Any], pages: list[dict[str, Any]], buyer: list[dict[str, Any]], pains: list[dict[str, Any]], competitors: list[dict[str, Any]], profile: dict[str, Any] | None = None) -> list[dict[str, str]]:
     failed = {x["key"] for x in diagnostics["checks"] if not x["passed"]}
     actions: list[dict[str, str]] = []
     if {"cta", "forms"} & failed:
@@ -856,7 +856,18 @@ def priority_actions(diagnostics: dict[str, Any], pages: list[dict[str, Any]], b
     if "analytics" in failed:
         actions.append({"priority":"High","area":"Measurement","title":"Track the actions that indicate commercial intent","detail":"Measure form submits, booking clicks, phone/email clicks and important CTA interactions so optimisation is based on outcomes."})
     if "schema" in failed:
-        actions.append({"priority":"Medium","area":"SEO","title":"Add structured data","detail":"Add appropriate Organization/LocalBusiness, Service, FAQ or Article JSON-LD where the page content supports it."})
+        profile = profile or {}
+        positioning = clean_text(profile.get("positioning", "")).lower()
+        if profile.get("siteType") == "personal":
+            schema_title = "Add Person and ProfilePage structured data"
+            schema_detail = "Describe the person, professional profile, sameAs links and key profile page with valid Person/ProfilePage JSON-LD."
+        elif re.search(r"price comparison|compare prices", positioning):
+            schema_title = "Add product and comparison structured data"
+            schema_detail = "Use Organization plus Product/Offer/ItemList structured data where the visible comparison content supports it, so search engines can better understand the products and comparison pages."
+        else:
+            schema_title = "Add structured data for the core offer"
+            schema_detail = "Add the most appropriate Organization, Service, Product, FAQ or Article JSON-LD only where the visible page content supports it."
+        actions.append({"priority":"Medium","area":"SEO","title":schema_title,"detail":schema_detail})
     if buyer:
         actions.append({"priority":"High","area":"Messaging","title":"Mirror real buyer language on high-intent pages","detail":f"Use recurring phrasing from public buyer conversations, especially questions like “{buyer[0]['title'][:120]}”."})
     if pains:
@@ -1098,7 +1109,7 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             else []
         )
         ad_angles = make_ad_angles(pain_points, buyer_signals, keywords) if profile["siteType"] == "commercial" else []
-        actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors)
+        actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors, profile)
         review_mentions = extract_review_mentions(review_results, host, brand)
         exec_summary = executive_summary(profile, diagnostics, actions, buyer_signals, competitors)
 
