@@ -59,6 +59,7 @@ STOPWORDS = {
     "but","can","will","all","more","their","about","into","than","they","what","when","where","which","who","how",
     "why","a","an","to","of","in","on","at","as","is","it","be","or","we","i","my","me","us","by","if","so","do",
     "get","new","home","page","contact","privacy","cookie","cookies","read","learn","click","menu","blog","about",
+    "stay","loop","join","email","newsletter","subscribe","footer","copyright","rights","reserved",
     "und","der","die","das","ein","eine","mit","für","von","auf","ist","im","zu","wir","sie","ihr","ihre"
 }
 AGGREGATOR_HOSTS = {
@@ -971,6 +972,20 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
                 "queries": queries if profile["siteType"] == "commercial" else {"reviews": f'"{brand}" reviews'},
                 "relevanceThreshold": 0.72,
                 "competitorThreshold": 0.78,
+                "rawCounts": {
+                    "reddit": len(reddit),
+                    "buyerWeb": len(buyer_web),
+                    "painWeb": len(pain_web),
+                    "marketWeb": len(market_results),
+                    "reviewWeb": len(review_results),
+                },
+                "filteredCounts": {
+                    "reddit": len(relevant_reddit),
+                    "buyerWeb": len(relevant_buyer_web),
+                    "painWeb": len(relevant_pain_web),
+                    "marketWeb": len(relevant_market),
+                    "reviews": len(review_mentions),
+                },
                 "note": "External findings are shown only when they pass a site-specific relevance threshold. Empty sections are preferred over unrelated results.",
             },
             "priorityActions": actions,
