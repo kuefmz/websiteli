@@ -216,6 +216,24 @@ def test_review_mentions_require_real_review_hosts_and_brand_match():
     assert "trustpilot.com/review/orgelia.com" in mentions[0]["url"]
 
 
+
+def test_vendor_pages_are_not_counted_as_buyer_conversations():
+    items = [
+        {
+            "title": "Switzerland online Sexshop | Discreet Sextoys Purchase",
+            "snippet": "Shop sex toys and intimate products at the best prices.",
+            "url": "https://kisskiss.ch/en/",
+        },
+        {
+            "title": "Looking for a sex toy shop in Switzerland?",
+            "snippet": "Can anyone recommend a discreet store with good prices?",
+            "url": "https://www.reddit.com/r/AskSwitzerland/comments/example",
+        },
+    ]
+    buyer, _ = main.classify_signals(items)
+    assert len(buyer) == 1
+    assert "reddit.com" in buyer[0]["url"]
+
 def test_no_generic_ad_angles_without_real_buyer_or_pain_evidence():
     assert main.make_ad_angles([], [], [{"term": "software", "count": 20}]) == []
 
