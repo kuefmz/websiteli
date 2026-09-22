@@ -64,8 +64,14 @@ STOPWORDS = {
 }
 AGGREGATOR_HOSTS = {
     "g2.com","gartner.com","capterra.com","getapp.com","softwareadvice.com","trustradius.com",
-    "selecthub.com","cbinsights.com","rankred.com","worldmetrics.org","slashdot.org","sourceforge.net"
+    "selecthub.com","cbinsights.com","rankred.com","worldmetrics.org","slashdot.org","sourceforge.net",
+    "6wresearch.com","statista.com","grandviewresearch.com","researchandmarkets.com",
+    "marketresearch.com","marketsandmarkets.com"
 }
+NON_COMPETITOR_PATH_RE = re.compile(
+    r"/(?:blog|blogs|article|articles|guide|guides|news|industry-report|report|reports|research|insights?|magazine)/",
+    re.I,
+)
 REVIEW_HOST_HINTS = (
     "trustpilot.","g2.","capterra.","getapp.","trustradius.","clutch.","yelp.","glassdoor.",
     "google.com/maps","reviews.io","provenexpert.","tripadvisor."
@@ -688,6 +694,8 @@ def build_market_queries(profile: dict[str, Any], brand: str) -> dict[str, Any]:
 def site_specific_content_opportunities(profile: dict[str, Any], pages: list[dict[str, Any]], signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
     opportunities = []
     seen = set()
+
+    # First prefer actual questions/concerns from relevant public conversations.
     for item in signals:
         title = clean_text(item.get("title"))
         if not title or title.lower() in seen:
@@ -702,28 +710,69 @@ def site_specific_content_opportunities(profile: dict[str, Any], pages: list[dic
         if len(opportunities) >= 4:
             return opportunities
 
-    terms = profile.get("queryTerms") or []
-    offer = clean_text(terms[0] if terms else "")
-    if not offer:
-        return opportunities
-
+    positioning = clean_text(profile.get("positioning", ""))
+    positioning_lower = positioning.lower()
     page_text = " ".join(
-        " ".join([p.get("title", ""), p.get("description", ""), " ".join(p.get("headings", []))])
+        " ".join([p.get("title", ""), p.get("description", ""), " ".join(p.get("headings", [])), p.get("text", "")[:6000]])
         for p in pages
     ).lower()
-    candidates = [
-        (f"{offer}: pricing, scope and what is included", ["pricing", "price", "cost"]),
-        (f"{offer}: how it works and what to expect", ["how it works", "process", "steps"]),
-        (f"{offer}: who it is for and when it is a good fit", ["who it is for", "ideal for", "best for"]),
-        (f"{offer}: alternatives and how to choose", ["alternative", "compare", "comparison"]),
-    ]
-    for title, markers in candidates:
+
+    if re.search(r"price comparison|compare prices", positioning_lower):
+        candidates = [
+            (
+                "Explain exactly how your price comparison works",
+                ["how we compare", "methodology", "how it works"],
+                "Build trust by showing which stores are covered, how often prices update and what the comparison includes.",
+            ),
+            (
+                "Compare total purchase cost, not only the sticker price",
+                ["shipping cost", "delivery cost", "total price", "total cost"],
+                "A decision page that combines product price, shipping cost and delivery time can be more useful than a simple price table.",
+            ),
+            (
+                "Show how you decide which stores are trustworthy",
+                ["trusted stores", "store criteria", "retailer criteria", "verified stores"],
+                "Explain the criteria behind store inclusion, payment safety, discreet delivery and customer-service quality.",
+            ),
+            (
+                "Create a buyer guide for choosing between similar products",
+                ["buying guide", "how to choose", "which product", "comparison guide"],
+                "Help visitors decide what to buy before asking them to compare where to buy it.",
+            ),
+        ]
+    else:
+        terms = profile.get("queryTerms") or []
+        offer = clean_text(terms[0] if terms else "")
+        candidates = [
+            (
+                f"Explain how {offer} works and what customers should expect",
+                ["how it works", "process", "steps"],
+                "A clear process page can reduce uncertainty for visitors who are evaluating the offer.",
+            ),
+            (
+                f"Clarify who {offer} is for — and who it is not for",
+                ["who it is for", "ideal for", "best for"],
+                "Specific fit criteria help qualified visitors recognise themselves and reduce weak enquiries.",
+            ),
+            (
+                f"Publish a transparent pricing and scope guide for {offer}",
+                ["pricing", "price", "cost", "scope"],
+                "Decision-stage visitors often need a clearer understanding of cost, inclusions and trade-offs.",
+            ),
+            (
+                f"Create an alternatives and comparison guide for {offer}",
+                ["alternative", "compare", "comparison"],
+                "A fair comparison page can capture high-intent visitors already evaluating alternatives.",
+            ),
+        ]
+
+    for title, markers, context in candidates:
         if any(marker in page_text for marker in markers):
             continue
         opportunities.append({
             "title": title,
             "source": "",
-            "context": "Suggested because this decision-stage topic was not clearly represented in the sampled website pages.",
+            "context": context,
             "basis": "website-gap",
         })
         if len(opportunities) >= 4:
@@ -859,21 +908,57 @@ def market_candidates(results: list[dict[str, Any]], own_host: str, location: st
     seen = set()
     for item in results:
         try:
-            host = (urlparse(item["url"]).hostname or "").removeprefix("www.").lower()
+            parsed = urlparse(item["url"])
+            host = (parsed.hostname or "").removeprefix("www.").lower()
+            path = parsed.path or "/"
         except Exception:
             continue
-        if not host or own_host in host or host in AGGREGATOR_HOSTS or re.search(r"(reddit|youtube|linkedin|facebook|instagram|wikipedia|medium|quora|duckduckgo|researchgate)\.", host, re.I):
+
+        if (
+            not host
+            or own_host in host
+            or host in AGGREGATOR_HOSTS
+            or NON_COMPETITOR_PATH_RE.search(path)
+            or re.search(r"(reddit|youtube|linkedin|facebook|instagram|wikipedia|medium|quora|duckduckgo|researchgate)\.", host, re.I)
+        ):
             continue
+
         context = f"{item.get('title','')} {item.get('snippet','')}"
+        lower = context.lower()
+
         if location == "Switzerland":
             swiss = host.endswith(".ch") or bool(re.search(r"\b(swiss|switzerland|schweiz|suisse|svizzera)\b", context, re.I))
             if not swiss:
                 continue
+
+        transactional = bool(re.search(
+            r"\b(shop|store|sexshop|sex shop|online shop|online store|buy|products?|catalog|retailer|retail|compare prices|price comparison)\b",
+            lower,
+            re.I,
+        ))
+        if not transactional:
+            continue
+
         if host in seen:
             continue
         seen.add(host)
-        candidates.append({"name":host,"url":item["url"],"context":item["title"],"snippet":item.get("snippet","")})
-    return candidates[:12]
+
+        candidate_type = (
+            "direct"
+            if re.search(r"\b(shop|store|sexshop|sex shop|retailer|buy|products?|catalog)\b", lower, re.I)
+            else "indirect"
+        )
+        candidates.append({
+            "name": host,
+            "url": item["url"],
+            "context": item["title"],
+            "snippet": item.get("snippet", ""),
+            "type": candidate_type,
+            "relevance": item.get("relevance"),
+        })
+
+    candidates.sort(key=lambda x: (0 if x["type"] == "direct" else 1, -(x.get("relevance") or 0)))
+    return candidates[:10]
 
 
 def report_email_html(report: dict[str, Any]) -> str:
