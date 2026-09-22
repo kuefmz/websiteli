@@ -447,6 +447,16 @@ def _content_tokens(value: str) -> list[str]:
     ]
 
 
+def extract_brand(title: str, fallback: str) -> str:
+    cleaned = clean_text(title)
+    if not cleaned:
+        return fallback
+    # Split only on visual title separators, never on hyphens inside names such as Ciuciu-Kiss.
+    parts = re.split(r"\s+[|–—-]\s+|\s*\|\s*", cleaned, maxsplit=1)
+    brand = clean_text(parts[0])
+    return brand or fallback
+
+
 def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, Any]:
     home = pages[0] if pages else {}
     title = clean_text(home.get("title", ""))
@@ -460,11 +470,12 @@ def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, A
     phrase_scores: Counter[str] = Counter()
     for fragment in fragments:
         tokens = [t for t in _content_tokens(fragment) if t not in brand_tokens]
-        for n in (3, 2):
+        for n in (2, 3):
             for i in range(0, max(0, len(tokens) - n + 1)):
                 phrase = " ".join(tokens[i:i+n]).strip(" .,-")
                 if len(phrase) >= 7:
-                    phrase_scores[phrase] += 3 if fragment in (title, description) else 1
+                    base = 4 if n == 2 else 2
+                    phrase_scores[phrase] += base if fragment in (title, description) else 1
     phrases = [p for p, _ in phrase_scores.most_common(8)]
 
     lower_urls = " ".join(page.get("url", "").lower() for page in pages)
@@ -839,7 +850,7 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             keywords = keyword_counts(corpus)
             host = (urlparse(url).hostname or "").removeprefix("www.")
             title = pages[0]["title"] if pages else ""
-            brand = re.split(r"[|–—-]", title)[0].strip() if title else host
+            brand = extract_brand(title, host)
             profile = infer_market_profile(pages, brand)
             query_terms = profile["queryTerms"]
             queries = build_market_queries(profile, brand)
