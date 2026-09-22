@@ -21,13 +21,13 @@ const c = de ? {
   signals:"Buyer Signals", pains:"Wiederkehrende Pain Points", compTitle:"Wettbewerber-Kandidaten",
   contentTitle:"Content-Chancen", adTitle:"Ad Angles zum Testen",
   source:"Quelle öffnen", empty:"Für diesen Bereich wurden beim aktuellen Scan keine belastbaren öffentlichen Signale gefunden.",
-  newsletterEyebrow:"Report speichern",
-  newsletterTitle:"Schick mir den Scan + Websiteli Growth Notes",
-  newsletterText:"Erhalte den Link zu diesem Report und praktische Websiteli-Updates zu Websites, SEO, Automation und AI. Du kannst dich jederzeit abmelden.",
-  email:"E-Mail", subscribe:"Report + Updates erhalten", sending:"Wird gespeichert…",
-  consent:"Ich möchte den Report und Websiteli Growth Notes per E-Mail erhalten und akzeptiere die",
+  newsletterEyebrow:"Vollständiger Report",
+  newsletterTitle:"Wohin sollen wir deinen vollständigen Market Scan schicken?",
+  newsletterText:"Du siehst hier die Zusammenfassung. Gib deine E-Mail an und wir senden dir den vollständigen Report mit Website-Diagnose, Quellen, Buyer Signals, Wettbewerbern, Content-Chancen und Ad Angles.",
+  email:"E-Mail", subscribe:"Vollständigen Report per E-Mail senden", sending:"Report wird gesendet…",
+  consent:"Ich möchte meinen Market-Scan-Report und Websiteli Growth Notes per E-Mail erhalten und akzeptiere die",
   privacy:"Datenschutzerklärung",
-  subscribed:"Danke — du bist angemeldet. Wir verwenden denselben Newsletter-Workflow wie auf websiteli.ch.",
+  subscribed:"Gesendet — prüfe deinen Posteingang. Dein vollständiger Market Scan ist unterwegs.",
   subscribeError:"Das hat nicht geklappt. Bitte versuche es erneut.",
   subscribeValidation:"Bitte gib eine gültige E-Mail ein und bestätige die Einwilligung.",
   ctaTitle:"Willst du, dass Websiteli die wichtigsten Punkte direkt umsetzt?",
@@ -54,13 +54,13 @@ const c = de ? {
   signals:"Buyer signals", pains:"Recurring pain points", compTitle:"Competitor candidates",
   contentTitle:"Content opportunities", adTitle:"Ad angles worth testing",
   source:"Open source", empty:"No sufficiently strong public signals were found for this section in the current scan.",
-  newsletterEyebrow:"Save your report",
-  newsletterTitle:"Send me this scan + Websiteli Growth Notes",
-  newsletterText:"Get this report link plus practical Websiteli updates about websites, SEO, automation and AI. Unsubscribe any time.",
-  email:"Email", subscribe:"Send report + updates", sending:"Saving…",
-  consent:"I want the report and Websiteli Growth Notes by email and accept the",
+  newsletterEyebrow:"Full report",
+  newsletterTitle:"Where should we send your complete Market Scan?",
+  newsletterText:"You can see the summary here. Enter your email and we’ll send the full report with website diagnostics, sources, buyer signals, competitors, content opportunities and ad angles.",
+  email:"Email", subscribe:"Email my full report", sending:"Sending your report…",
+  consent:"I want my Market Scan report and Websiteli Growth Notes by email and accept the",
   privacy:"Privacy Policy",
-  subscribed:"Thanks — you’re subscribed. This uses the same newsletter workflow as websiteli.ch.",
+  subscribed:"Sent — check your inbox. Your complete Market Scan is on its way.",
   subscribeError:"That didn’t work. Please try again.",
   subscribeValidation:"Enter a valid email and confirm consent.",
   ctaTitle:"Want Websiteli to implement the highest-impact fixes?",
@@ -144,16 +144,20 @@ const privacyPolicyVersion = "2026-06-24";
         <article><strong data-metric="priorityActions">0</strong><span>{c.actions}</span></article>
       </div>
 
-      <section class="report-card wide">
-        <div class="card-head"><span>01</span><h3>{c.priorities}</h3></div>
-        <div class="action-list" data-list="priorityActions"></div>
-      </section>
-
-      <section class="lead-magnet">
+      <section class="locked-report">
+        <div class="lock-icon" aria-hidden="true">✉</div>
         <div>
           <p class="eyebrow">{c.newsletterEyebrow}</p>
           <h2>{c.newsletterTitle}</h2>
           <p>{c.newsletterText}</p>
+          <div class="locked-items">
+            <span>✓ {c.diagnostics}</span>
+            <span>✓ {c.signals}</span>
+            <span>✓ {c.pains}</span>
+            <span>✓ {c.compTitle}</span>
+            <span>✓ {c.contentTitle}</span>
+            <span>✓ {c.adTitle}</span>
+          </div>
         </div>
         <form data-market-newsletter novalidate>
           <input name="campaign" type="hidden" value="market-scan-report" />
@@ -167,33 +171,6 @@ const privacyPolicyVersion = "2026-06-24";
           <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
         </form>
       </section>
-
-      <div class="report-grid">
-        <section class="report-card">
-          <div class="card-head"><span>02</span><h3>{c.diagnostics}</h3></div>
-          <div data-list="diagnostics" class="diagnostic-list"></div>
-        </section>
-        <section class="report-card">
-          <div class="card-head"><span>03</span><h3>{c.signals}</h3></div>
-          <div data-list="buyerSignals" class="source-list"></div>
-        </section>
-        <section class="report-card">
-          <div class="card-head"><span>04</span><h3>{c.pains}</h3></div>
-          <div data-list="painPoints" class="source-list"></div>
-        </section>
-        <section class="report-card">
-          <div class="card-head"><span>05</span><h3>{c.compTitle}</h3></div>
-          <div data-list="competitorCandidates" class="source-list"></div>
-        </section>
-        <section class="report-card">
-          <div class="card-head"><span>06</span><h3>{c.contentTitle}</h3></div>
-          <div data-list="contentOpportunities" class="source-list"></div>
-        </section>
-        <section class="report-card">
-          <div class="card-head"><span>07</span><h3>{c.adTitle}</h3></div>
-          <div data-list="adAngles" class="angle-list"></div>
-        </section>
-      </div>
 
       <p class="method-note">{c.method}</p>
 
@@ -237,65 +214,14 @@ const privacyPolicyVersion = "2026-06-24";
   function clear(el) { while (el?.firstChild) el.firstChild.remove(); }
   function empty(el) { const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; el.appendChild(p); }
 
-  function sourceItem(item) {
-    const article=document.createElement("article");
-    const title=document.createElement("strong");
-    title.textContent=item.title || item.name || item.context || "Signal";
-    article.appendChild(title);
-    const detail=item.body || item.snippet || item.context || (item.subreddit ? `r/${item.subreddit}` : "");
-    if (detail) { const p=document.createElement("p"); p.textContent=detail.slice(0,320); article.appendChild(p); }
-    const href=item.url || item.source;
-    if (href) {
-      const a=document.createElement("a"); a.href=href; a.target="_blank"; a.rel="noopener noreferrer";
-      a.textContent=c.source+" ↗"; a.addEventListener("click",()=>track("market_scan_source_click",{source_type:"report"})); article.appendChild(a);
-    }
-    return article;
-  }
-
-  function renderSourceList(key, items) {
-    const el=root.querySelector(`[data-list="${key}"]`); clear(el);
-    if (!items?.length) return empty(el);
-    items.slice(0,8).forEach((item)=>el.appendChild(sourceItem(item)));
-  }
-
   function renderActions(items) {
-    const el=root.querySelector('[data-list="priorityActions"]'); clear(el);
     const preview=root.querySelector("[data-priority-preview]"); clear(preview);
-    if(!items?.length){ empty(el); return; }
-    items.forEach((item,i)=>{
-      const article=document.createElement("article");
-      const meta=document.createElement("div"); meta.className="action-meta";
-      const priority=document.createElement("span"); priority.textContent=item.priority;
-      const area=document.createElement("span"); area.textContent=item.area;
-      meta.append(priority,area);
-      const h=document.createElement("h4"); h.textContent=item.title;
-      const p=document.createElement("p"); p.textContent=item.detail;
-      article.append(meta,h,p); el.appendChild(article);
-      if(i<3){
-        const row=document.createElement("div"); const n=document.createElement("b"); n.textContent=String(i+1).padStart(2,"0");
-        const text=document.createElement("span"); text.textContent=item.title; row.append(n,text); preview.appendChild(row);
-      }
-    });
-  }
-
-  function renderDiagnostics(items) {
-    const el=root.querySelector('[data-list="diagnostics"]'); clear(el);
-    if(!items?.length){ empty(el); return; }
-    items.forEach((item)=>{
-      const row=document.createElement("div"); row.className="diagnostic-row";
-      const copy=document.createElement("div"); const strong=document.createElement("strong"); strong.textContent=item.label;
-      const small=document.createElement("small"); small.textContent=item.detail; copy.append(strong,small);
-      const badge=document.createElement("span"); badge.className=item.passed ? "pass" : "review"; badge.textContent=item.passed ? c.pass : c.review;
-      row.append(copy,badge); el.appendChild(row);
-    });
-  }
-
-  function renderAngles(items) {
-    const el=root.querySelector('[data-list="adAngles"]'); clear(el);
-    if(!items?.length){ empty(el); return; }
-    items.forEach((textValue,i)=>{
-      const article=document.createElement("article"); const n=document.createElement("span"); n.textContent=String(i+1).padStart(2,"0");
-      const p=document.createElement("p"); p.textContent=textValue; article.append(n,p); el.appendChild(article);
+    if(!items?.length){ const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; preview.appendChild(p); return; }
+    items.slice(0,3).forEach((item,i)=>{
+      const row=document.createElement("div");
+      const n=document.createElement("b"); n.textContent=String(i+1).padStart(2,"0");
+      const text=document.createElement("span"); text.textContent=item.title;
+      row.append(n,text); preview.appendChild(row);
     });
   }
 
@@ -309,12 +235,6 @@ const privacyPolicyVersion = "2026-06-24";
       const el=root.querySelector(`[data-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);
     });
     renderActions(data.priorityActions);
-    renderDiagnostics(data.website?.diagnostics);
-    renderSourceList("buyerSignals",data.buyerSignals);
-    renderSourceList("painPoints",data.painPoints);
-    renderSourceList("competitorCandidates",data.competitorCandidates);
-    renderSourceList("contentOpportunities",data.contentOpportunities);
-    renderAngles(data.adAngles);
   }
 
   function startLoadingProgress(domain){
@@ -417,18 +337,27 @@ const privacyPolicyVersion = "2026-06-24";
 
     button?.setAttribute("disabled","true"); if(msg) msg.textContent=c.sending;
     try{
+      const emailResponse=await fetch(`${apiBase}/api/email-report`,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({scanId:latestScan?.scanId,email,consent:true})
+      });
+      const emailResult=await emailResponse.json().catch(()=>({}));
+      if(!emailResponse.ok) throw new Error(emailResult.error || c.subscribeError);
+
       await fetch(newsletterEndpoint,{
         method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)
       });
+
       newsletterForm.reset(); if(msg) msg.textContent=c.subscribed;
       try{localStorage.setItem("websiteli_market_scan_subscribed","true")}catch{}
       window.trackWebsiteliEvent?.("newsletter_subscribe",{
         event_category:"lead",event_label:"Market Scan report",campaign:"market-scan-report",locale,
         source_path:window.location.pathname,privacy_policy_accepted:"yes"
       });
-      track("market_scan_email_capture",{website_domain:payload.metadata.scannedDomain,opportunity_score:payload.metadata.opportunityScore});
+      track("market_scan_report_emailed",{website_domain:payload.metadata.scannedDomain,opportunity_score:payload.metadata.opportunityScore});
     }catch(error){
-      if(msg) msg.textContent=c.subscribeError;
+      if(msg) msg.textContent=error?.message || c.subscribeError;
       track("market_scan_email_error",{error_message:String(error?.message||"unknown")});
     }finally{button?.removeAttribute("disabled");}
   });
@@ -460,12 +389,10 @@ const privacyPolicyVersion = "2026-06-24";
   .result-top{display:flex;justify-content:space-between;gap:30px;align-items:end;margin:20px 0 26px}.result-top h2{font-size:clamp(2.2rem,5vw,4rem);margin:0;letter-spacing:-.04em}.scanned-url{color:#858b96;word-break:break-all}.elapsed{text-align:right}.elapsed strong{display:block;font-size:2rem;color:#c79a63}.elapsed span{color:#7e8490;font-size:.8rem}
   .result-lead{display:grid;grid-template-columns:.8fr 1.2fr;gap:16px;margin-bottom:16px}.score-card,.priority-preview{border:1px solid #2a3039;background:#141820;border-radius:20px;padding:24px}.score-card{display:flex;align-items:center;gap:20px}.score-ring{width:94px;height:94px;border:8px solid #c79a63;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.score-ring strong{font-size:1.8rem}.score-ring span{font-size:.72rem;color:#8c929d}.score-card h3{margin:0 0 6px}.score-card p{margin:0;color:#8f96a1;line-height:1.5;font-size:.82rem}.priority-preview [data-priority-preview]>div{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #252b34}.priority-preview [data-priority-preview]>div:last-child{border:0}.priority-preview b{color:#c79a63;font-size:.75rem}.priority-preview span{font-size:.88rem;color:#d5d7dc}
   .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric-grid article{padding:18px;border:1px solid #292e37;background:#141820;border-radius:16px}.metric-grid strong{display:block;font-size:1.8rem}.metric-grid span{color:#9197a2;font-size:.8rem}
-  .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.report-card{border:1px solid #292e37;background:#12161d;border-radius:22px;padding:24px}.report-card.wide{grid-column:1/-1}.card-head{display:flex;gap:14px;align-items:center;border-bottom:1px solid #252a33;padding-bottom:17px;margin-bottom:6px}.card-head>span{color:#c79a63;font-size:.76rem;font-weight:800}.card-head h3{margin:0;font-size:1.15rem}
-  .action-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:14px}.action-list article{background:#181d25;padding:18px;border-radius:15px}.action-meta{display:flex;gap:8px}.action-meta span{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;padding:4px 7px;border-radius:99px;background:#282e37;color:#c8ccd3}.action-list h4{margin:12px 0 7px;font-size:1rem}.action-list p{margin:0;color:#939aa5;line-height:1.55;font-size:.84rem}
-  .lead-magnet{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;margin:20px 0;padding:30px;border:1px solid #493b2c;background:linear-gradient(135deg,#171b22,#211c17);border-radius:22px}.lead-magnet h2{margin:0 0 10px;font-size:clamp(1.5rem,3vw,2.2rem)}.lead-magnet>div>p:not(.eyebrow){color:#a2a7b0;line-height:1.55}.lead-magnet form>label:not(.consent):not(.hp){display:grid;gap:7px;font-size:.76rem;color:#a9afb8}.lead-magnet input[type="email"]{background:#0f1319;border:1px solid #343a44;border-radius:11px;color:#fff;padding:14px;font-size:1rem}.consent{display:flex;gap:9px;margin:11px 0;font-size:.75rem;color:#8d949f;line-height:1.4}.consent a{color:#c99a61}.newsletter-status{font-size:.78rem;color:#b9bec7;min-height:18px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
+  .locked-report{display:grid;grid-template-columns:auto 1.2fr 1fr;gap:24px;align-items:start;margin:24px 0;padding:30px;border:1px solid #493b2c;background:linear-gradient(135deg,#171b22,#211c17);border-radius:22px}.lock-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:#2a2119;color:#d6a66e;font-size:1.25rem}.locked-report h2{margin:0 0 10px;font-size:clamp(1.5rem,3vw,2.15rem)}.locked-report>div>p:not(.eyebrow){color:#a2a7b0;line-height:1.55}.locked-items{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;margin-top:14px;color:#c4c7ce;font-size:.8rem}.locked-report form>label:not(.consent):not(.hp){display:grid;gap:7px;font-size:.76rem;color:#a9afb8}.locked-report input[type="email"]{box-sizing:border-box;width:100%;background:#0f1319;border:1px solid #343a44;border-radius:11px;color:#fff;padding:14px;font-size:1rem}.locked-report button{width:100%;border:0;background:#c79a63;color:#101216;border-radius:12px;padding:15px 18px;font-size:.95rem;font-weight:800;cursor:pointer}.locked-report button:disabled{opacity:.6;cursor:wait}.consent{display:flex;gap:9px;margin:11px 0;font-size:.75rem;color:#8d949f;line-height:1.4}.consent a{color:#c99a61}.newsletter-status{font-size:.78rem;color:#b9bec7;min-height:18px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
   .diagnostic-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #222731}.diagnostic-row:last-child{border:0}.diagnostic-row div{display:grid;gap:4px}.diagnostic-row small{color:#818894}.diagnostic-row>span{align-self:center;border-radius:99px;padding:5px 9px;font-size:.68rem;font-weight:800}.diagnostic-row .pass{background:#183326;color:#8ce0ad}.diagnostic-row .review{background:#382820;color:#f0b684}
   .source-list article{padding:17px 0;border-bottom:1px solid #222731}.source-list article:last-child{border-bottom:0}.source-list strong{display:block;font-size:.96rem}.source-list p{color:#9298a4;line-height:1.55;font-size:.86rem;margin:7px 0}.source-list a{color:#c79a63;text-decoration:none;font-size:.78rem;font-weight:700}.empty{color:#777e89;line-height:1.5}
   .angle-list{display:grid;gap:10px;padding-top:14px}.angle-list article{display:flex;gap:12px;padding:15px;border-radius:14px;background:#181d25}.angle-list span{color:#c79a63;font-weight:800;font-size:.75rem}.angle-list p{margin:0;color:#d5d7dc;font-size:.9rem;line-height:1.5}.method-note{color:#747b86;font-size:.8rem;line-height:1.55;margin:20px 4px 0}
   .conversion{margin-top:54px;padding:46px;border-radius:26px;background:linear-gradient(135deg,#191d24,#242019);border:1px solid #363029}.conversion h2{font-size:clamp(2rem,4vw,3rem);max-width:760px;margin:0 0 14px}.conversion>p:not(.eyebrow){color:#aeb2ba;max-width:720px;line-height:1.6}.actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.actions button{background:transparent;border:1px solid #393f49;color:#d6d8dc;border-radius:12px;padding:15px 19px;cursor:pointer;font-weight:700}
-  @media(max-width:820px){main{padding:36px 20px 80px}.input-row{display:grid;grid-template-columns:auto 1fr;background:#171b22}.input-row button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:1fr 1fr}.report-grid,.result-lead,.lead-magnet{grid-template-columns:1fr}.report-card.wide{grid-column:auto}.action-list{grid-template-columns:1fr}.result-top{align-items:start;flex-direction:column}.elapsed{text-align:left}.conversion{padding:28px}.scan-header{padding:18px 20px}.score-card{align-items:flex-start}.hero-proof{border-radius:15px}}
+  @media(max-width:820px){main{padding:36px 20px 80px}.input-row{display:grid;grid-template-columns:auto 1fr;background:#171b22}.input-row button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:1fr 1fr}.result-lead,.locked-report{grid-template-columns:1fr}.locked-items{grid-template-columns:1fr}.result-top{align-items:start;flex-direction:column}.elapsed{text-align:left}.conversion{padding:28px}.scan-header{padding:18px 20px}.score-card{align-items:flex-start}.hero-proof{border-radius:15px}}
 </style>
