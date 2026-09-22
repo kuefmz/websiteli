@@ -30,8 +30,17 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Verify audit funnel output
+      - name: Verify audit and market scan output
         run: |
           test -f dist/audit/index.html
           test -f dist/en/audit/index.html
           test -f dist/de/audit/index.html
+          test -f dist/en/market-scan/index.html
+          test -f dist/de/market-scan/index.html
+          grep -q "market-scan-report" dist/en/market-scan/index.html
+          grep -q "script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec" dist/en/market-scan/index.html
+
+      - name: Validate Market Scan backend
+        run: |
+          npm --prefix market-scan-api install --ignore-scripts
+          node --check market-scan-api/server.js
