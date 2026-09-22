@@ -437,9 +437,32 @@ def unique_by(items: list[dict[str, Any]], key_name: str = "url") -> list[dict[s
     return output
 
 
+def is_conversational_signal(item: dict[str, Any]) -> bool:
+    url = (item.get("url") or "").lower()
+    host = (urlparse(url).hostname or "").lower()
+    title = clean_text(item.get("title"))
+    text = f"{title} {item.get('body','')} {item.get('snippet','')}"
+    if any(token in host for token in ("reddit.com", "quora.com", "stackexchange.com", "gutefrage.net")):
+        return True
+    if re.search(r"/(?:forum|forums|community|discussion|discussions)/", url, re.I):
+        return True
+    if "?" in title:
+        return True
+    return bool(re.search(
+        r"\b(?:looking for|can anyone|does anyone|anyone (?:use|know|recommend)|"
+        r"recommend(?:ation|ations)?|where can i|what should i|which (?:one|shop|store|product)|"
+        r"has anyone|i need|i'm looking|im looking|suche nach|kann jemand|empfehl)"
+        r"\b",
+        text,
+        re.I,
+    ))
+
+
 def classify_signals(items: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     buyer, pains = [], []
     for item in items:
+        if not is_conversational_signal(item):
+            continue
         text = f"{item.get('title','')} {item.get('body','')} {item.get('snippet','')}"
         if any(p.search(text) for p in BUYER_PATTERNS):
             buyer.append(item)
@@ -831,16 +854,21 @@ def make_ad_angles(pains: list[dict[str, Any]], buyer: list[dict[str, Any]], key
     return list(dict.fromkeys(angles))[:6]
 
 
-def market_candidates(results: list[dict[str, Any]], own_host: str) -> list[dict[str, Any]]:
+def market_candidates(results: list[dict[str, Any]], own_host: str, location: str = "") -> list[dict[str, Any]]:
     candidates = []
     seen = set()
     for item in results:
         try:
-            host = (urlparse(item["url"]).hostname or "").removeprefix("www.")
+            host = (urlparse(item["url"]).hostname or "").removeprefix("www.").lower()
         except Exception:
             continue
         if not host or own_host in host or host in AGGREGATOR_HOSTS or re.search(r"(reddit|youtube|linkedin|facebook|instagram|wikipedia|medium|quora|duckduckgo|researchgate)\.", host, re.I):
             continue
+        context = f"{item.get('title','')} {item.get('snippet','')}"
+        if location == "Switzerland":
+            swiss = host.endswith(".ch") or bool(re.search(r"\b(swiss|switzerland|schweiz|suisse|svizzera)\b", context, re.I))
+            if not swiss:
+                continue
         if host in seen:
             continue
         seen.add(host)
@@ -976,11 +1004,11 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
         _, web_pains = classify_signals(relevant_pain_web)
         buyer_signals = unique_by(reddit_buyer + web_buyer)
         pain_points = unique_by(reddit_pains + web_pains)
-        relevant_market = filter_relevant(market_results, relevance_terms, 0.78)
-        competitors = market_candidates(relevant_market, host)
+        relevant_market = filter_relevant(unique_by(market_results + buyer_web), relevance_terms, 0.78)
+        competitors = market_candidates(relevant_market, host, profile.get("marketLocation", ""))
         diagnostics = website_diagnostics(pages)
         content_opportunities = (
-            site_specific_content_opportunities(profile, pages, relevant_reddit + relevant_buyer_web + relevant_pain_web)
+            site_specific_content_opportunities(profile, pages, buyer_signals + pain_points)
             if profile["siteType"] == "commercial"
             else []
         )
