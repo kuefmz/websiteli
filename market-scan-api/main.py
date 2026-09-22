@@ -58,9 +58,17 @@ STOPWORDS = {
     "the","and","for","that","with","this","from","your","you","are","our","was","were","have","has","had","not",
     "but","can","will","all","more","their","about","into","than","they","what","when","where","which","who","how",
     "why","a","an","to","of","in","on","at","as","is","it","be","or","we","i","my","me","us","by","if","so","do",
-    "get","new","home","page","contact","privacy","cookie","cookies","und","der","die","das","ein","eine","mit","für",
-    "von","auf","ist","im","zu","wir","sie","ihr","ihre"
+    "get","new","home","page","contact","privacy","cookie","cookies","read","learn","click","menu","blog","about",
+    "und","der","die","das","ein","eine","mit","für","von","auf","ist","im","zu","wir","sie","ihr","ihre"
 }
+AGGREGATOR_HOSTS = {
+    "g2.com","gartner.com","capterra.com","getapp.com","softwareadvice.com","trustradius.com",
+    "selecthub.com","cbinsights.com","rankred.com","worldmetrics.org","slashdot.org","sourceforge.net"
+}
+REVIEW_HOST_HINTS = (
+    "trustpilot.","g2.","capterra.","getapp.","trustradius.","clutch.","yelp.","glassdoor.",
+    "google.com/maps","reviews.io","provenexpert.","tripadvisor."
+)
 BUYER_PATTERNS = [
     re.compile(x, re.I) for x in [
         r"looking for", r"recommend(?:ation|ations)?", r"alternative to",
@@ -427,6 +435,144 @@ def classify_signals(items: list[dict[str, Any]]) -> tuple[list[dict[str, Any]],
     return buyer, pains
 
 
+
+def _content_tokens(value: str) -> list[str]:
+    return [
+        token for token in re.findall(r"[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9+#.-]{2,}", (value or "").lower())
+        if token not in STOPWORDS and not token.isdigit()
+    ]
+
+
+def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, Any]:
+    home = pages[0] if pages else {}
+    title = clean_text(home.get("title", ""))
+    description = clean_text(home.get("description", ""))
+    headings = [clean_text(x) for x in home.get("headings", [])[:12]]
+    visible = " ".join([title, description, *headings])
+    brand_tokens = set(_content_tokens(brand))
+
+    # Rank short phrases from the parts of the site that are intended to describe the offer.
+    fragments = [title, description, *headings]
+    phrase_scores: Counter[str] = Counter()
+    for fragment in fragments:
+        tokens = [t for t in _content_tokens(fragment) if t not in brand_tokens]
+        for n in (3, 2):
+            for i in range(0, max(0, len(tokens) - n + 1)):
+                phrase = " ".join(tokens[i:i+n]).strip(" .,-")
+                if len(phrase) >= 7:
+                    phrase_scores[phrase] += 3 if fragment in (title, description) else 1
+    phrases = [p for p, _ in phrase_scores.most_common(8)]
+
+    lower_urls = " ".join(page.get("url", "").lower() for page in pages)
+    lower_visible = visible.lower()
+    commercial_markers = [
+        r"/services?\b", r"/pricing\b", r"/shop\b", r"/products?\b", r"/solutions?\b",
+        r"consult(?:ing|ant)", r"agency", r"book (?:a )?(?:call|demo|consultation)",
+        r"get a quote", r"request a quote", r"hire me", r"work with me", r"services"
+    ]
+    personal_markers = [
+        r"\bphd\b", r"\bcv\b", r"resume", r"portfolio", r"publications?", r"researcher",
+        r"data engineer", r"machine learning engineer", r"personal website"
+    ]
+    commercial_hits = sum(bool(re.search(p, lower_urls + " " + lower_visible, re.I)) for p in commercial_markers)
+    commercial_hits += min(2, sum(1 for page in pages if page.get("hasBooking")))
+    personal_hits = sum(bool(re.search(p, lower_visible, re.I)) for p in personal_markers)
+    has_money_page = bool(re.search(r"/pricing\b|/shop\b|/services?\b|/solutions?\b|/products?\b", lower_urls, re.I))
+
+    if has_money_page or commercial_hits >= 3:
+        site_type = "commercial"
+        confidence = "high"
+    elif commercial_hits >= 1 and personal_hits <= 1:
+        site_type = "commercial"
+        confidence = "medium"
+    elif personal_hits >= 2 and not has_money_page:
+        site_type = "personal"
+        confidence = "low"
+    else:
+        site_type = "informational"
+        confidence = "low"
+
+    positioning = description or (headings[0] if headings else title)
+    query_terms = phrases[:3]
+    if not query_terms:
+        query_terms = [x["term"] for x in keyword_counts(visible)[:4]]
+
+    return {
+        "siteType": site_type,
+        "marketConfidence": confidence,
+        "positioning": positioning[:280],
+        "queryTerms": query_terms[:3],
+        "commercialSignals": commercial_hits,
+        "personalSignals": personal_hits,
+    }
+
+
+def result_relevance(item: dict[str, Any], terms: list[str]) -> int:
+    haystack = f"{item.get('title','')} {item.get('snippet','')} {item.get('body','')}".lower()
+    tokens = set(_content_tokens(haystack))
+    score = 0
+    for term in terms:
+        term_tokens = [t for t in _content_tokens(term) if len(t) >= 4]
+        if not term_tokens:
+            continue
+        overlap = sum(1 for token in term_tokens if token in tokens)
+        if overlap == len(term_tokens):
+            score += 4
+        elif overlap:
+            score += overlap
+    return score
+
+
+def filter_relevant(items: list[dict[str, Any]], terms: list[str], minimum: int = 2) -> list[dict[str, Any]]:
+    scored = [(result_relevance(item, terms), item) for item in items]
+    scored = [(score, item) for score, item in scored if score >= minimum]
+    scored.sort(key=lambda pair: pair[0], reverse=True)
+    return unique_by([item for _, item in scored])
+
+
+def extract_review_mentions(results: list[dict[str, Any]], own_host: str, brand: str) -> list[dict[str, Any]]:
+    mentions = []
+    brand_tokens = [t for t in _content_tokens(brand) if len(t) >= 4]
+    for item in results:
+        url = item.get("url") or ""
+        host = (urlparse(url).hostname or "").lower().removeprefix("www.")
+        haystack = f"{item.get('title','')} {item.get('snippet','')}".lower()
+        if not host or own_host in host:
+            continue
+        if not any(hint in host or hint in url.lower() for hint in REVIEW_HOST_HINTS):
+            continue
+        if brand_tokens and not any(token in haystack for token in brand_tokens):
+            continue
+        mentions.append({"title":item["title"],"snippet":item.get("snippet",""),"url":url})
+    return unique_by(mentions)[:8]
+
+
+def executive_summary(profile: dict[str, Any], diagnostics: dict[str, Any], actions: list[dict[str, Any]], buyer: list[dict[str, Any]], competitors: list[dict[str, Any]]) -> dict[str, Any]:
+    failed = [x for x in diagnostics["checks"] if not x["passed"]]
+    healthy = [x for x in diagnostics["checks"] if x["passed"]]
+    top_action = actions[0]["title"] if actions else "Keep testing the primary offer"
+    if profile["siteType"] == "personal":
+        headline = "Strong personal presence, but not enough commercial positioning to map a reliable buyer market."
+        market_note = "This site reads primarily as a personal/professional profile, so generic market and competitor results are intentionally suppressed rather than guessed."
+    elif profile["marketConfidence"] == "high":
+        headline = "The website foundation is solid; the biggest upside is sharper positioning and a clearer path from interest to enquiry."
+        market_note = f"We found {len(buyer)} relevant buyer-intent signals and {len(competitors)} plausible market alternatives."
+    else:
+        headline = "The website is technically healthy, but the market proposition is not specific enough for a high-confidence external market scan."
+        market_note = "We only show external market findings when they match the website's positioning closely enough."
+
+    return {
+        "headline": headline,
+        "positioning": profile.get("positioning", ""),
+        "marketNote": market_note,
+        "topAction": top_action,
+        "healthyCount": len(healthy),
+        "opportunityCount": len(failed),
+        "marketConfidence": profile.get("marketConfidence", "low"),
+        "siteType": profile.get("siteType", "informational"),
+    }
+
+
 def website_diagnostics(pages: list[dict[str, Any]]) -> dict[str, Any]:
     home = pages[0] if pages else {}
     all_text = " ".join(page["text"] for page in pages)
@@ -514,7 +660,7 @@ def market_candidates(results: list[dict[str, Any]], own_host: str) -> list[dict
             host = (urlparse(item["url"]).hostname or "").removeprefix("www.")
         except Exception:
             continue
-        if not host or own_host in host or re.search(r"(reddit|youtube|linkedin|facebook|instagram|wikipedia|medium|quora|duckduckgo)\.", host, re.I):
+        if not host or own_host in host or host in AGGREGATOR_HOSTS or re.search(r"(reddit|youtube|linkedin|facebook|instagram|wikipedia|medium|quora|duckduckgo|researchgate)\.", host, re.I):
             continue
         if host in seen:
             continue
@@ -600,7 +746,7 @@ async def health() -> dict[str, Any]:
     return {
         "ok": True,
         "service": "websiteli-market-scan",
-        "version": APP_VERSION,
+        "version": "0.5.0",
         "emailConfigured": email_configured(),
     }
 
@@ -623,32 +769,39 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             host = (urlparse(url).hostname or "").removeprefix("www.")
             title = pages[0]["title"] if pages else ""
             brand = re.split(r"[|–—-]", title)[0].strip() if title else host
-            core_terms = [x["term"] for x in keywords[:5]]
-            topic_query = " ".join(([brand] + core_terms)[:6])
-            market_query = " ".join(core_terms[:3]) or brand
+            profile = infer_market_profile(pages, brand)
+            query_terms = profile["queryTerms"]
+            market_query = " ".join(query_terms[:2]).strip()
+            topic_query = market_query or brand
 
-            reddit, buyer_web, pain_web, market_results, review_results = await asyncio.gather(
-                reddit_search(topic_query),
-                ddg_search(f"{market_query} recommendations forum", 12),
-                ddg_search(f"{market_query} problems complaints", 12),
-                ddg_search(f"{market_query} services alternatives competitors", 14),
-                ddg_search(f'"{brand}" reviews customer experience', 12),
-            )
+            if profile["siteType"] == "commercial" and market_query:
+                reddit, buyer_web, pain_web, market_results = await asyncio.gather(
+                    reddit_search(topic_query),
+                    ddg_search(f'"{market_query}" recommendations OR best', 12),
+                    ddg_search(f'"{market_query}" problems OR complaints OR challenges', 12),
+                    ddg_search(f'"{market_query}" alternatives OR competitors', 14),
+                )
+            else:
+                reddit, buyer_web, pain_web, market_results = [], [], [], []
 
-        web_signals = unique_by(buyer_web + pain_web)
-        reddit_buyer, reddit_pains = classify_signals(reddit)
-        web_buyer, web_pains = classify_signals(web_signals)
+            review_results = await ddg_search(f'"{brand}" reviews', 12)
+
+        relevant_reddit = filter_relevant(reddit, query_terms, 2)
+        relevant_web = filter_relevant(unique_by(buyer_web + pain_web), query_terms, 2)
+        reddit_buyer, reddit_pains = classify_signals(relevant_reddit)
+        web_buyer, web_pains = classify_signals(relevant_web)
         buyer_signals = unique_by(reddit_buyer + web_buyer)
         pain_points = unique_by(reddit_pains + web_pains)
-        competitors = market_candidates(market_results, host)
+        relevant_market = filter_relevant(market_results, query_terms, 2)
+        competitors = market_candidates(relevant_market, host)
         diagnostics = website_diagnostics(pages)
-        content_opportunities = make_content_opportunities(reddit + web_signals, keywords)
-        ad_angles = make_ad_angles(pain_points, buyer_signals, keywords)
+        content_opportunities = make_content_opportunities(relevant_reddit + relevant_web, keywords)
+        if profile["siteType"] != "commercial":
+            content_opportunities = content_opportunities[:4]
+        ad_angles = make_ad_angles(pain_points, buyer_signals, keywords) if profile["siteType"] == "commercial" else []
         actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors)
-        review_mentions = [
-            {"title":x["title"],"snippet":x.get("snippet",""),"url":x["url"]}
-            for x in review_results if x.get("url")
-        ][:12]
+        review_mentions = extract_review_mentions(review_results, host, brand)
+        exec_summary = executive_summary(profile, diagnostics, actions, buyer_signals, competitors)
 
         full_report = {
             "scannedUrl": url,
@@ -657,7 +810,7 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             "summary": {
                 "pagesCrawled": len(pages),
                 "buyerSignals": len(buyer_signals),
-                "redditDiscussions": len(reddit),
+                "redditDiscussions": len(relevant_reddit),
                 "reviewMentions": len(review_mentions),
                 "competitorCandidates": len(competitors),
                 "contentOpportunities": len(content_opportunities),
@@ -673,10 +826,12 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
                 "keywords": keywords,
                 "pages": [{"url":p["url"],"title":p["title"],"headings":p["headings"][:8]} for p in pages],
             },
+            "executive": exec_summary,
+            "marketProfile": profile,
             "priorityActions": actions,
-            "buyerSignals": buyer_signals[:15],
-            "painPoints": pain_points[:15],
-            "redditDiscussions": reddit[:25],
+            "buyerSignals": buyer_signals[:10],
+            "painPoints": pain_points[:10],
+            "redditDiscussions": relevant_reddit[:12],
             "reviewMentions": review_mentions,
             "competitorCandidates": competitors,
             "contentOpportunities": content_opportunities,
