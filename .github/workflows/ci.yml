@@ -24,7 +24,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm ci
 
       - name: Build static site
@@ -40,7 +40,18 @@ jobs:
           grep -q "market-scan-report" dist/en/market-scan/index.html
           grep -q "script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec" dist/en/market-scan/index.html
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: market-scan-api/requirements.txt
+
+      - name: Install Market Scan backend dependencies
+        run: pip install -r market-scan-api/requirements.txt
+
       - name: Validate Market Scan backend
         run: |
-          npm --prefix market-scan-api install --ignore-scripts
-          node --check market-scan-api/server.js
+          python -m py_compile market-scan-api/main.py
+          cd market-scan-api
+          python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
