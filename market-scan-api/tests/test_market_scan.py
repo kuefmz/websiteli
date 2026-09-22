@@ -217,6 +217,44 @@ def test_review_mentions_require_real_review_hosts_and_brand_match():
 
 
 
+
+def test_market_research_and_blog_pages_are_not_competitors():
+    results = [
+        {
+            "title": "Switzerland Intimate Products Market Report",
+            "snippet": "Industry research and market forecast.",
+            "url": "https://6wresearch.com/industry-report/switzerland-intimate-products-market",
+            "relevance": 1.0,
+        },
+        {
+            "title": "Phthalates in Sex Toys: A Pharmacist's Guide",
+            "snippet": "Guide to sex toy safety in Switzerland.",
+            "url": "https://condoms-switzerland.ch/guides/phthalates-danger-sex-toys/",
+            "relevance": 1.0,
+        },
+        {
+            "title": "Swiss sex shop - discreet delivery",
+            "snippet": "Online sex shop in Switzerland with toys and accessories.",
+            "url": "https://kisskiss.ch/en/",
+            "relevance": 1.0,
+        },
+    ]
+    candidates = main.market_candidates(results, "orgelia.com", "Switzerland")
+    assert [x["name"] for x in candidates] == ["kisskiss.ch"]
+    assert candidates[0]["type"] == "direct"
+
+
+def test_price_comparison_content_opportunities_are_actionable():
+    profile = {
+        "positioning": "Compare prices across trusted stores and see where it is cheapest.",
+        "queryTerms": ["price comparison", "pleasure product"],
+    }
+    items = main.site_specific_content_opportunities(profile, ORGELIA_PAGES, [])
+    titles = [x["title"].lower() for x in items]
+    assert any("comparison works" in title for title in titles)
+    assert any("total purchase cost" in title for title in titles)
+    assert all("price comparison: how it works" not in title for title in titles)
+
 def test_vendor_pages_are_not_counted_as_buyer_conversations():
     items = [
         {
