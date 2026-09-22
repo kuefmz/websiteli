@@ -486,7 +486,6 @@ app.post("/api/scan", async (req, res) => {
       priorityActions:fullReport.priorityActions.slice(0,3),
       reportLocked:true
     });
-);
   } catch (error) {
     res.status(400).json({ error:error?.message || "Scan failed" });
   }
