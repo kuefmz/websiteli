@@ -4,9 +4,9 @@ Backend for the Websiteli Market Scan lead-generation tool.
 
 ## Product flow
 
-A visitor enters one public website URL on `/{locale}/market-scan/`. The frontend calls this API, renders the live report, offers an explicit newsletter/report opt-in through Websiteli's existing Google Apps Script newsletter endpoint, and finishes with a Calendly implementation CTA.
+A visitor enters one public website URL on `/{locale}/market-scan/`. The frontend calls this API and shows a preview (score, counts and top priorities). The full report is held server-side for one hour and is emailed only after the visitor submits an email address and consent.
 
-No email is required to run or view the scan. Newsletter consent remains explicit.
+The same submission also uses Websiteli’s existing Google Apps Script newsletter endpoint (`type: "newsletter"`, campaign `market-scan-report`). The full report is not exposed in the browser before email submission.
 
 ## What the MVP now analyses
 
@@ -72,6 +72,12 @@ curl http://localhost:8787/health
 
 - `PORT` — supplied by the host.
 - `ALLOWED_ORIGINS` — comma-separated frontend origins, normally `https://websiteli.ch`.
+- `SMTP_HOST` — SMTP server used to deliver the generated report.
+- `SMTP_PORT` — normally `587` (STARTTLS) or `465` (TLS).
+- `SMTP_USER` — SMTP username.
+- `SMTP_PASS` — SMTP password/app password. Never commit this value.
+- `REPORT_FROM_EMAIL` — optional sender address; defaults to `SMTP_USER`.
+- `REPORT_REPLY_TO` — optional reply-to address.
 
 Deploy `market-scan-api/` as a Node web service. Then build/deploy the existing static Astro frontend with:
 
@@ -88,3 +94,5 @@ The scanner never fabricates large counts. Metrics are the number of records act
 Public search providers can rate-limit automated requests. A zero-result section can therefore mean that a provider returned no usable results, not that the market contains no discussions. For a commercial/high-volume version, replace the fallback public-search adapters with supported search/review APIs.
 
 The website opportunity score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
+
+Generated reports are stored only in the API process memory and expire after one hour. A successful email send deletes the cached report immediately. This MVP does not require a report database.
