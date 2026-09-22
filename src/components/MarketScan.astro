@@ -39,7 +39,8 @@ const c = de ? {
   ctaText:"Wir priorisieren die Chancen und können Website, SEO, Tracking, Ads oder Automatisierung umsetzen.",
   cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
   method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
-  evidenceSnapshot:"Ergebnisübersicht",
+  evidenceSnapshot:"Executive Summary",
+  execEyebrow:"Was wirklich zählt", execPositioning:"Erkannte Positionierung", execOpportunity:"Größte Chance", execConfidence:"Markt-Sicherheit", execSignals:"Belastbare externe Signale",
   demandCategory:"Kundennachfrage", customerVoiceCategory:"Kundenstimme", competitionCategory:"Wettbewerb", growthCategory:"Wachstumschancen",
   actionSummary:"Die wichtigsten nächsten Schritte, nach Wirkung und Themenbereich geordnet.",
   demandSummary:"Was potenzielle Kunden suchen, fragen und worüber sie sich beschweren.",
@@ -88,7 +89,8 @@ const c = de ? {
   ctaText:"We can prioritise the opportunities and implement the website, SEO, tracking, ads or automation.",
   cta:"Book a 30-minute call", again:"Scan another website",
   method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
-  evidenceSnapshot:"Results at a glance",
+  evidenceSnapshot:"Executive summary",
+  execEyebrow:"What actually matters", execPositioning:"Detected positioning", execOpportunity:"Biggest opportunity", execConfidence:"Market confidence", execSignals:"Relevant external signals",
   demandCategory:"Customer demand", customerVoiceCategory:"Customer voice", competitionCategory:"Competitive landscape", growthCategory:"Growth opportunities",
   actionSummary:"The most important next steps, organised by impact and focus area.",
   demandSummary:"What potential customers are actively looking for, asking about and struggling with.",
@@ -209,28 +211,44 @@ const privacyPolicyVersion = "2026-06-24";
       <div class="scan-time"><span>{c.scanTime}</span><strong><span data-elapsed>—</span>s</strong></div>
     </header>
 
-    <section class="overview-grid">
-      <article class="score-card">
-        <div class="score-ring"><strong data-score>—</strong><span>/100</span></div>
-        <div><h2>{c.scoreTitle}</h2><p>{c.scoreNote}</p></div>
-      </article>
-      <article class="priority-card">
-        <p class="eyebrow">{c.priorities}</p>
-        <div data-priority-preview></div>
-      </article>
+    <section class="executive-brief">
+      <div class="executive-main">
+        <p class="eyebrow">{c.execEyebrow}</p>
+        <h2 data-exec-headline></h2>
+        <p class="executive-note" data-exec-market-note></p>
+        <div class="executive-chips">
+          <span data-exec-site-type></span>
+          <span data-exec-confidence></span>
+          <span data-coverage-note></span>
+        </div>
+      </div>
+
+      <div class="executive-side">
+        <article class="exec-card">
+          <span>{c.execPositioning}</span>
+          <strong data-exec-positioning></strong>
+        </article>
+        <article class="exec-card accent">
+          <span>{c.execOpportunity}</span>
+          <strong data-exec-action></strong>
+        </article>
+      </div>
     </section>
 
-    <section class="evidence-snapshot">
-      <div class="snapshot-heading">
-        <p class="eyebrow">{c.evidenceSnapshot}</p>
-        <span data-coverage-note></span>
-      </div>
-      <div class="metric-grid">
-        <article><strong data-summary-metric="buyerDemand">0</strong><span>{c.demandCategory}</span></article>
-        <article><strong data-summary-metric="customerVoice">0</strong><span>{c.customerVoiceCategory}</span></article>
-        <article><strong data-summary-metric="competition">0</strong><span>{c.competitionCategory}</span></article>
-        <article><strong data-summary-metric="growth">0</strong><span>{c.growthCategory}</span></article>
-      </div>
+    <section class="score-strip">
+      <article class="score-card compact">
+        <div class="score-ring"><strong data-score>—</strong><span>/100</span></div>
+        <div><span class="micro-label">{c.scoreTitle}</span><p>{c.scoreNote}</p></div>
+      </article>
+      <article class="signal-card">
+        <span class="micro-label">{c.execSignals}</span>
+        <strong data-relevant-signal-count>0</strong>
+        <p data-signal-quality-note></p>
+      </article>
+      <article class="priority-card compact">
+        <span class="micro-label">{c.priorities}</span>
+        <div data-priority-preview></div>
+      </article>
     </section>
 
     <section class="report-shell" data-report-shell>
@@ -245,6 +263,11 @@ const privacyPolicyVersion = "2026-06-24";
           <strong data-countdown>1:30</strong>
         </div>
       </header>
+
+      <div class="market-quality-note" data-market-quality-note hidden>
+        <strong data-market-quality-title></strong>
+        <p data-market-quality-copy></p>
+      </div>
 
       <div class="report-content" data-report-content>
         <section class="report-section action-plan-section">
@@ -272,7 +295,7 @@ const privacyPolicyVersion = "2026-06-24";
           </div>
         </section>
 
-        <section class="report-section category-section">
+        <section class="report-section category-section" data-market-section>
           <div class="section-title"><span>03</span><div><h3>{c.demandCategory}</h3><p>{c.demandSummary}</p></div></div>
           <div class="report-two-col">
             <div class="insight-block">
@@ -286,7 +309,7 @@ const privacyPolicyVersion = "2026-06-24";
           </div>
         </section>
 
-        <section class="report-section category-section">
+        <section class="report-section category-section" data-market-section>
           <div class="section-title"><span>04</span><div><h3>{c.customerVoiceCategory}</h3><p>{c.evidenceSummary}</p></div></div>
           <div class="report-two-col">
             <div class="insight-block">
@@ -300,12 +323,12 @@ const privacyPolicyVersion = "2026-06-24";
           </div>
         </section>
 
-        <section class="report-section category-section">
+        <section class="report-section category-section" data-market-section>
           <div class="section-title"><span>05</span><div><h3>{c.competitionCategory}</h3><p>{c.competitionSummary}</p></div></div>
           <div class="competitor-grid" data-competitors></div>
         </section>
 
-        <section class="report-section category-section">
+        <section class="report-section category-section" data-market-section>
           <div class="section-title"><span>06</span><div><h3>{c.growthCategory}</h3><p>{c.growthSummary}</p></div></div>
           <div class="report-two-col">
             <div class="insight-block">
@@ -526,7 +549,7 @@ const privacyPolicyVersion = "2026-06-24";
       top.append(title,badge); card.append(top,p);
       (item.passed?healthy:opportunities).push(card);
     });
-    if(!healthy.length) healthyEl?.appendChild(makeEmpty()); else healthy.forEach(card=>healthyEl?.appendChild(card));
+    if(!healthy.length) healthyEl?.appendChild(makeEmpty()); else healthy.slice(0,4).forEach(card=>healthyEl?.appendChild(card));
     if(!opportunities.length) opportunityEl?.appendChild(makeEmpty()); else opportunities.forEach(card=>opportunityEl?.appendChild(card));
     if(healthyCount) healthyCount.textContent=String(healthy.length);
     if(opportunityCount) opportunityCount.textContent=String(opportunities.length);
@@ -535,11 +558,14 @@ const privacyPolicyVersion = "2026-06-24";
 
   function sourceItem(item){
     const article=document.createElement("article");
+    const top=document.createElement("div"); top.className="source-top";
     const strong=document.createElement("strong"); strong.textContent=item.title || item.name || "Signal";
-    article.appendChild(strong);
-    const body=text(item.body || item.snippet || item.context);
-    if(body){ const p=document.createElement("p"); p.textContent=body.slice(0,420); article.appendChild(p); }
+    const domain=document.createElement("span");
     const url=item.url || item.source;
+    if(url){ try{domain.textContent=new URL(url).hostname.replace(/^www\./,"")}catch{} }
+    top.append(strong,domain); article.appendChild(top);
+    const body=text(item.body || item.snippet || item.context);
+    if(body){ const p=document.createElement("p"); p.textContent=body.slice(0,240); article.appendChild(p); }
     if(url){
       const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=c.source+" ↗";
       a.addEventListener("click",()=>track("market_scan_source_click",{source_url:url}));
@@ -580,22 +606,34 @@ const privacyPolicyVersion = "2026-06-24";
     root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || report.scannedUrl || "";
     root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||report.elapsedMs||0)/1000).toFixed(1);
     root.querySelector("[data-score]").textContent=String(data.website?.opportunityScore ?? report.website?.opportunityScore ?? "—");
+    const executive=report.executive || {};
+    const profile=report.marketProfile || {};
+    const setText=(selector,value)=>{const el=root.querySelector(selector); if(el) el.textContent=text(value);};
+    setText("[data-exec-headline]", executive.headline || (locale==="de"?"Wir haben die wichtigsten Chancen priorisiert.":"We prioritised the clearest opportunities."));
+    setText("[data-exec-market-note]", executive.marketNote || "");
+    setText("[data-exec-positioning]", executive.positioning || profile.positioning || (locale==="de"?"Keine klare Positionierung erkannt":"No clear positioning detected"));
+    setText("[data-exec-action]", executive.topAction || report.priorityActions?.[0]?.title || "");
+    setText("[data-exec-site-type]", locale==="de"?`Seitentyp: ${profile.siteType || "—"}`:`Site type: ${profile.siteType || "—"}`);
+    setText("[data-exec-confidence]", locale==="de"?`Markt-Sicherheit: ${profile.marketConfidence || "—"}`:`Market confidence: ${profile.marketConfidence || "—"}`);
+
+    const externalSignalCount=(summary.buyerSignals||0)+(summary.redditDiscussions||0)+(summary.reviewMentions||0)+(summary.competitorCandidates||0);
+    setText("[data-relevant-signal-count]", externalSignalCount);
+    setText("[data-signal-quality-note]", profile.marketConfidence==="high"
+      ? (locale==="de"?"Die externen Signale passen gut zur erkannten Positionierung.":"External findings closely match the positioning detected on the site.")
+      : (locale==="de"?"Wir zeigen nur Signale, die ausreichend gut zur Website passen.":"We only show external findings that match the website closely enough."));
+
+    const qualityNote=root.querySelector("[data-market-quality-note]");
+    const lowConfidence=profile.marketConfidence==="low" || profile.siteType==="personal";
+    root.querySelectorAll("[data-market-section]").forEach(section=>section.hidden=lowConfidence);
+    if(qualityNote){
+      qualityNote.hidden=!lowConfidence;
+      setText("[data-market-quality-title]", locale==="de"?"Keine erfundene Marktanalyse":"No guessed market data");
+      setText("[data-market-quality-copy]", locale==="de"
+        ?"Diese Website wirkt eher wie ein persönliches oder informatives Profil als wie ein klar kommerzielles Angebot. Deshalb blenden wir schwache Wettbewerber-, Review- und Buyer-Signale aus, statt irrelevante Ergebnisse zu präsentieren."
+        :"This site reads more like a personal or informational profile than a clearly commercial offer. We therefore suppress weak competitor, review and buyer signals instead of presenting irrelevant results.");
+    }
+
     const summary=data.summary||report.summary||{};
-    const setSummary=(key,value)=>{const el=root.querySelector(`[data-summary-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);};
-    setSummary("buyerDemand", summary.buyerSignals ?? 0);
-    setSummary("customerVoice", (summary.redditDiscussions ?? 0) + (summary.reviewMentions ?? 0));
-    setSummary("competition", summary.competitorCandidates ?? 0);
-    setSummary("growth", (summary.contentOpportunities ?? 0) + (summary.adAngles ?? 0));
-    const coverage=root.querySelector("[data-coverage-note]");
-    if(coverage) coverage.textContent=locale==="de"?`Basierend auf ${summary.pagesCrawled ?? 0} analysierten Seiten`:`Based on ${summary.pagesCrawled ?? 0} pages analysed`;
-    const countMap={
-      "[data-count-buyer]":summary.buyerSignals,
-      "[data-count-reddit]":summary.redditDiscussions,
-      "[data-count-reviews]":summary.reviewMentions,
-      "[data-count-content]":summary.contentOpportunities,
-      "[data-count-ads]":summary.adAngles
-    };
-    Object.entries(countMap).forEach(([selector,value])=>{const el=root.querySelector(selector); if(el) el.textContent=value?String(value):"";});
     renderPriorities(report.priorityActions || data.priorityActions || []);
     renderDiagnostics(report.website?.diagnostics || []);
     const painCount=root.querySelector("[data-count-pains]"); if(painCount) painCount.textContent=report.painPoints?.length?String(report.painPoints.length):"";
@@ -764,18 +802,22 @@ const privacyPolicyVersion = "2026-06-24";
   .progress-track{width:min(100%,540px);height:5px;margin-top:28px;overflow:hidden;border-radius:99px;background:var(--line)}.progress-track span{display:block;width:10%;height:100%;background:var(--brand);transition:width .4s ease}
   .scan-results{padding-top:126px}.result-header{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:28px}.result-header h1{font-size:clamp(2.6rem,5vw,4.7rem)}.scanned-url{margin:12px 0 0;color:var(--muted);overflow-wrap:anywhere}
   .scan-time{display:grid;gap:3px;text-align:right}.scan-time>span{color:var(--muted);font-size:.75rem;text-transform:uppercase;font-weight:850}.scan-time strong{font-size:1.55rem}
-  .overview-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.score-card,.priority-card,.metric-grid article,.report-section,.report-heading,.scan-cta{border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.07)}
+  .score-card,.priority-card,.signal-card,.report-section,.report-heading,.scan-cta,.executive-brief{border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 97%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.06)}
+  .executive-brief{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr);gap:18px;margin-bottom:18px;padding:28px;border-radius:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--surface) 96%,transparent),color-mix(in srgb,var(--brand) 4%,var(--surface)))}
+  .executive-main h2{max-width:820px;margin:0;font-size:clamp(1.75rem,3vw,2.7rem);line-height:1.08;letter-spacing:-.035em}.executive-note{max-width:820px;margin:14px 0 0;color:var(--muted);font-size:.98rem;line-height:1.6}
+  .executive-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.executive-chips span{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:.7rem;font-weight:800}
+  .executive-side{display:grid;gap:12px}.exec-card{display:grid;gap:8px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.exec-card>span{color:var(--muted);font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.exec-card strong{font-size:.98rem;line-height:1.42}.exec-card.accent{border-color:color-mix(in srgb,var(--brand) 28%,var(--line));background:color-mix(in srgb,var(--brand) 5%,var(--surface))}
+  .score-strip{display:grid;grid-template-columns:.9fr .7fr 1.4fr;gap:14px}.score-card.compact,.priority-card.compact,.signal-card{border-radius:16px;padding:20px}.score-card.compact{display:flex;align-items:center;gap:18px}.score-card.compact .score-ring{width:82px;height:82px;border-width:6px}.score-card.compact .score-ring strong{font-size:1.6rem}.score-card.compact .score-ring span{margin-top:34px;font-size:.62rem}.micro-label{display:block;margin-bottom:6px;color:var(--muted);font-size:.67rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.score-card.compact p,.signal-card p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.5}.signal-card strong{display:block;margin:8px 0 6px;font-size:2rem;letter-spacing:-.04em}
   .score-card{display:flex;gap:22px;align-items:center;padding:24px}.score-ring{display:grid;width:104px;height:104px;flex:0 0 auto;place-items:center;border:7px solid var(--brand);border-radius:50%}.score-ring strong{grid-area:1/1;font-size:2rem}.score-ring span{grid-area:1/1;margin-top:42px;color:var(--muted);font-size:.68rem}
   .score-card h2{margin:0 0 7px;font-size:1.25rem}.score-card p{margin:0;color:var(--muted);font-size:.86rem;line-height:1.55}.priority-card{padding:24px}
   .priority-row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}.priority-row:last-child{border-bottom:0}
   .priority-row b{display:grid;width:32px;height:32px;place-items:center;border-radius:9px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand);font-size:.72rem;line-height:1}
   .priority-copy{display:grid;gap:4px}.priority-copy span{font-size:.9rem;font-weight:780;line-height:1.42}.priority-copy small{color:var(--muted);font-size:.7rem;font-weight:750}
-  .evidence-snapshot{margin-top:18px}.snapshot-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:0 2px 9px}.snapshot-heading .eyebrow{margin:0}.snapshot-heading>span{color:var(--muted);font-size:.72rem}
-  .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric-grid article{padding:20px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 12px 34px rgba(26,32,42,.05)}.metric-grid strong{display:block;font-size:1.7rem}.metric-grid span{display:block;margin-top:4px;color:var(--muted);font-size:.79rem;font-weight:760}
   .report-shell{position:relative;margin-top:36px}.report-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding:28px}.report-heading h2{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.55rem)}.report-heading>div>p:not(.eyebrow){max-width:760px;margin:0;color:var(--muted);line-height:1.58}
   .report-timer{display:grid;min-width:150px;gap:4px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 7%,var(--surface));text-align:right}.report-timer span{color:var(--muted);font-size:.72rem;font-weight:850;text-transform:uppercase}.report-timer strong{color:var(--brand-strong);font-size:1.3rem}
-  .report-content{display:grid;gap:22px;margin-top:18px;transition:filter .25s ease,opacity .25s ease}
+  .report-content{display:grid;gap:18px;margin-top:18px;transition:filter .25s ease,opacity .25s ease}
   .report-section{padding:30px;min-width:0;border-radius:18px!important;background:color-mix(in srgb,var(--surface) 98%,white 2%)!important}
+  .market-quality-note{margin-top:18px;padding:20px 22px;border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line));border-radius:16px;background:color-mix(in srgb,var(--gold) 7%,var(--surface))}.market-quality-note strong{display:block;margin-bottom:6px}.market-quality-note p{margin:0;color:var(--muted);line-height:1.6}
   .section-title{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px}
   .section-title>span{display:grid;width:34px;height:34px;flex:0 0 auto;place-items:center;border-radius:9px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:.72rem;font-weight:900}
   .section-title>div{display:grid;gap:5px}.section-title h3{margin:0;font-size:1.24rem;letter-spacing:-.02em}.section-title p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.55}
@@ -806,8 +848,7 @@ const privacyPolicyVersion = "2026-06-24";
   .diagnosis-card.opportunity .status-pill{background:color-mix(in srgb,var(--gold) 18%,var(--surface));color:color-mix(in srgb,var(--gold) 72%,var(--ink))}
   .source-list{display:grid;gap:10px}
   .source-list article{padding:17px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft)}
-  .source-list strong{display:block;font-size:.94rem;line-height:1.4}
-  .source-list p{margin:7px 0 11px;color:var(--muted);font-size:.85rem;line-height:1.58}
+  .source-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.source-top strong{font-size:.94rem;line-height:1.4}.source-top span{flex:0 0 auto;color:var(--muted);font-size:.65rem}.source-list p{margin:8px 0 11px;color:var(--muted);font-size:.84rem;line-height:1.55}
   .source-list a{display:inline-flex;align-items:center;color:var(--brand-strong);font-size:.75rem;font-weight:900}
   .empty{margin:0;color:var(--muted);font-size:.86rem;line-height:1.5}
   .competitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -823,6 +864,6 @@ const privacyPolicyVersion = "2026-06-24";
   .lock-card{width:min(620px,100%);padding:30px;border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-align:center}.lock-mark{display:grid;width:48px;height:48px;margin:0 auto 14px;place-items:center;border-radius:8px;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:1.25rem}.lock-card h2{margin:0 0 10px}.lock-card>p:not(.eyebrow){margin:0 auto 22px;color:var(--muted);line-height:1.55}
   .lock-card form{display:grid;gap:10px;text-align:left}.email-field{display:grid;gap:6px}.email-field>span{color:var(--muted);font-size:.76rem;font-weight:800}.email-field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;background:var(--surface-soft);color:var(--ink);outline:0}.email-field input:focus{border-color:var(--brand)}.consent{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:.76rem;line-height:1.45}.consent input{margin-top:3px}.consent a{color:var(--brand-strong);text-decoration:underline}.newsletter-status{min-height:18px;margin:0;color:var(--muted);font-size:.78rem}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
   .method-note{margin:16px 4px 0;color:var(--muted);font-size:.78rem;line-height:1.5}.scan-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:50px;padding:30px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 8%,var(--surface)),var(--surface))}.scan-cta h2{margin:0 0 8px}.scan-cta>div>p:not(.eyebrow){margin:0;color:var(--muted);line-height:1.55}.cta-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.button.secondary{border-color:var(--line);background:var(--surface);color:var(--ink);box-shadow:none}
-  @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.market-map-visual{display:none}.overview-grid,.report-two-col,.diagnosis-groups,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:980px){.scan-hero{grid-template-columns:1fr;min-height:auto;padding-top:120px}.market-map-visual{display:none}.executive-brief,.score-strip,.report-two-col,.diagnosis-groups,.scan-cta{grid-template-columns:1fr}.cta-actions{justify-content:flex-start}.competitor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:720px){.scan-hero,.scan-results{width:min(1160px,calc(100% - 28px))}.scan-hero{padding-top:112px}.scan-url{grid-template-columns:auto minmax(0,1fr)}.scan-url .button{grid-column:1/-1;width:100%}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.snapshot-heading{align-items:flex-start;flex-direction:column;gap:4px}.overview-grid{grid-template-columns:1fr}.result-header{align-items:flex-start;flex-direction:column}.scan-time{text-align:left}.score-card{align-items:flex-start}.report-heading{display:grid}.report-timer{width:100%;text-align:left}.report-two-col,.action-list,.competitor-grid{grid-template-columns:1fr}.report-lock{padding-top:50px}.lock-card{padding:22px}.scan-cta{padding:24px}.cta-actions .button{width:100%}}
 </style>
