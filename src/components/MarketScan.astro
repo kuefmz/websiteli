@@ -1,0 +1,286 @@
+---
+interface Props { locale?: "en" | "de"; apiBase: string; }
+const { locale = "en", apiBase } = Astro.props;
+const de = locale === "de";
+const c = de ? {
+  eyebrow:"Kostenloser Market Scan",
+  title:"Gib uns eine URL. Wir kartieren deinen Markt.",
+  intro:"Websiteli crawlt deine Website und sammelt öffentliche Marktsignale, Reddit-Diskussionen, Review-Erwähnungen, Wettbewerber-Kandidaten und Content-Ideen.",
+  placeholder:"deinefirma.ch",
+  button:"Market Scan starten",
+  scanning:"Wir recherchieren deinen Markt…",
+  note:"Kostenloser MVP · Quellen verlinkt · Keine erfundenen Zahlen",
+  error:"Der Scan konnte nicht abgeschlossen werden.",
+  summary:"Was wir gefunden haben",
+  pages:"Seiten gecrawlt",
+  buyer:"Buyer Signals",
+  reddit:"Reddit-Diskussionen",
+  reviews:"Review-Erwähnungen",
+  competitors:"Wettbewerber-Kandidaten",
+  content:"Content-Chancen",
+  ads:"Ad Angles",
+  signals:"Buyer Signals",
+  pains:"Wiederkehrende Pain Points",
+  compTitle:"Wettbewerber-Kandidaten",
+  contentTitle:"Content-Chancen",
+  adTitle:"Ad Angles zum Testen",
+  source:"Quelle öffnen",
+  empty:"Für diesen Bereich wurden beim aktuellen Scan keine belastbaren öffentlichen Signale gefunden.",
+  ctaTitle:"Willst du, dass Websiteli daraus einen konkreten Growth-Plan macht?",
+  ctaText:"Wir können die besten Chancen priorisieren und Website, SEO, Tracking, Ads oder Automatisierung direkt umsetzen.",
+  cta:"30-Minuten-Call buchen",
+  again:"Andere Website scannen",
+  method:"Hinweis: Review-Erwähnungen und Wettbewerber sind im MVP Kandidaten aus öffentlichen Suchresultaten, keine vollständigen Datenbank-Abzüge."
+} : {
+  eyebrow:"Free Market Scan",
+  title:"Give us one URL. We’ll map your market.",
+  intro:"Websiteli crawls your website and collects public buyer signals, Reddit discussions, review mentions, competitor candidates and content opportunities.",
+  placeholder:"yourbusiness.ch",
+  button:"Run market scan",
+  scanning:"Researching your market…",
+  note:"Free MVP · Sources linked · No made-up numbers",
+  error:"The scan could not be completed.",
+  summary:"What we found",
+  pages:"Pages crawled",
+  buyer:"Buyer signals",
+  reddit:"Reddit discussions",
+  reviews:"Review mentions",
+  competitors:"Competitor candidates",
+  content:"Content opportunities",
+  ads:"Ad angles",
+  signals:"Buyer signals",
+  pains:"Recurring pain points",
+  compTitle:"Competitor candidates",
+  contentTitle:"Content opportunities",
+  adTitle:"Ad angles worth testing",
+  source:"Open source",
+  empty:"No sufficiently strong public signals were found for this section in the current scan.",
+  ctaTitle:"Want Websiteli to turn this into a concrete growth plan?",
+  ctaText:"We can prioritise the highest-value opportunities and implement the website, SEO, tracking, ads or automation.",
+  cta:"Book a 30-minute call",
+  again:"Scan another website",
+  method:"Note: review mentions and competitors are candidate signals from public search results in this MVP, not complete platform datasets."
+};
+---
+
+<div class="market-scan" data-market-scan data-api-base={apiBase}>
+  <header class="scan-header">
+    <a href={`/${locale}/`} class="brand"><img src="/assets/websiteli-logo.png?v=3" alt="" width="38" height="38" /><span>websiteli</span></a>
+    <a href={`/${locale}/`} class="back">← Websiteli</a>
+  </header>
+
+  <main>
+    <section class="hero" data-form-view>
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h1>{c.title}</h1>
+      <p class="intro">{c.intro}</p>
+      <form data-scan-form>
+        <div class="input-row">
+          <input name="url" inputmode="url" autocomplete="url" placeholder={c.placeholder} required />
+          <button type="submit">{c.button}<span>→</span></button>
+        </div>
+        <p class="status" data-status aria-live="polite"></p>
+      </form>
+      <p class="trust">{c.note}</p>
+    </section>
+
+    <section class="loading" data-loading hidden>
+      <div class="spinner"></div>
+      <h2>{c.scanning}</h2>
+      <div class="loading-steps">
+        <span>01 <b>Website crawl</b></span>
+        <span>02 <b>Market discovery</b></span>
+        <span>03 <b>Signal analysis</b></span>
+        <span>04 <b>Opportunity report</b></span>
+      </div>
+    </section>
+
+    <section class="results" data-results hidden>
+      <div class="result-top">
+        <div>
+          <p class="eyebrow">{c.summary}</p>
+          <h2 data-brand></h2>
+          <p class="scanned-url" data-scanned-url></p>
+        </div>
+        <div class="elapsed"><strong data-elapsed>—</strong><span>seconds</span></div>
+      </div>
+
+      <div class="metric-grid">
+        <article><strong data-metric="pagesCrawled">0</strong><span>{c.pages}</span></article>
+        <article><strong data-metric="buyerSignals">0</strong><span>{c.buyer}</span></article>
+        <article><strong data-metric="redditDiscussions">0</strong><span>{c.reddit}</span></article>
+        <article><strong data-metric="reviewMentions">0</strong><span>{c.reviews}</span></article>
+        <article><strong data-metric="competitorCandidates">0</strong><span>{c.competitors}</span></article>
+        <article><strong data-metric="contentOpportunities">0</strong><span>{c.content}</span></article>
+        <article><strong data-metric="adAngles">0</strong><span>{c.ads}</span></article>
+      </div>
+
+      <div class="report-grid">
+        <section class="report-card">
+          <div class="card-head"><span>01</span><h3>{c.signals}</h3></div>
+          <div data-list="buyerSignals" class="source-list"></div>
+        </section>
+        <section class="report-card">
+          <div class="card-head"><span>02</span><h3>{c.pains}</h3></div>
+          <div data-list="painPoints" class="source-list"></div>
+        </section>
+        <section class="report-card">
+          <div class="card-head"><span>03</span><h3>{c.compTitle}</h3></div>
+          <div data-list="competitorCandidates" class="source-list"></div>
+        </section>
+        <section class="report-card">
+          <div class="card-head"><span>04</span><h3>{c.contentTitle}</h3></div>
+          <div data-list="contentOpportunities" class="source-list"></div>
+        </section>
+        <section class="report-card wide">
+          <div class="card-head"><span>05</span><h3>{c.adTitle}</h3></div>
+          <div data-list="adAngles" class="angle-list"></div>
+        </section>
+      </div>
+
+      <p class="method-note">{c.method}</p>
+
+      <section class="conversion">
+        <p class="eyebrow">Websiteli</p>
+        <h2>{c.ctaTitle}</h2>
+        <p>{c.ctaText}</p>
+        <div class="actions">
+          <a href="https://calendly.com/jenifer-ciuciu-kiss-websiteli/30min" target="_blank" rel="noopener noreferrer" data-book>{c.cta}<span>→</span></a>
+          <button type="button" data-again>{c.again}</button>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<script define:vars={{ c, locale }}>
+(() => {
+  const root = document.querySelector("[data-market-scan]");
+  if (!root) return;
+  const form = root.querySelector("[data-scan-form]");
+  const formView = root.querySelector("[data-form-view]");
+  const loading = root.querySelector("[data-loading]");
+  const results = root.querySelector("[data-results]");
+  const status = root.querySelector("[data-status]");
+  const apiBase = root.dataset.apiBase.replace(/\/$/, "");
+
+  const track = (name, params={}) => window.trackWebsiteliEvent?.(name, { event_category:"market_scan", locale, ...params });
+  track("market_scan_view");
+
+  function normalize(value) {
+    const v = value.trim();
+    if (!v) return null;
+    try { return new URL(/^https?:\/\//i.test(v) ? v : `https://${v}`); } catch { return null; }
+  }
+
+  function clear(el) { while (el?.firstChild) el.firstChild.remove(); }
+  function empty(el) { const p=document.createElement("p"); p.className="empty"; p.textContent=c.empty; el.appendChild(p); }
+
+  function sourceItem(item) {
+    const article=document.createElement("article");
+    const title=document.createElement("strong");
+    title.textContent=item.title || item.name || item.context || "Signal";
+    article.appendChild(title);
+    const detail=item.body || item.snippet || item.context || (item.subreddit ? `r/${item.subreddit}` : "");
+    if (detail) { const p=document.createElement("p"); p.textContent=detail.slice(0,320); article.appendChild(p); }
+    const href=item.url || item.source;
+    if (href) { const a=document.createElement("a"); a.href=href; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=c.source+" ↗"; article.appendChild(a); }
+    return article;
+  }
+
+  function renderList(key, items) {
+    const el=root.querySelector(`[data-list="${key}"]`);
+    clear(el);
+    if (!items?.length) return empty(el);
+    items.slice(0,8).forEach((item)=>el.appendChild(sourceItem(item)));
+  }
+
+  function render(data) {
+    root.querySelector("[data-brand]").textContent=data.brand || "Market scan";
+    root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || "";
+    root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||0)/1000).toFixed(1);
+    Object.entries(data.summary||{}).forEach(([key,value]) => {
+      const el=root.querySelector(`[data-metric="${key}"]`); if(el) el.textContent=String(value ?? 0);
+    });
+    renderList("buyerSignals", data.buyerSignals);
+    renderList("painPoints", data.painPoints);
+    renderList("competitorCandidates", data.competitorCandidates);
+    renderList("contentOpportunities", data.contentOpportunities);
+
+    const angles=root.querySelector('[data-list="adAngles"]');
+    clear(angles);
+    if (!data.adAngles?.length) empty(angles);
+    else data.adAngles.forEach((textValue,i)=> {
+      const article=document.createElement("article");
+      const n=document.createElement("span"); n.textContent=String(i+1).padStart(2,"0");
+      const p=document.createElement("p"); p.textContent=textValue;
+      article.append(n,p); angles.appendChild(article);
+    });
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    status.textContent="";
+    const url=normalize(String(new FormData(form).get("url")||""));
+    if(!url){ status.textContent=c.error; return; }
+
+    formView.hidden=true; results.hidden=true; loading.hidden=false;
+    track("market_scan_start",{website_domain:url.hostname});
+
+    try {
+      const response=await fetch(`${apiBase}/api/scan`,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({url:url.toString()})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data.error || c.error);
+      render(data);
+      loading.hidden=true; results.hidden=false;
+      track("market_scan_complete",{website_domain:url.hostname,...data.summary,elapsed_ms:data.elapsedMs});
+      window.scrollTo({top:0,behavior:"smooth"});
+    } catch (error) {
+      loading.hidden=true; formView.hidden=false;
+      status.textContent=error?.message || c.error;
+      track("market_scan_error",{website_domain:url.hostname,error_message:String(error?.message||"unknown")});
+    }
+  });
+
+  root.querySelector("[data-again]")?.addEventListener("click",()=>{
+    results.hidden=true; formView.hidden=false;
+    form?.reset(); status.textContent="";
+    window.scrollTo({top:0,behavior:"smooth"});
+    track("market_scan_again");
+  });
+
+  root.querySelector("[data-book]")?.addEventListener("click",()=>track("market_scan_booking_click"));
+})();
+</script>
+
+<style>
+  :global(body){margin:0;background:#0d1015;color:#f7f4ed;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .market-scan{min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(192,149,94,.18),transparent 34%),#0d1015}
+  .scan-header{max-width:1180px;margin:auto;padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.1rem}.brand img{border-radius:10px}
+  .back{color:#b8bbc3;text-decoration:none;font-size:.92rem}
+  main{max-width:1080px;margin:auto;padding:70px 28px 100px}
+  .hero{text-align:center;max-width:860px;margin:5vh auto 0}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;color:#c99a61;font-size:.78rem;font-weight:800;margin:0 0 18px}
+  h1{font-size:clamp(2.7rem,7vw,5.6rem);line-height:.96;letter-spacing:-.055em;margin:0 auto 24px;max-width:920px}
+  .intro{font-size:clamp(1.05rem,2vw,1.28rem);line-height:1.6;color:#b9bdc7;max-width:760px;margin:0 auto 34px}
+  .input-row{display:flex;background:#171b22;border:1px solid #2b3039;border-radius:18px;padding:7px;max-width:800px;margin:auto;box-shadow:0 26px 80px rgba(0,0,0,.28)}
+  .input-row input{flex:1;background:transparent;border:0;color:#fff;padding:18px 20px;font-size:1.05rem;outline:0;min-width:0}
+  .input-row button,.actions a{border:0;background:#c79a63;color:#101216;border-radius:12px;padding:16px 22px;font-size:1rem;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;gap:12px;align-items:center;justify-content:center}
+  .status{color:#ff9c9c;min-height:24px}.trust{color:#787e89;font-size:.87rem;margin-top:14px}
+  .loading{text-align:center;padding:15vh 0}.spinner{width:46px;height:46px;border:3px solid #333945;border-top-color:#c79a63;border-radius:50%;margin:0 auto 30px;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+  .loading h2{font-size:2rem;margin-bottom:30px}.loading-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}.loading-steps span{border:1px solid #292e37;background:#141820;padding:11px 15px;border-radius:99px;color:#757b86;font-size:.82rem}.loading-steps b{color:#c9ccd2;margin-left:6px}
+  .result-top{display:flex;justify-content:space-between;gap:30px;align-items:end;margin:20px 0 30px}.result-top h2{font-size:clamp(2.2rem,5vw,4rem);margin:0;letter-spacing:-.04em}.scanned-url{color:#858b96}
+  .elapsed{text-align:right}.elapsed strong{display:block;font-size:2rem;color:#c79a63}.elapsed span{color:#7e8490;font-size:.8rem}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:42px}.metric-grid article{padding:20px;border:1px solid #292e37;background:#141820;border-radius:16px}.metric-grid strong{display:block;font-size:2rem}.metric-grid span{color:#9197a2;font-size:.82rem}
+  .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.report-card{border:1px solid #292e37;background:#12161d;border-radius:22px;padding:24px}.report-card.wide{grid-column:1/-1}.card-head{display:flex;gap:14px;align-items:center;border-bottom:1px solid #252a33;padding-bottom:17px;margin-bottom:6px}.card-head span{color:#c79a63;font-size:.76rem;font-weight:800}.card-head h3{margin:0;font-size:1.15rem}
+  .source-list article{padding:17px 0;border-bottom:1px solid #222731}.source-list article:last-child{border-bottom:0}.source-list strong{display:block;font-size:.96rem}.source-list p{color:#9298a4;line-height:1.55;font-size:.86rem;margin:7px 0}.source-list a{color:#c79a63;text-decoration:none;font-size:.78rem;font-weight:700}
+  .empty{color:#777e89;line-height:1.5}.angle-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:14px}.angle-list article{display:flex;gap:12px;padding:15px;border-radius:14px;background:#181d25}.angle-list span{color:#c79a63;font-weight:800;font-size:.75rem}.angle-list p{margin:0;color:#d5d7dc;font-size:.9rem;line-height:1.5}
+  .method-note{color:#6f7580;font-size:.8rem;line-height:1.55;margin:20px 4px 0}
+  .conversion{margin-top:54px;padding:46px;border-radius:26px;background:linear-gradient(135deg,#191d24,#242019);border:1px solid #363029}.conversion h2{font-size:clamp(2rem,4vw,3rem);max-width:760px;margin:0 0 14px}.conversion>p:not(.eyebrow){color:#aeb2ba;max-width:720px;line-height:1.6}.actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.actions button{background:transparent;border:1px solid #393f49;color:#d6d8dc;border-radius:12px;padding:15px 19px;cursor:pointer;font-weight:700}
+  @media(max-width:800px){main{padding-top:38px}.input-row{display:block;background:transparent;border:0;padding:0;box-shadow:none}.input-row input{box-sizing:border-box;width:100%;background:#171b22;border:1px solid #2b3039;border-radius:14px;margin-bottom:10px}.input-row button{width:100%}.metric-grid{grid-template-columns:1fr 1fr}.report-grid{grid-template-columns:1fr}.report-card.wide{grid-column:auto}.angle-list{grid-template-columns:1fr}.result-top{align-items:start;flex-direction:column}.elapsed{text-align:left}.conversion{padding:28px}.scan-header{padding:18px 20px}main{padding-left:20px;padding-right:20px}}
+</style>
