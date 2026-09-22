@@ -606,6 +606,7 @@ const privacyPolicyVersion = "2026-06-24";
     root.querySelector("[data-scanned-url]").textContent=data.scannedUrl || report.scannedUrl || "";
     root.querySelector("[data-elapsed]").textContent=Math.max(.1,(data.elapsedMs||report.elapsedMs||0)/1000).toFixed(1);
     root.querySelector("[data-score]").textContent=String(data.website?.opportunityScore ?? report.website?.opportunityScore ?? "—");
+    const summary=data.summary||report.summary||{};
     const executive=report.executive || {};
     const profile=report.marketProfile || {};
     const setText=(selector,value)=>{const el=root.querySelector(selector); if(el) el.textContent=text(value);};
@@ -633,7 +634,6 @@ const privacyPolicyVersion = "2026-06-24";
         :"This site reads more like a personal or informational profile than a clearly commercial offer. We therefore suppress weak competitor, review and buyer signals instead of presenting irrelevant results.");
     }
 
-    const summary=data.summary||report.summary||{};
     renderPriorities(report.priorityActions || data.priorityActions || []);
     renderDiagnostics(report.website?.diagnostics || []);
     const painCount=root.querySelector("[data-count-pains]"); if(painCount) painCount.textContent=report.painPoints?.length?String(report.painPoints.length):"";
