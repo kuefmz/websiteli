@@ -339,7 +339,7 @@ async def crawl_site(start_url: str) -> list[dict[str, Any]]:
             continue
 
         def priority(href: str) -> int:
-            return 0 if re.search(r"service|product|pricing|about|contact|solution|leistung|angebot|preis|kontakt", href, re.I) else 1
+            return 0 if re.search(r"service|product|pricing|shop|store|directory|compare|about|contact|solution|leistung|angebot|preis|kontakt|laden|geschäft", href, re.I) else 1
 
         for href in sorted(page["links"], key=priority):
             try:
@@ -465,8 +465,21 @@ def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, A
     visible = " ".join([title, description, *headings])
     brand_tokens = set(_content_tokens(brand))
 
-    # Rank short phrases from the parts of the site that are intended to describe the offer.
+    # Use titles/descriptions/headings from several sampled pages so category terms are not
+    # inferred from the homepage slogan alone.
     fragments = [title, description, *headings]
+    for page in pages[1:6]:
+        fragments.extend([
+            clean_text(page.get("title", "")),
+            clean_text(page.get("description", "")),
+            *[clean_text(x) for x in page.get("headings", [])[:6]],
+        ])
+    fragments = [
+        fragment for fragment in fragments
+        if len(_content_tokens(fragment)) >= 2
+        and not re.fullmatch(r"(about|contact|home|blog|products? coming soon)(?:\s+" + re.escape(brand.lower()) + r")?", fragment.lower())
+    ]
+
     phrase_scores: Counter[str] = Counter()
     for fragment in fragments:
         tokens = [t for t in _content_tokens(fragment) if t not in brand_tokens]
@@ -476,7 +489,44 @@ def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, A
                 if len(phrase) >= 7:
                     base = 4 if n == 2 else 2
                     phrase_scores[phrase] += base if fragment in (title, description) else 1
-    phrases = [p for p, _ in phrase_scores.most_common(8)]
+    body_tokens = [
+        token for token in _content_tokens(" ".join(page.get("text", "")[:16000] for page in pages))
+        if token not in brand_tokens
+    ]
+    body_bigrams = Counter(
+        f"{body_tokens[i]} {body_tokens[i+1]}"
+        for i in range(len(body_tokens) - 1)
+        if body_tokens[i] != body_tokens[i+1]
+    )
+    for phrase, count in body_bigrams.items():
+        if count >= 2 and len(phrase) >= 7:
+            phrase_scores[phrase] += min(count, 5)
+
+    phrases = []
+    for phrase, _ in phrase_scores.most_common(30):
+        tokens = set(_content_tokens(phrase))
+        if not tokens:
+            continue
+        # Keep the search vocabulary diverse instead of returning three overlapping
+        # variants such as "pleasure product", "product price", "price comparison".
+        if any(len(tokens & set(_content_tokens(existing))) / max(1, len(tokens)) > 0.75 for existing in phrases):
+            continue
+        phrases.append(phrase)
+        if len(phrases) >= 4:
+            break
+
+    full_text = " ".join(page.get("text", "") for page in pages)
+    location = ""
+    if re.search(r"\b(switzerland|swiss|schweiz|suisse|svizzera)\b", full_text, re.I):
+        location = "Switzerland"
+    elif re.search(r"\b(germany|deutschland)\b", full_text, re.I):
+        location = "Germany"
+    elif re.search(r"\b(austria|österreich)\b", full_text, re.I):
+        location = "Austria"
+    elif re.search(r"\b(spain|españa)\b", full_text, re.I):
+        location = "Spain"
+    elif re.search(r"\b(portugal)\b", full_text, re.I):
+        location = "Portugal"
 
     lower_urls = " ".join(page.get("url", "").lower() for page in pages)
     lower_visible = visible.lower()
@@ -516,7 +566,8 @@ def infer_market_profile(pages: list[dict[str, Any]], brand: str) -> dict[str, A
         "siteType": site_type,
         "marketConfidence": confidence,
         "positioning": positioning[:280],
-        "queryTerms": query_terms[:3],
+        "queryTerms": query_terms[:4],
+        "marketLocation": location,
         "commercialSignals": commercial_hits,
         "personalSignals": personal_hits,
     }
@@ -552,18 +603,18 @@ def filter_relevant(items: list[dict[str, Any]], terms: list[str], minimum: floa
 
 def build_market_queries(profile: dict[str, Any], brand: str) -> dict[str, str]:
     terms = [clean_text(x) for x in profile.get("queryTerms", []) if clean_text(x)]
-    primary = terms[0] if terms else ""
-    secondary = terms[1] if len(terms) > 1 else ""
-    if not primary:
+    if not terms:
         return {}
-    quoted = f'"{primary}"'
-    if secondary and secondary.lower() not in primary.lower():
-        quoted += f' "{secondary}"'
+    selected = terms[:3]
+    concept = " OR ".join(f'"{term}"' for term in selected)
+    location = clean_text(profile.get("marketLocation", ""))
+    geo = f" {location}" if location else ""
+    reddit_terms = " ".join(selected[:2])
     return {
-        "buyer": f'{quoted} (recommendations OR "looking for" OR best OR compare)',
-        "pain": f'{quoted} (problems OR complaints OR challenges OR frustrating)',
-        "competitors": f'{quoted} (alternatives OR competitors OR "similar to")',
-        "reddit": f'{primary} {secondary}'.strip(),
+        "buyer": f'({concept}){geo} recommendations compare best',
+        "pain": f'({concept}){geo} problems complaints challenges',
+        "competitors": f'({concept}){geo} shops stores alternatives competitors',
+        "reddit": f'{reddit_terms}{geo}'.strip(),
         "reviews": f'"{brand}" reviews',
     }
 
@@ -639,11 +690,14 @@ def executive_summary(profile: dict[str, Any], diagnostics: dict[str, Any], acti
         headline = "Strong personal presence, but not enough commercial positioning to map a reliable buyer market."
         market_note = "This site reads primarily as a personal/professional profile, so generic market and competitor results are intentionally suppressed rather than guessed."
     elif profile["marketConfidence"] == "high":
-        headline = "The website foundation is solid; the biggest upside is sharper positioning and a clearer path from interest to enquiry."
-        market_note = f"We found {len(buyer)} relevant buyer-intent signals and {len(competitors)} plausible market alternatives."
+        headline = f"Strong website foundation. The clearest next improvement is: {top_action}."
+        if buyer or competitors:
+            market_note = f"This run found {len(buyer)} relevant buyer-intent signals and {len(competitors)} plausible market alternatives."
+        else:
+            market_note = "The public search providers returned no external findings that passed our relevance threshold in this run, so we did not pad the report with unrelated results."
     else:
-        headline = "The website is technically healthy, but the market proposition is not specific enough for a high-confidence external market scan."
-        market_note = "We only show external market findings when they match the website's positioning closely enough."
+        headline = f"The website is readable, but the commercial market is not clear enough to infer confidently. The clearest website action is: {top_action}."
+        market_note = "External findings are shown only when they match the website's detected positioning closely enough."
 
     return {
         "headline": headline,
@@ -878,7 +932,11 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
         relevant_market = filter_relevant(market_results, query_terms, 0.78)
         competitors = market_candidates(relevant_market, host)
         diagnostics = website_diagnostics(pages)
-        content_opportunities = site_specific_content_opportunities(profile, pages, relevant_reddit + relevant_buyer_web + relevant_pain_web)
+        content_opportunities = (
+            site_specific_content_opportunities(profile, pages, relevant_reddit + relevant_buyer_web + relevant_pain_web)
+            if profile["siteType"] == "commercial"
+            else []
+        )
         ad_angles = make_ad_angles(pain_points, buyer_signals, keywords) if profile["siteType"] == "commercial" else []
         actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors)
         review_mentions = extract_review_mentions(review_results, host, brand)
