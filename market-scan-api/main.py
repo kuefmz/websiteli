@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import asyncio
-import base64
 import html
 import ipaddress
 import json
 import os
 import re
-import secrets
 import socket
 import time
 import uuid
@@ -114,40 +112,6 @@ class EmailReportRequest(BaseModel):
     language: str | None = None
     campaign: str = "market-scan-report"
     metadata: dict[str, Any] | None = None
-
-
-def require_admin(request: Request) -> None:
-    expected = os.getenv("ADMIN_API_TOKEN", "").strip()
-    if not expected:
-        raise HTTPException(
-            status_code=503,
-            detail="Admin API is not configured.",
-        )
-
-    authorization = request.headers.get("authorization", "").strip()
-    provided = ""
-
-    if authorization.lower().startswith("bearer "):
-        provided = authorization[7:].strip()
-    elif authorization.lower().startswith("basic "):
-        encoded = authorization[6:].strip()
-        try:
-            decoded = base64.b64decode(encoded).decode("utf-8")
-            username, password = decoded.split(":", 1)
-        except Exception:
-            username, password = "", ""
-        expected_user = os.getenv("ADMIN_API_USERNAME", "websiteli").strip() or "websiteli"
-        if secrets.compare_digest(username, expected_user):
-            provided = password
-    elif request.headers.get("x-admin-token"):
-        provided = request.headers.get("x-admin-token", "").strip()
-
-    if not provided or not secrets.compare_digest(provided, expected):
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid admin credentials.",
-            headers={"WWW-Authenticate": 'Basic realm="Websiteli Market Scan Admin"'},
-        )
 
 
 def cleanup_reports() -> None:
