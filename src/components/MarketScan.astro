@@ -1,110 +1,9 @@
 ---
-interface Props { locale?: "en" | "de"; apiBase: string; }
+import { getMarketScanContent, type MarketScanLocale } from "../content/marketScan";
+
+interface Props { locale?: MarketScanLocale; apiBase: string; }
 const { locale = "en", apiBase } = Astro.props;
-const de = locale === "de";
-const c = de ? {
-  eyebrow:"Kostenloser Market Scan",
-  title:"Gib uns eine URL. Wir kartieren deinen Markt.",
-  intro:"Ein Live-Scan deiner Website plus öffentliche Markt-, Reddit-, Wettbewerber- und Review-Signale — mit nachvollziehbaren Quellen statt erfundenen Zahlen.",
-  placeholder:"deinefirma.ch",
-  button:"Kostenlosen Scan starten",
-  scanning:"Wir recherchieren deinen Markt…",
-  note:"Kostenlos · keine Karte · Quellen verlinkt · kein Login nötig",
-  error:"Der Scan konnte nicht abgeschlossen werden.",
-  summary:"Dein Market Scan",
-  pages:"Seiten gecrawlt", buyer:"Buyer Signals", reddit:"Reddit-Diskussionen", reviews:"Review-Erwähnungen",
-  competitors:"Wettbewerber-Kandidaten", content:"Content-Chancen", ads:"Ad Angles", actions:"Prioritäten",
-  scoreTitle:"Website Fundamentals Score",
-  scoreNote:"Transparenter Heuristik-Score aus 9 beobachtbaren Website-Signalen — kein Umsatzversprechen.",
-  priorities:"Priorisierter Aktionsplan",
-  diagnostics:"Website-Diagnose",
-  signals:"Buyer Signals", pains:"Wiederkehrende Pain Points", compTitle:"Wettbewerber-Kandidaten",
-  redditTitle:"Reddit-Diskussionen", reviewsTitle:"Review-Erwähnungen",
-  contentTitle:"Content-Chancen", adTitle:"Ad Angles zum Testen",
-  source:"Quelle öffnen", empty:"Für diesen Bereich wurden beim aktuellen Scan keine belastbaren öffentlichen Signale gefunden.",
-  reportTitle:"Dein vollständiger Market Scan",
-  reportIntro:"Prüfe jetzt den vollständigen Report. Wenn die Vorschau endet, kannst du dir den kompletten Market Scan kostenlos per E-Mail schicken lassen.",
-  preview:"Kostenlose Report-Vorschau",
-  newsletterEyebrow:"Vollständiger Report",
-  locksIn:"Report wird gesperrt in",
-  locked:"Deine Report-Vorschau ist abgelaufen",
-  lockedText:"Gib deine E-Mail ein und wir schicken dir den vollständigen Market Scan mit allen Diagnosen, Quellen, Buyer Signals, Wettbewerbern, Content-Chancen und Ad Angles.",
-  email:"E-Mail", subscribe:"Vollständigen Report senden", sending:"Report wird gesendet…",
-  consent:"Ich möchte meinen Market-Scan-Report und Websiteli Growth Notes per E-Mail erhalten und akzeptiere die",
-  privacy:"Datenschutzerklärung",
-  subscribed:"Gesendet — prüfe deinen Posteingang. Dein vollständiger Market Scan ist unterwegs.",
-  subscribeError:"Das hat nicht geklappt. Bitte versuche es erneut.",
-  subscribeValidation:"Bitte gib eine gültige E-Mail ein und bestätige die Einwilligung.",
-  ctaTitle:"Soll Websiteli die wichtigsten Punkte direkt umsetzen?",
-  ctaText:"Wir priorisieren die Chancen und können Website, SEO, Tracking, Ads oder Automatisierung umsetzen.",
-  cta:"30-Minuten-Call buchen", again:"Andere Website scannen",
-  method:"Öffentliche Datenquellen können Rate-Limits haben. 0 Treffer bedeutet daher nicht automatisch, dass es keine Marktsignale gibt.",
-  evidenceSnapshot:"Executive Summary",
-  execEyebrow:"Was wirklich zählt", execPositioning:"Erkannte Positionierung", execOpportunity:"Größte Chance", execConfidence:"Positionierungs-Sicherheit", execSignals:"Belastbare externe Signale",
-  demandCategory:"Kundennachfrage", customerVoiceCategory:"Kundenstimme", competitionCategory:"Wettbewerb", growthCategory:"Wachstumschancen",
-  actionSummary:"Die wichtigsten nächsten Schritte, nach Wirkung und Themenbereich geordnet.",
-  demandSummary:"Was potenzielle Kunden suchen, fragen und worüber sie sich beschweren.",
-  evidenceSummary:"Öffentliche Gespräche und Reviews, die die Marktanalyse stützen.",
-  competitionSummary:"Welche Alternativen und Wettbewerber in der Recherche wiederholt auftauchen.",
-  growthSummary:"Konkrete Content- und Werbeansätze, die aus den gefundenen Signalen abgeleitet wurden.",
-  pass:"Gesund", review:"Chance",
-  healthy:"Gesund", opportunities:"Chancen",
-  diagnosisGood:"Die Website ist strukturell solide. Die wichtigsten Grundlagen sind vorhanden.",
-  diagnosisImprove:"Die Website ist insgesamt solide, mit einigen klaren Chancen für bessere Sichtbarkeit und Conversion.",
-  whyRelevant:"Warum das relevant ist", clientImpact:"Wie das mehr Kunden bringen kann",
-  priority:"Priorität", area:"Bereich", scanTime:"Scan-Zeit"
-} : {
-  eyebrow:"Free Market Scan",
-  title:"Give us one URL. We’ll map your market.",
-  intro:"A live crawl of your website plus public market, Reddit, competitor and review signals — with traceable sources instead of invented numbers.",
-  placeholder:"yourbusiness.ch",
-  button:"Run my free scan",
-  scanning:"Researching your market…",
-  note:"Free · no card · sources linked · no login required",
-  error:"The scan could not be completed.",
-  summary:"Your Market Scan",
-  pages:"Pages crawled", buyer:"Buyer signals", reddit:"Reddit discussions", reviews:"Review mentions",
-  competitors:"Competitor candidates", content:"Content opportunities", ads:"Ad angles", actions:"Priorities",
-  scoreTitle:"Website fundamentals score",
-  scoreNote:"Transparent heuristic score based on 9 observable website signals — not a revenue promise.",
-  priorities:"Priority action plan",
-  diagnostics:"Website diagnosis",
-  signals:"Buyer signals", pains:"Recurring pain points", compTitle:"Competitor candidates",
-  redditTitle:"Reddit discussions", reviewsTitle:"Review mentions",
-  contentTitle:"Content opportunities", adTitle:"Ad angles worth testing",
-  source:"Open source", empty:"No sufficiently strong public signals were found for this section in the current scan.",
-  reportTitle:"Your complete Market Scan",
-  reportIntro:"Review the full report now. When the preview ends, you can have the complete Market Scan sent to your inbox.",
-  preview:"Free report preview",
-  newsletterEyebrow:"Full report",
-  locksIn:"Report locks in",
-  locked:"Your report preview has ended",
-  lockedText:"Enter your email and we’ll send the complete Market Scan with every diagnosis, source, buyer signal, competitor, content opportunity and ad angle.",
-  email:"Email", subscribe:"Send my full report", sending:"Sending your report…",
-  consent:"I want my Market Scan report and Websiteli Growth Notes by email and accept the",
-  privacy:"Privacy Policy",
-  subscribed:"Sent — check your inbox. Your complete Market Scan is on its way.",
-  subscribeError:"That didn’t work. Please try again.",
-  subscribeValidation:"Enter a valid email and confirm consent.",
-  ctaTitle:"Want Websiteli to implement the highest-impact fixes?",
-  ctaText:"We can prioritise the opportunities and implement the website, SEO, tracking, ads or automation.",
-  cta:"Book a 30-minute call", again:"Scan another website",
-  method:"Public data providers can rate-limit automated requests. A zero count therefore does not always mean zero market activity.",
-  evidenceSnapshot:"Executive summary",
-  execEyebrow:"What actually matters", execPositioning:"Detected positioning", execOpportunity:"Biggest opportunity", execConfidence:"Positioning confidence", execSignals:"Relevant external signals",
-  demandCategory:"Customer demand", customerVoiceCategory:"Customer voice", competitionCategory:"Competitive landscape", growthCategory:"Growth opportunities",
-  actionSummary:"The most important next steps, organised by impact and focus area.",
-  demandSummary:"What potential customers are actively looking for, asking about and struggling with.",
-  evidenceSummary:"Public conversations and review mentions that support the market findings.",
-  competitionSummary:"The alternatives and competitors that repeatedly surfaced in the research.",
-  growthSummary:"Concrete content and campaign ideas derived from the market signals we found.",
-  pass:"Healthy", review:"Opportunity",
-  healthy:"Healthy", opportunities:"Opportunities",
-  diagnosisGood:"The website fundamentals look strong overall, with the key structural elements in place.",
-  diagnosisImprove:"The site looks solid overall, with a few clear opportunities to improve visibility and conversion.",
-  whyRelevant:"Why this matters", clientImpact:"How this can help win clients",
-  priority:"Priority", area:"Area", scanTime:"Scan time"
-};
+const c = getMarketScanContent(locale);
 const newsletterEndpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
 const privacyPolicyVersion = "2026-06-24";
 ---
@@ -124,14 +23,14 @@ const privacyPolicyVersion = "2026-06-24";
         <p class="status" data-status aria-live="polite"></p>
       </form>
       <p class="scan-trust">✓ {c.note}</p>
-      <div class="scan-tags" aria-label="Included in the scan">
-        <span>Buyer intent</span><span>Competitors</span><span>Website gaps</span><span>Content ideas</span><span>Ad angles</span>
+      <div class="scan-tags" aria-label={c.includedLabel}>
+        {c.tags.map((tag) => <span>{tag}</span>)}
       </div>
     </div>
     <aside class="market-map-visual" aria-hidden="true">
       <div class="market-map-top">
-        <span>What the scan connects</span>
-        <span class="market-map-live">● Live research</span>
+        <span>{c.map.title}</span>
+        <span class="market-map-live">● {c.map.live}</span>
       </div>
 
       <div class="market-map-stage">
@@ -147,42 +46,42 @@ const privacyPolicyVersion = "2026-06-24";
         <div class="map-node center-node">
           <span class="node-icon">↗</span>
           <div>
-            <strong>Your website</strong>
-            <small>One URL in</small>
+            <strong>{c.map.website}</strong>
+            <small>{c.map.websiteSub}</small>
           </div>
         </div>
 
         <div class="map-node node-top">
           <span class="node-dot"></span>
-          <div><strong>Website gaps</strong><small>SEO · UX · conversion</small></div>
+          <div><strong>{c.map.gaps}</strong><small>{c.map.gapsSub}</small></div>
         </div>
         <div class="map-node node-left-top">
           <span class="node-dot"></span>
-          <div><strong>Buyer signals</strong><small>Questions · intent · demand</small></div>
+          <div><strong>{c.map.buyers}</strong><small>{c.map.buyersSub}</small></div>
         </div>
         <div class="map-node node-right-top">
           <span class="node-dot"></span>
-          <div><strong>Competitors</strong><small>Alternatives · positioning</small></div>
+          <div><strong>{c.map.competitors}</strong><small>{c.map.competitorsSub}</small></div>
         </div>
         <div class="map-node node-left-bottom">
           <span class="node-dot"></span>
-          <div><strong>Reddit & reviews</strong><small>Pain points · language</small></div>
+          <div><strong>{c.map.reviews}</strong><small>{c.map.reviewsSub}</small></div>
         </div>
         <div class="map-node node-right-bottom">
           <span class="node-dot"></span>
-          <div><strong>Content ideas</strong><small>Topics · objections</small></div>
+          <div><strong>{c.map.content}</strong><small>{c.map.contentSub}</small></div>
         </div>
         <div class="map-node node-bottom">
           <span class="node-dot"></span>
-          <div><strong>Ad angles</strong><small>Messages worth testing</small></div>
+          <div><strong>{c.map.ads}</strong><small>{c.map.adsSub}</small></div>
         </div>
       </div>
 
       <div class="market-map-footer">
-        <span><b>01</b> Crawl</span>
-        <span><b>02</b> Discover</span>
-        <span><b>03</b> Connect</span>
-        <span><b>04</b> Prioritise</span>
+        <span><b>01</b> {c.map.crawl}</span>
+        <span><b>02</b> {c.map.discover}</span>
+        <span><b>03</b> {c.map.connect}</span>
+        <span><b>04</b> {c.map.prioritise}</span>
       </div>
     </aside>
   </section>
@@ -383,6 +282,37 @@ const privacyPolicyVersion = "2026-06-24";
       </div>
     </section>
   </section>
+
+  <section class="market-scan-explainer section-shell" aria-labelledby="market-scan-explainer-title">
+    <div class="explainer-intro">
+      <p class="eyebrow">Websiteli Market Scan</p>
+      <h2 id="market-scan-explainer-title">{c.seo.heading}</h2>
+      <p>{c.seo.intro}</p>
+    </div>
+    <div class="explainer-grid">
+      <article>
+        <h3>{c.seo.whatTitle}</h3>
+        <p>{c.seo.whatText}</p>
+      </article>
+      <article>
+        <h3>{c.seo.signalsTitle}</h3>
+        <ul>{c.seo.signals.map((item) => <li>{item}</li>)}</ul>
+      </article>
+      <article>
+        <h3>{c.seo.accuracyTitle}</h3>
+        <p>{c.seo.accuracyText}</p>
+      </article>
+    </div>
+    <div class="explainer-faq">
+      <h2>{c.seo.faqTitle}</h2>
+      {c.seo.faqs.map((faq) => (
+        <details>
+          <summary>{faq.question}</summary>
+          <p>{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </main>
 
 <script define:vars={{ c, locale, newsletterEndpoint, privacyPolicyVersion }}>
@@ -417,11 +347,11 @@ const privacyPolicyVersion = "2026-06-24";
 
   function actionCategory(area){
     const a=String(area||"").toLowerCase();
-    if(/seo|search|technical|measurement/.test(a)) return locale==="de"?"Sichtbarkeit & Technik":"Visibility & foundation";
-    if(/conversion|ux|lead/.test(a)) return locale==="de"?"Conversion & UX":"Conversion & UX";
-    if(/messaging|positioning|brand/.test(a)) return locale==="de"?"Messaging & Positionierung":"Messaging & positioning";
-    if(/content|growth|experiment|ads?/.test(a)) return locale==="de"?"Wachstum & Nachfrage":"Growth & demand";
-    return locale==="de"?"Weitere Chancen":"Other opportunities";
+    if(/seo|search|technical|measurement/.test(a)) return c.actionCategories.foundation;
+    if(/conversion|ux|lead/.test(a)) return c.actionCategories.conversion;
+    if(/messaging|positioning|brand/.test(a)) return c.actionCategories.messaging;
+    if(/content|growth|experiment|ads?/.test(a)) return c.actionCategories.growth;
+    return c.actionCategories.other;
   }
 
   function renderPriorities(items){
@@ -470,58 +400,10 @@ const privacyPolicyVersion = "2026-06-24";
 
   function diagnosisCopy(item){
     const label=item.label || "";
-    const deCopy=locale==="de";
-    const map={
-      "Homepage title":{
-        title:deCopy?"Klare Seitentitel":"Clear page titles",
-        healthy:deCopy?"Die wichtigsten Seiten verwenden klare Titel, die für Nutzer und Suchmaschinen verständlich sind.":"Key pages use clear titles that are understandable to both users and search engines.",
-        opportunity:deCopy?"Die Seitentitel könnten Angebot und Nutzen klarer kommunizieren.":"Page titles could communicate the offer and value proposition more clearly."
-      },
-      "Meta description":{
-        title:deCopy?"Suchbeschreibungen vorhanden":"Search descriptions in place",
-        healthy:deCopy?"Wichtige Seiten enthalten unterstützende Beschreibungen für die Suchergebnisse.":"Important pages include supporting descriptions for search visibility.",
-        opportunity:deCopy?"Einige Suchbeschreibungen fehlen oder könnten den Nutzen stärker vermitteln.":"Some search descriptions are missing or could communicate more value."
-      },
-      "Clear H1 structure":{
-        title:deCopy?"Klare Seitenstruktur":"Strong page structure",
-        healthy:deCopy?"Die Überschriften-Hierarchie wirkt klar und gut lesbar.":"The heading hierarchy looks clear and easy to scan.",
-        opportunity:deCopy?"Die Hauptbotschaft könnte durch eine klarere Überschriften-Struktur stärker werden.":"The main message could be strengthened with a clearer heading structure."
-      },
-      "Conversion CTA":{
-        title:deCopy?"Klarer Conversion-Pfad":"Visible conversion path",
-        healthy:deCopy?"Besucher erhalten einen klaren nächsten Schritt.":"Visitors are given a clear next step to take.",
-        opportunity:deCopy?"Der primäre Call-to-Action könnte sichtbarer und konsistenter sein.":"The primary call to action could be more obvious and more consistent."
-      },
-      "Lead capture":{
-        title:deCopy?"Lead Capture vorhanden":"Lead capture is present",
-        healthy:deCopy?"Die Website bietet klare Möglichkeiten zur Kontaktaufnahme oder Conversion.":"The site offers clear ways for visitors to get in touch or convert.",
-        opportunity:deCopy?"Die Kontakt- oder Lead-Capture-Möglichkeiten könnten prominenter sein.":"Lead capture could be made more prominent or easier to use."
-      },
-      "Analytics":{
-        title:deCopy?"Tracking vorhanden":"Tracking is in place",
-        healthy:deCopy?"Messung scheint eingerichtet zu sein und unterstützt datenbasierte Optimierung.":"Measurement appears to be set up, which supports data-driven optimisation.",
-        opportunity:deCopy?"Tracking sollte ergänzt werden, damit wichtige Nutzeraktionen messbar werden.":"Tracking should be added so important user actions can be measured."
-      },
-      "Structured data":{
-        title:deCopy?"Strukturierte Daten":"Structured data",
-        healthy:deCopy?"Strukturierte Daten sind vorhanden und können die Suchsichtbarkeit unterstützen.":"Structured data appears to be present and can support search visibility.",
-        opportunity:deCopy?"Strukturierte Daten scheinen zu fehlen und sind eine klare technische SEO-Chance.":"Structured data appears to be missing and is a clear technical SEO opportunity."
-      },
-      "Mobile viewport":{
-        title:deCopy?"Mobil optimiert":"Mobile-ready setup",
-        healthy:deCopy?"Die Website ist technisch für mobile Geräte vorbereitet.":"The site appears technically prepared for mobile devices.",
-        opportunity:deCopy?"Die mobile Basis sollte verbessert werden, um die Nutzung auf kleinen Geräten zu stärken.":"Mobile readiness should be improved for a smoother experience on smaller devices."
-      },
-      "Content depth":{
-        title:deCopy?"Ausreichende Inhaltstiefe":"Enough content depth",
-        healthy:deCopy?"Die analysierten Seiten enthalten genügend Substanz für eine aussagekräftige Bewertung.":"The sampled pages contain enough substantive content for a meaningful assessment.",
-        opportunity:deCopy?"Die Website ist sehr dünn; mehr fokussierte Inhalte würden Nutzern und Suchmaschinen mehr Kontext geben.":"The site is very thin; more focused content would give users and search engines more context."
-      }
-    };
-    const entry=map[label] || {
+    const entry=c.diagnosis?.[label] || {
       title:label,
-      healthy:deCopy?"Dieser Bereich wirkt im aktuellen Scan solide.":"This area looks healthy in the current scan.",
-      opportunity:deCopy?"Dieser Bereich bietet eine potenzielle Verbesserungsmöglichkeit.":"This area looks like a potential improvement opportunity."
+      healthy:c.diagnosisGood,
+      opportunity:c.diagnosisImprove
     };
     return {title:entry.title,description:item.passed?entry.healthy:entry.opportunity,status:item.passed?c.healthy:c.opportunities};
   }
@@ -956,4 +838,21 @@ const privacyPolicyVersion = "2026-06-24";
   :global(.improvement-explainer.client-impact){padding:11px 12px;border-top:0;border-radius:10px;background:color-mix(in srgb,var(--mint) 9%,var(--surface))}
   :global(.improvement-explainer.client-impact small){color:color-mix(in srgb,var(--mint) 72%,var(--ink))}
   :global(.improvement-explainer.client-impact p){color:var(--ink)}
+
+  .market-scan-explainer{padding-top:64px;padding-bottom:24px}
+  .explainer-intro{max-width:860px;margin-bottom:28px}
+  .explainer-intro h2{margin:0 0 14px;font-size:clamp(1.9rem,3vw,3rem);letter-spacing:-.035em;line-height:1.05}
+  .explainer-intro>p:not(.eyebrow){margin:0;color:var(--muted);font-size:1rem;line-height:1.7}
+  .explainer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .explainer-grid article{padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+  .explainer-grid h3{margin:0 0 10px;font-size:1.05rem}
+  .explainer-grid p,.explainer-grid li{color:var(--muted);font-size:.9rem;line-height:1.65}
+  .explainer-grid p{margin:0}.explainer-grid ul{margin:0;padding-left:18px}
+  .explainer-faq{max-width:900px;margin-top:40px}
+  .explainer-faq h2{margin:0 0 14px;font-size:1.5rem}
+  .explainer-faq details{border-top:1px solid var(--line);padding:16px 2px}
+  .explainer-faq details:last-child{border-bottom:1px solid var(--line)}
+  .explainer-faq summary{cursor:pointer;font-weight:850}
+  .explainer-faq p{margin:10px 0 0;color:var(--muted);line-height:1.65}
+  @media(max-width:900px){.explainer-grid{grid-template-columns:1fr}}
 </style>
