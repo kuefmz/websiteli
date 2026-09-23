@@ -1149,7 +1149,7 @@ def report_email_html(report: dict[str, Any]) -> str:
 def newsletter_api_url() -> str:
     return os.getenv(
         "NEWSLETTER_API_URL",
-        "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec",
+        "https://script.google.com/macros/s/AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/exec",
     ).strip()
 
 
