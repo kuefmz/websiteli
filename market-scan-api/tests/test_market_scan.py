@@ -321,6 +321,8 @@ def test_frontend_declares_summary_before_using_it():
 
 
 def test_endpoint_results_are_materially_different_for_orgelia_and_personal_site(monkeypatch):
+    monkeypatch.setattr(main, "post_market_scan_execution", lambda **kwargs: None)
+
     async def fake_validate(_url):
         return None
 
