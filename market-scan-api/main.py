@@ -846,6 +846,137 @@ def website_diagnostics(pages: list[dict[str, Any]]) -> dict[str, Any]:
     return {"score": score, "checks": checks}
 
 
+def website_improvements(
+    diagnostics: dict[str, Any],
+    pages: list[dict[str, Any]],
+    profile: dict[str, Any],
+) -> list[dict[str, str]]:
+    failed = {x["key"] for x in diagnostics["checks"] if not x["passed"]}
+    all_text = " ".join(page.get("text", "") for page in pages).lower()
+    all_urls = " ".join(page.get("url", "").lower() for page in pages)
+
+    improvements: list[dict[str, str]] = []
+
+    def add(title: str, why: str, client_impact: str, basis: str, priority: str = "Medium") -> None:
+        if any(item["title"] == title for item in improvements):
+            return
+        improvements.append({
+            "title": title,
+            "whyRelevant": why,
+            "clientImpact": client_impact,
+            "basis": basis,
+            "priority": priority,
+        })
+
+    if "schema" in failed:
+        if profile.get("siteType") == "personal":
+            add(
+                "Add Person and ProfilePage structured data",
+                "Search engines currently have less explicit machine-readable context about who the site represents and how the profile connects to other authoritative profiles.",
+                "Clearer entity information can improve how your name and professional profile are understood in search, making it easier for potential clients, recruiters and collaborators to verify you.",
+                "No JSON-LD was detected on the sampled pages.",
+            )
+        elif re.search(r"price comparison|compare prices", clean_text(profile.get("positioning", "")).lower()):
+            add(
+                "Add product and comparison structured data",
+                "The site helps users compare products and prices, but the sampled pages do not expose that structure through JSON-LD.",
+                "Product, Offer and ItemList markup can help search engines understand comparison pages more precisely, which can support richer search visibility for high-intent visitors.",
+                "No JSON-LD was detected on the sampled pages.",
+            )
+        else:
+            add(
+                "Add structured data for the core offer",
+                "The sampled pages do not expose the business, service or product structure through JSON-LD.",
+                "Clearer structured data can improve search-engine understanding and can support richer visibility when prospects search for the offer.",
+                "No JSON-LD was detected on the sampled pages.",
+            )
+
+    if {"cta", "forms"} & failed:
+        add(
+            "Make the primary conversion path unmistakable",
+            "A visitor should not have to decide what the next step is after understanding the offer.",
+            "A single, specific next step can reduce hesitation and increase the share of qualified visitors who contact, book or enquire.",
+            "The crawl did not detect a strong CTA and/or a clear lead-capture path.",
+            "High",
+        )
+
+    if {"title", "description", "h1"} & failed:
+        add(
+            "Sharpen the first message visitors and search engines see",
+            "The title, description and main heading are the fastest way to communicate who the site is for and what value it provides.",
+            "More specific positioning can attract better-matched visitors and help those visitors understand the offer before they leave.",
+            "One or more search-facing positioning checks failed.",
+            "High",
+        )
+
+    if "analytics" in failed:
+        add(
+            "Track the actions that signal real commercial intent",
+            "Without conversion events, it is difficult to know which pages and messages actually generate enquiries.",
+            "Tracking booking clicks, contact actions and form submissions lets you invest in the pages and channels that create clients rather than just traffic.",
+            "No common analytics marker was detected.",
+            "High",
+        )
+
+    if "content" in failed:
+        add(
+            "Create deeper pages around the highest-intent questions",
+            "Thin websites often force visitors to make a decision before they have enough context about fit, process, proof or trade-offs.",
+            "Focused decision-stage pages can bring in more relevant search traffic and give prospects enough confidence to contact you.",
+            "The sampled site had limited content depth.",
+        )
+
+    proof_present = bool(re.search(
+        r"\b(testimonial|testimonials|case study|case studies|client story|customer story|results|success story|reviews?)\b",
+        all_text,
+        re.I,
+    ))
+    if not proof_present:
+        add(
+            "Put concrete proof next to the conversion decision",
+            "The sampled content does not prominently surface testimonials, case studies or outcome-focused proof.",
+            "Specific proof reduces perceived risk. Showing what changed for a real client, project or user can make a prospect more comfortable starting a conversation.",
+            "No clear testimonial, case-study or results language was detected in the sampled page text.",
+            "High",
+        )
+
+    has_pricing = bool(re.search(r"/pricing\b|/prices?\b|/plans?\b", all_urls, re.I))
+    if profile.get("siteType") == "commercial" and not has_pricing:
+        add(
+            "Give prospects an earlier sense of price, scope or buying model",
+            "The crawl did not find a dedicated pricing or plans page, so visitors may have to contact you before they understand the likely commitment.",
+            "Even a starting price, typical range or clear explanation of how pricing works can qualify leads earlier and reduce uncertainty for serious prospects.",
+            "No pricing/plans URL was found among the sampled pages.",
+        )
+
+    has_faq = bool(re.search(r"/faq\b|frequently asked|common questions|questions and answers", all_urls + " " + all_text, re.I))
+    if not has_faq:
+        add(
+            "Answer the final objections before asking for contact",
+            "The sampled pages do not appear to collect common decision-stage questions in one clear place.",
+            "Addressing concerns about fit, process, timing, privacy, delivery or cost can remove reasons to postpone the decision and help qualified visitors enquire sooner.",
+            "No FAQ or equivalent objection-handling section was detected.",
+        )
+
+    if profile.get("siteType") == "personal":
+        has_projects = bool(re.search(r"/projects?\b|/portfolio\b|project|portfolio", all_urls + " " + all_text, re.I))
+        if has_projects:
+            add(
+                "Turn projects into outcome-led case studies",
+                "The site already presents projects, but project descriptions are more persuasive when they clearly connect the problem, your contribution and the result.",
+                "Outcome-led case studies help a potential client or hiring manager see what working with you could achieve, rather than only seeing a list of technologies.",
+                "Project/portfolio content was detected on the sampled site.",
+            )
+        add(
+            "Add a client-specific path alongside the professional profile",
+            "A personal site can serve recruiters, collaborators and clients at the same time, but each audience needs a clear next step.",
+            "A focused 'Discuss a project' or 'Work with me' path can turn visitors who already trust your expertise into concrete enquiries without weakening the CV/research experience.",
+            "The site was classified as a personal/professional profile.",
+        )
+
+    return improvements[:5]
+
+
 def priority_actions(diagnostics: dict[str, Any], pages: list[dict[str, Any]], buyer: list[dict[str, Any]], pains: list[dict[str, Any]], competitors: list[dict[str, Any]], profile: dict[str, Any] | None = None) -> list[dict[str, str]]:
     failed = {x["key"] for x in diagnostics["checks"] if not x["passed"]}
     actions: list[dict[str, str]] = []
@@ -983,6 +1114,10 @@ def report_email_html(report: dict[str, Any]) -> str:
 
     actions = list_html(report["priorityActions"], lambda x: f'<li style="margin:0 0 14px"><strong>{esc(x["priority"])} · {esc(x["area"])} — {esc(x["title"])}</strong><br><span>{esc(x["detail"])}</span></li>')
     diagnostics = list_html(report["website"]["diagnostics"], lambda x: f'<li style="margin:0 0 10px"><strong>{esc("OK" if x["passed"] else "Review")} — {esc(x["label"])}</strong>: {esc(x["detail"])}</li>')
+    improvements = list_html(
+        report["website"].get("improvements", []),
+        lambda x: f'<li style="margin:0 0 18px"><strong>{esc(x["title"])}</strong><br><span><b>Why it matters:</b> {esc(x["whyRelevant"])}</span><br><span><b>How this can help win clients:</b> {esc(x["clientImpact"])}</span></li>'
+    )
 
     def source_renderer(x: dict[str, Any]) -> str:
         source = x.get("url") or x.get("source") or ""
@@ -998,6 +1133,7 @@ def report_email_html(report: dict[str, Any]) -> str:
 <div style="background:#f5f2ec;border-radius:14px;padding:18px;margin:22px 0"><strong style="font-size:32px">{score}/100</strong><br>Website fundamentals score</div>
 <h2>What we would fix first</h2>{actions}
 <h2>Website diagnosis</h2>{diagnostics}
+<h2>Website improvements</h2>{improvements}
 <h2>Buyer signals</h2>{list_html(report["buyerSignals"], source_renderer)}
 <h2>Recurring pain points</h2>{list_html(report["painPoints"], source_renderer)}
 <h2>Competitor candidates</h2>{list_html(report["competitorCandidates"], source_renderer)}
@@ -1110,6 +1246,7 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
         )
         ad_angles = make_ad_angles(pain_points, buyer_signals, keywords) if profile["siteType"] == "commercial" else []
         actions = priority_actions(diagnostics, pages, buyer_signals, pain_points, competitors, profile)
+        improvements = website_improvements(diagnostics, pages, profile)
         review_mentions = extract_review_mentions(review_results, host, brand)
         exec_summary = executive_summary(profile, diagnostics, actions, buyer_signals, competitors)
 
@@ -1133,6 +1270,7 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
                 "formsFound": sum(p["formCount"] for p in pages),
                 "opportunityScore": diagnostics["score"],
                 "diagnostics": diagnostics["checks"],
+                "improvements": improvements,
                 "keywords": keywords,
                 "pages": [{"url":p["url"],"title":p["title"],"headings":p["headings"][:8]} for p in pages],
             },
