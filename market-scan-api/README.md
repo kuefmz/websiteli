@@ -17,6 +17,7 @@ The same submission also uses Websiteli’s existing Google Apps Script newslett
 - BeautifulSoup + lxml
 - Pydantic
 - Python standard-library SMTP for report delivery
+- SQLAlchemy + SQLite locally / PostgreSQL in production for persistent execution history
 
 The frontend API contract remains unchanged from the original Node implementation:
 - `GET /health`
@@ -134,6 +135,7 @@ Never commit SMTP passwords or app passwords.
 - `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
 - `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
 - `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
+- `DATABASE_URL` — persistent database connection. If omitted locally, the API uses `market-scan-api/data/market_scan.db`. In production, use PostgreSQL so execution history survives restarts and redeploys.
 
 For a Python web-service deployment, use the `market-scan-api` directory and start with:
 
@@ -153,6 +155,39 @@ The scanner never fabricates large counts. Metrics are the number of records act
 
 Public search providers can rate-limit automated requests. A zero-result section can therefore mean that a provider returned no usable results, not that the market contains no discussions. For a commercial/high-volume version, replace the fallback public-search adapters with supported search/review APIs.
 
-The website opportunity score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
+The website fundamentals score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
 
-Generated reports are stored only in API process memory and expire after one hour. A successful email send deletes the cached report immediately. This is suitable for local testing and a single-instance MVP, but a multi-instance production deployment should use a shared TTL store.
+### Persistent execution history
+
+Every `POST /api/scan` trigger is now written to the database before scanning starts. The history keeps:
+
+- execution/scan ID;
+- submitted and normalized URL;
+- start/completion timestamps;
+- status (`started`, `completed`, `failed` or `rejected`);
+- elapsed time and error text when relevant;
+- brand, summary, market profile and research provenance;
+- the complete generated report JSON;
+- whether/when the report email was successfully sent.
+
+The email address itself is **not** stored in the execution table.
+
+For local development, execution history is stored in:
+
+```text
+market-scan-api/data/market_scan.db
+```
+
+That directory is ignored by Git. To inspect/export the local history:
+
+```bash
+cd market-scan-api
+source .venv/bin/activate
+
+python scripts/export_executions.py --limit 100
+python scripts/export_executions.py --format csv --output executions.csv
+```
+
+For production, set `DATABASE_URL` to a persistent PostgreSQL database. Do **not** rely on a free web service's local filesystem if you want to keep every execution indefinitely; an ephemeral filesystem can be reset on restart or redeploy.
+
+The report used by the 90-second preview/email gate is still cached in API process memory for one hour and removed after a successful email send. The permanent execution record and full generated report remain in the database.
