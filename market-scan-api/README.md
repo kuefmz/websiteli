@@ -17,7 +17,7 @@ The same submission uses Websiteli’s existing Google Apps Script endpoint with
 - BeautifulSoup + lxml
 - Pydantic
 - Existing Websiteli Google Apps Script newsletter API for report delivery
-- SQLAlchemy + SQLite locally / PostgreSQL in production for persistent execution history
+- Existing Websiteli Google Apps Script + Google Sheets for persistent execution history
 
 The frontend API contract remains unchanged from the original Node implementation:
 - `GET /health`
@@ -125,9 +125,10 @@ The frontend does not call the Apps Script endpoint directly for Market Scan sub
 - `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
 - `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
 - `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
-- `DATABASE_URL` — persistent PostgreSQL connection. It is optional only in local development, where SQLite is used. On Render or when `APP_ENV=production`, startup fails if `DATABASE_URL` is missing or points to SQLite, preventing accidental data loss on an ephemeral filesystem.
-- `ADMIN_API_TOKEN` — required secret/password for the private execution-history API. If unset, the admin API returns 503 instead of becoming public.
-- `ADMIN_API_USERNAME` — optional HTTP Basic username; defaults to `websiteli`.
+- `NEWSLETTER_API_URL` — Google Apps Script endpoint used for both report delivery and Market Scan execution persistence.
+- `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
+- `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
+- `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
 
 For a Python web-service deployment, use the `market-scan-api` directory and start with:
 
@@ -145,94 +146,14 @@ Public search providers can rate-limit automated requests. A zero-result section
 
 The website fundamentals score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
 
-### Password-protected execution-history API
-
-The stored scan history is available through two private endpoints:
-
-```text
-GET /api/admin/executions
-GET /api/admin/executions/{execution_id}
-GET /api/admin/executions/{execution_id}/report
-```
-
-The list endpoint returns metadata, status, summary, market profile and research information without the full report payload by default. Each list item includes a `report_url`. The detail endpoint returns the complete persisted execution, including the full generated report. The `/report` endpoint returns exactly the stored report object that the frontend renders.
-
-If you explicitly want all reports embedded in the list response, add `?include_report=true` (use this carefully because the response can become large).
-
-Set a strong secret before starting the API:
-
-```bash
-export ADMIN_API_USERNAME="jenifer"
-export ADMIN_API_TOKEN="use-a-long-random-secret"
-```
-
-You can then use HTTP Basic authentication:
-
-```bash
-curl -u 'jenifer:use-a-long-random-secret' \
-  'http://127.0.0.1:8787/api/admin/executions?limit=50'
-```
-
-or a Bearer token:
-
-```bash
-curl -H 'Authorization: Bearer use-a-long-random-secret' \
-  'http://127.0.0.1:8787/api/admin/executions'
-```
-
-Useful filters:
-
-```text
-/api/admin/executions?limit=100
-/api/admin/executions?status=completed
-/api/admin/executions?domain=orgelia.com
-/api/admin/executions?include_report=true
-```
-
-To retrieve one complete report, copy its `id` from the list and call:
-
-```bash
-curl -u 'jenifer:use-a-long-random-secret' \
-  'http://127.0.0.1:8787/api/admin/executions/EXECUTION_ID'
-
-# Exact report JSON used by the frontend:
-curl -u 'jenifer:use-a-long-random-secret' \
-  'http://127.0.0.1:8787/api/admin/executions/EXECUTION_ID/report'
-```
-
-When opened directly in a browser, the endpoint also supports HTTP Basic authentication, so the browser can show a username/password prompt.
-
 ### Persistent execution history
 
-Every `POST /api/scan` trigger is now written to the database before scanning starts. The history keeps:
+Every completed or failed Market Scan is posted to the existing Websiteli Google Apps Script endpoint using `type: "market-scan-execution"`.
 
-- execution/scan ID;
-- submitted and normalized URL;
-- start/completion timestamps;
-- status (`started`, `completed`, `failed` or `rejected`);
-- elapsed time and error text when relevant;
-- brand, summary, market profile and research provenance;
-- the complete generated report JSON;
-- whether/when the report email was successfully sent.
+The Apps Script upserts the corresponding row in the `Market Scan Executions` sheet using `scanId`. The row stores scan metadata, marketing attribution, email status, errors, and the full report JSON split across multiple cells. Research queries are preserved inside the stored report JSON.
 
-The email address itself is **not** stored in the execution table.
+When a visitor requests the report by email, the backend posts `type: "market-scan-report"` to the same endpoint. Apps Script sends the email and updates the matching execution row.
 
-For local development, execution history is stored in:
+This means the production API does not require PostgreSQL, SQLite, SQLAlchemy, a persistent disk, or backend admin-history endpoints. The Google Sheet is the operational execution-history view.
 
-```text
-market-scan-api/data/market_scan.db
-```
-
-That directory is ignored by Git. To inspect/export the local history:
-
-```bash
-cd market-scan-api
-source .venv/bin/activate
-
-python scripts/export_executions.py --limit 100
-python scripts/export_executions.py --format csv --output executions.csv
-```
-
-For production, set `DATABASE_URL` to a persistent PostgreSQL database whose lifecycle is independent of the Render Free web service. The application intentionally refuses to start on Render/production without it, so it cannot silently lose execution history by falling back to local SQLite.
-
-The report used by the 90-second preview/email gate is still cached in API process memory for one hour and removed after a successful email send. The permanent execution record and full generated report remain in the database.
+The in-process report cache still exists for the one-hour email window. It is only used to support the preview/email flow; durable execution history lives in Google Sheets.
