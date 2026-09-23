@@ -51,6 +51,7 @@ const c = de ? {
   healthy:"Gesund", opportunities:"Chancen",
   diagnosisGood:"Die Website ist strukturell solide. Die wichtigsten Grundlagen sind vorhanden.",
   diagnosisImprove:"Die Website ist insgesamt solide, mit einigen klaren Chancen für bessere Sichtbarkeit und Conversion.",
+  whyRelevant:"Warum das relevant ist", clientImpact:"Wie das mehr Kunden bringen kann",
   priority:"Priorität", area:"Bereich", scanTime:"Scan-Zeit"
 } : {
   eyebrow:"Free Market Scan",
@@ -101,6 +102,7 @@ const c = de ? {
   healthy:"Healthy", opportunities:"Opportunities",
   diagnosisGood:"The website fundamentals look strong overall, with the key structural elements in place.",
   diagnosisImprove:"The site looks solid overall, with a few clear opportunities to improve visibility and conversion.",
+  whyRelevant:"Why this matters", clientImpact:"How this can help win clients",
   priority:"Priority", area:"Area", scanTime:"Scan time"
 };
 const newsletterEndpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
@@ -524,40 +526,53 @@ const privacyPolicyVersion = "2026-06-24";
     return {title:entry.title,description:item.passed?entry.healthy:entry.opportunity,status:item.passed?c.healthy:c.opportunities};
   }
 
-  function renderDiagnostics(items){
+  function renderDiagnostics(items, improvements=[]){
     const healthyEl=root.querySelector("[data-diagnostics-healthy]");
     const opportunityEl=root.querySelector("[data-diagnostics-opportunities]");
     const healthyCount=root.querySelector("[data-diagnosis-healthy-count]");
     const opportunityCount=root.querySelector("[data-diagnosis-opportunity-count]");
     const summary=root.querySelector("[data-diagnosis-summary]");
     clear(healthyEl); clear(opportunityEl);
-    if(!items?.length){
-      healthyEl?.appendChild(makeEmpty());
-      opportunityEl?.appendChild(makeEmpty());
-      if(healthyCount) healthyCount.textContent="0";
-      if(opportunityCount) opportunityCount.textContent="0";
-      if(summary) summary.textContent=c.empty;
-      return;
-    }
+
     const healthy=[];
-    const opportunities=[];
-    items.forEach(item=>{
+    (items||[]).forEach(item=>{
+      if(!item.passed) return;
       const present=diagnosisCopy(item);
       const card=document.createElement("article");
-      card.className=`diagnosis-card ${item.passed?"healthy":"opportunity"}`;
+      card.className="diagnosis-card healthy compact";
       const top=document.createElement("div"); top.className="diagnosis-card-top";
       const title=document.createElement("strong"); title.textContent=present.title;
-      const badge=document.createElement("span"); badge.className="status-pill"; badge.textContent=present.status;
-      const p=document.createElement("p"); p.textContent=present.description;
-      top.append(title,badge); card.append(top,p);
-      if(item.passed) card.classList.add("compact");
-      (item.passed?healthy:opportunities).push(card);
+      const badge=document.createElement("span"); badge.className="status-pill"; badge.textContent=c.healthy;
+      top.append(title,badge); card.appendChild(top); healthy.push(card);
     });
+
+    const opportunityCards=[];
+    (improvements||[]).slice(0,5).forEach(item=>{
+      const card=document.createElement("article"); card.className="diagnosis-card opportunity improvement-card";
+      const top=document.createElement("div"); top.className="diagnosis-card-top";
+      const title=document.createElement("strong"); title.textContent=item.title || c.opportunities;
+      const badge=document.createElement("span"); badge.className="status-pill"; badge.textContent=item.priority || c.opportunities;
+      top.append(title,badge);
+
+      const why=document.createElement("div"); why.className="improvement-explainer";
+      const whyLabel=document.createElement("small"); whyLabel.textContent=c.whyRelevant;
+      const whyText=document.createElement("p"); whyText.textContent=item.whyRelevant || "";
+      why.append(whyLabel,whyText);
+
+      const impact=document.createElement("div"); impact.className="improvement-explainer client-impact";
+      const impactLabel=document.createElement("small"); impactLabel.textContent=c.clientImpact;
+      const impactText=document.createElement("p"); impactText.textContent=item.clientImpact || "";
+      impact.append(impactLabel,impactText);
+
+      card.append(top,why,impact);
+      opportunityCards.push(card);
+    });
+
     if(!healthy.length) healthyEl?.appendChild(makeEmpty()); else healthy.slice(0,4).forEach(card=>healthyEl?.appendChild(card));
-    if(!opportunities.length) opportunityEl?.appendChild(makeEmpty()); else opportunities.forEach(card=>opportunityEl?.appendChild(card));
+    if(!opportunityCards.length) opportunityEl?.appendChild(makeEmpty()); else opportunityCards.forEach(card=>opportunityEl?.appendChild(card));
     if(healthyCount) healthyCount.textContent=String(healthy.length);
-    if(opportunityCount) opportunityCount.textContent=String(opportunities.length);
-    if(summary) summary.textContent=opportunities.length?c.diagnosisImprove:c.diagnosisGood;
+    if(opportunityCount) opportunityCount.textContent=String(opportunityCards.length);
+    if(summary) summary.textContent=opportunityCards.length?c.diagnosisImprove:c.diagnosisGood;
   }
 
   function sourceItem(item){
@@ -639,7 +654,7 @@ const privacyPolicyVersion = "2026-06-24";
     }
 
     renderPriorities(report.priorityActions || data.priorityActions || []);
-    renderDiagnostics(report.website?.diagnostics || []);
+    renderDiagnostics(report.website?.diagnostics || [], report.website?.improvements || []);
     const painCount=root.querySelector("[data-count-pains]"); if(painCount) painCount.textContent=report.painPoints?.length?String(report.painPoints.length):"";
     renderSources("[data-buyer-signals]",report.buyerSignals || [],3);
     renderSources("[data-pain-points]",report.painPoints || [],3);
@@ -931,4 +946,14 @@ const privacyPolicyVersion = "2026-06-24";
     :global(.action-list){grid-template-columns:1fr}
     :global(.diagnosis-card-top){gap:8px}
   }
+
+  :global(.improvement-card){padding:18px!important}
+  :global(.improvement-card .diagnosis-card-top){margin-bottom:14px}
+  :global(.improvement-explainer){padding-top:11px;border-top:1px solid var(--line)}
+  :global(.improvement-explainer+.improvement-explainer){margin-top:11px}
+  :global(.improvement-explainer small){display:block;margin-bottom:4px;color:var(--muted);font-size:.65rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
+  :global(.improvement-explainer p){display:block!important;margin:0!important;color:var(--muted);font-size:.82rem;line-height:1.55}
+  :global(.improvement-explainer.client-impact){padding:11px 12px;border-top:0;border-radius:10px;background:color-mix(in srgb,var(--mint) 9%,var(--surface))}
+  :global(.improvement-explainer.client-impact small){color:color-mix(in srgb,var(--mint) 72%,var(--ink))}
+  :global(.improvement-explainer.client-impact p){color:var(--ink)}
 </style>
