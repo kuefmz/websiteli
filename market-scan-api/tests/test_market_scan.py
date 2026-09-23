@@ -557,3 +557,64 @@ def test_endpoint_results_are_materially_different_for_orgelia_and_personal_site
 
     assert orgelia["summary"] != personal["summary"]
     assert orgelia["contentOpportunities"] != personal["contentOpportunities"]
+
+
+def test_brevo_email_configuration(monkeypatch):
+    monkeypatch.setenv("BREVO_API_KEY", "test-key")
+    monkeypatch.setenv("REPORT_FROM_EMAIL", "reports@example.com")
+    monkeypatch.delenv("SMTP_HOST", raising=False)
+    monkeypatch.delenv("SMTP_USER", raising=False)
+    monkeypatch.delenv("SMTP_PASS", raising=False)
+    assert main.brevo_configured() is True
+    assert main.email_configured() is True
+
+
+def test_send_report_email_uses_brevo_https(monkeypatch):
+    monkeypatch.setenv("BREVO_API_KEY", "test-key")
+    monkeypatch.setenv("REPORT_FROM_EMAIL", "reports@example.com")
+    monkeypatch.setenv("REPORT_REPLY_TO", "hello@example.com")
+
+    captured = {}
+
+    class Response:
+        def raise_for_status(self):
+            return None
+
+    def fake_post(url, **kwargs):
+        captured["url"] = url
+        captured.update(kwargs)
+        return Response()
+
+    monkeypatch.setattr(main.httpx, "post", fake_post)
+    monkeypatch.setattr(main, "report_email_html", lambda report: "<p>report</p>")
+
+    main.send_report_email("client@example.com", {"brand": "Example"})
+
+    assert captured["url"] == "https://api.brevo.com/v3/smtp/email"
+    assert captured["headers"]["api-key"] == "test-key"
+    assert captured["json"]["to"] == [{"email": "client@example.com"}]
+    assert captured["json"]["sender"]["email"] == "reports@example.com"
+    assert captured["json"]["replyTo"]["email"] == "hello@example.com"
+
+
+def test_production_storage_requires_database_url(monkeypatch):
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.delenv("RENDER", raising=False)
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    with pytest.raises(RuntimeError, match="DATABASE_URL is required"):
+        storage._database_url()
+
+
+def test_production_storage_rejects_sqlite(monkeypatch):
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.delenv("RENDER", raising=False)
+    monkeypatch.setenv("DATABASE_URL", "sqlite:///temporary.db")
+    with pytest.raises(RuntimeError, match="PostgreSQL"):
+        storage._database_url()
+
+
+def test_production_storage_accepts_postgres(monkeypatch):
+    monkeypatch.setenv("APP_ENV", "production")
+    monkeypatch.delenv("RENDER", raising=False)
+    monkeypatch.setenv("DATABASE_URL", "postgresql://user:pass@db.example.com/websiteli")
+    assert storage._database_url().startswith("postgresql+psycopg://")
