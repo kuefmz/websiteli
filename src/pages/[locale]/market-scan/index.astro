@@ -4,11 +4,11 @@ import MarketScan from "../../../components/MarketScan.astro";
 import { getLocaleContent } from "../../../content/locales";
 import { getMarketScanContent, type MarketScanLocale } from "../../../content/marketScan";
 
-const supported: MarketScanLocale[] = ["en", "de", "fr", "it", "es"];
-
 export function getStaticPaths() {
-  return supported.map((locale) => ({ params: { locale } }));
+  return ["en", "de", "fr", "it", "es"].map((locale) => ({ params: { locale } }));
 }
+
+const supported: MarketScanLocale[] = ["en", "de", "fr", "it", "es"];
 
 const requestedLocale = Astro.params.locale ?? "en";
 const locale = (supported.includes(requestedLocale as MarketScanLocale) ? requestedLocale : "en") as MarketScanLocale;
