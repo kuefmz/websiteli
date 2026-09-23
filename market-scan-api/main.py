@@ -22,17 +22,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, HttpUrl
 
-from storage import (
-    complete_execution,
-    create_execution,
-    fail_execution,
-    init_storage,
-    get_execution,
-    list_executions,
-    mark_report_emailed,
-    storage_health,
-)
-
 
 APP_VERSION = "0.7.0"
 REPORT_TTL_SECONDS = 60 * 60
@@ -46,7 +35,6 @@ SCAN_RATE_LIMIT = int(os.getenv("SCAN_RATE_LIMIT_PER_HOUR", "12"))
 EMAIL_RATE_LIMIT = int(os.getenv("EMAIL_RATE_LIMIT_PER_HOUR", "12"))
 
 app = FastAPI(title="Websiteli Market Scan API", version=APP_VERSION)
-init_storage()
 allowed_origins = [
     value.strip()
     for value in os.getenv(
@@ -1205,6 +1193,42 @@ def email_configured() -> bool:
     return bool(newsletter_api_url())
 
 
+def post_market_scan_execution(
+    *,
+    scan_id: str,
+    status: str,
+    submitted_url: str,
+    normalized_url: str | None = None,
+    elapsed_ms: int | None = None,
+    error: str | None = None,
+    report: dict[str, Any] | None = None,
+) -> None:
+    endpoint = newsletter_api_url()
+    if not endpoint:
+        raise RuntimeError("Market Scan storage endpoint is not configured.")
+
+    payload: dict[str, Any] = {
+        "type": "market-scan-execution",
+        "scanId": scan_id,
+        "status": status,
+        "submittedUrl": submitted_url,
+        "normalizedUrl": normalized_url or "",
+        "elapsedMs": elapsed_ms if elapsed_ms is not None else "",
+        "error": error or "",
+        "report": report or {},
+        "metadata": {},
+    }
+
+    response = httpx.post(
+        endpoint,
+        headers={"content-type": "text/plain;charset=utf-8"},
+        content=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        timeout=25.0,
+        follow_redirects=True,
+    )
+    response.raise_for_status()
+
+
 def send_report_email(
     to_email: str,
     report: dict[str, Any],
@@ -1257,56 +1281,8 @@ async def health() -> dict[str, Any]:
         "service": "websiteli-market-scan",
         "version": APP_VERSION,
         "emailConfigured": email_configured(),
-        "storage": storage_health(),
+        "storage": {"backend": "google-sheets", "configured": bool(newsletter_api_url())},
     }
-
-
-@app.get("/api/admin/executions")
-async def admin_executions(
-    request: Request,
-    limit: int = 100,
-    status: str | None = None,
-    domain: str | None = None,
-    include_report: bool = False,
-) -> dict[str, Any]:
-    require_admin(request)
-    rows = list_executions(
-        limit=limit,
-        status=status,
-        domain=domain,
-        include_report=include_report,
-    )
-    for row in rows:
-        execution_id = row["id"]
-        row["execution_url"] = f"/api/admin/executions/{execution_id}"
-        row["report_url"] = f"/api/admin/executions/{execution_id}/report"
-    return {
-        "count": len(rows),
-        "include_report": include_report,
-        "items": rows,
-    }
-
-
-@app.get("/api/admin/executions/{execution_id}/report")
-async def admin_execution_report(execution_id: str, request: Request) -> dict[str, Any]:
-    require_admin(request)
-    row = get_execution(execution_id)
-    if not row:
-        raise HTTPException(status_code=404, detail="Execution not found.")
-    report = row.get("report")
-    if report is None:
-        raise HTTPException(status_code=404, detail="This execution has no completed report.")
-    return report
-
-
-@app.get("/api/admin/executions/{execution_id}")
-async def admin_execution(execution_id: str, request: Request) -> dict[str, Any]:
-    require_admin(request)
-    row = get_execution(execution_id)
-    if not row:
-        raise HTTPException(status_code=404, detail="Execution not found.")
-    row["report_url"] = f"/api/admin/executions/{execution_id}/report"
-    return row
 
 
 @app.post("/api/scan")
@@ -1314,7 +1290,6 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
     started = time.time()
     scan_id = str(uuid.uuid4())
     normalized_for_log: str | None = None
-    create_execution(scan_id, payload.url)
     try:
         enforce_rate_limit("scan", client_ip(request), SCAN_RATE_LIMIT)
         url = normalize_url(payload.url)
@@ -1442,14 +1417,13 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
 
         cleanup_reports()
         report_cache[scan_id] = {"created_at": time.time(), "report": full_report}
-        complete_execution(
-            scan_id,
+        await asyncio.to_thread(
+            post_market_scan_execution,
+            scan_id=scan_id,
+            status="completed",
+            submitted_url=payload.url,
             normalized_url=full_report["scannedUrl"],
-            brand=full_report["brand"],
             elapsed_ms=full_report["elapsedMs"],
-            summary=full_report["summary"],
-            market_profile=full_report["marketProfile"],
-            research=full_report["research"],
             report=full_report,
         )
         return {
@@ -1465,21 +1439,32 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             "previewSeconds": 90,
         }
     except HTTPException as exc:
-        fail_execution(
-            scan_id,
-            error=str(exc.detail),
-            normalized_url=normalized_for_log,
-            elapsed_ms=round((time.time() - started) * 1000),
-            status="rejected" if exc.status_code in {400, 422, 429} else "failed",
-        )
+        try:
+            await asyncio.to_thread(
+                post_market_scan_execution,
+                scan_id=scan_id,
+                status="rejected" if exc.status_code in {400, 422, 429} else "failed",
+                submitted_url=payload.url,
+                normalized_url=normalized_for_log,
+                elapsed_ms=round((time.time() - started) * 1000),
+                error=str(exc.detail),
+            )
+        except Exception:
+            pass
         raise
     except Exception as exc:
-        fail_execution(
-            scan_id,
-            error=str(exc) or "Scan failed",
-            normalized_url=normalized_for_log,
-            elapsed_ms=round((time.time() - started) * 1000),
-        )
+        try:
+            await asyncio.to_thread(
+                post_market_scan_execution,
+                scan_id=scan_id,
+                status="failed",
+                submitted_url=payload.url,
+                normalized_url=normalized_for_log,
+                elapsed_ms=round((time.time() - started) * 1000),
+                error=str(exc) or "Scan failed",
+            )
+        except Exception:
+            pass
         raise HTTPException(status_code=400, detail=str(exc) or "Scan failed") from exc
 
 
@@ -1509,6 +1494,5 @@ async def email_report(payload: EmailReportRequest, request: Request) -> dict[st
     except Exception as exc:
         raise HTTPException(status_code=502, detail="Could not send the report email. Please try again.") from exc
 
-    mark_report_emailed(payload.scanId)
     report_cache.pop(payload.scanId, None)
     return {"ok": True}
