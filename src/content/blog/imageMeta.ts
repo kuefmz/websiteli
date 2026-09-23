@@ -11,6 +11,7 @@ const DEFAULT_BLOG_IMAGE_META: BlogImageMeta = {
 };
 
 const blogImageMeta: Record<string, BlogImageMeta> = {
+  "/assets/blog/free-website-market-scan.svg": { width: 1600, height: 900, format: "svg" },
   "/assets/blog/10-features-business-website-needs.webp": { width: 1536, height: 1024, format: "webp" },
   "/assets/blog/ai-chatbot-vs-internal-ai-assistant.webp": { width: 1536, height: 1024, format: "webp" },
   "/assets/blog/ai-content-workflow-small-business.webp": { width: 1536, height: 1024, format: "webp" },
