@@ -136,6 +136,8 @@ Never commit SMTP passwords or app passwords.
 - `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
 - `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
 - `DATABASE_URL` — persistent database connection. If omitted locally, the API uses `market-scan-api/data/market_scan.db`. In production, use PostgreSQL so execution history survives restarts and redeploys.
+- `ADMIN_API_TOKEN` — required secret/password for the private execution-history API. If unset, the admin API returns 503 instead of becoming public.
+- `ADMIN_API_USERNAME` — optional HTTP Basic username; defaults to `websiteli`.
 
 For a Python web-service deployment, use the `market-scan-api` directory and start with:
 
@@ -156,6 +158,55 @@ The scanner never fabricates large counts. Metrics are the number of records act
 Public search providers can rate-limit automated requests. A zero-result section can therefore mean that a provider returned no usable results, not that the market contains no discussions. For a commercial/high-volume version, replace the fallback public-search adapters with supported search/review APIs.
 
 The website fundamentals score is a diagnostic heuristic, not a prediction of revenue or conversion rate.
+
+### Password-protected execution-history API
+
+The stored scan history is available through two private endpoints:
+
+```text
+GET /api/admin/executions
+GET /api/admin/executions/{execution_id}
+```
+
+The list endpoint returns metadata, status, summary, market profile and research information without the full report payload. The detail endpoint returns the complete persisted execution, including the full generated report.
+
+Set a strong secret before starting the API:
+
+```bash
+export ADMIN_API_USERNAME="jenifer"
+export ADMIN_API_TOKEN="use-a-long-random-secret"
+```
+
+You can then use HTTP Basic authentication:
+
+```bash
+curl -u 'jenifer:use-a-long-random-secret' \
+  'http://127.0.0.1:8787/api/admin/executions?limit=50'
+```
+
+or a Bearer token:
+
+```bash
+curl -H 'Authorization: Bearer use-a-long-random-secret' \
+  'http://127.0.0.1:8787/api/admin/executions'
+```
+
+Useful filters:
+
+```text
+/api/admin/executions?limit=100
+/api/admin/executions?status=completed
+/api/admin/executions?domain=orgelia.com
+```
+
+To retrieve one complete report, copy its `id` from the list and call:
+
+```bash
+curl -u 'jenifer:use-a-long-random-secret' \
+  'http://127.0.0.1:8787/api/admin/executions/EXECUTION_ID'
+```
+
+When opened directly in a browser, the endpoint also supports HTTP Basic authentication, so the browser can show a username/password prompt.
 
 ### Persistent execution history
 
