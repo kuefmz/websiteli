@@ -72,7 +72,6 @@ jobs:
       - name: Smoke test Market Scan Google Sheets endpoint
         run: |
           response=$(curl -sS -L --fail-with-body \
-            -X POST \
             'https://script.google.com/macros/s/AKfycbxcU1PnJv0YFT7NFI_CnD71NbRl8mAjSljBbZjCqqCXt96bw1lEUlGhbel1-oBm4n-k/exec' \
             -H 'Content-Type: text/plain;charset=utf-8' \
             --data '{"type":"market-scan-execution","scanId":"chatgpt-deployment-smoke-test","status":"completed","submittedUrl":"https://websiteli.ch","normalizedUrl":"https://websiteli.ch/","elapsedMs":1,"report":{"scannedUrl":"https://websiteli.ch/","brand":"Websiteli","elapsedMs":1,"summary":{"pagesCrawled":1,"buyerSignals":0,"reviewMentions":0,"competitorCandidates":0,"priorityActions":0},"website":{"opportunityScore":0},"research":{"queries":{"smokeTest":["deployment verification"]}}}}')
