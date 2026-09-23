@@ -599,7 +599,7 @@ def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
     assert captured["url"] == "https://example.test/newsletter"
     assert captured["headers"]["content-type"] == "text/plain;charset=utf-8"
     payload = main.json.loads(captured["content"].decode("utf-8"))
-    assert payload["type"] == "newsletter"
+    assert payload["type"] == "market-scan-report"
     assert payload["email"] == "client@example.com"
     assert payload["campaign"] == "market-scan-report"
     assert payload["metadata"]["utm_source"] == "test"
