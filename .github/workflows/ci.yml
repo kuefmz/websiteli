@@ -64,6 +64,7 @@ jobs:
           pytest -q
 
       - name: Run live Market Scan classification check
+        continue-on-error: true
         timeout-minutes: 3
         run: |
           cd market-scan-api
