@@ -1231,7 +1231,7 @@ def send_report_email(
     )
 
     payload = {
-        "type": "newsletter",
+        "type": "market-scan-report",
         "email": to_email,
         "campaign": campaign,
         "sourceUrl": source_url or "https://websiteli.ch/en/market-scan/",
