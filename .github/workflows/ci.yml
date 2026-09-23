@@ -35,10 +35,16 @@ jobs:
           test -f dist/audit/index.html
           test -f dist/en/audit/index.html
           test -f dist/de/audit/index.html
-          test -f dist/en/market-scan/index.html
-          test -f dist/de/market-scan/index.html
+          for locale in en de fr it es; do
+            test -f "dist/$locale/market-scan/index.html"
+            test -f "dist/$locale/blog/free-website-market-scan/index.html"
+            grep -q "WebApplication" "dist/$locale/market-scan/index.html"
+            grep -q "FAQPage" "dist/$locale/market-scan/index.html"
+          done
           grep -q "market-scan-report" dist/en/market-scan/index.html
           grep -q "script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec" dist/en/market-scan/index.html
+          grep -R -q "https://websiteli.ch/fr/market-scan/" dist/sitemap-*.xml
+          grep -R -q "https://websiteli.ch/es/blog/free-website-market-scan/" dist/sitemap-*.xml
 
       - name: Set up Python
         uses: actions/setup-python@v6
