@@ -42,7 +42,6 @@ jobs:
             grep -q "FAQPage" "dist/$locale/market-scan/index.html"
           done
           grep -q "market-scan-report" dist/en/market-scan/index.html
-          grep -q "script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec" dist/en/market-scan/index.html
           grep -R -q "https://websiteli.ch/fr/market-scan/" dist/sitemap-*.xml
           grep -R -q "https://websiteli.ch/es/blog/free-website-market-scan/" dist/sitemap-*.xml
 
@@ -59,6 +58,7 @@ jobs:
       - name: Validate Market Scan backend
         run: |
           python -m py_compile market-scan-api/main.py market-scan-api/storage.py
+          grep -q "script.google.com/macros/s/" market-scan-api/main.py
           cd market-scan-api
           python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
           pytest -q
