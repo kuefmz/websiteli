@@ -22,6 +22,15 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, HttpUrl
 
+from storage import (
+    complete_execution,
+    create_execution,
+    fail_execution,
+    init_storage,
+    mark_report_emailed,
+    storage_health,
+)
+
 
 APP_VERSION = "0.4.0"
 REPORT_TTL_SECONDS = 60 * 60
@@ -35,6 +44,7 @@ SCAN_RATE_LIMIT = int(os.getenv("SCAN_RATE_LIMIT_PER_HOUR", "12"))
 EMAIL_RATE_LIMIT = int(os.getenv("EMAIL_RATE_LIMIT_PER_HOUR", "12"))
 
 app = FastAPI(title="Websiteli Market Scan API", version=APP_VERSION)
+init_storage()
 allowed_origins = [
     value.strip()
     for value in os.getenv(
@@ -1192,10 +1202,14 @@ async def health() -> dict[str, Any]:
 
 @app.post("/api/scan")
 async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
-    enforce_rate_limit("scan", client_ip(request), SCAN_RATE_LIMIT)
     started = time.time()
+    scan_id = str(uuid.uuid4())
+    normalized_for_log: str | None = None
+    create_execution(scan_id, payload.url)
     try:
+        enforce_rate_limit("scan", client_ip(request), SCAN_RATE_LIMIT)
         url = normalize_url(payload.url)
+        normalized_for_log = url
         await validate_public_target(url)
         async with scan_semaphore:
             pages = await crawl_site(url)
@@ -1318,8 +1332,17 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
         }
 
         cleanup_reports()
-        scan_id = str(uuid.uuid4())
         report_cache[scan_id] = {"created_at": time.time(), "report": full_report}
+        complete_execution(
+            scan_id,
+            normalized_url=full_report["scannedUrl"],
+            brand=full_report["brand"],
+            elapsed_ms=full_report["elapsedMs"],
+            summary=full_report["summary"],
+            market_profile=full_report["marketProfile"],
+            research=full_report["research"],
+            report=full_report,
+        )
         return {
             "scanId": scan_id,
             "scannedUrl": full_report["scannedUrl"],
@@ -1332,9 +1355,22 @@ async def scan(payload: ScanRequest, request: Request) -> dict[str, Any]:
             "reportLocked": False,
             "previewSeconds": 90,
         }
-    except HTTPException:
+    except HTTPException as exc:
+        fail_execution(
+            scan_id,
+            error=str(exc.detail),
+            normalized_url=normalized_for_log,
+            elapsed_ms=round((time.time() - started) * 1000),
+            status="rejected" if exc.status_code in {400, 422, 429} else "failed",
+        )
         raise
     except Exception as exc:
+        fail_execution(
+            scan_id,
+            error=str(exc) or "Scan failed",
+            normalized_url=normalized_for_log,
+            elapsed_ms=round((time.time() - started) * 1000),
+        )
         raise HTTPException(status_code=400, detail=str(exc) or "Scan failed") from exc
 
 
@@ -1356,5 +1392,6 @@ async def email_report(payload: EmailReportRequest, request: Request) -> dict[st
     except Exception as exc:
         raise HTTPException(status_code=502, detail="Could not send the report email. Please try again.") from exc
 
+    mark_report_emailed(payload.scanId)
     report_cache.pop(payload.scanId, None)
     return {"ok": True}
