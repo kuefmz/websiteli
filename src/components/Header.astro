@@ -37,11 +37,18 @@ const headerCtaCopy: Record<string, { pricing: string; review: string }> = {
   ja: { pricing: "料金", review: "無料Webサイトレビュー" },
 };
 const headerCta = headerCtaCopy[locale] ?? headerCtaCopy.en;
-const marketScanLabel = locale === "de" ? "Market Scan" : "Market Scan";
+const marketScanLabels: Record<string, string> = {
+  en: "Market Scan",
+  de: "Market Scan",
+  fr: "Analyse de marché",
+  it: "Market Scan",
+  es: "Análisis de mercado",
+};
+const marketScanLabel = marketScanLabels[locale] ?? "Market Scan";
 const navItems = [
   { label: nav.services ?? "Services", href: `/${locale}/services-pricing/#problems` },
   { label: nav.portfolio ?? "Portfolio", href: `/${locale}/portfolio/` },
-  ...(locale === "en" || locale === "de" ? [{ label: marketScanLabel, href: `/${locale}/market-scan/` }] : []),
+  ...(["en", "de", "fr", "it", "es"].includes(locale) ? [{ label: marketScanLabel, href: `/${locale}/market-scan/` }] : []),
   { label: headerCta.pricing, href: `/${locale}/services-pricing/#pricing` },
   { label: nav.partners ?? "Partners", href: `/${locale}/partners/` },
   { label: nav.blog ?? "Blog", href: `/${locale}/blog/` },
