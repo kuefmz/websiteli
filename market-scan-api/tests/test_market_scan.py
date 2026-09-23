@@ -356,6 +356,69 @@ def test_execution_storage_records_failed_scan():
     assert row["error"] == "invalid URL"
 
 
+
+def test_admin_api_requires_password(monkeypatch):
+    monkeypatch.setenv("ADMIN_API_TOKEN", "test-secret")
+    client = TestClient(main.app)
+
+    response = client.get("/api/admin/executions")
+    assert response.status_code == 401
+    assert "WWW-Authenticate" in response.headers
+
+
+def test_admin_api_lists_and_returns_full_execution(monkeypatch):
+    monkeypatch.setenv("ADMIN_API_TOKEN", "test-secret")
+    monkeypatch.setenv("ADMIN_API_USERNAME", "jenifer")
+
+    execution_id = "test-admin-api"
+    with storage.SessionLocal() as session:
+        existing = session.get(storage.ScanExecution, execution_id)
+        if existing:
+            session.delete(existing)
+            session.commit()
+
+    storage.create_execution(execution_id, "https://example.com")
+    storage.complete_execution(
+        execution_id,
+        normalized_url="https://example.com/",
+        brand="Example",
+        elapsed_ms=123,
+        summary={"pagesCrawled": 2},
+        market_profile={"siteType": "commercial"},
+        research={"queries": {"buyer": ["example"]}},
+        report={"brand": "Example", "scannedUrl": "https://example.com/", "priorityActions": []},
+    )
+
+    client = TestClient(main.app)
+
+    list_response = client.get(
+        "/api/admin/executions?domain=example.com",
+        auth=("jenifer", "test-secret"),
+    )
+    assert list_response.status_code == 200, list_response.text
+    payload = list_response.json()
+    assert payload["count"] >= 1
+    item = next(row for row in payload["items"] if row["id"] == execution_id)
+    assert item["brand"] == "Example"
+    assert "report" not in item
+
+    detail_response = client.get(
+        f"/api/admin/executions/{execution_id}",
+        headers={"Authorization": "Bearer test-secret"},
+    )
+    assert detail_response.status_code == 200, detail_response.text
+    detail = detail_response.json()
+    assert detail["report"]["brand"] == "Example"
+    assert detail["summary"]["pagesCrawled"] == 2
+
+
+def test_admin_api_disabled_without_token(monkeypatch):
+    monkeypatch.delenv("ADMIN_API_TOKEN", raising=False)
+    client = TestClient(main.app)
+    response = client.get("/api/admin/executions")
+    assert response.status_code == 503
+
+
 def test_frontend_declares_summary_before_using_it():
     component = (
         Path(__file__).resolve().parents[2]
