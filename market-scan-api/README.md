@@ -16,7 +16,7 @@ The same submission also uses Websiteli’s existing Google Apps Script newslett
 - httpx
 - BeautifulSoup + lxml
 - Pydantic
-- Brevo HTTPS API for production report delivery, with SMTP as a local/paid-host fallback
+- Existing Websiteli Google Apps Script newsletter API for report delivery
 - SQLAlchemy + SQLite locally / PostgreSQL in production for persistent execution history
 
 The frontend API contract remains unchanged from the original Node implementation:
@@ -107,38 +107,21 @@ Without email delivery configuration, scanning works but `/api/email-report` ret
 
 ## Test report email locally
 
-Production should use Brevo's HTTPS API. Export these values before starting Uvicorn:
+Report delivery uses the same Google Apps Script endpoint as the existing Websiteli newsletter flow. The backend sends the newsletter payload together with the generated Market Scan report to that API, and the API is responsible for delivering the email.
+
+The current production endpoint is used by default. To override it for development/testing:
 
 ```bash
-export BREVO_API_KEY="YOUR_BREVO_API_KEY"
-export REPORT_FROM_EMAIL="YOUR_VERIFIED_SENDER"
-export REPORT_FROM_NAME="Websiteli"
-export REPORT_REPLY_TO="YOUR_REPLY_TO_EMAIL"
-
-uvicorn main:app --reload --host 127.0.0.1 --port 8787
+export NEWSLETTER_API_URL="https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec"
 ```
 
-SMTP remains available as a fallback for local development or hosts that allow outbound SMTP:
-
-```bash
-export SMTP_HOST="YOUR_SMTP_HOST"
-export SMTP_PORT="587"
-export SMTP_USER="YOUR_EMAIL"
-export SMTP_PASS="YOUR_PASSWORD"
-export REPORT_FROM_EMAIL="YOUR_EMAIL"
-```
-
-Never commit API keys, SMTP passwords or app passwords.
+The frontend does not call the Apps Script endpoint directly for Market Scan submissions; it calls `/api/email-report` once, and the backend forwards the complete payload server-side. This avoids duplicate newsletter submissions and keeps report delivery in one place.
 
 ## Production environment
 
 - `PORT` — supplied by the host.
 - `ALLOWED_ORIGINS` — comma-separated frontend origins, normally `https://websiteli.ch`.
-- `BREVO_API_KEY` — recommended production email credential. Report delivery uses Brevo over HTTPS, including on Render Free.
-- `REPORT_FROM_EMAIL` — verified Brevo sender address. Required when using Brevo.
-- `REPORT_FROM_NAME` — optional sender name; defaults to `Websiteli`.
-- `REPORT_REPLY_TO` — optional reply-to address.
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` — optional SMTP fallback for local development or hosts that permit SMTP.
+- `NEWSLETTER_API_URL` — optional override for the existing Websiteli Google Apps Script newsletter/report endpoint. The production endpoint is the default.
 - `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
 - `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
 - `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
