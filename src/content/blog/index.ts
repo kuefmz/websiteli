@@ -2,6 +2,7 @@ import { localeCodes, type LocaleCode } from "../locales";
 import aiChatbotVsInternalAiAssistant from "./posts/ai-chatbot-vs-internal-ai-assistant";
 import aiContentWorkflowSmallBusiness from "./posts/ai-content-workflow-small-business";
 import internalAiAssistantSmallBusiness from "./posts/internal-ai-assistant-small-business";
+import freeWebsiteMarketScan from "./posts/free-website-market-scan";
 import prepareCompanyDocumentsInternalAiAssistant from "./posts/prepare-company-documents-internal-ai-assistant";
 import privateAiAssistantPrivacyChecklist from "./posts/private-ai-assistant-privacy-checklist";
 import scopeInternalAiAssistantPilot from "./posts/scope-internal-ai-assistant-pilot";
@@ -25,6 +26,7 @@ export const getBlogIndexContent = base.getBlogIndexContent;
 export const getMarketKeywords = base.getMarketKeywords;
 
 const additionalSources: BlogPostSource[] = [
+  freeWebsiteMarketScan,
   websiteBackupRecoverySmallBusiness,
   websiteAccessibilitySmallBusiness,
   utmTrackingSmallBusiness,
