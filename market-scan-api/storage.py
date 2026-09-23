@@ -151,28 +151,55 @@ def storage_health() -> dict[str, Any]:
         }
 
 
-def list_executions(limit: int = 100) -> list[dict[str, Any]]:
-    with SessionLocal() as session:
-        rows = session.scalars(
-            select(ScanExecution).order_by(ScanExecution.started_at.desc()).limit(limit)
-        ).all()
+def _serialize_execution(row: ScanExecution, *, include_report: bool = True) -> dict[str, Any]:
+    payload = {
+        "id": row.id,
+        "status": row.status,
+        "submitted_url": row.submitted_url,
+        "normalized_url": row.normalized_url,
+        "brand": row.brand,
+        "started_at": row.started_at.isoformat() if row.started_at else None,
+        "completed_at": row.completed_at.isoformat() if row.completed_at else None,
+        "elapsed_ms": row.elapsed_ms,
+        "error": row.error,
+        "summary": json.loads(row.summary_json) if row.summary_json else None,
+        "market_profile": json.loads(row.market_profile_json) if row.market_profile_json else None,
+        "research": json.loads(row.research_json) if row.research_json else None,
+        "report_emailed_at": row.report_emailed_at.isoformat() if row.report_emailed_at else None,
+    }
+    if include_report:
+        payload["report"] = json.loads(row.report_json) if row.report_json else None
+    return payload
 
-    return [
-        {
-            "id": row.id,
-            "status": row.status,
-            "submitted_url": row.submitted_url,
-            "normalized_url": row.normalized_url,
-            "brand": row.brand,
-            "started_at": row.started_at.isoformat() if row.started_at else None,
-            "completed_at": row.completed_at.isoformat() if row.completed_at else None,
-            "elapsed_ms": row.elapsed_ms,
-            "error": row.error,
-            "summary": json.loads(row.summary_json) if row.summary_json else None,
-            "market_profile": json.loads(row.market_profile_json) if row.market_profile_json else None,
-            "research": json.loads(row.research_json) if row.research_json else None,
-            "report": json.loads(row.report_json) if row.report_json else None,
-            "report_emailed_at": row.report_emailed_at.isoformat() if row.report_emailed_at else None,
-        }
-        for row in rows
-    ]
+
+def list_executions(
+    limit: int = 100,
+    *,
+    status: str | None = None,
+    domain: str | None = None,
+    include_report: bool = True,
+) -> list[dict[str, Any]]:
+    limit = max(1, min(limit, 500))
+    statement = select(ScanExecution)
+    if status:
+        statement = statement.where(ScanExecution.status == status)
+    if domain:
+        needle = f"%{domain.strip().lower()}%"
+        statement = statement.where(
+            ScanExecution.normalized_url.ilike(needle)
+            | ScanExecution.submitted_url.ilike(needle)
+        )
+    statement = statement.order_by(ScanExecution.started_at.desc()).limit(limit)
+
+    with SessionLocal() as session:
+        rows = session.scalars(statement).all()
+
+    return [_serialize_execution(row, include_report=include_report) for row in rows]
+
+
+def get_execution(execution_id: str) -> dict[str, Any] | None:
+    with SessionLocal() as session:
+        row = session.get(ScanExecution, execution_id)
+        if not row:
+            return None
+        return _serialize_execution(row, include_report=True)
