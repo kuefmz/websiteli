@@ -8,13 +8,11 @@ import json
 import os
 import re
 import secrets
-import smtplib
 import socket
 import time
 import uuid
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass
-from email.message import EmailMessage
 from typing import Any
 from urllib.parse import parse_qs, quote_plus, unquote, urljoin, urlparse, urlunparse
 
@@ -124,6 +122,10 @@ class EmailReportRequest(BaseModel):
     scanId: str
     email: EmailStr
     consent: bool
+    sourceUrl: str | None = None
+    language: str | None = None
+    campaign: str = "market-scan-report"
+    metadata: dict[str, Any] | None = None
 
 
 def require_admin(request: Request) -> None:
@@ -1192,82 +1194,60 @@ def report_email_html(report: dict[str, Any]) -> str:
 </body></html>'''
 
 
-def brevo_configured() -> bool:
-    return bool(os.getenv("BREVO_API_KEY") and os.getenv("REPORT_FROM_EMAIL"))
-
-
-def smtp_configured() -> bool:
-    return bool(os.getenv("SMTP_HOST") and os.getenv("SMTP_USER") and os.getenv("SMTP_PASS"))
+def newsletter_api_url() -> str:
+    return os.getenv(
+        "NEWSLETTER_API_URL",
+        "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec",
+    ).strip()
 
 
 def email_configured() -> bool:
-    return brevo_configured() or smtp_configured()
+    return bool(newsletter_api_url())
 
 
-def send_report_email(to_email: str, report: dict[str, Any]) -> None:
-    sender = os.getenv("REPORT_FROM_EMAIL") or os.getenv("SMTP_USER")
-    reply_to = os.getenv("REPORT_REPLY_TO") or sender
-    subject = f'Your Websiteli Market Scan — {report["brand"]}'
-    html_content = report_email_html(report)
+def send_report_email(
+    to_email: str,
+    report: dict[str, Any],
+    *,
+    source_url: str | None = None,
+    language: str | None = None,
+    campaign: str = "market-scan-report",
+    metadata: dict[str, Any] | None = None,
+) -> None:
+    endpoint = newsletter_api_url()
+    if not endpoint:
+        raise RuntimeError("Newsletter/report API is not configured.")
 
-    # Prefer Brevo's HTTPS API in production. This works on hosts such as Render
-    # Free where outbound SMTP ports are unavailable.
-    if brevo_configured():
-        api_key = os.environ["BREVO_API_KEY"]
-        api_url = os.getenv("BREVO_API_URL", "https://api.brevo.com/v3/smtp/email")
-        payload: dict[str, Any] = {
-            "sender": {
-                "email": sender,
-                "name": os.getenv("REPORT_FROM_NAME", "Websiteli"),
-            },
-            "to": [{"email": to_email}],
-            "subject": subject,
-            "htmlContent": html_content,
-            "textContent": "Your Websiteli Market Scan is available in the HTML version of this email.",
+    merged_metadata = dict(metadata or {})
+    merged_metadata.update(
+        {
+            "campaign": campaign,
+            "scanId": report.get("scanId", ""),
+            "scannedUrl": report.get("scannedUrl", ""),
+            "reportHtml": report_email_html(report),
+            "report": report,
+            "reportDeliveryRequested": True,
         }
-        if reply_to:
-            payload["replyTo"] = {"email": reply_to}
+    )
 
-        response = httpx.post(
-            api_url,
-            headers={
-                "api-key": api_key,
-                "accept": "application/json",
-                "content-type": "application/json",
-            },
-            json=payload,
-            timeout=20.0,
-        )
-        response.raise_for_status()
-        return
+    payload = {
+        "type": "newsletter",
+        "email": to_email,
+        "campaign": campaign,
+        "sourceUrl": source_url or "https://websiteli.ch/en/market-scan/",
+        "language": language or "en",
+        "website": "",
+        "metadata": merged_metadata,
+    }
 
-    # SMTP remains available for local development or paid hosts that allow it.
-    host = os.getenv("SMTP_HOST")
-    user = os.getenv("SMTP_USER")
-    password = os.getenv("SMTP_PASS")
-    if not (host and user and password and sender):
-        raise RuntimeError("Report email delivery is not configured yet.")
-
-    port = int(os.getenv("SMTP_PORT", "587"))
-    msg = EmailMessage()
-    msg["From"] = sender
-    msg["To"] = to_email
-    msg["Reply-To"] = reply_to or sender
-    msg["Subject"] = subject
-    msg.set_content("Your Websiteli Market Scan is available in the HTML version of this email.")
-    msg.add_alternative(html_content, subtype="html")
-
-    if port == 465:
-        with smtplib.SMTP_SSL(host, port, timeout=15) as smtp:
-            smtp.login(user, password)
-            smtp.send_message(msg)
-    else:
-        with smtplib.SMTP(host, port, timeout=15) as smtp:
-            smtp.ehlo()
-            smtp.starttls()
-            smtp.ehlo()
-            smtp.login(user, password)
-            smtp.send_message(msg)
+    response = httpx.post(
+        endpoint,
+        headers={"content-type": "text/plain;charset=utf-8"},
+        content=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        timeout=25.0,
+        follow_redirects=True,
+    )
+    response.raise_for_status()
 
 
 @app.get("/health")
@@ -1517,7 +1497,15 @@ async def email_report(payload: EmailReportRequest, request: Request) -> dict[st
         raise HTTPException(status_code=503, detail="Report email delivery is not configured yet.")
 
     try:
-        await asyncio.to_thread(send_report_email, str(payload.email).lower(), cached["report"])
+        await asyncio.to_thread(
+            send_report_email,
+            str(payload.email).lower(),
+            cached["report"],
+            source_url=payload.sourceUrl,
+            language=payload.language,
+            campaign=payload.campaign,
+            metadata=payload.metadata,
+        )
     except Exception as exc:
         raise HTTPException(status_code=502, detail="Could not send the report email. Please try again.") from exc
 
