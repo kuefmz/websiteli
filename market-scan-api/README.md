@@ -6,7 +6,7 @@ Python/FastAPI backend for the Websiteli Market Scan lead-generation tool.
 
 A visitor enters one public website URL on `/{locale}/market-scan/`. The Astro frontend calls this API and renders the complete detailed report for a 90-second free preview. The interface then locks the report and asks for an email address so the same full report can be delivered by email. The report remains cached server-side for up to one hour for email delivery.
 
-The same submission also uses Websiteli’s existing Google Apps Script newsletter endpoint (`type: "newsletter"`, campaign `market-scan-report`). Because the report is intentionally visible during the timed preview, its data is returned to the browser during that preview; the lock is a conversion/UI gate rather than a security boundary.
+The same submission uses Websiteli’s existing Google Apps Script endpoint with a dedicated `type: "market-scan-report"` payload and campaign `market-scan-report`. Because the report is intentionally visible during the timed preview, its data is returned to the browser during that preview; the lock is a conversion/UI gate rather than a security boundary.
 
 ## Stack
 
@@ -107,7 +107,7 @@ Without email delivery configuration, scanning works but `/api/email-report` ret
 
 ## Test report email locally
 
-Report delivery uses the same Google Apps Script endpoint as the existing Websiteli newsletter flow. The backend sends the newsletter payload together with the generated Market Scan report to that API, and the API is responsible for delivering the email.
+Report delivery uses the same Google Apps Script endpoint as the existing Websiteli newsletter flow. The backend sends a dedicated `market-scan-report` payload together with the generated Market Scan report to that API, and the API is responsible for delivering the email.
 
 The current production endpoint is used by default. To override it for development/testing:
 
