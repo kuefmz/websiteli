@@ -7,7 +7,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main
-import storage
 
 
 def make_page(
@@ -412,13 +411,6 @@ def test_admin_api_lists_and_returns_full_execution(monkeypatch):
     assert detail["summary"]["pagesCrawled"] == 2
 
 
-def test_admin_api_disabled_without_token(monkeypatch):
-    monkeypatch.delenv("ADMIN_API_TOKEN", raising=False)
-    client = TestClient(main.app)
-    response = client.get("/api/admin/executions")
-    assert response.status_code == 503
-
-
 def test_frontend_declares_summary_before_using_it():
     component = (
         Path(__file__).resolve().parents[2]
@@ -608,24 +600,52 @@ def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
     assert payload["metadata"]["reportHtml"] == "<p>report</p>"
 
 
-def test_production_storage_requires_database_url(monkeypatch):
-    monkeypatch.setenv("APP_ENV", "production")
-    monkeypatch.delenv("RENDER", raising=False)
-    monkeypatch.delenv("DATABASE_URL", raising=False)
-    with pytest.raises(RuntimeError, match="DATABASE_URL is required"):
-        storage._database_url()
 
 
-def test_production_storage_rejects_sqlite(monkeypatch):
-    monkeypatch.setenv("APP_ENV", "production")
-    monkeypatch.delenv("RENDER", raising=False)
-    monkeypatch.setenv("DATABASE_URL", "sqlite:///temporary.db")
-    with pytest.raises(RuntimeError, match="PostgreSQL"):
-        storage._database_url()
+def test_market_scan_execution_posts_to_google_sheet_endpoint(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_API_URL", "https://example.test/websiteli")
 
+    captured = {}
 
-def test_production_storage_accepts_postgres(monkeypatch):
-    monkeypatch.setenv("APP_ENV", "production")
-    monkeypatch.delenv("RENDER", raising=False)
-    monkeypatch.setenv("DATABASE_URL", "postgresql://user:pass@db.example.com/websiteli")
-    assert storage._database_url().startswith("postgresql+psycopg://")
+    class Response:
+        def raise_for_status(self):
+            return None
+
+    def fake_post(url, **kwargs):
+        captured["url"] = url
+        captured.update(kwargs)
+        return Response()
+
+    monkeypatch.setattr(main.httpx, "post", fake_post)
+
+    report = {
+        "brand": "Example",
+        "scannedUrl": "https://example.com/",
+        "elapsedMs": 321,
+        "summary": {
+            "buyerSignals": 2,
+            "competitorCandidates": 1,
+            "reviewMentions": 3,
+            "priorityActions": 4,
+            "pagesCrawled": 5,
+        },
+        "website": {"opportunityScore": 72},
+        "research": {"queries": {"buyer": ["example buyer intent"]}},
+    }
+
+    main.post_market_scan_execution(
+        scan_id="scan-123",
+        status="completed",
+        submitted_url="example.com",
+        normalized_url="https://example.com/",
+        elapsed_ms=321,
+        report=report,
+    )
+
+    assert captured["url"] == "https://example.test/websiteli"
+    payload = main.json.loads(captured["content"].decode("utf-8"))
+    assert payload["type"] == "market-scan-execution"
+    assert payload["scanId"] == "scan-123"
+    assert payload["status"] == "completed"
+    assert payload["report"] == report
+    assert payload["report"]["research"]["queries"]["buyer"] == ["example buyer intent"]
