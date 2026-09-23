@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">Websiteli Market Scan</title>
+<desc id="desc">Free website and market scan that connects website diagnosis, buyer signals, competitors, public discussions, content opportunities and campaign ideas.</desc>
+<rect width="1600" height="900" fill="#f7f7f5"/>
+<rect x="90" y="90" width="1420" height="720" rx="36" fill="#ffffff" stroke="#e4e5e7" stroke-width="3"/>
+<text x="150" y="190" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#e32635">WEBSITELI MARKET SCAN</text>
+<text x="150" y="285" font-family="Arial,Helvetica,sans-serif" font-size="66" font-weight="800" fill="#171b24">One URL. A clearer view</text>
+<text x="150" y="355" font-family="Arial,Helvetica,sans-serif" font-size="66" font-weight="800" fill="#171b24">of your website and market.</text>
+<text x="150" y="425" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="#657083">Website diagnosis · buyer signals · competitors · content opportunities</text>
+<g font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700">
+<rect x="150" y="510" width="260" height="88" rx="20" fill="#fff4f5" stroke="#f0c4c9"/><text x="185" y="565" fill="#171b24">Website gaps</text>
+<rect x="435" y="510" width="260" height="88" rx="20" fill="#f4f7f8" stroke="#dfe4e8"/><text x="470" y="565" fill="#171b24">Buyer signals</text>
+<rect x="720" y="510" width="260" height="88" rx="20" fill="#f4f7f8" stroke="#dfe4e8"/><text x="755" y="565" fill="#171b24">Competitors</text>
+<rect x="1005" y="510" width="330" height="88" rx="20" fill="#f4f7f8" stroke="#dfe4e8"/><text x="1040" y="565" fill="#171b24">Content opportunities</text>
+</g>
+<rect x="150" y="660" width="360" height="70" rx="18" fill="#e32635"/>
+<text x="205" y="706" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="800" fill="#ffffff">Run the free scan →</text>
+<text x="1260" y="735" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#171b24">websiteli.ch</text>
+</svg>
