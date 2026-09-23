@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import html
 import ipaddress
 import json
 import os
 import re
+import secrets
 import smtplib
 import socket
 import time
@@ -27,6 +29,8 @@ from storage import (
     create_execution,
     fail_execution,
     init_storage,
+    get_execution,
+    list_executions,
     mark_report_emailed,
     storage_health,
 )
@@ -120,6 +124,40 @@ class EmailReportRequest(BaseModel):
     scanId: str
     email: EmailStr
     consent: bool
+
+
+def require_admin(request: Request) -> None:
+    expected = os.getenv("ADMIN_API_TOKEN", "").strip()
+    if not expected:
+        raise HTTPException(
+            status_code=503,
+            detail="Admin API is not configured.",
+        )
+
+    authorization = request.headers.get("authorization", "").strip()
+    provided = ""
+
+    if authorization.lower().startswith("bearer "):
+        provided = authorization[7:].strip()
+    elif authorization.lower().startswith("basic "):
+        encoded = authorization[6:].strip()
+        try:
+            decoded = base64.b64decode(encoded).decode("utf-8")
+            username, password = decoded.split(":", 1)
+        except Exception:
+            username, password = "", ""
+        expected_user = os.getenv("ADMIN_API_USERNAME", "websiteli").strip() or "websiteli"
+        if secrets.compare_digest(username, expected_user):
+            provided = password
+    elif request.headers.get("x-admin-token"):
+        provided = request.headers.get("x-admin-token", "").strip()
+
+    if not provided or not secrets.compare_digest(provided, expected):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid admin credentials.",
+            headers={"WWW-Authenticate": 'Basic realm="Websiteli Market Scan Admin"'},
+        )
 
 
 def cleanup_reports() -> None:
@@ -1198,6 +1236,35 @@ async def health() -> dict[str, Any]:
         "version": "0.6.0",
         "emailConfigured": email_configured(),
     }
+
+
+@app.get("/api/admin/executions")
+async def admin_executions(
+    request: Request,
+    limit: int = 100,
+    status: str | None = None,
+    domain: str | None = None,
+) -> dict[str, Any]:
+    require_admin(request)
+    rows = list_executions(
+        limit=limit,
+        status=status,
+        domain=domain,
+        include_report=False,
+    )
+    return {
+        "count": len(rows),
+        "items": rows,
+    }
+
+
+@app.get("/api/admin/executions/{execution_id}")
+async def admin_execution(execution_id: str, request: Request) -> dict[str, Any]:
+    require_admin(request)
+    row = get_execution(execution_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Execution not found.")
+    return row
 
 
 @app.post("/api/scan")
