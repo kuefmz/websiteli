@@ -36,7 +36,7 @@ from storage import (
 )
 
 
-APP_VERSION = "0.4.0"
+APP_VERSION = "0.7.0"
 REPORT_TTL_SECONDS = 60 * 60
 MAX_PAGES = 8
 MAX_QUEUE = 40
