@@ -14,6 +14,11 @@ def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def _is_production_runtime() -> bool:
+    app_env = os.getenv("APP_ENV", "").strip().lower()
+    return app_env in {"production", "prod"} or bool(os.getenv("RENDER"))
+
+
 def _database_url() -> str:
     value = os.getenv("DATABASE_URL", "").strip()
     if value:
@@ -21,7 +26,18 @@ def _database_url() -> str:
             value = "postgresql+psycopg://" + value[len("postgres://"):]
         elif value.startswith("postgresql://") and "+psycopg" not in value:
             value = "postgresql+psycopg://" + value[len("postgresql://"):]
+
+        if _is_production_runtime() and value.startswith("sqlite:"):
+            raise RuntimeError(
+                "Production requires a persistent PostgreSQL DATABASE_URL; SQLite is not allowed."
+            )
         return value
+
+    if _is_production_runtime():
+        raise RuntimeError(
+            "DATABASE_URL is required in production/Render. "
+            "Configure a persistent PostgreSQL database before starting the API."
+        )
 
     data_dir = Path(__file__).resolve().parent / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
