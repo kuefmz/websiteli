@@ -1192,28 +1192,70 @@ def report_email_html(report: dict[str, Any]) -> str:
 </body></html>'''
 
 
-def email_configured() -> bool:
+def brevo_configured() -> bool:
+    return bool(os.getenv("BREVO_API_KEY") and os.getenv("REPORT_FROM_EMAIL"))
+
+
+def smtp_configured() -> bool:
     return bool(os.getenv("SMTP_HOST") and os.getenv("SMTP_USER") and os.getenv("SMTP_PASS"))
 
 
+def email_configured() -> bool:
+    return brevo_configured() or smtp_configured()
+
+
 def send_report_email(to_email: str, report: dict[str, Any]) -> None:
+    sender = os.getenv("REPORT_FROM_EMAIL") or os.getenv("SMTP_USER")
+    reply_to = os.getenv("REPORT_REPLY_TO") or sender
+    subject = f'Your Websiteli Market Scan — {report["brand"]}'
+    html_content = report_email_html(report)
+
+    # Prefer Brevo's HTTPS API in production. This works on hosts such as Render
+    # Free where outbound SMTP ports are unavailable.
+    if brevo_configured():
+        api_key = os.environ["BREVO_API_KEY"]
+        api_url = os.getenv("BREVO_API_URL", "https://api.brevo.com/v3/smtp/email")
+        payload: dict[str, Any] = {
+            "sender": {
+                "email": sender,
+                "name": os.getenv("REPORT_FROM_NAME", "Websiteli"),
+            },
+            "to": [{"email": to_email}],
+            "subject": subject,
+            "htmlContent": html_content,
+            "textContent": "Your Websiteli Market Scan is available in the HTML version of this email.",
+        }
+        if reply_to:
+            payload["replyTo"] = {"email": reply_to}
+
+        response = httpx.post(
+            api_url,
+            headers={
+                "api-key": api_key,
+                "accept": "application/json",
+                "content-type": "application/json",
+            },
+            json=payload,
+            timeout=20.0,
+        )
+        response.raise_for_status()
+        return
+
+    # SMTP remains available for local development or paid hosts that allow it.
     host = os.getenv("SMTP_HOST")
     user = os.getenv("SMTP_USER")
     password = os.getenv("SMTP_PASS")
-    if not (host and user and password):
+    if not (host and user and password and sender):
         raise RuntimeError("Report email delivery is not configured yet.")
 
     port = int(os.getenv("SMTP_PORT", "587"))
-    sender = os.getenv("REPORT_FROM_EMAIL") or user
-    reply_to = os.getenv("REPORT_REPLY_TO") or sender
-
     msg = EmailMessage()
     msg["From"] = sender
     msg["To"] = to_email
-    msg["Reply-To"] = reply_to
-    msg["Subject"] = f'Your Websiteli Market Scan — {report["brand"]}'
+    msg["Reply-To"] = reply_to or sender
+    msg["Subject"] = subject
     msg.set_content("Your Websiteli Market Scan is available in the HTML version of this email.")
-    msg.add_alternative(report_email_html(report), subtype="html")
+    msg.add_alternative(html_content, subtype="html")
 
     if port == 465:
         with smtplib.SMTP_SSL(host, port, timeout=15) as smtp:
