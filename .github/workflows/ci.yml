@@ -58,7 +58,7 @@ jobs:
 
       - name: Validate Market Scan backend
         run: |
-          python -m py_compile market-scan-api/main.py
+          python -m py_compile market-scan-api/main.py market-scan-api/storage.py
           cd market-scan-api
           python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
           pytest -q
