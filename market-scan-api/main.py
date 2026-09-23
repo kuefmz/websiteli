@@ -1233,8 +1233,9 @@ async def health() -> dict[str, Any]:
     return {
         "ok": True,
         "service": "websiteli-market-scan",
-        "version": "0.6.0",
+        "version": APP_VERSION,
         "emailConfigured": email_configured(),
+        "storage": storage_health(),
     }
 
 
@@ -1244,18 +1245,36 @@ async def admin_executions(
     limit: int = 100,
     status: str | None = None,
     domain: str | None = None,
+    include_report: bool = False,
 ) -> dict[str, Any]:
     require_admin(request)
     rows = list_executions(
         limit=limit,
         status=status,
         domain=domain,
-        include_report=False,
+        include_report=include_report,
     )
+    for row in rows:
+        execution_id = row["id"]
+        row["execution_url"] = f"/api/admin/executions/{execution_id}"
+        row["report_url"] = f"/api/admin/executions/{execution_id}/report"
     return {
         "count": len(rows),
+        "include_report": include_report,
         "items": rows,
     }
+
+
+@app.get("/api/admin/executions/{execution_id}/report")
+async def admin_execution_report(execution_id: str, request: Request) -> dict[str, Any]:
+    require_admin(request)
+    row = get_execution(execution_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Execution not found.")
+    report = row.get("report")
+    if report is None:
+        raise HTTPException(status_code=404, detail="This execution has no completed report.")
+    return report
 
 
 @app.get("/api/admin/executions/{execution_id}")
@@ -1264,6 +1283,7 @@ async def admin_execution(execution_id: str, request: Request) -> dict[str, Any]
     row = get_execution(execution_id)
     if not row:
         raise HTTPException(status_code=404, detail="Execution not found.")
+    row["report_url"] = f"/api/admin/executions/{execution_id}/report"
     return row
 
 
