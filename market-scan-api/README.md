@@ -16,7 +16,7 @@ The same submission also uses Websiteli’s existing Google Apps Script newslett
 - httpx
 - BeautifulSoup + lxml
 - Pydantic
-- Python standard-library SMTP for report delivery
+- Brevo HTTPS API for production report delivery, with SMTP as a local/paid-host fallback
 - SQLAlchemy + SQLite locally / PostgreSQL in production for persistent execution history
 
 The frontend API contract remains unchanged from the original Node implementation:
@@ -103,11 +103,22 @@ curl -X POST http://localhost:8787/api/scan \
   -d '{"url":"https://websiteli.ch"}'
 ```
 
-Without SMTP configuration, scanning works but `/api/email-report` returns a 503. This is expected for local preview testing.
+Without email delivery configuration, scanning works but `/api/email-report` returns a 503. This is expected for local preview testing.
 
 ## Test report email locally
 
-Export SMTP values in the backend terminal before starting Uvicorn:
+Production should use Brevo's HTTPS API. Export these values before starting Uvicorn:
+
+```bash
+export BREVO_API_KEY="YOUR_BREVO_API_KEY"
+export REPORT_FROM_EMAIL="YOUR_VERIFIED_SENDER"
+export REPORT_FROM_NAME="Websiteli"
+export REPORT_REPLY_TO="YOUR_REPLY_TO_EMAIL"
+
+uvicorn main:app --reload --host 127.0.0.1 --port 8787
+```
+
+SMTP remains available as a fallback for local development or hosts that allow outbound SMTP:
 
 ```bash
 export SMTP_HOST="YOUR_SMTP_HOST"
@@ -115,27 +126,23 @@ export SMTP_PORT="587"
 export SMTP_USER="YOUR_EMAIL"
 export SMTP_PASS="YOUR_PASSWORD"
 export REPORT_FROM_EMAIL="YOUR_EMAIL"
-export REPORT_REPLY_TO="YOUR_EMAIL"
-
-uvicorn main:app --reload --host 127.0.0.1 --port 8787
 ```
 
-Never commit SMTP passwords or app passwords.
+Never commit API keys, SMTP passwords or app passwords.
 
 ## Production environment
 
 - `PORT` — supplied by the host.
 - `ALLOWED_ORIGINS` — comma-separated frontend origins, normally `https://websiteli.ch`.
-- `SMTP_HOST` — SMTP server used to deliver generated reports.
-- `SMTP_PORT` — normally `587` (STARTTLS) or `465` (TLS).
-- `SMTP_USER` — SMTP username.
-- `SMTP_PASS` — SMTP password/app password.
-- `REPORT_FROM_EMAIL` — optional sender address; defaults to `SMTP_USER`.
+- `BREVO_API_KEY` — recommended production email credential. Report delivery uses Brevo over HTTPS, including on Render Free.
+- `REPORT_FROM_EMAIL` — verified Brevo sender address. Required when using Brevo.
+- `REPORT_FROM_NAME` — optional sender name; defaults to `Websiteli`.
 - `REPORT_REPLY_TO` — optional reply-to address.
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` — optional SMTP fallback for local development or hosts that permit SMTP.
 - `SCAN_CONCURRENCY` — maximum simultaneous scan jobs; defaults to `3`.
 - `SCAN_RATE_LIMIT_PER_HOUR` — per-IP scan limit; defaults to `12`.
 - `EMAIL_RATE_LIMIT_PER_HOUR` — per-IP report-email limit; defaults to `12`.
-- `DATABASE_URL` — persistent database connection. If omitted locally, the API uses `market-scan-api/data/market_scan.db`. In production, use PostgreSQL so execution history survives restarts and redeploys.
+- `DATABASE_URL` — persistent PostgreSQL connection. It is optional only in local development, where SQLite is used. On Render or when `APP_ENV=production`, startup fails if `DATABASE_URL` is missing or points to SQLite, preventing accidental data loss on an ephemeral filesystem.
 - `ADMIN_API_TOKEN` — required secret/password for the private execution-history API. If unset, the admin API returns 503 instead of becoming public.
 - `ADMIN_API_USERNAME` — optional HTTP Basic username; defaults to `websiteli`.
 
@@ -145,11 +152,7 @@ For a Python web-service deployment, use the `market-scan-api` directory and sta
 uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
 
-Then build/deploy the existing static Astro frontend with:
-
-```bash
-PUBLIC_MARKET_SCAN_API_URL=https://YOUR-API-HOST npm run build
-```
+Then set the GitHub Actions repository variable `PUBLIC_MARKET_SCAN_API_URL` to the deployed HTTPS API origin, for example `https://YOUR-API-HOST`. The Pages deployment workflow injects that value into the Astro build and intentionally fails if it is missing, non-HTTPS or points to localhost.
 
 ## Accuracy and persistence notes
 
@@ -247,6 +250,6 @@ python scripts/export_executions.py --limit 100
 python scripts/export_executions.py --format csv --output executions.csv
 ```
 
-For production, set `DATABASE_URL` to a persistent PostgreSQL database. Do **not** rely on a free web service's local filesystem if you want to keep every execution indefinitely; an ephemeral filesystem can be reset on restart or redeploy.
+For production, set `DATABASE_URL` to a persistent PostgreSQL database whose lifecycle is independent of the Render Free web service. The application intentionally refuses to start on Render/production without it, so it cannot silently lose execution history by falling back to local SQLite.
 
 The report used by the 90-second preview/email gate is still cached in API process memory for one hour and removed after a successful email send. The permanent execution record and full generated report remain in the database.
