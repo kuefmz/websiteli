@@ -7,6 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main
+import storage
 
 
 def make_page(
@@ -305,6 +306,55 @@ def test_commercial_site_gets_at_least_three_actionable_improvements():
     improvements = main.website_improvements(diagnostics, ORGELIA_PAGES, profile)
     assert len(improvements) >= 3
     assert all(item["whyRelevant"] and item["clientImpact"] for item in improvements)
+
+
+def test_execution_storage_roundtrip_records_completed_scan():
+    execution_id = "test-storage-roundtrip"
+    # Make the test idempotent in local reruns.
+    with storage.SessionLocal() as session:
+        existing = session.get(storage.ScanExecution, execution_id)
+        if existing:
+            session.delete(existing)
+            session.commit()
+
+    storage.create_execution(execution_id, "example.com")
+    storage.complete_execution(
+        execution_id,
+        normalized_url="https://example.com/",
+        brand="Example",
+        elapsed_ms=321,
+        summary={"pagesCrawled": 3},
+        market_profile={"siteType": "commercial"},
+        research={"queries": {"buyer": ["example"]}},
+        report={"scannedUrl": "https://example.com/", "brand": "Example"},
+    )
+
+    rows = storage.list_executions(limit=200)
+    row = next(item for item in rows if item["id"] == execution_id)
+    assert row["status"] == "completed"
+    assert row["normalized_url"] == "https://example.com/"
+    assert row["brand"] == "Example"
+    assert row["elapsed_ms"] == 321
+    assert row["summary"]["pagesCrawled"] == 3
+    assert row["report"]["brand"] == "Example"
+
+
+def test_execution_storage_records_failed_scan():
+    execution_id = "test-storage-failure"
+    with storage.SessionLocal() as session:
+        existing = session.get(storage.ScanExecution, execution_id)
+        if existing:
+            session.delete(existing)
+            session.commit()
+
+    storage.create_execution(execution_id, "not-a-valid-site")
+    storage.fail_execution(execution_id, error="invalid URL", status="rejected")
+
+    rows = storage.list_executions(limit=200)
+    row = next(item for item in rows if item["id"] == execution_id)
+    assert row["status"] == "rejected"
+    assert row["error"] == "invalid URL"
+
 
 def test_frontend_declares_summary_before_using_it():
     component = (
