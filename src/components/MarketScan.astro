@@ -4,7 +4,6 @@ import { getMarketScanContent, type MarketScanLocale } from "../content/marketSc
 interface Props { locale?: MarketScanLocale; apiBase: string; }
 const { locale = "en", apiBase } = Astro.props;
 const c = getMarketScanContent(locale);
-const newsletterEndpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
 const privacyPolicyVersion = "2026-06-24";
 ---
 
@@ -315,7 +314,7 @@ const privacyPolicyVersion = "2026-06-24";
   </section>
 </main>
 
-<script define:vars={{ c, locale, newsletterEndpoint, privacyPolicyVersion }}>
+<script define:vars={{ c, locale, privacyPolicyVersion }}>
 (() => {
   const root = document.querySelector("[data-market-scan]");
   if (!root) return;
@@ -642,10 +641,21 @@ const privacyPolicyVersion = "2026-06-24";
     };
     button?.setAttribute("disabled","true"); if(msg) msg.textContent=c.sending;
     try{
-      const emailResponse=await fetch(`${apiBase}/api/email-report`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({scanId:latestScan?.scanId,email,consent:true})});
+      const emailResponse=await fetch(`${apiBase}/api/email-report`,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({
+          scanId:latestScan?.scanId,
+          email,
+          consent:true,
+          sourceUrl:payload.sourceUrl,
+          language:payload.language,
+          campaign:payload.campaign,
+          metadata:payload.metadata
+        })
+      });
       const emailResult=await emailResponse.json().catch(()=>({}));
       if(!emailResponse.ok) throw new Error(emailResult.detail || emailResult.error || c.subscribeError);
-      await fetch(newsletterEndpoint,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
       newsletterForm.reset(); if(msg) msg.textContent=c.subscribed;
       try{localStorage.setItem("websiteli_market_scan_subscribed","true")}catch{}
       window.trackWebsiteliEvent?.("newsletter_subscribe",{event_category:"lead",event_label:"Market Scan report",campaign:"market-scan-report",locale,source_path:window.location.pathname,privacy_policy_accepted:"yes"});
