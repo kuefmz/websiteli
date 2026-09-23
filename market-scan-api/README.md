@@ -166,9 +166,12 @@ The stored scan history is available through two private endpoints:
 ```text
 GET /api/admin/executions
 GET /api/admin/executions/{execution_id}
+GET /api/admin/executions/{execution_id}/report
 ```
 
-The list endpoint returns metadata, status, summary, market profile and research information without the full report payload. The detail endpoint returns the complete persisted execution, including the full generated report.
+The list endpoint returns metadata, status, summary, market profile and research information without the full report payload by default. Each list item includes a `report_url`. The detail endpoint returns the complete persisted execution, including the full generated report. The `/report` endpoint returns exactly the stored report object that the frontend renders.
+
+If you explicitly want all reports embedded in the list response, add `?include_report=true` (use this carefully because the response can become large).
 
 Set a strong secret before starting the API:
 
@@ -197,6 +200,7 @@ Useful filters:
 /api/admin/executions?limit=100
 /api/admin/executions?status=completed
 /api/admin/executions?domain=orgelia.com
+/api/admin/executions?include_report=true
 ```
 
 To retrieve one complete report, copy its `id` from the list and call:
@@ -204,6 +208,10 @@ To retrieve one complete report, copy its `id` from the list and call:
 ```bash
 curl -u 'jenifer:use-a-long-random-secret' \
   'http://127.0.0.1:8787/api/admin/executions/EXECUTION_ID'
+
+# Exact report JSON used by the frontend:
+curl -u 'jenifer:use-a-long-random-secret' \
+  'http://127.0.0.1:8787/api/admin/executions/EXECUTION_ID/report'
 ```
 
 When opened directly in a browser, the endpoint also supports HTTP Basic authentication, so the browser can show a username/password prompt.
