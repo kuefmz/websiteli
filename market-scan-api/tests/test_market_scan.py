@@ -285,6 +285,27 @@ def test_orgelia_and_personal_site_do_not_generate_same_research_plan():
     assert orgelia["queryTerms"] != jenifer["queryTerms"]
 
 
+
+def test_personal_site_gets_at_least_three_client_focused_improvements():
+    diagnostics = main.website_diagnostics(JENIFER_PAGES)
+    profile = main.infer_market_profile(JENIFER_PAGES, "Jenifer Tabita Ciuciu-Kiss")
+    improvements = main.website_improvements(diagnostics, JENIFER_PAGES, profile)
+    assert len(improvements) >= 3
+    for item in improvements:
+        assert item["title"]
+        assert item["whyRelevant"]
+        assert item["clientImpact"]
+        assert item["basis"]
+    assert any("client" in item["clientImpact"].lower() or "recruit" in item["clientImpact"].lower() for item in improvements)
+
+
+def test_commercial_site_gets_at_least_three_actionable_improvements():
+    diagnostics = main.website_diagnostics(ORGELIA_PAGES)
+    profile = main.infer_market_profile(ORGELIA_PAGES, "Orgelia")
+    improvements = main.website_improvements(diagnostics, ORGELIA_PAGES, profile)
+    assert len(improvements) >= 3
+    assert all(item["whyRelevant"] and item["clientImpact"] for item in improvements)
+
 def test_frontend_declares_summary_before_using_it():
     component = (
         Path(__file__).resolve().parents[2]
