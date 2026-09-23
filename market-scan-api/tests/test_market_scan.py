@@ -559,20 +559,15 @@ def test_endpoint_results_are_materially_different_for_orgelia_and_personal_site
     assert orgelia["contentOpportunities"] != personal["contentOpportunities"]
 
 
-def test_brevo_email_configuration(monkeypatch):
-    monkeypatch.setenv("BREVO_API_KEY", "test-key")
-    monkeypatch.setenv("REPORT_FROM_EMAIL", "reports@example.com")
-    monkeypatch.delenv("SMTP_HOST", raising=False)
-    monkeypatch.delenv("SMTP_USER", raising=False)
-    monkeypatch.delenv("SMTP_PASS", raising=False)
-    assert main.brevo_configured() is True
+
+def test_newsletter_api_is_configured_by_default(monkeypatch):
+    monkeypatch.delenv("NEWSLETTER_API_URL", raising=False)
     assert main.email_configured() is True
+    assert "script.google.com/macros/s/" in main.newsletter_api_url()
 
 
-def test_send_report_email_uses_brevo_https(monkeypatch):
-    monkeypatch.setenv("BREVO_API_KEY", "test-key")
-    monkeypatch.setenv("REPORT_FROM_EMAIL", "reports@example.com")
-    monkeypatch.setenv("REPORT_REPLY_TO", "hello@example.com")
+def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_API_URL", "https://example.test/newsletter")
 
     captured = {}
 
@@ -588,13 +583,29 @@ def test_send_report_email_uses_brevo_https(monkeypatch):
     monkeypatch.setattr(main.httpx, "post", fake_post)
     monkeypatch.setattr(main, "report_email_html", lambda report: "<p>report</p>")
 
-    main.send_report_email("client@example.com", {"brand": "Example"})
+    report = {
+        "brand": "Example",
+        "scanId": "scan-123",
+        "scannedUrl": "https://example.com/",
+    }
+    main.send_report_email(
+        "client@example.com",
+        report,
+        source_url="https://websiteli.ch/en/market-scan/",
+        language="en",
+        metadata={"utm_source": "test"},
+    )
 
-    assert captured["url"] == "https://api.brevo.com/v3/smtp/email"
-    assert captured["headers"]["api-key"] == "test-key"
-    assert captured["json"]["to"] == [{"email": "client@example.com"}]
-    assert captured["json"]["sender"]["email"] == "reports@example.com"
-    assert captured["json"]["replyTo"]["email"] == "hello@example.com"
+    assert captured["url"] == "https://example.test/newsletter"
+    assert captured["headers"]["content-type"] == "text/plain;charset=utf-8"
+    payload = main.json.loads(captured["content"].decode("utf-8"))
+    assert payload["type"] == "newsletter"
+    assert payload["email"] == "client@example.com"
+    assert payload["campaign"] == "market-scan-report"
+    assert payload["metadata"]["utm_source"] == "test"
+    assert payload["metadata"]["reportDeliveryRequested"] is True
+    assert payload["metadata"]["report"] == report
+    assert payload["metadata"]["reportHtml"] == "<p>report</p>"
 
 
 def test_production_storage_requires_database_url(monkeypatch):
