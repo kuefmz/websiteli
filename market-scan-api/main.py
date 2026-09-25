@@ -1157,6 +1157,34 @@ def email_configured() -> bool:
     return bool(newsletter_api_url())
 
 
+def _validate_apps_script_response(
+    response: httpx.Response,
+    *,
+    expected_type: str,
+    required_result_key: str,
+) -> dict[str, Any]:
+    response.raise_for_status()
+    try:
+        payload = response.json()
+    except ValueError as exc:
+        raise RuntimeError("Apps Script returned a non-JSON response.") from exc
+
+    if payload.get("success") is not True:
+        raise RuntimeError(f"Apps Script reported failure: {payload.get('error') or payload}")
+    if payload.get("type") != expected_type:
+        raise RuntimeError(
+            f"Apps Script handled the wrong request type: {payload.get('type')!r}"
+        )
+
+    result = payload.get("result")
+    if not isinstance(result, dict) or result.get(required_result_key) is not True:
+        raise RuntimeError(
+            f"Apps Script did not confirm {expected_type} handling. "
+            "Redeploy the latest Apps Script version."
+        )
+    return payload
+
+
 def post_market_scan_execution(
     *,
     scan_id: str,
@@ -1190,13 +1218,18 @@ def post_market_scan_execution(
         timeout=25.0,
         follow_redirects=True,
     )
-    response.raise_for_status()
+    _validate_apps_script_response(
+        response,
+        expected_type="market-scan-execution",
+        required_result_key="stored",
+    )
 
 
 def send_report_email(
     to_email: str,
     report: dict[str, Any],
     *,
+    scan_id: str,
     source_url: str | None = None,
     language: str | None = None,
     campaign: str = "market-scan-report",
@@ -1210,7 +1243,7 @@ def send_report_email(
     merged_metadata.update(
         {
             "campaign": campaign,
-            "scanId": report.get("scanId", ""),
+            "scanId": scan_id,
             "scannedUrl": report.get("scannedUrl", ""),
             "reportHtml": report_email_html(report),
             "report": report,
@@ -1221,6 +1254,7 @@ def send_report_email(
     payload = {
         "type": "market-scan-report",
         "email": to_email,
+        "scanId": scan_id,
         "campaign": campaign,
         "sourceUrl": source_url or "https://websiteli.ch/en/market-scan/",
         "language": language or "en",
@@ -1235,7 +1269,11 @@ def send_report_email(
         timeout=25.0,
         follow_redirects=True,
     )
-    response.raise_for_status()
+    _validate_apps_script_response(
+        response,
+        expected_type="market-scan-report",
+        required_result_key="emailSent",
+    )
 
 
 @app.get("/health")
@@ -1450,6 +1488,7 @@ async def email_report(payload: EmailReportRequest, request: Request) -> dict[st
             send_report_email,
             str(payload.email).lower(),
             cached["report"],
+            scan_id=payload.scanId,
             source_url=payload.sourceUrl,
             language=payload.language,
             campaign=payload.campaign,
