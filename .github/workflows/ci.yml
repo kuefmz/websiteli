@@ -63,45 +63,6 @@ jobs:
           python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
           pytest -q
 
-      - name: Temporary production smoke test
-        timeout-minutes: 3
-        run: |
-          set -euo pipefail
-          echo "=== Render health ==="
-          curl -fsSL --max-time 90 https://websiteli.onrender.com/health
-          echo
-          echo "=== Apps Script direct execution ==="
-          RESPONSE=$(curl -fsSL -L --max-time 60 \
-            "https://script.google.com/macros/s/AKfycbxp7Sk0DtUk3wlsrhvzG_XWb_M-ycSDWn7vf2lHCf70PKN2sdtfvaKZYQyHFfEyx7M-/exec" \
-            -H "Content-Type: text/plain;charset=utf-8" \
-            --data '{"type":"market-scan-execution","scanId":"chatgpt-prod-smoke-20260925","status":"completed","submittedUrl":"https://websiteli.ch","normalizedUrl":"https://websiteli.ch/","elapsedMs":1,"report":{"scannedUrl":"https://websiteli.ch/","brand":"Websiteli","summary":{"pagesCrawled":1,"buyerSignals":0,"competitorCandidates":0,"reviewMentions":0,"priorityActions":0},"website":{"opportunityScore":50}}}')
-          echo "$RESPONSE"
-          python -c 'import json,sys; p=json.loads(sys.argv[1]); assert p.get("success") is True; assert p.get("type")=="market-scan-execution"; assert p.get("result",{}).get("stored") is True' "$RESPONSE"
-
-          echo "=== Apps Script direct report email ==="
-          REPORT_RESPONSE=$(curl -sSL -L --max-time 60 \
-            "https://script.google.com/macros/s/AKfycbxp7Sk0DtUk3wlsrhvzG_XWb_M-ycSDWn7vf2lHCf70PKN2sdtfvaKZYQyHFfEyx7M-/exec" \
-            -H "Content-Type: text/plain;charset=utf-8" \
-            --data '{"type":"market-scan-report","email":"jenifer.girl.98@gmail.com","scanId":"chatgpt-prod-smoke-20260925","campaign":"market-scan-report","sourceUrl":"https://websiteli.ch/en/market-scan/","language":"en","metadata":{"scanId":"chatgpt-prod-smoke-20260925","scannedUrl":"https://websiteli.ch/","reportHtml":"<html><body><h1>Websiteli test report</h1><p>Direct Apps Script email smoke test.</p></body></html>"}}')
-          echo "$REPORT_RESPONSE"
-
-          echo "=== Render full scan ==="
-          SCAN=$(curl -fsSL --max-time 120 \
-            -X POST https://websiteli.onrender.com/api/scan \
-            -H "Content-Type: application/json" \
-            --data '{"url":"https://websiteli.ch"}')
-          echo "$SCAN"
-          SCAN_ID=$(python -c 'import json,sys; print(json.loads(sys.argv[1])["scanId"])' "$SCAN")
-          echo "SCAN_ID=$SCAN_ID"
-
-          echo "=== Render report email ==="
-          EMAIL_RESPONSE=$(curl -fsSL --max-time 90 \
-            -X POST https://websiteli.onrender.com/api/email-report \
-            -H "Content-Type: application/json" \
-            --data "{\"scanId\":\"$SCAN_ID\",\"email\":\"jenifer.girl.98@gmail.com\",\"consent\":true,\"sourceUrl\":\"https://websiteli.ch/en/market-scan/\",\"language\":\"en\",\"campaign\":\"market-scan-report\",\"metadata\":{\"utm_source\":\"chatgpt-prod-smoke\"}}")
-          echo "$EMAIL_RESPONSE"
-          python -c 'import json,sys; p=json.loads(sys.argv[1]); assert p.get("ok") is True' "$EMAIL_RESPONSE"
-
       - name: Run live Market Scan classification check
         continue-on-error: true
         timeout-minutes: 3
