@@ -465,6 +465,13 @@ def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
         def raise_for_status(self):
             return None
 
+        def json(self):
+            return {
+                "success": True,
+                "type": "market-scan-report",
+                "result": {"emailSent": True},
+            }
+
     def fake_post(url, **kwargs):
         captured["url"] = url
         captured.update(kwargs)
@@ -481,6 +488,7 @@ def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
     main.send_report_email(
         "client@example.com",
         report,
+        scan_id="scan-123",
         source_url="https://websiteli.ch/en/market-scan/",
         language="en",
         metadata={"utm_source": "test"},
@@ -491,6 +499,7 @@ def test_send_report_email_uses_existing_newsletter_api(monkeypatch):
     payload = main.json.loads(captured["content"].decode("utf-8"))
     assert payload["type"] == "market-scan-report"
     assert payload["email"] == "client@example.com"
+    assert payload["scanId"] == "scan-123"
     assert payload["campaign"] == "market-scan-report"
     assert payload["metadata"]["utm_source"] == "test"
     assert payload["metadata"]["reportDeliveryRequested"] is True
@@ -508,6 +517,13 @@ def test_market_scan_execution_posts_to_google_sheet_endpoint(monkeypatch):
     class Response:
         def raise_for_status(self):
             return None
+
+        def json(self):
+            return {
+                "success": True,
+                "type": "market-scan-execution",
+                "result": {"stored": True},
+            }
 
     def fake_post(url, **kwargs):
         captured["url"] = url
