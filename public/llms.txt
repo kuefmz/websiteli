@@ -19,6 +19,36 @@ Contact: info@websiteli.ch
 - AI and business automation
 - Website maintenance
 
+
+## Free Market Scan tool
+
+Websiteli provides a free Website & Market Scan. A user enters one public website URL and receives a crawl-based website diagnosis plus relevant public market research when sufficient evidence is available.
+
+The scan can include:
+- website fundamentals and SEO/conversion checks
+- prioritized website improvements with reasons and client impact
+- public buyer-intent and pain-point signals when relevant evidence is found
+- competitor candidates with source links
+- public review mentions
+- content opportunities and campaign angles
+- a transparent website fundamentals score that is not a revenue prediction
+
+The scanner is designed to prefer an empty section over weak or unrelated market data. External findings retain source URLs when available.
+
+Market Scan pages:
+- English: https://websiteli.ch/en/market-scan/
+- German: https://websiteli.ch/de/market-scan/
+- French: https://websiteli.ch/fr/market-scan/
+- Italian: https://websiteli.ch/it/market-scan/
+- Spanish: https://websiteli.ch/es/market-scan/
+
+Market Scan guide:
+- English: https://websiteli.ch/en/blog/free-website-market-scan/
+- German: https://websiteli.ch/de/blog/free-website-market-scan/
+- French: https://websiteli.ch/fr/blog/free-website-market-scan/
+- Italian: https://websiteli.ch/it/blog/free-website-market-scan/
+- Spanish: https://websiteli.ch/es/blog/free-website-market-scan/
+
 ## Target customers
 
 Websiteli mainly helps small businesses, local businesses, freelancers, consultants, restaurants, cafés, shops, service providers, and growing businesses that need a clearer and more professional online presence.

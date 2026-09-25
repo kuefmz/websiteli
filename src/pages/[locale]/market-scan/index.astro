@@ -1,0 +1,96 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MarketScan from "../../../components/MarketScan.astro";
+import { getLocaleContent } from "../../../content/locales";
+import { getMarketScanContent, type MarketScanLocale } from "../../../content/marketScan";
+
+export function getStaticPaths() {
+  return ["en", "de", "fr", "it", "es"].map((locale) => ({ params: { locale } }));
+}
+
+const supported: MarketScanLocale[] = ["en", "de", "fr", "it", "es"];
+
+const requestedLocale = Astro.params.locale ?? "en";
+const locale = (supported.includes(requestedLocale as MarketScanLocale) ? requestedLocale : "en") as MarketScanLocale;
+const apiBase = import.meta.env.PUBLIC_MARKET_SCAN_API_URL || "http://localhost:8787";
+const c = getMarketScanContent(locale);
+const siteContent = getLocaleContent(locale);
+const alternates = supported.map((code) => ({ locale: code, href: `/${code}/market-scan/` }));
+const canonicalPath = `/${locale}/market-scan/`;
+const siteUrl = new URL("https://websiteli.ch");
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Websiteli Market Scan",
+  url: canonicalUrl,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  inLanguage: locale,
+  description: c.meta.description,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "CHF",
+  },
+  featureList: [
+    c.scoreTitle,
+    c.priorities,
+    c.diagnostics,
+    c.buyer,
+    c.competitors,
+    c.content,
+  ],
+  provider: {
+    "@type": "Organization",
+    name: "Websiteli",
+    url: siteUrl.toString(),
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: c.seo.faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: siteContent.nav.home,
+      item: new URL(`/${locale}/`, siteUrl).toString(),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Market Scan",
+      item: canonicalUrl,
+    },
+  ],
+};
+---
+<Layout
+  title={c.meta.title}
+  description={c.meta.description}
+  canonicalPath={canonicalPath}
+  lang={locale}
+  locale={locale}
+  page="market-scan"
+  alternates={alternates}
+  content={siteContent}
+  schema={[webAppSchema, faqSchema, breadcrumbSchema]}
+>
+  <MarketScan locale={locale} apiBase={apiBase} />
+</Layout>
