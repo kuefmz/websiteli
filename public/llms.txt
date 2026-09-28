@@ -43,6 +43,7 @@ Market Scan pages:
 - Spanish: https://websiteli.ch/es/market-scan/
 
 Market Scan guide:
+The launch guide explains what the scanner checks, how market findings are filtered, why some sections can correctly be empty, and how to use the recommendations.
 - English: https://websiteli.ch/en/blog/free-website-market-scan/
 - German: https://websiteli.ch/de/blog/free-website-market-scan/
 - French: https://websiteli.ch/fr/blog/free-website-market-scan/
