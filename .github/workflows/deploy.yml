@@ -37,9 +37,9 @@ jobs:
 
       - name: Validate Market Scan API URL
         env:
-          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL }}
+          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL || secrets.PUBLIC_MARKET_SCAN_API_URL }}
         run: |
-          test -n "$PUBLIC_MARKET_SCAN_API_URL" || (echo "Repository variable PUBLIC_MARKET_SCAN_API_URL is required" && exit 1)
+          test -n "$PUBLIC_MARKET_SCAN_API_URL" || (echo "GitHub variable or secret PUBLIC_MARKET_SCAN_API_URL is required" && exit 1)
           case "$PUBLIC_MARKET_SCAN_API_URL" in
             https://*) ;;
             *) echo "PUBLIC_MARKET_SCAN_API_URL must be an https:// production URL"; exit 1 ;;
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build static site
         env:
-          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL }}
+          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL || secrets.PUBLIC_MARKET_SCAN_API_URL }}
         run: npm run build
 
       - name: Verify GitHub Pages build output
