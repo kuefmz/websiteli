@@ -91,7 +91,7 @@ For a company, use a professional account rather than leaving it as a personal p
 
 Use Meta Business Suite or the current Meta business settings interface to organise the business assets.
 
-Meta's business tools are the place where Pages, Instagram accounts, access and advertising-related assets can be managed centrally. Meta still provides Business Suite through its business platform. citeturn193058search0
+Meta's business tools are the place where Pages, Instagram accounts, access and advertising-related assets can be managed centrally. Meta still provides Business Suite through its business platform.
 
 Because Meta changes the exact names and locations of settings regularly, focus on the structure rather than memorising one menu path.
 
