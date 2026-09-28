@@ -9,7 +9,7 @@ type SearchConsoleOptimization = {
   appendBody?: string;
 };
 
-const updatedAt = "2026-09-08";
+const updatedAt = "2026-09-28";
 
 const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOptimization>>> = {
   en: {
@@ -101,6 +101,26 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
         "Learn how business websites turn search traffic into customers with clearer positioning, trust, service pages, SEO, faster UX, strong CTAs and measurable lead paths.",
       tags: ["business website customers", "website leads", "website conversion", "business website", "lead generation"],
       appendBody: `## Connect search visibility to a clear next step\n\nA page can rank and still fail to generate enquiries if the visitor cannot quickly understand the offer, see proof or choose a next step. Search visibility and conversion should therefore be improved together rather than as separate projects.\n\nWebsiteli's [business website service](/en/services/business-websites/) focuses on that full path, while [lead generation automation](/en/services/lead-generation/) can connect forms, tracking, routing and follow-up after the website starts producing interest.`,
+    },
+  },
+  es: {
+    "website-vs-facebook": {
+      title: "Sitio web vs Facebook: ¿qué necesita realmente tu negocio?",
+      description:
+        "¿Sitio web o página de Facebook? Descubre qué significa tener un sitio web en Facebook, las diferencias clave y cuándo tu negocio necesita una web propia.",
+      tags: ["sitio web vs Facebook", "qué es sitio web en Facebook", "qué significa sitio web en Facebook", "Facebook vs página web", "web para negocios"],
+      related: ["local-business-website", "business-website-features", "website-cost-switzerland"],
+      appendBody: `## ¿Qué significa “sitio web” en Facebook?
+
+En Facebook, el campo **sitio web** normalmente es simplemente un enlace hacia una página externa de tu negocio. No convierte tu página de Facebook en una web propia ni te da control sobre estructura, SEO, formularios, analítica o el recorrido completo del cliente.
+
+Si alguien busca “qué es sitio web en Facebook” o “qué significa sitio web en Facebook”, la respuesta corta es: es la dirección web que añades a tu perfil para enviar a las personas fuera de Facebook, normalmente a tu propia página.
+
+## Facebook vs página web: la diferencia práctica
+
+Facebook funciona bien para publicaciones, mensajes, comunidad y alcance social. Una página web propia funciona mejor como base estable para explicar servicios, aparecer en Google, medir conversiones y guiar a una persona desde la búsqueda hasta una consulta o compra.
+
+Para la mayoría de pequeños negocios, no se trata de elegir uno u otro: usa Facebook como canal y tu web como centro. Si quieres construir ese centro, mira el servicio de [webs para empresas](/es/services/business-websites/) y los [servicios y precios](/es/services-pricing/).`,
     },
   },
   de: {
