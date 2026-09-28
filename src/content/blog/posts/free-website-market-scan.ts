@@ -16,6 +16,19 @@ type Copy = {
 };
 
 function makeTranslation(language: "en" | "de" | "fr" | "it" | "es", copy: Copy): BlogPostTranslation {
+  const linkLabels = {
+    en: ["Open the free Websiteli Market Scan", "Website services", "Contact Websiteli"],
+    de: ["Kostenlosen Websiteli Market Scan öffnen", "Website-Services", "Websiteli kontaktieren"],
+    fr: ["Ouvrir le Websiteli Market Scan gratuit", "Services web", "Contacter Websiteli"],
+    it: ["Apri il Websiteli Market Scan gratuito", "Servizi web", "Contatta Websiteli"],
+    es: ["Abrir Websiteli Market Scan gratis", "Servicios web", "Contactar con Websiteli"],
+  } as const;
+
+  const [scanLabel, servicesLabel, contactLabel] = linkLabels[language];
+  const localizedParagraphs = copy.paragraphs.map((paragraph) =>
+    paragraph.replaceAll("/en/market-scan/", `/${language}/market-scan/`),
+  );
+
   return {
     title: copy.title,
     description: copy.description,
@@ -30,8 +43,8 @@ function makeTranslation(language: "en" | "de" | "fr" | "it" | "es", copy: Copy)
     chatGptPrompts: [],
     faqs: copy.faqs,
     body:
-      copy.headings.map((heading, index) => `## ${heading}\n\n${copy.paragraphs[index]}`).join("\n\n") +
-      `\n\n[Open the free Websiteli Market Scan](/en/market-scan/) · [Website services](/en/services-pricing/) · [Contact Websiteli](/en/contact/)`,
+      copy.headings.map((heading, index) => `## ${heading}\n\n${localizedParagraphs[index]}`).join("\n\n") +
+      `\n\n[${scanLabel}](/${language}/market-scan/) · [${servicesLabel}](/${language}/services-pricing/) · [${contactLabel}](/${language}/contact/)`,
   };
 }
 
@@ -215,7 +228,7 @@ const post: BlogPostSource = {
   imageAlt: "Websiteli Market Scan: website diagnosis, buyer signals, competitors and content opportunities from one URL",
   author: "Websiteli",
   date: "2026-09-23",
-  updated: "2026-09-23",
+  updated: "2026-09-28",
   related: ["website-before-paid-ads-checklist", "small-business-lead-generation-funnel", "website-lead-qualification"],
   translations,
 };
