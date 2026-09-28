@@ -2,13 +2,13 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "google-search-console-setup-guide",
-  status: "scheduled",
-  publishDate: "2026-10-07",
+  status: "published",
+  publishDate: "2026-09-27",
   image: "/assets/blog/website-maintenance-checklist.webp",
   imageAlt: "Google Search Console setup workflow for a business website",
   author: "Websiteli",
-  date: "2026-10-07",
-  updated: "2026-10-07",
+  date: "2026-09-27",
+  updated: "2026-09-27",
   related: ["free-website-market-scan", "website-before-paid-ads-checklist", "utm-tracking-small-business"],
   translations: {
     en: {
