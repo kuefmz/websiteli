@@ -2,14 +2,14 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "google-analytics-ga4-setup-guide",
-  status: "scheduled",
-  publishDate: "2026-10-09",
+  status: "published",
+  publishDate: "2026-09-26",
   image: "/assets/blog/utm-tracking-small-business.webp",
   socialImage: "/assets/blog/utm-tracking-small-business-linkedin.jpg",
   imageAlt: "Google Analytics 4 setup and measurement workflow",
   author: "Websiteli",
-  date: "2026-10-09",
-  updated: "2026-10-09",
+  date: "2026-09-26",
+  updated: "2026-09-26",
   related: ["utm-tracking-small-business", "website-before-paid-ads-checklist", "free-website-market-scan"],
   translations: {
     en: {
