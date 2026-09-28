@@ -42,8 +42,10 @@ jobs:
             grep -q "FAQPage" "dist/$locale/market-scan/index.html"
           done
           grep -q "market-scan-report" dist/en/market-scan/index.html
-          grep -R -q "https://websiteli.ch/fr/market-scan/" dist/sitemap-*.xml
-          grep -R -q "https://websiteli.ch/es/blog/free-website-market-scan/" dist/sitemap-*.xml
+          for locale in en de fr it es; do
+            grep -R -q "https://websiteli.ch/$locale/market-scan/" dist/sitemap-*.xml
+            grep -R -q "https://websiteli.ch/$locale/blog/free-website-market-scan/" dist/sitemap-*.xml
+          done
 
       - name: Set up Python
         uses: actions/setup-python@v6
