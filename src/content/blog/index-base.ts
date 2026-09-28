@@ -18,6 +18,10 @@ import aiContentPipelineGuide from "./posts/ai-content-pipeline-guide";
 import websiteLeadGenerationGuide from "./posts/website-lead-generation-guide";
 import customDashboardDevelopmentGuide from "./posts/custom-dashboard-development-guide";
 import documentAutomationSmallBusinessGuide from "./posts/document-automation-small-business-guide";
+import googleSearchConsoleSetupGuide from "./posts/google-search-console-setup-guide";
+import googleAnalyticsGa4SetupGuide from "./posts/google-analytics-ga4-setup-guide";
+import metaBusinessInstagramFacebookSetupGuide from "./posts/meta-business-instagram-facebook-setup-guide";
+import websiteLaunchSetupChecklist from "./posts/website-launch-setup-checklist";
 import { getBlogImageMeta } from "./imageMeta";
 import type { BlogPostSource } from "./types";
 
@@ -81,6 +85,10 @@ const blogSources: BlogPostSource[] = [
   websiteLeadGenerationGuide,
   customDashboardDevelopmentGuide,
   documentAutomationSmallBusinessGuide,
+  googleSearchConsoleSetupGuide,
+  googleAnalyticsGa4SetupGuide,
+  metaBusinessInstagramFacebookSetupGuide,
+  websiteLaunchSetupChecklist,
 ];
 
 const marketKeywords = [
