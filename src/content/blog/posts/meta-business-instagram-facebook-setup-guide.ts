@@ -124,7 +124,7 @@ For campaigns and specific posts, use UTM parameters so GA4 can tell you whether
 
 For example:
 
-`?utm_source=instagram&utm_medium=social&utm_campaign=launch`
+'?utm_source=instagram&utm_medium=social&utm_campaign=launch'
 
 The exact convention matters less than using it consistently.
 
