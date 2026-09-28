@@ -67,7 +67,7 @@ Enter:
 
 Google recommends enabling Enhanced Measurement for common website interactions, and it can be changed later.
 
-After creating the stream you will receive a Measurement ID that normally begins with `G-`.
+After creating the stream you will receive a Measurement ID that normally begins with 'G-'.
 
 ## Step 3: Install the Google tag
 
@@ -77,7 +77,7 @@ There are three common approaches:
 - Google Tag Manager
 - manual installation in the site code
 
-For a custom-coded website, the direct Google tag can be placed immediately after the opening `<head>` tag on each page. Google also documents CMS-specific integrations when the platform supports them.
+For a custom-coded website, the direct Google tag can be placed immediately after the opening '<head>' tag on each page. Google also documents CMS-specific integrations when the platform supports them.
 
 ## Step 4: Verify the installation
 
