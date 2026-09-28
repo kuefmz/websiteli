@@ -28,7 +28,7 @@ function getZurichDateParts(date = new Date()) {
 }
 
 function getStringField(source, field) {
-  return source.match(new RegExp(`"${field}"\\s*:\\s*"([^"]+)"`))?.[1] || "";
+  return source.match(new RegExp(`(?:"${field}"|${field})\\s*:\\s*"([^"]+)"`))?.[1] || "";
 }
 
 function getSocialCaption(source, network) {
@@ -54,12 +54,12 @@ async function maybePostToMeta(post) {
 }
 
 function updatePostSource(source) {
-  let next = source.replace(/"status"\s*:\s*"scheduled"/, "\"status\": \"published\"");
+  let next = source.replace(/(?:"status"|status)\s*:\s*"scheduled"/, 'status: "published"');
 
-  if (/"published"\s*:\s*false/.test(next)) {
-    next = next.replace(/"published"\s*:\s*false/, "\"published\": true");
-  } else if (!/"published"\s*:/.test(next)) {
-    next = next.replace(/("slug"\s*:\s*"[^"]+",)/, "$1\n  \"published\": true,");
+  if (/(?:"published"|published)\s*:\s*false/.test(next)) {
+    next = next.replace(/(?:"published"|published)\s*:\s*false/, "published: true");
+  } else if (!/(?:"published"|published)\s*:/.test(next)) {
+    next = next.replace(/((?:"slug"|slug)\s*:\s*"[^"]+",)/, "$1\n  published: true,");
   }
 
   return next;
