@@ -54,7 +54,7 @@ Google Analytics 4 lets you measure traffic sources, page activity and custom ev
 
 In Google Analytics, create an account if you do not already have one, then create a GA4 property.
 
-Set the reporting timezone and currency deliberately. These settings affect how reports are grouped and interpreted. Google then asks for basic business information before you create the property. citeturn845926search0
+Set the reporting timezone and currency deliberately. These settings affect how reports are grouped and interpreted. Google then asks for basic business information before you create the property.
 
 ## Step 2: Create a Web data stream
 
@@ -65,7 +65,7 @@ Enter:
 - the main website URL
 - a clear stream name
 
-Google recommends enabling Enhanced Measurement for common website interactions, and it can be changed later. citeturn845926search0
+Google recommends enabling Enhanced Measurement for common website interactions, and it can be changed later.
 
 After creating the stream you will receive a Measurement ID that normally begins with `G-`.
 
@@ -77,13 +77,13 @@ There are three common approaches:
 - Google Tag Manager
 - manual installation in the site code
 
-For a custom-coded website, the direct Google tag can be placed immediately after the opening `<head>` tag on each page. Google also documents CMS-specific integrations when the platform supports them. citeturn845926search0turn845926search1
+For a custom-coded website, the direct Google tag can be placed immediately after the opening `<head>` tag on each page. Google also documents CMS-specific integrations when the platform supports them.
 
 ## Step 4: Verify the installation
 
 Open the website in another browser window and then open the GA4 **Realtime** report.
 
-Google notes that normal data collection can take some time to appear, while Realtime is the fastest way to verify that the implementation is sending activity. citeturn845926search0
+Google notes that normal data collection can take some time to appear, while Realtime is the fastest way to verify that the implementation is sending activity.
 
 If nothing appears, check:
 
@@ -93,7 +93,7 @@ If nothing appears, check:
 - whether the code is inside the correct page layout
 - whether you are looking at the correct GA4 property
 
-Google specifically recommends confirming that the tag ID in the site matches the ID of the selected data stream. citeturn845926search6
+Google specifically recommends confirming that the tag ID in the site matches the ID of the selected data stream.
 
 ## Step 5: Define the events that matter
 
