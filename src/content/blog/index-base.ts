@@ -14,6 +14,10 @@ import becomeAWebsiteliPartner from "./posts/become-a-websiteli-partner";
 import websiteMaintenanceChecklist from "./posts/website-maintenance-checklist";
 import websiteLeadQualification from "./posts/website-lead-qualification";
 import multilingualWebsiteSwitzerland from "./posts/multilingual-website-switzerland";
+import aiContentPipelineGuide from "./posts/ai-content-pipeline-guide";
+import websiteLeadGenerationGuide from "./posts/website-lead-generation-guide";
+import customDashboardDevelopmentGuide from "./posts/custom-dashboard-development-guide";
+import documentAutomationSmallBusinessGuide from "./posts/document-automation-small-business-guide";
 import { getBlogImageMeta } from "./imageMeta";
 import type { BlogPostSource } from "./types";
 
@@ -73,6 +77,10 @@ const blogSources: BlogPostSource[] = [
   websiteMaintenanceChecklist,
   websiteLeadQualification,
   multilingualWebsiteSwitzerland,
+  aiContentPipelineGuide,
+  websiteLeadGenerationGuide,
+  customDashboardDevelopmentGuide,
+  documentAutomationSmallBusinessGuide,
 ];
 
 const marketKeywords = [
