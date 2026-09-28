@@ -2,13 +2,13 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "meta-business-instagram-facebook-setup-guide",
-  status: "scheduled",
-  publishDate: "2026-10-11",
+  status: "published",
+  publishDate: "2026-09-25",
   image: "/assets/blog/website-vs-facebook.webp",
   imageAlt: "Meta Business Suite with Facebook and Instagram business accounts",
   author: "Websiteli",
-  date: "2026-10-11",
-  updated: "2026-10-11",
+  date: "2026-09-25",
+  updated: "2026-09-25",
   related: ["website-vs-facebook", "utm-tracking-small-business", "free-website-market-scan"],
   translations: {
     en: {
