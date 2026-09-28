@@ -125,9 +125,9 @@ Create a basic naming convention before you start sharing links.
 
 For example:
 
-- `utm_source=instagram`
-- `utm_medium=social`
-- `utm_campaign=launch`
+- 'utm_source=instagram'
+- 'utm_medium=social'
+- 'utm_campaign=launch'
 
 Consistency is more important than having an elaborate taxonomy.
 
