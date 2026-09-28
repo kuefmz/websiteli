@@ -13,14 +13,14 @@ const content = getLocaleContent(locale);
 const home = getConversionHomeContent(locale);
 const homeSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
   en: {
-    title: "Web Design Switzerland for Small Businesses | Websiteli",
+    title: "Swiss Web Design, Automation & AI for Small Businesses | Websiteli",
     description:
-      "Swiss web design for small businesses. Websites from CHF 990 with SEO foundations, analytics, forms and optional automation. See real work and pricing.",
+      "Swiss web design and technical implementation for small businesses: websites, SEO, analytics, automation, AI assistants and custom web apps. Websites from CHF 990.",
   },
   de: {
-    title: "Webdesign Schweiz für KMU & kleine Unternehmen | Websiteli",
+    title: "Webdesign, Automation & KI für KMU in der Schweiz | Websiteli",
     description:
-      "Webdesign aus der Schweiz für KMU und kleine Unternehmen: schnelle Websites ab CHF 990 mit SEO-Grundlagen, Analytics, Formularen und optionaler Automation.",
+      "Webdesign und technische Umsetzung für KMU in der Schweiz: Websites, SEO, Analytics, Automation, KI-Assistenten und individuelle Web-Apps. Websites ab CHF 990.",
   },
 };
 const homeSeo = homeSeoByLocale[locale] ?? home.seo;
