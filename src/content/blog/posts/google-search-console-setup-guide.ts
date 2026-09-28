@@ -63,7 +63,7 @@ If I control the DNS, I normally prefer a Domain property because it gives a cle
 
 For a Domain property, Search Console gives you a TXT record.
 
-Go to the DNS provider where the domain is managed and add that TXT record exactly as Google provides it. The host/name field differs by DNS provider; many providers use the root domain or `@`.
+Go to the DNS provider where the domain is managed and add that TXT record exactly as Google provides it. The host/name field differs by DNS provider; many providers use the root domain or '@'.
 
 Save the record and return to Search Console to verify.
 
@@ -75,7 +75,7 @@ Once ownership is verified, open the **Sitemaps** section.
 
 For most websites the sitemap is available at something like:
 
-`https://example.com/sitemap.xml`
+'https://example.com/sitemap.xml'
 
 Paste the sitemap URL into Search Console and submit it.
 
@@ -129,7 +129,7 @@ That is the same logic I use when deciding which Websiteli blog posts to write n
 
 The mistakes I see most often are:
 
-- verifying only `www` while the live site uses the root domain
+- verifying only 'www' while the live site uses the root domain
 - submitting an outdated or incomplete sitemap
 - forgetting multilingual URLs
 - blocking important pages in robots rules
