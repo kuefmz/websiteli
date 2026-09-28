@@ -2,14 +2,14 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "website-launch-setup-checklist",
-  status: "scheduled",
-  publishDate: "2026-10-13",
+  status: "published",
+  publishDate: "2026-09-24",
   image: "/assets/blog/website-before-paid-ads-checklist.webp",
   socialImage: "/assets/blog/website-before-paid-ads-checklist-linkedin.jpg",
   imageAlt: "Website launch checklist covering analytics search and business accounts",
   author: "Websiteli",
-  date: "2026-10-13",
-  updated: "2026-10-13",
+  date: "2026-09-24",
+  updated: "2026-09-24",
   related: ["google-search-console-setup-guide", "google-analytics-ga4-setup-guide", "meta-business-instagram-facebook-setup-guide"],
   translations: {
     en: {
