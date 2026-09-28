@@ -64,7 +64,7 @@ These are the tasks that turn a website into a measurable business channel.
 
 Add the domain to Search Console as early as possible.
 
-If you control DNS, a Domain property is usually the cleanest option because it covers the domain across protocols and subdomains. Google verifies Domain properties using DNS. citeturn845926search7
+If you control DNS, a Domain property is usually the cleanest option because it covers the domain across protocols and subdomains. Google verifies Domain properties using DNS.
 
 Then submit the sitemap and inspect the homepage plus important commercial URLs.
 
@@ -74,7 +74,7 @@ Full guide: [How to Set Up Google Search Console](/en/blog/google-search-console
 
 Create the GA4 property, Web data stream and Google tag.
 
-Install the tag on the website and confirm that activity appears in Realtime. Google recommends adding the tag across the website and verifying that the Measurement ID is correct. citeturn845926search0turn845926search6
+Install the tag on the website and confirm that activity appears in Realtime. Google recommends adding the tag across the website and verifying that the Measurement ID is correct.
 
 Full guide: [How to Set Up Google Analytics 4](/en/blog/google-analytics-ga4-setup-guide/).
 
