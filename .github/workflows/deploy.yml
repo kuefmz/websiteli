@@ -35,7 +35,22 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Validate Market Scan API URL
+        env:
+          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL }}
+        run: |
+          test -n "$PUBLIC_MARKET_SCAN_API_URL" || (echo "Repository variable PUBLIC_MARKET_SCAN_API_URL is required" && exit 1)
+          case "$PUBLIC_MARKET_SCAN_API_URL" in
+            https://*) ;;
+            *) echo "PUBLIC_MARKET_SCAN_API_URL must be an https:// production URL"; exit 1 ;;
+          esac
+          case "$PUBLIC_MARKET_SCAN_API_URL" in
+            *localhost*|*127.0.0.1*) echo "PUBLIC_MARKET_SCAN_API_URL must not point to localhost"; exit 1 ;;
+          esac
+
       - name: Build static site
+        env:
+          PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL }}
         run: npm run build
 
       - name: Verify GitHub Pages build output

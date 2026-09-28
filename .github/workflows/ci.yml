@@ -24,14 +24,48 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm ci
 
       - name: Build static site
         run: npm run build
 
-      - name: Verify audit funnel output
+      - name: Verify audit and market scan output
         run: |
           test -f dist/audit/index.html
           test -f dist/en/audit/index.html
           test -f dist/de/audit/index.html
+          for locale in en de fr it es; do
+            test -f "dist/$locale/market-scan/index.html"
+            test -f "dist/$locale/blog/free-website-market-scan/index.html"
+            grep -q "WebApplication" "dist/$locale/market-scan/index.html"
+            grep -q "FAQPage" "dist/$locale/market-scan/index.html"
+          done
+          grep -q "market-scan-report" dist/en/market-scan/index.html
+          grep -R -q "https://websiteli.ch/fr/market-scan/" dist/sitemap-*.xml
+          grep -R -q "https://websiteli.ch/es/blog/free-website-market-scan/" dist/sitemap-*.xml
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: market-scan-api/requirements.txt
+
+      - name: Install Market Scan backend dependencies
+        run: pip install -r market-scan-api/requirements.txt
+
+      - name: Validate Market Scan backend
+        run: |
+          python -m py_compile market-scan-api/main.py
+          grep -q "script.google.com/macros/s/" market-scan-api/main.py
+          cd market-scan-api
+          python -c "import main; assert main.app.title == 'Websiteli Market Scan API'"
+          pytest -q
+
+      - name: Run live Market Scan classification check
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          cd market-scan-api
+          python scripts/live_quality_check.py

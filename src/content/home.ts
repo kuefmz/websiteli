@@ -103,7 +103,7 @@ const en: ConversionHomeContent = {
     secondary: "Need more than a website? We can also connect automation, AI and custom business tools.",
     priceSignal: "Websites from CHF 990",
     primaryCta: "See our work",
-    secondaryCta: "Get a free website review",
+    secondaryCta: "Run the free Website & Market Scan",
   },
   portfolio: {
     eyebrow: "Real work",
@@ -233,7 +233,7 @@ const en: ConversionHomeContent = {
     eyebrow: "Free website review",
     title: "Want to know what we'd improve on your website?",
     text: "We'll look at your website and send practical recommendations. No obligation.",
-    cta: "Get a free website review",
+    cta: "Run the free Website & Market Scan",
   },
 };
 
@@ -251,10 +251,10 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       secondary: "Brauchen Sie mehr als eine Website? Wir verbinden auch Automation, KI und individuelle Business-Tools.",
       priceSignal: "Websites ab CHF 990",
       primaryCta: "Unsere Arbeit ansehen",
-      secondaryCta: "Kostenlosen Website-Check anfragen",
+      secondaryCta: "Kostenlosen Website- & Market Scan starten",
     },
     portfolio: { ...en.portfolio, viewAll: "Ganzes Portfolio ansehen", viewWebsite: "Website ansehen", linkPending: "Website-Link wird geprüft" },
-    finalCta: { ...en.finalCta, cta: "Kostenlosen Website-Check anfragen" },
+    finalCta: { ...en.finalCta, cta: "Kostenlosen Website- & Market Scan starten" },
   },
   hu: {
     hero: {
@@ -286,8 +286,9 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       secondary: "¿Necesitas más que una web? También conectamos automatización, IA y herramientas a medida.",
       priceSignal: "Webs desde CHF 990",
       primaryCta: "Ver trabajos",
-      secondaryCta: "Revisión web gratuita",
+      secondaryCta: "Análisis web y de mercado gratis",
     },
+    finalCta: { ...en.finalCta, cta: "Ejecutar el análisis web y de mercado gratis" },
   },
   fr: {
     seo: {
@@ -301,10 +302,10 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       secondary: "Besoin de plus qu'un site? Nous pouvons connecter automatisation, IA et outils métier sur mesure.",
       priceSignal: "Sites dès CHF 990",
       primaryCta: "Voir nos réalisations",
-      secondaryCta: "Audit de site gratuit",
+      secondaryCta: "Lancer l’audit site & marché gratuit",
     },
     portfolio: { ...en.portfolio, viewAll: "Voir tout le portfolio", viewWebsite: "Voir le site", linkPending: "Lien du site en vérification" },
-    finalCta: { ...en.finalCta, cta: "Demander une revue gratuite du site" },
+    finalCta: { ...en.finalCta, cta: "Lancer l’audit site & marché gratuit" },
   },
   it: {
     seo: {
@@ -318,10 +319,10 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       secondary: "Serve più di un sito? Possiamo collegare automazione, AI e strumenti business su misura.",
       priceSignal: "Siti da CHF 990",
       primaryCta: "Vedi i lavori",
-      secondaryCta: "Revisione gratuita del sito",
+      secondaryCta: "Avvia l’analisi gratuita sito & mercato",
     },
     portfolio: { ...en.portfolio, viewAll: "Vedi tutto il portfolio", viewWebsite: "Vedi sito", linkPending: "Link del sito in verifica" },
-    finalCta: { ...en.finalCta, cta: "Richiedi una revisione gratuita del sito" },
+    finalCta: { ...en.finalCta, cta: "Avvia l’analisi gratuita sito & mercato" },
   },
   cz: {
     hero: {

@@ -54,6 +54,14 @@ const reportSignupUi: Record<LocaleCode, { eyebrow: string; title: string; text:
   nl: { eyebrow: "Gratis rapport", title: "Ontvang het gratis Website Success Report", text: "Onderbouwde inzichten, praktische checklists en websitestatistieken in je inbox.", email: "E-mail", consent: "Ik accepteer het", privacy: "privacybeleid", button: "Ontvang het gratis rapport", success: "Bedankt! Controleer je inbox voor het Website Success Report." },
   ja: { eyebrow: "無料レポート", title: "無料のWebsite Success Reportを受け取る", text: "調査に基づく知見、実用チェックリスト、ウェブサイト統計をメールでお届けします。", email: "メールアドレス", consent: "同意します:", privacy: "プライバシーポリシー", button: "無料レポートを受け取る", success: "ありがとうございます。Website Success Reportの案内をメールでご確認ください。" },
 };
+const marketScanCtaCopy: Partial<Record<LocaleCode, { eyebrow: string; title: string; text: string; button: string }>> = {
+  en: { eyebrow: "Free tool", title: "Run the Market Scan on your own website", text: "Enter one public URL and get the website diagnosis, prioritised improvements and relevant public market signals.", button: "Run the free Market Scan" },
+  de: { eyebrow: "Kostenloses Tool", title: "Starte den Market Scan für deine eigene Website", text: "Gib eine öffentliche URL ein und erhalte Website-Diagnose, priorisierte Verbesserungen und relevante öffentliche Marktsignale.", button: "Kostenlosen Market Scan starten" },
+  fr: { eyebrow: "Outil gratuit", title: "Lancez le Market Scan sur votre propre site", text: "Saisissez une URL publique pour obtenir le diagnostic du site, les améliorations prioritaires et les signaux publics pertinents.", button: "Lancer le Market Scan gratuit" },
+  it: { eyebrow: "Strumento gratuito", title: "Avvia il Market Scan sul tuo sito", text: "Inserisci una URL pubblica per ottenere diagnosi del sito, miglioramenti prioritari e segnali pubblici pertinenti.", button: "Avvia il Market Scan gratuito" },
+  es: { eyebrow: "Herramienta gratis", title: "Ejecuta el Market Scan en tu propia web", text: "Introduce una URL pública para obtener diagnóstico web, mejoras prioritarias y señales públicas relevantes.", button: "Ejecutar el Market Scan gratis" },
+};
+const marketScanCta = marketScanCtaCopy[locale] ?? marketScanCtaCopy.en;
 const reportCopy = reportSignupUi[locale];
 const authorSchema = { "@type": "Person", name: post.author, affiliation: { "@type": "Organization", name: "Websiteli", url: siteUrl.toString() } };
 const imageSchema = {
@@ -181,6 +189,16 @@ const showWebsiteSuccessReportSignup = post.slug === "why-business-websites-get-
               {post.keyTakeaways.map((item) => <li>{item}</li>)}
             </ul>
           </section>
+          {post.slug === "free-website-market-scan" && marketScanCta && (
+            <section class="article-market-scan-cta" aria-label={marketScanCta.title}>
+              <div>
+                <p class="eyebrow">{marketScanCta.eyebrow}</p>
+                <h2>{marketScanCta.title}</h2>
+                <p>{marketScanCta.text}</p>
+              </div>
+              <a class="button primary" href={`/${locale}/market-scan/`} data-track-event="market_scan_blog_cta_click" data-track-label="Market Scan blog CTA">{marketScanCta.button}<span aria-hidden="true">→</span></a>
+            </section>
+          )}
           <Fragment set:html={articleHtml} />
           <div class="article-tags article-tags-footer" aria-label="Article tags">
             {post.tags.map((tag) => <span>{tag}</span>)}

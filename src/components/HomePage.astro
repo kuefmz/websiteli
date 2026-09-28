@@ -27,7 +27,8 @@ const heroProjectData = heroProjects.map((project) => ({
   verifiedUrl: project.verifiedUrl,
 }));
 const contactHref = `/${locale}/contact/?package=digitalAudit&project=website-review&intent=website_review`;
-const auditHref = locale === "de" ? "/de/audit/?source=homepage" : locale === "en" ? "/en/audit/?source=homepage" : contactHref;
+const marketScanLocales = ["en", "de", "fr", "it", "es"];
+const auditHref = marketScanLocales.includes(locale) ? `/${locale}/market-scan/?source=homepage` : contactHref;
 const portfolioHref = `/${locale}/portfolio/`;
 const workHref = "#work";
 const pricingHref = `/${locale}/services-pricing/#pricing`;
@@ -78,7 +79,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <p class="hero-secondary">{home.hero.secondary}</p>
       <p class="hero-price-signal">{home.hero.priceSignal}</p>
       <div class="hero-actions">
-        <a class="button primary" href={auditHref} data-track-event="audit_cta_click" data-track-label="Hero website review">{home.hero.secondaryCta}</a>
+        <a class="button primary" href={auditHref} data-track-event="market_scan_home_cta_click" data-track-label="Hero Market Scan">{home.hero.secondaryCta}</a>
         <a class="button secondary" href={workHref} data-track-event="portfolio_cta_click" data-track-label="Hero see work">{home.hero.primaryCta}</a>
       </div>
     </div>
@@ -333,7 +334,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
       <h2>{home.finalCta.title}</h2>
       <p>{home.finalCta.text}</p>
     </div>
-    <a class="button primary" href={auditHref} data-track-event="audit_cta_click" data-track-label="Homepage final website review">{home.finalCta.cta}</a>
+    <a class="button primary" href={auditHref} data-track-event="market_scan_home_cta_click" data-track-label="Homepage final Market Scan">{home.finalCta.cta}</a>
   </section>
 </main>
 
