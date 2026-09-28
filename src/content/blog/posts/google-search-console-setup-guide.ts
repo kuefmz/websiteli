@@ -57,7 +57,7 @@ Google currently offers two main property types:
 - **Domain property** — covers the domain across protocols and subdomains
 - **URL-prefix property** — covers only the exact prefix you enter
 
-If I control the DNS, I normally prefer a Domain property because it gives a cleaner view of the whole domain. Google requires DNS verification for Domain properties. citeturn845926search7
+If I control the DNS, I normally prefer a Domain property because it gives a cleaner view of the whole domain. Google requires DNS verification for Domain properties.
 
 ## Step 2: Verify ownership with DNS
 
