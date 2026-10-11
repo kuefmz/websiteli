@@ -71,3 +71,6 @@ export function getAlternates(page?: PageSlug | "home") {
     href: getLocalizedPath(locale, page),
   }));
 }
+
+// Route keys and ISO language identifiers differ for Czech.
+export function getLanguageCode(locale: string) { return locale === "cz" ? "cs" : locale; }

@@ -35,7 +35,7 @@ function makeTranslation(language: LocaleCode, copy: Copy): BlogPostTranslation 
       { question: copy.headings[3], answer: copy.paragraphs[3] },
       { question: copy.headings[6], answer: copy.paragraphs[6] },
     ],
-    body: `${body}\n\n[Internal AI assistants](/en/services/ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
+    body: `${body}\n\n[Internal AI assistants](/en/services/internal-ai-assistants/) · [AI integrations](/en/services/ai-integrations/) · [Business automation](/en/services/business-automation/) · [Services and pricing](/en/services-pricing/) · [Contact](/en/contact/)`,
   };
 }
 

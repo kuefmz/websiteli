@@ -8,7 +8,8 @@ interface Props {
 
 const { locale, variant = "inline" } = Astro.props;
 const path = Astro.url.pathname.toLowerCase();
-const isAutomationArticle = /(automation|automate|ai-|ai_|assistant|pdf|document|invoice|workflow|data)/.test(path);
+const isWebsiteArticle = /(website|web-design|webdesign|seo|core-web|google-search)/.test(path);
+const isAutomationArticle = !isWebsiteArticle && /(automation|automate|ai-|ai_|assistant|pdf|document|invoice|workflow|data)/.test(path);
 const supportsAudit = locale === "en" || locale === "de";
 
 const websiteCopy = {
@@ -66,7 +67,7 @@ const primaryHref = isAutomationArticle
   : supportsAudit
     ? `/${locale}/audit/?source=blog`
     : `/${locale}/contact/?intent=website_review&source=blog`;
-const secondaryHref = `/${locale}/portfolio/`;
+const secondaryHref = locale === "de" ? (isAutomationArticle ? "/de/services/business-automation/" : "/de/services/business-websites/") : `/${locale}/portfolio/`;
 const primaryEvent = isAutomationArticle ? "workflow_assessment_click" : "audit_cta_click";
 ---
 
@@ -77,6 +78,6 @@ const primaryEvent = isAutomationArticle ? "workflow_assessment_click" : "audit_
   </div>
   <div class="article-cta-actions">
     <a class="button primary" href={primaryHref} data-track-event={primaryEvent} data-track-label={`Article CTA ${variant}`}>{text.primary}</a>
-    <a class="button secondary" href={secondaryHref} data-track-event="portfolio_cta_click" data-track-label={`Article CTA ${variant}`}>{text.secondary}</a>
+    <a class="button secondary" href={secondaryHref} data-track-event={locale === "de" ? "contextual_service_link_click" : "portfolio_cta_click"} data-track-label={`Article CTA ${variant}`}>{locale === "de" ? (isAutomationArticle ? "Passende Automationsleistung ansehen" : "Professionelle Business-Website planen") : text.secondary}</a>
   </div>
 </aside>

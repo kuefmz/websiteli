@@ -122,6 +122,7 @@ const pricingData = {
   }
 
   async function detectBrowserCountry() {
+    if (document.documentElement.lang === "de") return { country: "CH", source: "swiss-german-market" };
     const deploymentCountry = getDeploymentCountry();
 
     if (hasMarketPrice(deploymentCountry)) {
@@ -227,7 +228,7 @@ const pricingData = {
       const amount = pricing.packages?.[packageKey]?.from;
 
       if (typeof amount === "number") {
-        element.textContent = `from ${formatPrice(amount, pricing.symbol, pricing.currency)}`;
+        element.textContent = `${document.documentElement.lang === "de" ? "ab" : "from"} ${formatPrice(amount, pricing.symbol, pricing.currency)}`;
         element.dataset.priceShown = String(amount);
         element.dataset.currency = pricing.currency;
         element.dataset.pricingMarket = pricingMarket;

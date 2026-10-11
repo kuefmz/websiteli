@@ -27,6 +27,7 @@ const meta = locale === "de"
   description={meta.description}
   canonicalPath={`/${locale}/audit/`}
   lang={locale}
+  alternates={["en", "de"].map(locale => ({ locale, href: `/${locale}/audit/` }))}
 >
   <script is:inline>
     (() => {

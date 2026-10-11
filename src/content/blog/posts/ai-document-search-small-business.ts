@@ -28,7 +28,7 @@ function makeTranslation(language: LocaleCode, input: TranslationInput): BlogPos
 }
 
 const sharedRelated = [
-  "/en/services/ai-assistants/",
+  "/en/services/internal-ai-assistants/",
   "/en/services/business-automation/",
   "/en/services-pricing/",
   "/en/contact/",
@@ -113,7 +113,7 @@ A small first version can include:
 5. feedback and escalation;
 6. regular content review.
 
-Websiteli's [AI assistant services](/en/services/ai-assistants/) and [business automation services](/en/services/business-automation/) can support this type of controlled implementation. Broader options are available on the [services and pricing page](/en/services-pricing/), and a specific use case can be discussed through the [contact page](/en/contact/).
+Websiteli's [AI assistant services](/en/services/internal-ai-assistants/) and [business automation services](/en/services/business-automation/) can support this type of controlled implementation. Broader options are available on the [services and pricing page](/en/services-pricing/), and a specific use case can be discussed through the [contact page](/en/contact/).
 
 ## How to measure value
 
@@ -202,7 +202,7 @@ Wenn keine ausreichende Grundlage gefunden wird, muss der Assistent dies klar sa
 
 Ein kleines erstes System kann aus einer freigegebenen Dokumentensammlung, Dokumentenaufbereitung, berechtigungsabhängiger Suche, Antworten mit Quellenverweisen, Feedback und regelmässiger Inhaltsprüfung bestehen.
 
-Websitelis [KI-Assistenten](/en/services/ai-assistants/) und [Business-Automation](/en/services/business-automation/) können eine kontrollierte Umsetzung unterstützen. Weitere Optionen finden Sie auf der [Seite Leistungen und Preise](/en/services-pricing/). Ein konkreter Anwendungsfall kann über die [Kontaktseite](/en/contact/) besprochen werden.
+Websitelis [KI-Assistenten](/en/services/internal-ai-assistants/) und [Business-Automation](/en/services/business-automation/) können eine kontrollierte Umsetzung unterstützen. Weitere Optionen finden Sie auf der [Seite Leistungen und Preise](/en/services-pricing/). Ein konkreter Anwendungsfall kann über die [Kontaktseite](/en/contact/) besprochen werden.
 
 ## Erfolg sinnvoll messen
 
@@ -257,7 +257,7 @@ A fontos válaszoknál jelenjen meg fájlnév, oldal, szakasz vagy link. Ha ninc
 
 ## Gyakorlati első verzió
 
-Egy első megoldás tartalmazhat egy jóváhagyott dokumentumkészletet, jogosultság-alapú keresést, forrásos válaszokat, visszajelzést és rendszeres tartalomellenőrzést. A [Websiteli AI-asszisztens szolgáltatásai](/en/services/ai-assistants/), az [üzleti automatizálás](/en/services/business-automation/) és a [kapcsolatfelvétel](/en/contact/) segíthetnek a tervezésben.
+Egy első megoldás tartalmazhat egy jóváhagyott dokumentumkészletet, jogosultság-alapú keresést, forrásos válaszokat, visszajelzést és rendszeres tartalomellenőrzést. A [Websiteli AI-asszisztens szolgáltatásai](/en/services/internal-ai-assistants/), az [üzleti automatizálás](/en/services/business-automation/) és a [kapcsolatfelvétel](/en/contact/) segíthetnek a tervezésben.
 
 ## Mikor elég az egyszerű keresés?
 
@@ -300,7 +300,7 @@ Ważne odpowiedzi powinny wskazywać plik, sekcję, stronę lub link. Brak wysta
 
 ## Rozsądna pierwsza wersja
 
-Pierwszy system może obejmować jeden zatwierdzony zbiór dokumentów, wyszukiwanie zgodne z uprawnieniami, odpowiedzi ze źródłami, feedback i regularny przegląd. Zobacz [usługi asystentów AI](/en/services/ai-assistants/), [automatyzację biznesową](/en/services/business-automation/) i [kontakt](/en/contact/).
+Pierwszy system może obejmować jeden zatwierdzony zbiór dokumentów, wyszukiwanie zgodne z uprawnieniami, odpowiedzi ze źródłami, feedback i regularny przegląd. Zobacz [usługi asystentów AI](/en/services/internal-ai-assistants/), [automatyzację biznesową](/en/services/business-automation/) i [kontakt](/en/contact/).
 
 ## Kiedy wystarczy zwykłe wyszukiwanie
 
@@ -343,7 +343,7 @@ Las respuestas importantes deben mostrar archivo, sección, página o enlace. Si
 
 ## Una primera versión razonable
 
-Puede incluir una colección aprobada, indexación, recuperación según permisos, respuestas con fuentes, feedback y revisión periódica. Consulta los [servicios de asistentes de IA](/en/services/ai-assistants/), la [automatización empresarial](/en/services/business-automation/) y la [página de contacto](/en/contact/).
+Puede incluir una colección aprobada, indexación, recuperación según permisos, respuestas con fuentes, feedback y revisión periódica. Consulta los [servicios de asistentes de IA](/en/services/internal-ai-assistants/), la [automatización empresarial](/en/services/business-automation/) y la [página de contacto](/en/contact/).
 
 ## Cuándo basta una búsqueda simple
 
@@ -386,7 +386,7 @@ Les réponses importantes doivent indiquer le fichier, la section, la page ou le
 
 ## Une première version raisonnable
 
-Elle peut réunir une collection approuvée, l'indexation, une recherche respectant les droits, des réponses sourcées, du feedback et une revue régulière. Consultez les [services d'assistants IA](/en/services/ai-assistants/), l'[automatisation métier](/en/services/business-automation/) et la [page contact](/en/contact/).
+Elle peut réunir une collection approuvée, l'indexation, une recherche respectant les droits, des réponses sourcées, du feedback et une revue régulière. Consultez les [services d'assistants IA](/en/services/internal-ai-assistants/), l'[automatisation métier](/en/services/business-automation/) et la [page contact](/en/contact/).
 
 ## Quand une recherche simple suffit
 
@@ -429,7 +429,7 @@ Le risposte importanti devono mostrare file, sezione, pagina o link. Se le prove
 
 ## Una prima versione sensata
 
-Può includere una raccolta approvata, indicizzazione, recupero basato sui permessi, risposte con fonti, feedback e revisione periodica. Vedi [assistenti IA](/en/services/ai-assistants/), [automazione aziendale](/en/services/business-automation/) e [contatti](/en/contact/).
+Può includere una raccolta approvata, indicizzazione, recupero basato sui permessi, risposte con fonti, feedback e revisione periodica. Vedi [assistenti IA](/en/services/internal-ai-assistants/), [automazione aziendale](/en/services/business-automation/) e [contatti](/en/contact/).
 
 ## Quando basta una ricerca semplice
 
@@ -472,7 +472,7 @@ Důležité odpovědi mají uvádět soubor, sekci, stránku nebo odkaz. Nedosta
 
 ## Rozumná první verze
 
-Může obsahovat jednu schválenou sbírku, indexaci, vyhledávání podle oprávnění, odpovědi se zdroji, zpětnou vazbu a pravidelnou kontrolu. Viz [AI asistenti](/en/services/ai-assistants/), [firemní automatizace](/en/services/business-automation/) a [kontakt](/en/contact/).
+Může obsahovat jednu schválenou sbírku, indexaci, vyhledávání podle oprávnění, odpovědi se zdroji, zpětnou vazbu a pravidelnou kontrolu. Viz [AI asistenti](/en/services/internal-ai-assistants/), [firemní automatizace](/en/services/business-automation/) a [kontakt](/en/contact/).
 
 ## Kdy stačí běžné vyhledávání
 
@@ -515,7 +515,7 @@ Dôležité odpovede majú uvádzať súbor, sekciu, stranu alebo odkaz. Nedosta
 
 ## Rozumná prvá verzia
 
-Môže obsahovať jednu schválenú zbierku, indexovanie, vyhľadávanie podľa oprávnení, odpovede so zdrojmi, spätnú väzbu a pravidelnú kontrolu. Pozrite si [AI asistentov](/en/services/ai-assistants/), [firemnú automatizáciu](/en/services/business-automation/) a [kontakt](/en/contact/).
+Môže obsahovať jednu schválenú zbierku, indexovanie, vyhľadávanie podľa oprávnení, odpovede so zdrojmi, spätnú väzbu a pravidelnú kontrolu. Pozrite si [AI asistentov](/en/services/internal-ai-assistants/), [firemnú automatizáciu](/en/services/business-automation/) a [kontakt](/en/contact/).
 
 ## Kedy stačí bežné vyhľadávanie
 
@@ -558,7 +558,7 @@ Respostas importantes devem mostrar ficheiro, secção, página ou ligação. Se
 
 ## Uma primeira versão sensata
 
-Pode incluir uma coleção aprovada, indexação, recuperação baseada em permissões, respostas com fontes, feedback e revisão regular. Consulta [assistentes de IA](/en/services/ai-assistants/), [automação empresarial](/en/services/business-automation/) e [contacto](/en/contact/).
+Pode incluir uma coleção aprovada, indexação, recuperação baseada em permissões, respostas com fontes, feedback e revisão regular. Consulta [assistentes de IA](/en/services/internal-ai-assistants/), [automação empresarial](/en/services/business-automation/) e [contacto](/en/contact/).
 
 ## Quando uma pesquisa simples basta
 
@@ -601,7 +601,7 @@ Vigtige svar bør vise fil, afsnit, side eller link. Manglende dokumentation ska
 
 ## En fornuftig første version
 
-Den kan omfatte én godkendt samling, indeksering, rettighedsbaseret søgning, svar med kilder, feedback og regelmæssig gennemgang. Se [AI-assistenter](/en/services/ai-assistants/), [virksomhedsautomatisering](/en/services/business-automation/) og [kontakt](/en/contact/).
+Den kan omfatte én godkendt samling, indeksering, rettighedsbaseret søgning, svar med kilder, feedback og regelmæssig gennemgang. Se [AI-assistenter](/en/services/internal-ai-assistants/), [virksomhedsautomatisering](/en/services/business-automation/) og [kontakt](/en/contact/).
 
 ## Hvornår almindelig søgning er nok
 
@@ -644,7 +644,7 @@ Belangrijke antwoorden moeten bestand, sectie, pagina of link tonen. Onvoldoende
 
 ## Een verstandige eerste versie
 
-Deze kan één goedgekeurde verzameling, indexering, zoeken op basis van rechten, antwoorden met bronnen, feedback en periodieke controle bevatten. Bekijk [AI-assistenten](/en/services/ai-assistants/), [bedrijfsautomatisering](/en/services/business-automation/) en [contact](/en/contact/).
+Deze kan één goedgekeurde verzameling, indexering, zoeken op basis van rechten, antwoorden met bronnen, feedback en periodieke controle bevatten. Bekijk [AI-assistenten](/en/services/internal-ai-assistants/), [bedrijfsautomatisering](/en/services/business-automation/) en [contact](/en/contact/).
 
 ## Wanneer gewone zoekfuncties genoeg zijn
 
@@ -687,7 +687,7 @@ RAGは質問のたびに情報を取得します。手順やサービス説明�
 
 ## 現実的な初期版
 
-承認済み文書群、索引化、権限対応検索、出典付き回答、フィードバック、定期レビューで構成できます。[AIアシスタント](/en/services/ai-assistants/)、[業務自動化](/en/services/business-automation/)、[お問い合わせ](/en/contact/)もご覧ください。
+承認済み文書群、索引化、権限対応検索、出典付き回答、フィードバック、定期レビューで構成できます。[AIアシスタント](/en/services/internal-ai-assistants/)、[業務自動化](/en/services/business-automation/)、[お問い合わせ](/en/contact/)もご覧ください。
 
 ## 通常の検索で十分な場合
 

@@ -655,7 +655,8 @@ const privacyPolicyVersion = "2026-06-24";
         })
       });
       const emailResult=await emailResponse.json().catch(()=>({}));
-      if(!emailResponse.ok) throw new Error(emailResult.detail || emailResult.error || c.subscribeError);
+      if(!emailResponse.ok || emailResult.error || emailResult.success === false) throw new Error(emailResult.detail || emailResult.error || c.subscribeError);
+      window.websiteliTrackConfirmedLead?.("website_review_request", { form_type: "market_scan_report", service_category: "websites", locale }, `market-scan:${latestScan?.scanId}`);
       newsletterForm.reset(); if(msg) msg.textContent=c.subscribed;
       try{localStorage.setItem("websiteli_market_scan_subscribed","true")}catch{}
       window.trackWebsiteliEvent?.("newsletter_subscribe",{event_category:"lead",event_label:"Market Scan report",campaign:"market-scan-report",locale,source_path:window.location.pathname,privacy_policy_accepted:"yes"});

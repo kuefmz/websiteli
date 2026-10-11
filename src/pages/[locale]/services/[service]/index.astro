@@ -1,4 +1,5 @@
 ---
+import GermanBusinessWebsite from "../../../../components/GermanBusinessWebsite.astro";
 import CTASection from "../../../../components/CTASection.astro";
 import FAQ from "../../../../components/FAQ.astro";
 import Layout from "../../../../layouts/Layout.astro";
@@ -159,6 +160,7 @@ const schema = [
 ];
 ---
 
+{locale === "de" && service.slug === "business-websites" ? <GermanBusinessWebsite /> : (
 <Layout
   title={detail?.seoTitle ?? `${service.title} - Websiteli`}
   description={service.description}
@@ -420,6 +422,7 @@ const schema = [
     }
   </script>
 </Layout>
+)}
 
 <style>
   .pipeline-architecture .section-heading {

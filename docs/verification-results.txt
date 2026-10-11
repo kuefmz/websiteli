@@ -1,0 +1,28 @@
+Build: npm run build passed, 1466 pages.
+Analytics: node scripts/test-analytics.mjs passed.
+SEO crawl: 1466 pages, zero reported link/fragment/reciprocity/metadata/H1 issues.
+Diff whitespace: git diff --check passed.
+Browser/mobile/CWV: not verified; Chromium unavailable and installation download was truncated.
+Real form delivery / DebugView / GTM Preview / confirmed booking: not verified.
+
+Existing regression suite:
+✔ localized pages include the browser pricing runtime (13.45597ms)
+✔ root page redirects to the localized English site (7.034839ms)
+✔ pricing source of truth contains supported markets and packages (3.175902ms)
+✔ pricing resolves from IP lookups without a user-facing market selector (4346.952904ms)
+✔ EU countries and unknown countries map to the correct fallback markets (2.795396ms)
+✔ lead forms receive pricing, source, demo, and project metadata (24.846076ms)
+✔ newsletter signup posts to the static Google Apps Script endpoint (4.775966ms)
+✔ Website Success Report lead magnet uses the report newsletter campaign on localized flagship articles (20.586855ms)
+✔ blog is localized and article pages include conversion and sharing UX (14.372305ms)
+✔ sitemap and public downloads include the Website Success Report flow URLs (213.265427ms)
+✔ localized package labels do not leak English package names in Hungarian UI (2.555517ms)
+✔ built pages do not contain broken internal links or anchors (9856.743708ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14602.487404
