@@ -1,4 +1,5 @@
 ---
+import { germanPricingFaqs } from "../../../content/germanPricing";
 import PageSections from "../../../components/PageSections.astro";
 import Layout from "../../../layouts/Layout.astro";
 import {
@@ -38,9 +39,9 @@ const servicesPricingSeoByLocale: Partial<Record<LocaleCode, { title: string; de
       "Compare Websiteli website services and pricing for business websites, SEO, maintenance, lead generation, automation and AI projects in Switzerland.",
   },
   de: {
-    title: "Website-Services & Preise in der Schweiz | Websiteli",
+    title: "Website erstellen: Kosten Schweiz & Preise | Websiteli",
     description:
-      "Vergleichen Sie Websiteli-Services und Preise für Business-Websites, SEO, Wartung, Leadgenerierung, Automation und KI-Projekte in der Schweiz.",
+      "Was kostet eine Website in der Schweiz? Websiteli-Pakete ab CHF 990: Leistungen, laufende Kosten und individuelle Offerten für KMU verständlich erklärt.",
   },
 };
 const portfolioSeoByLocale: Partial<Record<LocaleCode, { title: string; description: string }>> = {
@@ -191,7 +192,7 @@ const redirectCanonicalUrl = redirectTarget ? new URL(redirectTarget, siteUrl).t
       page={page}
       alternates={getAlternates(page)}
       content={content}
-      schema={pageSchema}
+      schema={locale === "de" && page === "services-pricing" ? [...pageSchema.filter(s => s["@type"] !== "FAQPage"), { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: germanPricingFaqs.map(f => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) }] : pageSchema}
     >
       <PageSections content={content} page={page} locale={locale} />
     </Layout>

@@ -7,3 +7,8 @@ dist/
 
 # Local Market Scan execution database
 market-scan-api/data/
+
+# Local sprint verification output
+*.log
+.qa-tmp/
+.qa-browsers/

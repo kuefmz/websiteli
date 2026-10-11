@@ -321,7 +321,7 @@ const formUi = content?.ui?.form ?? {
     if (status) status.textContent = formUi.sending;
 
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec", {
         method: "POST",
         mode: "no-cors",
         headers: {
@@ -331,29 +331,13 @@ const formUi = content?.ui?.form ?? {
       });
 
       form.reset();
-      window.trackWebsiteliEvent?.("contact_form_submit", {
-        event_category: "lead",
-        event_label: "Contact form",
-        package_key: payload.metadata.packageKey,
-        locale: payload.metadata.language,
-        country: payload.metadata.country,
-        pricing_market: payload.metadata.market,
-        currency: payload.metadata.currency,
-        price_shown: payload.metadata.priceShown,
-        source_path: payload.metadata.sourcePath,
-        source_page: payload.metadata.sourcePage,
-        related_demo: payload.metadata.relatedDemo,
-        related_project: payload.metadata.relatedProject,
-        inquiry_intent: payload.metadata.inquiryIntent,
-        utm_source: payload.metadata.utm_source,
-        utm_medium: payload.metadata.utm_medium,
-        utm_campaign: payload.metadata.utm_campaign,
-        utm_term: payload.metadata.utm_term,
-        utm_content: payload.metadata.utm_content,
-        utm_id: payload.metadata.utm_id,
-        privacy_policy_accepted: payload.metadata.privacyPolicyAccepted ? "yes" : "no",
-        privacy_policy_version: payload.metadata.privacyPolicyVersion,
+      const formType = payload.metadata.inquiryIntent === "website_review" ? "website_review" :
+        payload.metadata.inquiryIntent === "website_quote" || ["digitalFoundation", "growthSetup"].includes(payload.metadata.packageKey) ? "website_quote" : "general_contact";
+      await window.websiteliConfirmEnquiry?.(response, {
+        formType, serviceCategory: "websites", submissionKey: payload.metadata.timestamp,
       });
+      // no-cors is an opaque dispatch, not a server acknowledgement. Do not count it as a lead.
+      window.trackWebsiteliEvent?.("enquiry_dispatched", { form_type: formType });
       if (status) status.textContent = formUi.thankYou;
     } catch (error) {
       if (status) status.textContent = formUi.error;

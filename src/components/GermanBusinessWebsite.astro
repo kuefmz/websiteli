@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQ from './FAQ.astro';
+import CTASection from './CTASection.astro';
+import { getLocaleContent, localeCodes } from '../content/locales';
+import { pricing } from '../config/pricing';
+const content = getLocaleContent('de');
+const quote = '/de/contact/?package=digitalFoundation&intent=website_quote';
+const review = '/de/contact/?package=digitalAudit&intent=website_review';
+const title = 'Website erstellen lassen Schweiz – für KMU | Websiteli';
+const description = 'Professionelle Website für Ihr KMU in der Schweiz: responsives Webdesign, Kontaktformular und SEO-Grundlagen ab CHF 990. Kostenlose Offerte anfragen.';
+const faqs = [
+ { question: 'Was kostet es, eine Website erstellen zu lassen?', answer: `Die Digitale Grundlage startet bei CHF ${pricing.CH.packages.digitalFoundation.from}. Seitenumfang, Inhalte, Sprachen und Integrationen bestimmen den Endpreis. Sie erhalten eine Offerte für den vereinbarten Umfang.` },
+ { question: 'Ist das Angebot auch für Kleinunternehmen und Selbstständige geeignet?', answer: 'Ja. Wir planen die Website um Ihr Angebot und die Fragen Ihrer Kundschaft. Ein fokussierter Auftritt kann später um weitere Seiten oder Funktionen ergänzt werden.' },
+ { question: 'Können Sie eine mehrsprachige Website erstellen?', answer: 'Ja. Zusätzliche Sprachversionen sind möglich. Umfang, Übersetzungen und Pflege der Inhalte werden in der Offerte geklärt.' },
+ { question: 'Gehören Website und Konten anschliessend mir?', answer: 'Die Website, der Quellcode sowie Ihre Domain- und Kontozugänge sollen in Ihrem Besitz bleiben. Für externe Dienste gelten deren eigene Bedingungen.' },
+ { question: 'Sind Hosting, Domain und Wartung im Preis enthalten?', answer: 'Die Einrichtung der Website ist vom laufenden Betrieb zu unterscheiden. Kosten für Hosting, Domain, externe Dienste und Wartung klären wir in der Offerte; eine Wartung kann separat vereinbart werden.' },
+ { question: 'Wie lange dauert die Umsetzung?', answer: 'Der Zeitplan hängt vom Umfang, den verfügbaren Inhalten und Ihren Freigaben ab. Wir vereinbaren die Schritte und den geplanten Starttermin vor der Umsetzung.' },
+];
+const schema = [
+ { '@context': 'https://schema.org', '@type': 'Service', name: 'Website-Erstellung für KMU', description, url: 'https://websiteli.ch/de/services/business-websites/', provider: { '@type': 'Organization', name: 'Websiteli', url: 'https://websiteli.ch/' }, areaServed: { '@type': 'Country', name: 'Schweiz' } },
+ { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) },
+ { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Startseite','/de/'],['Leistungen und Preise','/de/services-pricing/'],['Business-Websites','/de/services/business-websites/']].map(([name,path],i) => ({ '@type': 'ListItem', position: i+1, name, item: `https://websiteli.ch${path}` })) },
+];
+---
+<Layout title={title} description={description} locale="de" lang="de" content={content} page="services-pricing" canonicalPath="/de/services/business-websites/" alternates={localeCodes.map(locale => ({locale, href: `/${locale}/services/business-websites/`}))} schema={schema}>
+<main class="subpage detail-page service-detail">
+ <section class="section-shell page-hero">
+  <nav class="breadcrumbs" aria-label="Brotkrümelnavigation"><a href="/de/">Startseite</a><span>/</span><a href="/de/services-pricing/">Leistungen und Preise</a><span>/</span><span>Business-Websites</span></nav>
+  <p class="eyebrow">Websites für Schweizer Unternehmen</p>
+  <h1>Website erstellen lassen in der Schweiz – passend zu Ihrem KMU</h1>
+  <p>Ihre Website soll zeigen, was Sie anbieten, Vertrauen schaffen und den Kontakt einfach machen. Websiteli gestaltet und entwickelt professionelle Websites für KMU, Kleinunternehmen und Selbstständige – mit klarer Struktur, responsivem Design und einer technischen Grundlage für die Suche.</p>
+  <p>Digitale Grundlage ab CHF {pricing.CH.packages.digitalFoundation.from}. Der genaue Umfang wird in Ihrer Offerte festgehalten.</p>
+  <div class="button-row"><a class="button primary" href={quote}>Kostenlose Offerte anfragen</a><a class="button secondary" href={review}>Kostenloser Website-Check</a></div>
+ </section>
+ <section class="section-shell section-block compact-top">
+  <div class="section-heading"><h2>Webdesign für KMU: Ihr Angebot auf den Punkt bringen</h2><p>Ob lokale Dienstleistung, Beratung oder kleine Firma: Interessierte müssen schnell verstehen, für wen Sie arbeiten und wie sie Sie erreichen. Wir planen die Seiten und Kontaktwege um diese Entscheidungen.</p></div>
+  <div class="value-grid">{[
+   ['Für Kleinunternehmen','Eine übersichtliche Website stellt Leistungen, Unternehmen und Kontaktmöglichkeiten verständlich dar.'],
+   ['Für Selbstständige','Zeigen Sie Ihre Erfahrung, Arbeitsweise und passende Referenzen, damit Interessierte Ihr Angebot einschätzen können.'],
+   ['Für wachsende KMU','Weitere Leistungen, Sprachversionen oder Buchungsfunktionen lassen sich im vereinbarten Projektumfang einplanen.'],
+  ].map(([heading,text]) => <article class="mini-card"><h3>{heading}</h3><p>{text}</p></article>)}</div>
+ </section>
+ <section class="section-shell detail-grid compact-top">
+  <article class="detail-panel"><h2>Was eine professionelle Business-Website beinhaltet</h2><p>Die Digitale Grundlage umfasst eine responsive Website, Kontaktformular, Domain-E-Mail-Einrichtung, Analytics- und Search-Console-Einrichtung, SEO-Grundlagen, mobile Optimierung und technische Übergabe.</p><p>Wir klären Seitenstruktur, Inhalte und Kontaktwege vor dem Aufbau. Metadaten und eine logische Überschriftenstruktur helfen, Ihr Angebot verständlich einzuordnen. Rankings oder eine bestimmte Zahl von Anfragen können daraus nicht zugesichert werden.</p></article>
+  <article class="detail-panel"><h3>Zusätzliche Anforderungen gezielt planen</h3><p>Buchungen, Lead-Erfassung und weitere Funktionen gehören je nach Bedarf zum Wachstums-Setup oder zu einer individuellen Offerte. Mehrsprachigkeit, Texterstellung und externe Integrationen werden ausdrücklich im Umfang geklärt.</p><p><a href="/de/services-pricing/">Pakete und Leistungen vergleichen</a> · <a href="/de/services/multilingual-websites/">Mehrsprachige Websites</a></p></article>
+ </section>
+ <section class="section-shell section-block compact-top"><div class="section-heading"><h2>Von der ersten Besprechung zur fertigen Website</h2></div>
+  <div class="process-grid">{[
+   ['Anforderungen klären','Wir besprechen Ihr Angebot, Zielpublikum, vorhandene Inhalte und den gewünschten Kontaktweg. Danach legen wir Umfang und Offerte fest.'],
+   ['Struktur und Design abstimmen','Wir planen die Seiten und gestalten den Auftritt passend zu Ihrer Marke. Sie prüfen Aufbau und Inhalte.'],
+   ['Entwickeln und prüfen','Wir setzen die Website responsiv um und prüfen Formulare, Navigation und technische SEO-Grundlagen.'],
+   ['Freigeben und übergeben','Nach Ihrer Freigabe veröffentlichen wir die Website und klären Zugänge, Übergabe und gewünschte Betreuung.'],
+  ].map(([heading,text],i) => <article class="process-step"><span>{String(i+1).padStart(2,'0')}</span><h3>{heading}</h3><p>{text}</p></article>)}</div>
+ </section>
+ <section class="section-shell section-block compact-top"><div class="section-heading"><h2>Einblick in unsere Arbeit</h2><p>Konkrete Projekte zeigen, wie unterschiedliche Angebote online dargestellt werden. Die Beispiele belegen unsere Arbeit; sie sind keine Zusage für bestimmte Geschäftsergebnisse.</p></div>
+  <div class="value-grid"><article class="mini-card"><h3>Movere Clinic</h3><p>Eine Praxiswebsite mit Behandlungsinformationen und Kontaktwegen für Patientinnen und Patienten.</p><a href="/de/portfolio/#movere-clinic">Praxisprojekt im Portfolio ansehen</a></article><article class="mini-card"><h3>Semantic Web Science Association</h3><p>Eine strukturierte Website für einen wissenschaftlichen Verband und seine Aktivitäten.</p><a href="/de/portfolio/#semantic-web-science-association">Verbandswebsite im Portfolio ansehen</a></article><article class="mini-card"><h3>Direkter Kontakt</h3><p>Besprechen Sie Anforderungen und technische Fragen direkt mit Websiteli.</p><a href="/de/about/">Das Team kennenlernen</a></article></div>
+ </section>
+ <section class="section-shell detail-grid compact-top"><article class="detail-panel"><h2>Was kostet Ihre Website?</h2><p>Die Digitale Grundlage startet bei CHF {pricing.CH.packages.digitalFoundation.from}, das Wachstums-Setup bei CHF {new Intl.NumberFormat('de-CH').format(pricing.CH.packages.growthSetup.from)}. Entscheidend sind Seiten, Inhalte, Sprachen und benötigte Funktionen. Laufende Kosten und optionale Betreuung werden in der Offerte geklärt.</p><a href="/de/services-pricing/">Website-Kosten und Paketumfang ansehen</a></article><article class="detail-panel"><h2>Vor dem Projekt gut vorbereitet</h2><p>Welche Inhalte braucht Ihr Auftritt? In unserem Blog finden Sie Anregungen zur Planung von Websites für kleine Unternehmen.</p><a href="/de/blog/small-business-website/">Ratgeber zur Website-Planung lesen</a><p><a href="/de/portfolio/">Weitere umgesetzte Websites ansehen</a></p></article></section>
+ <section class="section-shell section-block compact-top faq-section"><div class="section-heading"><h2>Häufige Fragen zur Website-Erstellung in der Schweiz</h2></div><div class="faq-list">{faqs.map(f => <FAQ {...f}/>)}</div></section>
+ <section class="section-shell inline-cta"><a class="button primary" href={quote}>Kostenlose Offerte anfragen</a><a class="button secondary" href={review}>Kostenloser Website-Check</a></section>
+ <CTASection content={content}/>
+</main>
+</Layout>

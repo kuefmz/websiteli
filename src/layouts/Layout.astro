@@ -1,6 +1,8 @@
 ---
+import { getLanguageCode } from "../content/locales";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import AnalyticsRuntime from "../components/AnalyticsRuntime.astro";
 import AttributionRuntime from "../components/AttributionRuntime.astro";
 import ExitIntentFeedback from "../components/ExitIntentFeedback.astro";
 import PricingRuntime from "../components/PricingRuntime.astro";
@@ -134,7 +136,6 @@ function toCanonicalUrl(pathOrUrl: string) {
 const canonicalUrl = toCanonicalUrl(canonicalPath);
 const imageUrl = new URL(image ?? "/assets/websiteli-og.png", siteUrl).toString();
 const xDefaultHref = alternates.find((item) => item.locale === "en")?.href ?? "/en/";
-const analyticsPagePath = page === "home" ? "/" : "";
 const defaultFaqSchema = includeDefaultFaq
   ? [
       {
@@ -177,7 +178,7 @@ const structuredData = [
     "@type": "WebSite",
     name: "Websiteli",
     url: siteUrl.toString(),
-    inLanguage: lang,
+    inLanguage: getLanguageCode(lang),
   },
   {
     "@context": "https://schema.org",
@@ -200,7 +201,7 @@ const structuredData = [
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={getLanguageCode(lang)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -214,14 +215,14 @@ const structuredData = [
     <link rel="shortcut icon" type="image/png" href="/assets/websiteli-logo.png?v=3" />
     <link rel="apple-touch-icon" href="/assets/websiteli-logo.png?v=3" />
     <link rel="manifest" href="/site.webmanifest?v=3" />
-    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={toCanonicalUrl(item.href)} />)}
+    {alternates.map((item) => <link rel="alternate" hreflang={getLanguageCode(item.locale)} href={toCanonicalUrl(item.href)} />)}
     {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={toCanonicalUrl(xDefaultHref)} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="websiteli.ch" />
-    <meta property="og:locale" content={`${lang}_CH`} />
+    <meta property="og:locale" content={locale === "cz" ? "cs_CZ" : `${lang}_${({en:"GB",de:"CH",fr:"CH",it:"CH",hu:"HU",pl:"PL",es:"ES",sk:"SK",pt:"PT",da:"DK",nl:"NL",ja:"JP"})[lang] ?? "CH"}`} />
     <meta property="og:image" content={imageUrl} />
     {imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
     {imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
@@ -233,102 +234,16 @@ const structuredData = [
     {imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
     <meta name="p:domain_verify" content="ac1419886e97f1aea245f6ba61ae70c7"/>
     <AttributionRuntime />
-    <script src="https://t.contentsquare.net/uxa/97586d67d97bf.js" defer></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGZY875FGJ"></script>
-    <script is:inline define:vars={{ analyticsPagePath }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      const gtagConfig = {};
-      const attribution = window.websiteliGetAttribution?.() || {};
-      const attributionParams = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
-      if (analyticsPagePath) {
-        const analyticsPageUrl = new URL(analyticsPagePath, window.location.origin);
-        analyticsPageUrl.search = window.location.search;
-        analyticsPageUrl.hash = window.location.hash;
-        gtagConfig.page_path = analyticsPagePath;
-        gtagConfig.page_location = analyticsPageUrl.toString();
-      } else {
-        gtagConfig.page_location = window.location.href;
-      }
-      if (attribution.utm_source) gtagConfig.campaign_source = attribution.utm_source;
-      if (attribution.utm_medium) gtagConfig.campaign_medium = attribution.utm_medium;
-      if (attribution.utm_campaign) gtagConfig.campaign_name = attribution.utm_campaign;
-      if (attribution.utm_id) gtagConfig.campaign_id = attribution.utm_id;
-      if (attribution.utm_term) gtagConfig.campaign_term = attribution.utm_term;
-      if (attribution.utm_content) gtagConfig.campaign_content = attribution.utm_content;
-      if (attribution.gclid) gtagConfig.gclid = attribution.gclid;
-      if (attribution.fbclid) gtagConfig.fbclid = attribution.fbclid;
-      if (attribution.referrer) gtagConfig.page_referrer = attribution.referrer;
-      Object.entries(attributionParams).forEach(([key, value]) => {
-        if (value) gtagConfig[key] = value;
-      });
-      if (new URLSearchParams(window.location.search).get('debug_mode') === 'true') {
-        gtagConfig.debug_mode = true;
-      }
-      gtag('set', attributionParams);
-      gtag('config', 'G-TGZY875FGJ', gtagConfig);
-    </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
       const storedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       document.documentElement.dataset.theme = storedTheme || (prefersDark ? "dark" : "light");
     </script>
-    <script is:inline>
-      function getWebsiteliEventAttribution() {
-        const params = window.websiteliGetAnalyticsAttributionParams?.() || {};
-        return Object.fromEntries(Object.entries(params).filter(([, value]) => Boolean(value)));
-      }
-
-      window.trackWebsiteliEvent = function(eventName, params = {}) {
-        const eventParams = {
-          ...getWebsiteliEventAttribution(),
-          ...params,
-        };
-        if (new URLSearchParams(window.location.search).get("debug_mode") === "true") {
-          eventParams.debug_mode = true;
-        }
-
-        if (typeof window.gtag === "function") {
-          window.gtag("event", eventName, eventParams);
-        }
-      };
-
-      document.addEventListener("click", (event) => {
-        const target = event.target instanceof Element ? event.target.closest("[data-track-event]") : null;
-        if (!target) return;
-
-        window.trackWebsiteliEvent(target.dataset.trackEvent, {
-          event_category: target.dataset.trackCategory || "engagement",
-          event_label: target.dataset.trackLabel || target.textContent?.trim() || "",
-        });
-      });
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const pricing = document.querySelector("#pricing");
-        if (!pricing || !("IntersectionObserver" in window)) return;
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries.some((entry) => entry.isIntersecting)) {
-              window.trackWebsiteliEvent("pricing_section_view", {
-                event_category: "engagement",
-                event_label: "Pricing",
-              });
-              observer.disconnect();
-            }
-          },
-          { threshold: 0.35 },
-        );
-
-        observer.observe(pricing);
-      });
-    </script>
     <title>{title}</title>
   </head>
   <body>
+    <AnalyticsRuntime lang={lang} />
     <Header content={content} locale={locale} page={page} languageLinks={alternates} />
     <slot />
     <Footer content={content} locale={locale} />

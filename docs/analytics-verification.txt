@@ -1,0 +1,1 @@
+PASS: consent gating, sanitized URLs, blocked click leads, opaque/error rejection, successful event classification, deduplication, PII exclusion and withdrawal

@@ -184,22 +184,14 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(source, /geojs\.io/);
   assert.match(source, /cloudflare-trace/);
   assert.match(source, /Promise\.all/);
-  assert.match(layout, /getWebsiteliEventAttribution/);
-  assert.match(attribution, /utm_campaign/);
-  assert.match(layout, /gtag\('config', 'G-TGZY875FGJ', gtagConfig\)/);
-  assert.match(layout, /analyticsPagePath = page === "home" \? "\/" : ""/);
-  assert.match(layout, /gtagConfig\.page_path = analyticsPagePath/);
-  assert.match(layout, /analyticsPageUrl\.search = window\.location\.search/);
-  assert.match(layout, /page_location = window\.location\.href/);
-  assert.match(layout, /campaign_source/);
-  assert.match(layout, /campaign_medium/);
-  assert.match(layout, /campaign_name/);
-  assert.match(layout, /page_referrer/);
-  assert.match(layout, /gtag\('set', attributionParams\)/);
-  assert.match(layout, /debug_mode/);
-  assert.doesNotMatch(layout, /page_view/);
+  const analytics = await readFile(join(process.cwd(), "public/analytics-runtime.js"), "utf8");
+  assert.match(layout, /AnalyticsRuntime/);
+  assert.match(analytics, /G-TGZY875FGJ/);
+  assert.match(analytics, /analytics_storage: 'denied'/);
+  assert.match(analytics, /page_location: window.location.origin/);
+  assert.match(source, /swiss-german-market/);
   assert.doesNotMatch(source, /data-market-select|market_change_select/);
-  assert.doesNotMatch(combined, /websiteli_market|document\.cookie/);
+  assert.doesNotMatch(combined, /["']websiteli_market["']/);
 });
 
 test("EU countries and unknown countries map to the correct fallback markets", async () => {
@@ -265,8 +257,8 @@ test("Website Success Report lead magnet uses the report newsletter campaign on 
   const englishBlog = await readDistFile("en/blog/index.html");
   const germanBlog = await readDistFile("de/blog/index.html");
 
-  assert.match(englishArticle, /Why Some Business Websites Get Customers While Others Don&#39;t/);
-  assert.match(englishArticle, /A research-backed guide explaining why some business websites/);
+  assert.match(englishArticle, /How Business Websites Get Customers: 7 Conversion Factors/);
+  assert.match(englishArticle, /Learn how business websites turn search traffic into customers/);
   assert.match(englishArticle, /Get the Free Website Success Report/);
   assert.match(englishArticle, /Research-backed insights, practical checklists, and website statistics delivered to your inbox\./);
   assert.match(englishArticle, /data-newsletter-campaign="website-success-report"/);
@@ -274,17 +266,17 @@ test("Website Success Report lead magnet uses the report newsletter campaign on 
   assert.match(englishArticle, /Thanks! Check your inbox for the Website Success Report\./);
   assert.match(englishArticle, /campaign,\s*sourceUrl,\s*language/s);
   assert.match(englishArticle, /website:\s*honeypot/);
-  assert.match(englishArticle, /business-websites-get-customers-statistics\.png/);
+  assert.match(englishArticle, /business-websites-get-customers-statistics\.webp/);
   assert.match(englishArticle, /alt="Infographic showing verified statistics about business websites, including trust, mobile use, speed, accessibility, and search visibility\."/);
   assert.match(englishArticle, /<link rel="canonical" href="https:\/\/websiteli\.ch\/en\/blog\/why-business-websites-get-customers\/">/);
-  assert.match(englishArticle, /property="og:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.png"/);
-  assert.match(englishArticle, /name="twitter:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.png"/);
+  assert.match(englishArticle, /property="og:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.webp"/);
+  assert.match(englishArticle, /name="twitter:image" content="https:\/\/websiteli\.ch\/assets\/blog\/business-websites-get-customers-statistics\.webp"/);
   assert.match(englishArticle, /Baymard Institute/);
   assert.match(englishArticle, /70\.22%/);
   assert.doesNotMatch(englishArticle, /HubSpot|Semrush|Microsoft/);
-  assert.match(englishBlog, /Why Some Business Websites Get Customers While Others Don&#39;t/);
-  assert.match(germanBlog, /Warum manche Business-Websites Kunden gewinnen/);
-  assert.match(germanArticle, /Warum manche Business-Websites Kunden gewinnen/);
+  assert.match(englishBlog, /How Business Websites Get Customers: 7 Conversion Factors/);
+  assert.match(germanBlog, /Wie eine Website Kunden gewinnt/);
+  assert.match(germanArticle, /Wie eine Website Kunden gewinnt/);
   assert.match(germanArticle, /Kostenlosen Website Success Report erhalten/);
   assert.match(germanArticle, /data-newsletter-campaign="website-success-report"/);
   assert.match(germanArticle, /<link rel="canonical" href="https:\/\/websiteli\.ch\/de\/blog\/why-business-websites-get-customers\/">/);
@@ -302,7 +294,7 @@ test("blog is localized and article pages include conversion and sharing UX", as
 
   assert.doesNotMatch(englishBlog, /Future content roadmap|SEO roadmap/i);
   assert.match(englishBlog, /How to Create a Small Business Website That Generates Customers/);
-  assert.match(englishBlog, /Why Some Business Websites Get Customers While Others Don&#39;t/);
+  assert.match(englishBlog, /How Business Websites Get Customers: 7 Conversion Factors/);
   assert.match(germanArticle, /Warum KI-generierte Websites/);
   assert.match(frenchArticle, /Pourquoi les sites générés par IA/);
   assert.match(japaneseArticle, /AI生成サイトだけでは/);
@@ -320,11 +312,11 @@ test("blog is localized and article pages include conversion and sharing UX", as
   assert.match(germanArticle, /https:\/\/www\.pinterest\.com\/pin\/create\/button/);
   assert.match(germanArticle, /data-copy-link=/);
   assert.doesNotMatch(germanArticle, /Related Websiteli pages|Verwandte Websiteli-Seiten/);
-  assert.match(germanArticle, /blog_consultation_click/);
+  assert.match(germanArticle, /website_review_cta_click/);
   assert.match(germanArticle, /article-cta-sidebar/);
   assert.match(germanArticle, /article-cta-final/);
   assert.doesNotMatch(germanArticle, /\/de\/<\/a>/);
-  assert.match(germanArticle, /#newsletter/);
+  assert.match(germanArticle, /contextual_service_link_click/);
   assert.match(germanArticle, /data-reading-progress/);
   assert.match(germanArticle, /"@type":"FAQPage"/);
   assert.match(germanArticle, /Artikelzusammenfassung/);
@@ -352,7 +344,7 @@ test("blog is localized and article pages include conversion and sharing UX", as
   assert.ok(types.includes("Person"));
   const blogPosting = structuredData.find((item) => item["@type"] === "BlogPosting");
   assert.equal(blogPosting.author["@type"], "Person");
-  assert.equal(blogPosting.image["@type"], "ImageObject");
+  assert.ok(Array.isArray(blogPosting.image) && blogPosting.image.every(image => image["@type"] === "ImageObject"));
   assert.ok(blogPosting.abstract.length > 180);
 });
 

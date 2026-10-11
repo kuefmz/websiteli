@@ -1,0 +1,18 @@
+---
+const { lang = 'en' } = Astro.props;
+const de = lang === 'de';
+---
+<script is:inline src="/analytics-runtime.js"></script>
+<div class="analytics-consent" data-analytics-consent hidden role="region" aria-label={de ? 'Datenschutzeinstellungen' : 'Privacy settings'}>
+ <p>{de ? 'Dürfen wir Analytics und Sitzungsanalyse nutzen, um die Website zu verbessern? Ihre Anfrage funktioniert auch ohne diese Dienste.' : 'May we use analytics and session analysis to improve the website? Your enquiry works without these services.'} <a href="/privacy/">{de ? 'Datenschutzerklärung' : 'Privacy policy'}</a></p>
+ <button type="button" data-analytics-accept>{de ? 'Zulassen' : 'Allow'}</button>
+ <button type="button" data-analytics-decline>{de ? 'Ablehnen' : 'Decline'}</button>
+</div>
+<button class="analytics-settings" type="button" data-analytics-settings>{de ? 'Datenschutzeinstellungen' : 'Privacy settings'}</button>
+<style>
+ .analytics-consent { position:fixed; bottom:56px; left:16px; right:16px; max-width:620px; z-index:1000; padding:20px; border:1px solid #777; border-radius:10px; color:#17202b; background:#fff; box-shadow:0 8px 32px #0003; }
+ .analytics-consent[hidden] { display:none; }
+ .analytics-consent p { margin:0 0 12px; }
+ .analytics-consent button { padding:10px 18px; margin-right:12px; cursor:pointer; }
+ .analytics-settings { position:fixed; bottom:8px; left:12px; z-index:999; padding:7px 10px; border:1px solid #777; border-radius:6px; background:#fff; color:#17202b; font-size:12px; cursor:pointer; }
+</style>

@@ -242,22 +242,186 @@ const en: ConversionHomeContent = {
 const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
   en: {},
   de: {
-    seo: {
-      title: "Websiteli - Websites, die Besucher zu Kunden machen",
-      description: "Schweizer Webdesign für kleine Unternehmen: schnelle Websites mit SEO-Grundlagen, klaren Preisen, Formularen, Analytics und optionaler Automation.",
-    },
-    hero: {
-      eyebrow: "Websites für kleine Unternehmen",
-      title: "Websites, die Besucher zu Kunden machen.",
-      text: "Schnelle, professionelle Websites aus der Schweiz - gestaltet für Vertrauen, Anfragen, Buchungen und Verkäufe.",
-      secondary: "Brauchen Sie mehr als eine Website? Wir verbinden auch Automation, KI und individuelle Business-Tools.",
-      priceSignal: "Websites ab CHF 990",
-      primaryCta: "Unsere Arbeit ansehen",
-      secondaryCta: "Kostenlosen Website- & Market Scan starten",
-    },
-    portfolio: { ...en.portfolio, viewAll: "Ganzes Portfolio ansehen", viewWebsite: "Website ansehen", linkPending: "Website-Link wird geprüft" },
-    finalCta: { ...en.finalCta, cta: "Kostenlosen Website- & Market Scan starten" },
+  "seo": {
+    "title": "Webdesign Schweiz für KMU & Kleinunternehmen | Websiteli",
+    "description": "Professionelle Websites für Schweizer KMU ab CHF 990."
   },
+  "hero": {
+    "eyebrow": "Webdesign für Schweizer KMU",
+    "title": "Professionelle Websites für KMU in der Schweiz",
+    "text": "Websiteli gestaltet und entwickelt Websites, die Ihr Angebot verständlich zeigen und den Kontakt einfach machen – für kleine Unternehmen und Selbstständige.",
+    "secondary": "Responsives Design, Kontaktformular und SEO-Grundlagen. Zusätzliche Funktionen planen wir nach Ihrem Bedarf.",
+    "priceSignal": "Websites ab CHF 990",
+    "primaryCta": "Unsere Arbeit ansehen",
+    "secondaryCta": "Kostenloser Website-Check"
+  },
+  "portfolio": {
+    "eyebrow": "Umgesetzte Projekte",
+    "title": "Einblick in unsere Websites",
+    "text": "Ausgewählte Websites und Webanwendungen aus unserer Arbeit.",
+    "viewAll": "Ganzes Portfolio ansehen",
+    "viewWebsite": "Website ansehen",
+    "linkPending": "Website-Link wird geprüft"
+  },
+  "trust": [
+    "Team in der Schweiz",
+    "Individuelle Umsetzung",
+    "SEO-Grundlagen",
+    "Für Mobilgeräte optimiert",
+    "Ihre Website bleibt in Ihrem Besitz",
+    "Direkter Kontakt mit der Entwicklung"
+  ],
+  "solutions": {
+    "eyebrow": "Leistungen",
+    "title": "Die passende Website für Ihr Unternehmen",
+    "text": "Starten Sie mit einem klaren Online-Auftritt. Buchungen, Automation oder individuelle Tools ergänzen wir, wenn sie zu Ihren Abläufen passen.",
+    "learnMore": "Leistung ansehen",
+    "cards": [
+      {
+        "title": "Business-Websites",
+        "text": "Professionelle Websites für KMU, Kleinunternehmen und Selbstständige mit klaren Kontaktwegen.",
+        "href": "business-websites"
+      },
+      {
+        "title": "Websites und Automation",
+        "text": "Verbinden Sie Formulare, Buchungen und wiederkehrende Aufgaben.",
+        "href": "business-automation"
+      },
+      {
+        "title": "Individuelle KI und Software",
+        "text": "Eigene Anwendungen, wenn bestehende Tools Ihre Anforderungen nicht abdecken.",
+        "href": "custom-web-apps"
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Preise",
+    "title": "Ein klarer Startpunkt für Ihr Budget",
+    "text": "Die Ausgangspreise geben Ihnen Orientierung. Der genaue Umfang und die Kosten stehen in Ihrer Offerte.",
+    "compare": "Pakete und Website-Kosten vergleichen",
+    "customQuote": "Individuelle Offerte",
+    "plans": {
+      "digitalFoundation": {
+        "title": "Digitale Grundlage",
+        "text": "Responsive Website mit Kontaktformular, Analytics, Search Console und SEO-Grundlagen."
+      },
+      "growthSetup": {
+        "title": "Wachstums-Setup",
+        "text": "Erweiterter Aufbau mit Buchungsintegration, Lead-Erfassung und Conversion-Tracking-Grundlagen."
+      },
+      "aiDataUpgrade": {
+        "title": "KI- und Daten-Upgrade",
+        "text": "KI-Assistenten, Dashboards und Automatisierung für Ihre Abläufe."
+      }
+    },
+    "maintenance": {
+      "title": "Website-Wartung",
+      "text": "Separate Betreuung für Updates, Monitoring, kleine Änderungen und technischen Support."
+    }
+  },
+  "process": {
+    "eyebrow": "Zusammenarbeit",
+    "title": "Von Ihrer Anfrage zur fertigen Website",
+    "steps": [
+      {
+        "title": "Anforderungen besprechen",
+        "text": "Wir klären Ihr Angebot, Ziele, Inhalte und gewünschte Kontaktwege."
+      },
+      {
+        "title": "Gestalten und entwickeln",
+        "text": "Wir bauen Struktur, Design, Seiten, Formulare und technische Grundlagen auf."
+      },
+      {
+        "title": "Gemeinsam prüfen",
+        "text": "Sie prüfen Inhalte und Gestaltung und geben die Umsetzung frei."
+      },
+      {
+        "title": "Veröffentlichen und übergeben",
+        "text": "Wir klären den Start, Ihre Zugänge und die gewünschte Betreuung."
+      }
+    ]
+  },
+  "founder": {
+    "eyebrow": "Das Team",
+    "title": "Entwicklung und direkter Kontakt in der Schweiz",
+    "text": "Websiteli verbindet Webdesign mit Softwareentwicklung. Sie besprechen Ihr Projekt direkt mit dem Team, das es umsetzt."
+  },
+  "outcomes": {
+    "eyebrow": "Ihr Online-Auftritt",
+    "title": "Was eine gut geplante Website erleichtert",
+    "items": [
+      {
+        "title": "Anfragen ermöglichen",
+        "text": "Zeigen Sie Ihr Angebot und den nächsten Schritt deutlich."
+      },
+      {
+        "title": "Buchungen vereinfachen",
+        "text": "Integrieren Sie einen passenden Buchungsweg bei Bedarf."
+      },
+      {
+        "title": "Interessenten erreichen",
+        "text": "Erfassen Sie Anfragen mit den nötigen Informationen."
+      },
+      {
+        "title": "Produkte präsentieren",
+        "text": "Machen Sie Produkte und Kaufmöglichkeiten verständlich."
+      },
+      {
+        "title": "Vertrauen aufbauen",
+        "text": "Zeigen Sie reale Arbeiten, Kontaktdaten und Ihr Unternehmen."
+      },
+      {
+        "title": "Abläufe vereinfachen",
+        "text": "Ergänzen Sie Automation für wiederkehrende Aufgaben."
+      }
+    ]
+  },
+  "industries": {
+    "eyebrow": "Branchen",
+    "title": "Websites für unterschiedliche Anforderungen",
+    "text": "Entdecken Sie Beispiele für branchenspezifische Websites.",
+    "links": [
+      {
+        "label": "Websites für Gesundheitspraxen",
+        "href": "/industries/healthcare/"
+      },
+      {
+        "label": "Websites für Restaurants",
+        "href": "/industries/restaurants/"
+      }
+    ]
+  },
+  "partners": {
+    "eyebrow": "Partnerschaften",
+    "title": "Mit Websiteli zusammenarbeiten",
+    "text": "Erfahren Sie mehr über Möglichkeiten zur Zusammenarbeit.",
+    "cta": "Partnerprogramm ansehen"
+  },
+  "faq": {
+    "eyebrow": "Häufige Fragen",
+    "title": "Vor Ihrem Website-Projekt",
+    "items": [
+      {
+        "question": "Was kostet eine Website bei Websiteli?",
+        "answer": "Die Digitale Grundlage startet bei CHF 990. Den endgültigen Preis bestimmen Umfang, Inhalte, Sprachen und Funktionen. Sie erhalten eine konkrete Offerte."
+      },
+      {
+        "question": "Eignet sich Websiteli für kleine Unternehmen?",
+        "answer": "Ja. Wir planen Websites für KMU, Kleinunternehmen und Selbstständige mit einem klar vereinbarten Umfang."
+      },
+      {
+        "question": "Kann Websiteli meine bestehende Website betreuen?",
+        "answer": "Website-Wartung ist separat verfügbar und umfasst unter anderem Updates, Monitoring und kleine Inhaltsänderungen. Den passenden Umfang klären wir gemeinsam."
+      }
+    ]
+  },
+  "finalCta": {
+    "eyebrow": "Nächster Schritt",
+    "title": "Was braucht Ihre Website als Nächstes?",
+    "text": "Lassen Sie Ihren bestehenden Auftritt prüfen oder besprechen Sie die Anforderungen für eine neue Website.",
+    "cta": "Kostenloser Website-Check"
+  }
+},
   hu: {
     hero: {
       eyebrow: "Weboldalak kisvállalkozásoknak",

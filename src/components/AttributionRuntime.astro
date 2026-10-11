@@ -8,7 +8,7 @@
 
     function readStoredAttribution() {
       try {
-        const stored = window.localStorage?.getItem(storageKey);
+        const stored = window.localStorage?.getItem("websiteli_analytics_consent_v1") === "granted" ? window.localStorage?.getItem(storageKey) : null;
         return stored ? JSON.parse(stored) : {};
       } catch {
         return {};
@@ -26,7 +26,7 @@
 
     function writeStoredAttribution(attribution) {
       try {
-        window.localStorage?.setItem(storageKey, JSON.stringify(attribution));
+        if (window.localStorage?.getItem("websiteli_analytics_consent_v1") === "granted") window.localStorage?.setItem(storageKey, JSON.stringify(attribution));
       } catch {
         // Some browsers block storage; URL-based attribution still works.
       }
