@@ -2,7 +2,8 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "website-lead-generation-guide",
-  status: "scheduled",
+  published: true,
+  status: "published",
   publishDate: "2026-10-01",
   image: "/assets/blog/small-business-lead-generation-funnel.webp",
   socialImage: "/assets/blog/small-business-lead-generation-funnel-linkedin.jpg",

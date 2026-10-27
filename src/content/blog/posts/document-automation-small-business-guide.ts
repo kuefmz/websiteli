@@ -2,7 +2,8 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "document-automation-small-business-guide",
-  status: "scheduled",
+  published: true,
+  status: "published",
   publishDate: "2026-10-05",
   image: "/assets/blog/what-should-small-business-automate-first.webp",
   imageAlt: "Document automation workflow for a small business",

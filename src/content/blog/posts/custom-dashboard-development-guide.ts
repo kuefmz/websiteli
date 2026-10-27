@@ -2,7 +2,8 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "custom-dashboard-development-guide",
-  status: "scheduled",
+  published: true,
+  status: "published",
   publishDate: "2026-10-03",
   image: "/assets/blog/free-website-market-scan.webp",
   imageAlt: "Custom business dashboard showing operational metrics and reporting",

@@ -2,7 +2,8 @@ import type { BlogPostSource } from "../types";
 
 const post: BlogPostSource = {
   slug: "ai-content-pipeline-guide",
-  status: "scheduled",
+  published: true,
+  status: "published",
   publishDate: "2026-09-29",
   image: "/assets/blog/ai-content-workflow-small-business.webp",
   imageAlt: "AI content pipeline workflow for a small business",
