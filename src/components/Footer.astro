@@ -291,9 +291,9 @@ const popupCopy: Record<
 > = {
   en: {
     newsletterEyebrow: "Newsletter",
-    newsletterTitle: "Get 20% off your website",
-    newsletterText: "Join the Websiteli newsletter and receive a 20% discount code for your first website project.",
-    newsletterButton: "Get my 20% discount",
+    newsletterTitle: "",
+    newsletterText: "",
+    newsletterButton: "",
     newsletterDismiss: "No thanks",
     newsletterConsent: "I accept the",
     exitEyebrow: "Feedback",
@@ -305,9 +305,9 @@ const popupCopy: Record<
   },
   de: {
     newsletterEyebrow: "Newsletter",
-    newsletterTitle: "20 % Rabatt auf Ihre Website",
-    newsletterText: "Abonnieren Sie den Websiteli Newsletter und erhalten Sie einen Rabattcode für 20 % auf Ihr erstes Website-Projekt.",
-    newsletterButton: "20 % Rabatt sichern",
+    newsletterTitle: "",
+    newsletterText: "",
+    newsletterButton: "",
     newsletterDismiss: "Nein, danke",
     newsletterConsent: "Ich akzeptiere die",
     exitEyebrow: "Feedback",
@@ -319,9 +319,9 @@ const popupCopy: Record<
   },
   fr: {
     newsletterEyebrow: "Newsletter",
-    newsletterTitle: "Recevez 20 % de réduction sur votre site",
-    newsletterText: "Inscrivez-vous à la newsletter Websiteli et recevez un code de 20 % pour votre premier projet de site web.",
-    newsletterButton: "Recevoir ma réduction de 20 %",
+    newsletterTitle: "",
+    newsletterText: "",
+    newsletterButton: "",
     newsletterDismiss: "Non merci",
     newsletterConsent: "J'accepte la",
     exitEyebrow: "Avis",
@@ -333,9 +333,9 @@ const popupCopy: Record<
   },
   it: {
     newsletterEyebrow: "Newsletter",
-    newsletterTitle: "Ottieni il 20% di sconto sul sito",
-    newsletterText: "Iscrivetevi alla newsletter Websiteli e ricevete un codice sconto del 20% per il vostro primo progetto web.",
-    newsletterButton: "Ottieni il mio 20% di sconto",
+    newsletterTitle: "",
+    newsletterText: "",
+    newsletterButton: "",
     newsletterDismiss: "No grazie",
     newsletterConsent: "Accetto la",
     exitEyebrow: "Feedback",
@@ -348,7 +348,7 @@ const popupCopy: Record<
 };
 const footerAccessibility = footerAccessibilityCopy[locale] ?? footerAccessibilityCopy.en;
 const relatedLinks = relatedLinkCopy[locale] ?? relatedLinkCopy.en;
-const popupUi = popupCopy[locale] ?? popupCopy.en;
+const popupUi = { ...(popupCopy[locale] ?? popupCopy.en), newsletterTitle: newsletterUi.title, newsletterText: newsletterUi.text, newsletterButton: newsletterUi.button, newsletterConsent: newsletterUi.consent };
 
 function getFooterServiceLabel(service: { slug: string; shortTitle: string }) {
   return relatedLinks.services[service.slug] ?? service.shortTitle;
@@ -365,7 +365,7 @@ function getFooterIndustryLabel(industry: { slug: string; title: string }) {
       <span class="brand-mark"><img src="/assets/websiteli-logo.png" alt="" width="36" height="36" /></span>
       <span>Websiteli</span>
     </a>
-    <p>{content?.intro ?? "Swiss-based websites, automation and AI tools for small businesses."}</p>
+    <p>{content?.intro ?? "Websiteli — Digital Experiences. Intelligent Solutions."}</p>
   </div>
 
   <div class="footer-links" aria-label={footerAccessibility.links}>
@@ -394,6 +394,8 @@ function getFooterIndustryLabel(industry: { slug: string; title: string }) {
       <a href={`/${locale}/partners/`}>{nav.partners ?? "Partners"}</a>
       <a href={`/${locale}/blog/`}>{nav.blog ?? "Blog"}</a>
       <a href={`/${locale}/about/`}>{nav.about}</a>
+      <a href={`/${locale}/contact/`}>{nav.contact}</a>
+      {["en","de","fr","it","es"].includes(locale) && <a href={`/${locale}/market-scan/`}>Market Scan</a>}
       {footerServices.map((service) => <a href={`/${locale}/services/${service.slug}/`}>{getFooterServiceLabel(service)}</a>)}
       {footerIndustries.map((industry) => <a href={`/${locale}/industries/${industry.slug}/`}>{getFooterIndustryLabel(industry)}</a>)}
     </div>
@@ -582,7 +584,7 @@ function getFooterIndustryLabel(industry: { slug: string; title: string }) {
         localStorage.setItem("websiteli_newsletter_popup_dismissed", "true");
         window.trackWebsiteliEvent?.("newsletter_popup_submit", {
           event_category: "lead",
-          event_label: "Newsletter discount popup",
+          event_label: "Newsletter signup",
         });
         window.websiteliCloseConversionPopup?.("newsletter");
       }
@@ -656,7 +658,7 @@ function getFooterIndustryLabel(industry: { slug: string; title: string }) {
     popupBackdrop.hidden = false;
     document.documentElement.classList.add("has-conversion-popup");
     getFocusable(popup)[0]?.focus();
-    trackPopupEvent(kind === "newsletter" ? "newsletter_popup_view" : "exit_popup_view", kind === "newsletter" ? "Newsletter discount popup" : "Legacy exit popup");
+    trackPopupEvent(kind === "newsletter" ? "newsletter_popup_view" : "exit_popup_view", kind === "newsletter" ? "Newsletter signup" : "Legacy exit popup");
   }
 
   function closePopup(reason = "dismiss") {
@@ -678,7 +680,7 @@ function getFooterIndustryLabel(industry: { slug: string; title: string }) {
     if (reason === "dismiss") {
       if (active.kind === "newsletter") {
         setPopupFlag("websiteli_newsletter_popup_dismissed");
-        trackPopupEvent("newsletter_popup_dismiss", "Newsletter discount popup");
+        trackPopupEvent("newsletter_popup_dismiss", "Newsletter signup");
       } else {
         setPopupFlag("websiteli_exit_popup_dismissed");
         trackPopupEvent("exit_popup_dismiss", "Legacy exit popup");

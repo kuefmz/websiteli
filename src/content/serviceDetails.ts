@@ -33,7 +33,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
       {
         question: "How much does a business website cost in Switzerland?",
         answer:
-          "Websiteli's Digital Foundation starts at CHF 990. The final price depends on the number of pages, content work, forms, multilingual requirements, integrations, tracking and any automation needed for the project.",
+          "Each project is scoped around your objectives, content, languages, integrations and support requirements. We prepare a tailored proposal after an initial conversation.",
       },
       {
         question: "Do you build websites for small businesses and SMEs?",

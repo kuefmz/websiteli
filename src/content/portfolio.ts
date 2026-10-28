@@ -162,9 +162,9 @@ export const realPortfolioProjects: PortfolioProject[] = [
     image: "/images/portfolio/websiteli.webp",
     imageAlt: "Websiteli agency homepage screenshot showing the website-first hero and service positioning.",
     tags: ["Multilingual", "SEO", "Forms"],
-    projectFeatures: ["Multilingual service structure", "Portfolio-led trust sections", "Pricing and package signals", "Contact and attribution flow"],
+    projectFeatures: ["Multilingual service structure", "Portfolio-led trust sections", "Service discovery and consultation paths", "Contact and attribution flow"],
     businessOutcomes: [
-      "Visitors can compare services and pricing before contacting.",
+      "Visitors can explore services and genuine project examples before contacting.",
       "Small-business website requests route into clearer conversations.",
       "The website supports ongoing content, SEO and service expansion.",
     ],

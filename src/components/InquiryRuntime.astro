@@ -1,0 +1,56 @@
+<script is:inline>
+(() => {
+  const update = () => {
+    const url = new URL(location.href);
+    const attribution = window.websiteliGetAttribution?.() || {};
+    const select = document.querySelector('[data-service-select]');
+    const legacyPackage = url.searchParams.get('package');
+    // Preserve old campaign context while allowing visitors to choose a service.
+    if (select && !select.dataset.initialized) {
+      const aliases = {growthSetup:'digitalFoundation',digitalAudit:'custom'};
+      const value = aliases[legacyPackage] || legacyPackage;
+      if (value && Array.from(select.options).some(option => option.value === value)) select.value = value;
+      select.dataset.initialized = 'true';
+    }
+    const values = {
+      packageKey:select?.value || legacyPackage || '',
+      relatedDemo:url.searchParams.get('relatedDemo') || url.searchParams.get('demo') || '',
+      relatedProject:url.searchParams.get('relatedProject') || url.searchParams.get('project') || '',
+      sourcePage:url.searchParams.get('sourcePage') || location.pathname,
+      inquiryIntent:url.searchParams.get('intent') || 'consultation',
+      sourcePath:location.pathname,currentUrl:location.href,referrer:document.referrer,
+      timestamp:new Date().toISOString(),userAgent:navigator.userAgent,priceShown:''
+    };
+    document.querySelectorAll('[data-pricing-field]').forEach(field => {
+      const key = field.dataset.pricingField;
+      if (field.dataset.utmKey) field.value = attribution[field.dataset.utmKey] || '';
+      else if (key in values) field.value = values[key];
+    });
+  };
+  window.websiteliUpdateInquiryFields = update;
+  document.addEventListener('DOMContentLoaded',() => {
+    update();
+    const attribution = window.websiteliGetCurrentAttribution?.() || {};
+    if (window.websiteliHasAttribution?.(attribution)) {
+      const params = window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
+      for (const event of ['utm_detected','campaign_landing']) window.trackWebsiteliEvent?.(event, {
+        event_category:'attribution',event_label:attribution.utm_campaign || attribution.utm_source || attribution.gclid || 'campaign',
+        page_location:location.href,page_path:location.pathname,...params
+      });
+    }
+    document.querySelectorAll('[data-package-cta]').forEach(link => link.addEventListener('click',() => window.trackWebsiteliEvent?.('package_cta_click', {
+      package_key:link.dataset.packageKey,locale:document.documentElement.lang,source_path:location.pathname,price_shown:''
+    })));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        window.trackWebsiteliEvent?.('package_view',{package_key:entry.target.dataset.packageCard,locale:document.documentElement.lang,source_path:location.pathname,price_shown:''});
+        observer.unobserve(entry.target);
+      }),{threshold:0.45});
+      document.querySelectorAll('[data-package-card]').forEach(card => observer.observe(card));
+    }
+  });
+  document.addEventListener('change',event => {if(event.target.matches('[data-service-select]')) update();});
+  document.addEventListener('submit',update,true);
+})();
+</script>

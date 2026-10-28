@@ -1,5 +1,6 @@
 ---
 import { germanPortfolioCopy } from "../content/germanPortfolio";
+import PremiumExpertise from "./PremiumExpertise.astro";
 import GermanPricingPage from "./GermanPricingPage.astro";
 import CTASection from "./CTASection.astro";
 import FAQ from "./FAQ.astro";
@@ -8,7 +9,7 @@ import PackageCard from "./PackageCard.astro";
 import PartnersPage from "./PartnersPage.astro";
 import ProcessStep from "./ProcessStep.astro";
 import { portfolioConcepts, realPortfolioProjects } from "../content/portfolio";
-import { packageKeyByName, pricing } from "../config/pricing";
+import { packageKeyByName } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { getBlogIndexContent, getBlogPosts, getMarketKeywords } from "../content/blog";
 import { getFeaturedServices, getServiceCategoryServices } from "../content/services";
@@ -33,10 +34,6 @@ const packageLabels = getPackageLabels(locale);
 const websiteReviewHref = `${contactHref}?package=digitalAudit&project=website-review&intent=website_review`;
 const serviceCategoryContent = getServiceCategoryServices();
 const featuredServices = getFeaturedServices();
-const swissPricing = pricing.CH;
-function formatChf(amount: number) {
-  return `from ${swissPricing.symbol} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)}`;
-}
 const processSteps = [
   {
     title: "Audit",
@@ -53,8 +50,8 @@ const processSteps = [
 ];
 const faqs = [
   {
-    question: "Which package should I choose?",
-    answer: "Website Review is for diagnosing the next best step, Digital Foundation is for a credible launch, Growth Setup is for more leads and bookings, AI/Data Upgrade is for automation, and Website Maintenance keeps the site healthy after launch.",
+    question: "How will you shape my proposal?",
+    answer: "We begin with your objectives and current systems, then define the deliverables, responsibilities, timeline and support requirements in a tailored proposal.",
   },
   {
     question: "Do clients own their website?",
@@ -155,52 +152,18 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
   page === "services-pricing" && (locale === "de" ? <GermanPricingPage content={content} /> : (
     <main class="subpage">
       <section class="section-shell page-hero">
-        <p class="eyebrow">{content.nav.servicesPricing ?? "Services & Pricing"}</p>
-        <h1>{content.packagesIntro.title}</h1>
-        <p>{content.packagesIntro.text}</p>
+        <p class="eyebrow">{content.nav.services ?? "Expertise"}</p>
+        <h1>{locale === "en" ? "Considered Solutions. Exceptional Execution." : content.packagesIntro.title}</h1>
+        <p>{locale === "en" ? "Digital experiences, intelligent automation and connected data. A considered response to the way your business works." : content.packagesIntro.text}</p>
       </section>
 
-      <section class="pricing-page-overview" id="pricing">
-        <div class="section-shell pricing-page-overview-inner">
-          <div class="section-heading">
-            <p class="eyebrow">Pricing</p>
-            <h2>Starting prices you can understand before you contact us.</h2>
-            <p>Exact scope depends on pages, content, languages, integrations and launch support, but the starting point should be visible.</p>
-          </div>
-          <div class="pricing-snapshot-grid">
-            <article class="pricing-snapshot-card" data-package-card="digitalFoundation">
-              <h3>{packageLabels.digitalFoundation}</h3>
-              <p class="plan-price" data-package-price="digitalFoundation">{formatChf(swissPricing.packages.digitalFoundation.from)}</p>
-              <p>For a professional website foundation, contact form, analytics, Search Console and SEO basics.</p>
-            </article>
-            <article class="pricing-snapshot-card" data-package-card="growthSetup">
-              <h3>{packageLabels.growthSetup}</h3>
-              <p class="plan-price" data-package-price="growthSetup">{formatChf(swissPricing.packages.growthSetup.from)}</p>
-              <p>For more pages, lead capture, bookings, Google Business support and conversion tracking.</p>
-            </article>
-            <article class="pricing-snapshot-card" data-package-card="aiDataUpgrade">
-              <h3>{packageLabels.aiDataUpgrade}</h3>
-              <p class="plan-price" data-package-price="aiDataUpgrade">{formatChf(swissPricing.packages.aiDataUpgrade.from)}</p>
-              <p>For automation, AI helpers, dashboards or custom workflows after the website foundation is clear.</p>
-            </article>
-            <article class="pricing-snapshot-card ownership-card">
-              <h3>You own your website</h3>
-              <p class="plan-price">Ownership</p>
-              <p>Clients should own their domain, source, analytics, Search Console access and website assets.</p>
-            </article>
-          </div>
-          <div class="button-row">
-            <a class="button primary" href="#packages">Compare detailed packages</a>
-            <a class="button secondary" href={websiteReviewHref} data-track-event="website_review_cta_click" data-track-label="Pricing page website review">Get a free website review</a>
-          </div>
-        </div>
-      </section>
-
+      <section class="section-shell consultation-note" id="pricing"><p class="eyebrow">A tailored collaboration</p><h2>Built around your ambitions.</h2><p>We clarify your objectives, requirements and integrations before proposing a scope, delivery plan and tailored proposal. You will understand what is included and who is responsible before work begins.</p><a class="button primary" href={contactHref}>Discuss Your Project ↗</a></section>
+      {locale === 'en' && <PremiumExpertise locale={locale} />}
       <section class="section-shell section-block compact-top" id="problems">
         <div class="section-heading">
           <p class="eyebrow">Services</p>
-          <h2>Websites first, then automation and custom tools when they help.</h2>
-          <p>Start with a focused website package, then add automation, AI integrations or internal tools where they remove measurable manual work.</p>
+          <h2>Design, engineering and connected systems.</h2>
+          <p>Explore our technical capabilities. Every engagement is shaped around the requirements of your business.</p>
         </div>
         <div class="category-grid">
           {serviceCategoryContent.map((category) => (
@@ -246,15 +209,15 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
 
       <section class="section-shell section-block compact-top" id="packages">
         <div class="section-heading">
-          <p class="eyebrow">{content.packagesIntro.eyebrow}</p>
-          <h2>{content.packagesIntro.title}</h2>
-          <p>{content.packagesIntro.text}</p>
+          <p class="eyebrow">{locale === "en" ? "Delivery capabilities" : content.packagesIntro.eyebrow}</p>
+          <h2>{locale === "en" ? "The details that make a difference." : content.packagesIntro.title}</h2>
+          <p>{locale === "en" ? "Digital experiences, intelligent automation and connected data. A considered response to the way your business works." : content.packagesIntro.text}</p>
         </div>
         <p class="pricing-note">{content.ui?.pricingNote ?? "Final quote after a short consultation."}</p>
         <div class="pricing-grid package-grid">
           {content.packages.map((item) => {
             const packageKey = packageKeyByName[item.name];
-            return <PackageCard {...item} displayName={packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
+            return <PackageCard {...item} features={item.features.map(feature => feature === "Everything in Digital Foundation" ? "Website foundations, extended to your requirements" : feature)} cta={locale === "en" ? "Discuss Your Requirements" : item.cta} highlight={false} displayName={locale === "en" ? ({digitalFoundation:"Website Foundations",growthSetup:"Conversion & Growth Systems",aiDataUpgrade:"Connected AI & Data",websiteMaintenance:"Ongoing Support"}[packageKey] ?? item.name) : packageLabels[packageKey]} ui={content.ui} packageKey={packageKey} contactHref={contactHref} />;
           })}
         </div>
       </section>
@@ -442,14 +405,14 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
           </div>
         </div>
       </section>
-      <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />
+      {locale === 'en' ? <section class="section-shell section-block consultancy-about"><p class="eyebrow">Direct collaboration</p><h2>Close to the work.<br/>Close to your business.</h2><p>Our focus spans bespoke web development, workflow automation, data engineering and system integrations. We explain the technical choices, agree responsibilities and document the systems we deliver.</p><p>We work with professional-service businesses, recruitment and executive-search firms, boutique consultancies, startups and established companies seeking thoughtful digital progress.</p><a class="button primary" href={contactHref}>Explore a Collaboration ↗</a></section> : <OutreachBlock outreach={content.outreach} contactHref={contactHref} ui={content.ui} />}
     </main>
   )
 }
 
 {
   page === "contact" && (
-    <main class="subpage">
+    <main class="subpage contact-page">
       <section class="section-shell page-hero">
         <p class="eyebrow">{content.contact.eyebrow}</p>
         <h1>{content.contact.title}</h1>

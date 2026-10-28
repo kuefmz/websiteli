@@ -94,14 +94,14 @@ const en: ConversionHomeContent = {
   seo: {
     title: "Websiteli - Websites that turn visitors into customers",
     description:
-      "Swiss web design for small businesses. Websiteli builds fast, professional websites with SEO foundations, clear pricing, forms, analytics and optional automation.",
+      "Swiss digital consultancy for distinctive websites, intelligent automation, data and connected business systems.",
   },
   hero: {
     eyebrow: "Websites for small businesses",
     title: "Websites that turn visitors into customers.",
     text: "Fast, professional websites built in Switzerland - designed around trust, enquiries, bookings and sales.",
     secondary: "Need more than a website? We can also connect automation, AI and custom business tools.",
-    priceSignal: "Websites from CHF 990",
+    priceSignal: "",
     primaryCta: "See our work",
     secondaryCta: "Run the free Website & Market Scan",
   },
@@ -203,7 +203,7 @@ const en: ConversionHomeContent = {
       { label: "Automation", href: "/services/business-automation/" },
       { label: "Internal AI assistants", href: "/services/internal-ai-assistants/" },
       { label: "Lead generation automation", href: "/services/lead-generation/" },
-      { label: "Website pricing", href: "/services-pricing/" },
+      { label: "Digital expertise", href: "/services-pricing/" },
       { label: "Website maintenance", href: "/services/website-maintenance/" },
     ],
   },
@@ -218,8 +218,8 @@ const en: ConversionHomeContent = {
     title: "Common questions before a website project",
     items: [
       {
-        question: "How much does a Websiteli website cost?",
-        answer: "The configured Swiss starting price is CHF 990 for Digital Foundation. Larger website and growth scopes are quoted from the pricing configuration and final scope.",
+        question: "How do we begin a collaboration?",
+        answer: "Every project is scoped around your requirements. We agree deliverables, responsibilities and a tailored proposal after an initial consultation.",
       },
       {
         question: "Do I own my website?",
@@ -244,14 +244,14 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
   de: {
   "seo": {
     "title": "Webdesign Schweiz für KMU & Kleinunternehmen | Websiteli",
-    "description": "Professionelle Websites für Schweizer KMU ab CHF 990."
+    "description": "Individuelle Websites und digitale Lösungen aus der Schweiz."
   },
   "hero": {
     "eyebrow": "Webdesign für Schweizer KMU",
     "title": "Professionelle Websites für KMU in der Schweiz",
     "text": "Websiteli gestaltet und entwickelt Websites, die Ihr Angebot verständlich zeigen und den Kontakt einfach machen – für kleine Unternehmen und Selbstständige.",
     "secondary": "Responsives Design, Kontaktformular und SEO-Grundlagen. Zusätzliche Funktionen planen wir nach Ihrem Bedarf.",
-    "priceSignal": "Websites ab CHF 990",
+    "priceSignal": "",
     "primaryCta": "Unsere Arbeit ansehen",
     "secondaryCta": "Kostenloser Website-Check"
   },
@@ -403,7 +403,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
     "items": [
       {
         "question": "Was kostet eine Website bei Websiteli?",
-        "answer": "Die Digitale Grundlage startet bei CHF 990. Den endgültigen Preis bestimmen Umfang, Inhalte, Sprachen und Funktionen. Sie erhalten eine konkrete Offerte."
+        "answer": "Jedes Projekt wird anhand Ihrer Anforderungen geplant. Nach einem persönlichen Gespräch erhalten Sie eine individuelle Offerte mit klaren Leistungen und Verantwortlichkeiten."
       },
       {
         "question": "Eignet sich Websiteli für kleine Unternehmen?",
@@ -428,7 +428,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Weboldalak, amelyek ügyfelekké alakítják a látogatókat.",
       text: "Gyors, professzionális weboldalak Svájcban - bizalomra, ajánlatkérésekre, foglalásokra és eladásokra tervezve.",
       secondary: "Több kell, mint weboldal? Automatizálást, AI-t és egyedi üzleti eszközöket is kapcsolunk hozzá.",
-      priceSignal: "Weboldalak CHF 990-től",
+      priceSignal: "",
       primaryCta: "Munkáink",
       secondaryCta: "Ingyenes weboldal-áttekintés",
     },
@@ -439,7 +439,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Strony, które zmieniają odwiedzających w klientów.",
       text: "Szybkie, profesjonalne strony budowane w Szwajcarii - pod zaufanie, zapytania, rezerwacje i sprzedaż.",
       secondary: "Potrzebujesz więcej niż strony? Możemy podłączyć automatyzację, AI i narzędzia biznesowe.",
-      priceSignal: "Strony od CHF 990",
+      priceSignal: "",
       primaryCta: "Zobacz realizacje",
       secondaryCta: "Bezpłatny przegląd strony",
     },
@@ -450,7 +450,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Webs que convierten visitantes en clientes.",
       text: "Webs rápidas y profesionales creadas en Suiza para generar confianza, consultas, reservas y ventas.",
       secondary: "¿Necesitas más que una web? También conectamos automatización, IA y herramientas a medida.",
-      priceSignal: "Webs desde CHF 990",
+      priceSignal: "",
       primaryCta: "Ver trabajos",
       secondaryCta: "Análisis web y de mercado gratis",
     },
@@ -466,7 +466,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Des sites qui transforment les visiteurs en clients.",
       text: "Sites rapides et professionnels créés en Suisse - pensés pour la confiance, les demandes, les réservations et les ventes.",
       secondary: "Besoin de plus qu'un site? Nous pouvons connecter automatisation, IA et outils métier sur mesure.",
-      priceSignal: "Sites dès CHF 990",
+      priceSignal: "",
       primaryCta: "Voir nos réalisations",
       secondaryCta: "Lancer l’audit site & marché gratuit",
     },
@@ -483,7 +483,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Siti che trasformano i visitatori in clienti.",
       text: "Siti veloci e professionali creati in Svizzera - pensati per fiducia, richieste, prenotazioni e vendite.",
       secondary: "Serve più di un sito? Possiamo collegare automazione, AI e strumenti business su misura.",
-      priceSignal: "Siti da CHF 990",
+      priceSignal: "",
       primaryCta: "Vedi i lavori",
       secondaryCta: "Avvia l’analisi gratuita sito & mercato",
     },
@@ -496,7 +496,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Weby, které mění návštěvníky v zákazníky.",
       text: "Rychlé profesionální weby vytvořené ve Švýcarsku - pro důvěru, poptávky, rezervace a prodej.",
       secondary: "Potřebujete víc než web? Připojíme také automatizaci, AI a vlastní business nástroje.",
-      priceSignal: "Weby od CHF 990",
+      priceSignal: "",
       primaryCta: "Ukázky práce",
       secondaryCta: "Bezplatná kontrola webu",
     },
@@ -507,7 +507,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Weby, ktoré menia návštevníkov na zákazníkov.",
       text: "Rýchle profesionálne weby vytvorené vo Švajčiarsku - pre dôveru, dopyty, rezervácie a predaj.",
       secondary: "Potrebujete viac než web? Pripojíme aj automatizáciu, AI a vlastné business nástroje.",
-      priceSignal: "Weby od CHF 990",
+      priceSignal: "",
       primaryCta: "Pozrieť prácu",
       secondaryCta: "Bezplatná kontrola webu",
     },
@@ -518,7 +518,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Sites que transformam visitantes em clientes.",
       text: "Sites rápidos e profissionais criados na Suíça - pensados para confiança, pedidos, reservas e vendas.",
       secondary: "Precisa de mais do que um site? Também ligamos automação, IA e ferramentas à medida.",
-      priceSignal: "Sites desde CHF 990",
+      priceSignal: "",
       primaryCta: "Ver trabalhos",
       secondaryCta: "Revisão gratuita do site",
     },
@@ -529,7 +529,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Websites der gør besøgende til kunder.",
       text: "Hurtige, professionelle websites bygget i Schweiz - designet til tillid, henvendelser, bookinger og salg.",
       secondary: "Brug for mere end et website? Vi kan også forbinde automatisering, AI og specialværktøjer.",
-      priceSignal: "Websites fra CHF 990",
+      priceSignal: "",
       primaryCta: "Se vores arbejde",
       secondaryCta: "Gratis website-gennemgang",
     },
@@ -540,7 +540,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "Websites die bezoekers klanten maken.",
       text: "Snelle, professionele websites gebouwd in Zwitserland - ontworpen voor vertrouwen, aanvragen, boekingen en verkoop.",
       secondary: "Meer nodig dan een website? We koppelen ook automatisering, AI en maatwerktools.",
-      priceSignal: "Websites vanaf CHF 990",
+      priceSignal: "",
       primaryCta: "Bekijk ons werk",
       secondaryCta: "Gratis websitecheck",
     },
@@ -551,7 +551,7 @@ const localized: Record<LocaleCode, Partial<ConversionHomeContent>> = {
       title: "訪問者を顧客に変えるWebサイト。",
       text: "スイスで制作する高速でプロフェッショナルなWebサイト。信頼、問い合わせ、予約、販売につながる設計です。",
       secondary: "Webサイト以上が必要な場合は、自動化、AI、カスタム業務ツールも接続できます。",
-      priceSignal: "WebサイトはCHF 990から",
+      priceSignal: "",
       primaryCta: "制作実績を見る",
       secondaryCta: "無料Webサイトレビュー",
     },

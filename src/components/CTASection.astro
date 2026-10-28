@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { content } = Astro.props;
+const isEnglish = !content?.locale || content.locale === "en";
 const contact = content?.contact ?? {
   eyebrow: "Contact",
   title: "Tell us what you want to build.",
@@ -118,6 +119,7 @@ const formUi = content?.ui?.form ?? {
       <p class="eyebrow">{contact.eyebrow}</p>
       <h2>{contact.title}</h2>
       <p>{contact.text}</p>
+      {isEnglish && <aside class="contact-aside"><a href="mailto:info@websiteli.ch">info@websiteli.ch ↗</a><a href="https://wa.me/41772653306">+41 77 265 33 06 ↗</a><p>Direct access to the founders. Clear next steps and a proposal shaped around your requirements.</p></aside>}
     </div>
     <form
       class="contact-form"
@@ -162,25 +164,22 @@ const formUi = content?.ui?.form ?? {
         {formUi.email}
         <input name="email" type="email" autocomplete="email" required />
       </label>
-      <label>
-        {formUi.phone}
-        <input name="phone" type="tel" autocomplete="tel" />
-      </label>
+      {isEnglish ? <label>Website <span>(optional)</span><input name="businessWebsite" type="url" autocomplete="url" placeholder="https://" /></label> : <label>{formUi.phone}<input name="phone" type="tel" autocomplete="tel" /></label>}
       <label>
         {formUi.company}
-        <input name="company" autocomplete="organization" />
+        <input name="company" autocomplete="organization" required={isEnglish} />
       </label>
       <label>
         {formUi.project}
-        <select name="project" data-package-select>
-          {packageOptions.map((item) => <option value={item.key}>{localizedPackageNames[item.key] ?? item.name}</option>)}
-          <option value="custom">{formUi.custom}</option>
+        <select name="project" data-service-select required>
+          {isEnglish ? <><option value="">Select an area of interest</option><option value="digitalFoundation">Website Design &amp; Development</option><option value="aiDataUpgrade">AI &amp; Workflow Automation</option><option value="dataAnalytics">Data &amp; Analytics</option><option value="websiteMaintenance">Ongoing Digital Partnership</option><option value="custom">Something Else</option></> : <>{packageOptions.map((item) => <option value={item.key}>{localizedPackageNames[item.key] ?? item.name}</option>)}<option value="custom">{formUi.custom}</option></>}
         </select>
       </label>
       <label>
         {formUi.message}
         <textarea name="message" rows="4" required placeholder={formUi.messagePlaceholder}></textarea>
       </label>
+      {isEnglish && <label>Preferred timeline <span>(optional)</span><input name="preferredTimeline" placeholder="For example, Q2 or flexible" /></label>}
       <label class="privacy-consent">
         <input name="privacyPolicyAccepted" type="checkbox" value="yes" required data-privacy-consent />
         <span>
@@ -275,7 +274,7 @@ const formUi = content?.ui?.form ?? {
       phone: getFormString(formData, "phone"),
       company: getFormString(formData, "company"),
       need,
-      message,
+      message: [message, getFormString(formData, "businessWebsite") ? `Website: ${getFormString(formData, "businessWebsite")}` : "", getFormString(formData, "preferredTimeline") ? `Preferred timeline: ${getFormString(formData, "preferredTimeline")}` : ""].filter(Boolean).join("\n\n"),
       metadata: {
         language: document.documentElement.lang || getFormString(formData, "locale"),
         country: detectedCountry,

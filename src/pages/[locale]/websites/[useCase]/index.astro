@@ -2,7 +2,6 @@
 import CTASection from "../../../../components/CTASection.astro";
 import FAQ from "../../../../components/FAQ.astro";
 import Layout from "../../../../layouts/Layout.astro";
-import { pricing } from "../../../../config/pricing";
 import { getPackageLabels } from "../../../../config/packageLabels";
 import { getLocaleContent, localeCodes, type LocaleCode } from "../../../../content/locales";
 import { getProjectsByUseCase } from "../../../../content/portfolio";
@@ -30,8 +29,6 @@ if (!useCase) {
 
 const content = getLocaleContent(locale);
 const packageLabels = getPackageLabels(locale);
-const swissPricing = pricing.CH;
-const packagePrice = swissPricing.packages[useCase.packageKey];
 const packageLabel = packageLabels[useCase.packageKey] ?? useCase.packageKey;
 const canonicalPath = `/en/websites/${useCase.slug}/`;
 const alternates = [{ locale: "en", href: canonicalPath }];
@@ -44,9 +41,6 @@ const relatedServices = useCase.relatedServices.map((slug) => getServiceBySlug(s
 const relatedUseCases = getRelatedWebsiteUseCases(useCase);
 const siteUrl = new URL("https://websiteli.ch");
 
-function formatChf(amount: number) {
-  return `${swissPricing.symbol} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)}`;
-}
 
 const schema = [
   {
@@ -61,14 +55,6 @@ const schema = [
     },
     areaServed: ["Switzerland", "Europe", "International"],
     description: useCase.metaDescription,
-    offers: {
-      "@type": "Offer",
-      name: packageLabel,
-      priceCurrency: swissPricing.currency,
-      price: packagePrice.from,
-      description: useCase.pricingText,
-      availability: "https://schema.org/InStock",
-    },
   },
   {
     "@context": "https://schema.org",
@@ -257,13 +243,13 @@ const schema = [
         </ul>
       </article>
       <article class="detail-panel use-case-price-card">
-        <p class="eyebrow">Pricing signal</p>
-        <h2>{packageLabel}</h2>
-        <p class="plan-price">from {formatChf(packagePrice.from)}</p>
-        <p>{useCase.pricingText}</p>
+        <p class="eyebrow">A tailored collaboration</p>
+        <h2>Designed around your requirements.</h2>
+
+        <p>We clarify your objectives, requirements and integrations before preparing a tailored proposal.</p>
         <div class="button-row">
           <a class="button primary" href={contactHref} data-track-event="use_case_pricing_cta_click" data-track-label={useCase.slug}>Discuss scope</a>
-          <a class="button secondary" href={pricingHref}>Compare packages</a>
+          <a class="button secondary" href={pricingHref}>Explore our expertise</a>
         </div>
       </article>
     </section>

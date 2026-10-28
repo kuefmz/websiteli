@@ -7,7 +7,7 @@
   },
   "nav": {
     "home": "Home",
-    "services": "Services",
+    "services": "Expertise",
     "packages": "Packages",
     "demos": "Demos",
     "caseStudies": "Example Projects",
@@ -15,8 +15,8 @@
     "about": "About",
     "contact": "Contact",
     "blog": "Blog",
-    "servicesPricing": "Services & Pricing",
-    "portfolio": "Portfolio",
+    "servicesPricing": "Expertise",
+    "portfolio": "Selected Work",
     "partners": "Partners"
   },
   "hero": {
@@ -25,19 +25,19 @@
     "text": "Websiteli builds business websites, automation, AI assistants and custom software that work together. Your website captures leads, your systems follow up, and your team saves time every week.",
     "primaryCta": "Get a free website review",
     "secondaryCta": "Explore Live Examples",
-    "trustLine": "Swiss based - Fast delivery - SEO optimized - AI ready - Mobile first - Transparent pricing - Ongoing support"
+    "trustLine": "Swiss-based — Founder-led — Thoughtful design — Technical expertise — Long-term support"
   },
   "badges": [
     "Swiss-based",
-    "AI & data engineering expertise",
-    "Fast implementation",
-    "Transparent pricing",
-    "Security and performance",
+    "Direct access to the founders",
+    "Design and engineering",
+    "Clear communication",
+    "Maintainable technology",
     "Long-term support"
   ],
-  "intro": "Websiteli builds websites that help small businesses get more customers, with automation, AI and custom tools available when they genuinely help.",
+  "intro": "Websiteli — Digital Experiences. Intelligent Solutions.",
   "packagesIntro": {
-    "eyebrow": "Core packages",
+    "eyebrow": "Delivery capabilities",
     "title": "Choose the right digital setup for your next stage.",
     "text": "Start with a professional foundation, add growth systems, then upgrade repetitive work with AI and data tools. We keep your website secure, fast and up to date so you can focus on running your business."
   },
@@ -166,8 +166,8 @@
   },
   "about": {
     "eyebrow": "About",
-    "title": "A lean Swiss-based agency run by two technical founders.",
-    "text": "Websiteli is built by a Hungarian and a Polish founder based in Switzerland. We combine software engineering, data and AI skills with practical small-business execution: clear scope, fast implementation and a handover you can actually use."
+    "title": "A founder-led consultancy. A direct partnership.",
+    "text": "Based in Switzerland and founded by a Hungarian and a Polish technical founder, Websiteli brings together software engineering, data and AI expertise. You work directly with the people shaping and building your solution."
   },
   "outreach": {
     "headline": "A faster digital setup for small businesses ready to look professional.",
@@ -188,13 +188,28 @@
   },
   "contact": {
     "eyebrow": "Contact",
-    "title": "Tell us what you want to improve.",
-    "text": "Request a free website review or ask for a setup plan. We will reply with practical next steps.",
-    "button": "Send request"
+    "title": "Let's Discuss What Comes Next.",
+    "text": "Tell us a little about your business and what you're looking to achieve. We'll explore how Websiteli can help.",
+    "button": "Send Enquiry"
   },
   "ui": {
-    "maintenancePriceNote": "Monthly maintenance, priced for your market after consultation.",
+    "maintenancePriceNote": "Ongoing care shaped around your systems and support requirements.",
     "featuredDemoCta": "See Live Demos",
-    "demoCta": "See Live Demos"
+    "demoCta": "See Live Demos",
+    "form": {
+      "website": "Website",
+      "name": "Name",
+      "email": "Business email",
+      "phone": "Phone",
+      "company": "Company",
+      "project": "What can we help you with?",
+      "custom": "Something Else",
+      "message": "Tell us about your project",
+      "messagePlaceholder": "Your goals, your current challenges, and what success would look like.",
+      "thankYou": "Thank you. Your enquiry has been dispatched. We look forward to learning more.",
+      "validation": "Please complete the required fields.",
+      "sending": "Sending…",
+      "error": "We could not send your enquiry. Please email info@websiteli.ch."
+    }
   }
 }

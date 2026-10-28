@@ -131,7 +131,7 @@ export default {
         {
           question: "How much does a conversion-focused website cost with Websiteli?",
           answer:
-            "Websiteli landing pages start from CHF 990, Growth Setup projects from CHF 1'990, and AI/Data Upgrade projects from CHF 3'290. The right package depends on the number of pages, integrations and automation required.",
+            "Websiteli scopes each engagement around the required lead capture, routing and automation workflow. A tailored proposal follows an initial conversation.",
         },
       ],
       body: `## More enquiries are not always the goal
@@ -278,7 +278,7 @@ A sensible sequence is:
 6. Track completed forms and booked calls.
 7. Add AI summarisation only when enquiry volume justifies it.
 
-Websiteli can build this in stages. A focused landing page starts from **CHF 990**. A broader **Growth Setup starts from CHF 1'990** and can include multiple pages, analytics and conversion paths. An **AI/Data Upgrade starts from CHF 3'290** for integrations, lead routing, AI assistance and more advanced workflows.
+Websiteli can build this in stages: a focused landing page, a broader conversion journey, or connected lead routing and automation. Scope and responsibilities are agreed in a tailored proposal.
 
 ## The bottom line
 

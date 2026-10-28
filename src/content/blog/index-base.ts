@@ -109,7 +109,7 @@ const marketKeywords = [
   "website for local business",
   "website cost Switzerland",
   "website price Switzerland",
-  "affordable website Switzerland",
+  "bespoke website Switzerland",
   "lead generation landing page",
   "website lead qualification",
   "qualified website leads",
@@ -469,7 +469,7 @@ function renderInlineMarkdown(value: string, locale: LocaleCode = DEFAULT_LOCALE
     });
 }
 
-export function getHeadingId(heading: string) {
+function getLegacyHeadingId(heading: string) {
   return heading
     .toLowerCase()
     .normalize("NFD")
@@ -478,8 +478,14 @@ export function getHeadingId(heading: string) {
     .replace(/^-|-$/g, "");
 }
 
+export function getHeadingId(heading: string) {
+  if (!/[\u3040-\u30ff\u3400-\u9fff]/.test(heading)) return getLegacyHeadingId(heading);
+  return heading.toLowerCase().normalize("NFC").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "");
+}
+
 export function renderBlogMarkdown(markdown: string, locale: LocaleCode = DEFAULT_LOCALE) {
   const html: string[] = [];
+  const legacyHeadingIds = new Set<string>();
   let paragraph: string[] = [];
   let list: string[] = [];
   let codeBlock: { language: string; lines: string[] } | undefined;
@@ -540,7 +546,12 @@ export function renderBlogMarkdown(markdown: string, locale: LocaleCode = DEFAUL
         return;
       }
       const level = heading ? "h2" : "h3";
-      html.push(`<${level} id="${getHeadingId(headingText)}">${renderInlineMarkdown(headingText, locale)}</${level}>`);
+      const headingId = getHeadingId(headingText);
+      const legacyId = getLegacyHeadingId(headingText);
+      // Keep the first historical ASCII fragment while avoiding ambiguous duplicate IDs.
+      if (legacyId && legacyId !== headingId && !legacyHeadingIds.has(legacyId)) html.push(`<span id="${legacyId}"></span>`);
+      legacyHeadingIds.add(legacyId);
+      html.push(`<${level} id="${headingId}">${renderInlineMarkdown(headingText, locale)}</${level}>`);
       return;
     }
 

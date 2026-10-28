@@ -9,13 +9,15 @@
     "portfolio:screenshots": "node scripts/generate-portfolio-screenshots.mjs",
     "publish:daily-blog": "cp scripts/publish-daily-blog.ts /tmp/websiteli-publish-daily-blog.mjs && node /tmp/websiteli-publish-daily-blog.mjs",
     "test:pricing": "npm run build && node scripts/test-pricing.mjs",
-    "deploy:hostpoint": "bash scripts/deploy.sh"
+    "deploy:hostpoint": "bash scripts/deploy.sh",
+    "test:redesign": "npm run build && node scripts/audit-redesign.mjs && node scripts/test-consultation-form.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.17.2"
   },
   "devDependencies": {
+    "parse5": "^7.3.0",
     "sharp": "^0.35.3"
   }
 }
