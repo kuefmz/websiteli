@@ -105,7 +105,7 @@ const privacyPolicyVersion = "2026-06-24";
     <header class="result-header">
       <div>
         <p class="eyebrow">{c.summary}</p>
-        <h1 data-brand></h1>
+        <h2 class="result-brand" data-brand></h2>
         <p class="scanned-url" data-scanned-url></p>
       </div>
       <div class="scan-time"><span>{c.scanTime}</span><strong><span data-elapsed>—</span>s</strong></div>
@@ -684,7 +684,7 @@ const privacyPolicyVersion = "2026-06-24";
   .market-scan{padding:0 0 92px}
   .scan-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:clamp(36px,6vw,84px);align-items:center;min-height:min(820px,92vh);padding-top:128px;padding-bottom:64px}
   .scan-hero-copy{max-width:760px}.eyebrow{margin:0 0 12px;color:var(--brand);font-size:.78rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-  .scan-hero h1,.result-header h1{margin:0;letter-spacing:-.05em;line-height:.96}.scan-hero h1{font-size:clamp(3rem,6.3vw,5.7rem)}
+  .scan-hero h1,.result-header .result-brand{margin:0;letter-spacing:-.05em;line-height:.96}.scan-hero h1{font-size:clamp(3rem,6.3vw,5.7rem)}
   .scan-intro{max-width:690px;margin:22px 0 30px;color:var(--muted);font-size:clamp(1.05rem,1.7vw,1.24rem);line-height:1.62}
   .scan-form{max-width:760px}.scan-url{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow)}
   .url-prefix{display:grid;width:42px;height:42px;place-items:center;color:var(--brand);font-weight:900}.scan-url input{min-width:0;border:0;outline:0;padding:14px 8px;background:transparent;color:var(--ink);font-size:1rem}
@@ -712,7 +712,7 @@ const privacyPolicyVersion = "2026-06-24";
   .spinner{width:46px;height:46px;margin-bottom:24px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-card h2{margin:0 0 8px}.loading-card>p:not(.eyebrow){margin:0;color:var(--muted)}
   .loading-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px}.loading-steps span{border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:.78rem}.loading-steps b{color:var(--brand)}
   .progress-track{width:min(100%,540px);height:5px;margin-top:28px;overflow:hidden;border-radius:99px;background:var(--line)}.progress-track span{display:block;width:10%;height:100%;background:var(--brand);transition:width .4s ease}
-  .scan-results{padding-top:126px}.result-header{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:28px}.result-header h1{font-size:clamp(2.6rem,5vw,4.7rem)}.scanned-url{margin:12px 0 0;color:var(--muted);overflow-wrap:anywhere}
+  .scan-results{padding-top:126px}.result-header{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:28px}.result-header .result-brand{font-size:clamp(2.6rem,5vw,4.7rem)}.scanned-url{margin:12px 0 0;color:var(--muted);overflow-wrap:anywhere}
   .scan-time{display:grid;gap:3px;text-align:right}.scan-time>span{color:var(--muted);font-size:.75rem;text-transform:uppercase;font-weight:850}.scan-time strong{font-size:1.55rem}
   .score-card,.priority-card,.signal-card,.report-section,.report-heading,.scan-cta,.executive-brief{border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 97%,transparent);box-shadow:0 16px 48px rgba(26,32,42,.06)}
   .executive-brief{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr);gap:18px;margin-bottom:18px;padding:28px;border-radius:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--surface) 96%,transparent),color-mix(in srgb,var(--brand) 4%,var(--surface)))}

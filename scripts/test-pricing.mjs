@@ -112,18 +112,14 @@ function getStructuredData(html) {
   return JSON.parse(match[1]);
 }
 
-test("localized pages include the browser pricing runtime", async () => {
+test("localized pages preserve attribution without shipping a browser pricing runtime", async () => {
   const englishHome = await readDistFile("en/index.html");
-
   assert.match(englishHome, /websiteli_attribution/);
-  assert.match(englishHome, /localStorage/);
-  assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
   assert.match(englishHome, /utm_detected/);
   assert.match(englishHome, /campaign_landing/);
   assert.match(englishHome, /websiteliShowAttribution/);
-  assert.match(englishHome, /landing_page/);
-  assert.match(englishHome, /Services &amp; Pricing/);
-  assert.match(englishHome, /Website maintenance/i);
+  assert.match(englishHome, /Digital Excellence/);
+  assert.doesNotMatch(englishHome, /window\.websiteliGetPricingForCountry|const pricingData/);
 });
 
 test("root page redirects to the localized English site", async () => {
@@ -161,37 +157,20 @@ test("pricing source of truth contains supported markets and packages", async ()
   assert.equal(typeof source.CH.packages.aiDataUpgrade.from, "number");
 });
 
-test("pricing resolves from IP lookups without a user-facing market selector", async () => {
+test("attribution and consent-managed analytics remain without price geolocation", async () => {
   const attribution = await readFile(attributionRuntimePath, "utf8");
-  const source = await readFile(pricingRuntimePath, "utf8");
   const layout = await readFile(layoutPath, "utf8");
-  const files = await collectFiles(distDir);
-  const frontendFiles = files.filter((file) => /\.(html|js)$/.test(file));
-  const combined = (await Promise.all(frontendFiles.map((file) => readFile(file, "utf8").catch(() => "")))).join("\n");
-
+  const runtime = await readFile(join(process.cwd(), "src/components/InquiryRuntime.astro"), "utf8");
+  const analytics = await readFile(join(process.cwd(), "public/analytics-runtime.js"), "utf8");
   assert.match(attribution, /readAttributionFromUrl/);
   assert.match(attribution, /readRedirectContext/);
-  assert.match(attribution, /original_referrer/);
   assert.match(attribution, /firstTouch/);
   assert.match(attribution, /lastTouch/);
-  assert.match(attribution, /window\.localStorage/);
-  assert.match(attribution, /getCurrentAttribution/);
-  assert.match(attribution, /source: attribution\.utm_source/);
-  assert.match(attribution, /medium: attribution\.utm_medium/);
-  assert.match(attribution, /campaign: attribution\.utm_campaign/);
-  assert.match(source, /api\.country\.is/);
-  assert.match(source, /ipapi\.co/);
-  assert.match(source, /geojs\.io/);
-  assert.match(source, /cloudflare-trace/);
-  assert.match(source, /Promise\.all/);
-  const analytics = await readFile(join(process.cwd(), "public/analytics-runtime.js"), "utf8");
-  assert.match(layout, /AnalyticsRuntime/);
+  assert.match(layout, /InquiryRuntime/);
+  assert.doesNotMatch(layout, /<PricingRuntime/);
+  assert.doesNotMatch(runtime, /api\.country\.is|ipapi\.co|pricingData/);
   assert.match(analytics, /G-TGZY875FGJ/);
   assert.match(analytics, /analytics_storage: 'denied'/);
-  assert.match(analytics, /page_location: window.location.origin/);
-  assert.match(source, /swiss-german-market/);
-  assert.doesNotMatch(source, /data-market-select|market_change_select/);
-  assert.doesNotMatch(combined, /["']websiteli_market["']/);
 });
 
 test("EU countries and unknown countries map to the correct fallback markets", async () => {
@@ -206,7 +185,7 @@ test("EU countries and unknown countries map to the correct fallback markets", a
   assert.match(pricingConfig, /"PT"/);
 });
 
-test("lead forms receive pricing, source, demo, and project metadata", async () => {
+test("lead forms preserve submission and campaign metadata with service consultation options", async () => {
   const englishHome = await readDistFile("en/index.html");
   const contact = await readDistFile("en/contact/index.html");
   const portfolio = await readDistFile("en/portfolio/index.html");
@@ -226,9 +205,11 @@ test("lead forms receive pricing, source, demo, and project metadata", async () 
   assert.match(contact, /websiteliGetAttribution/);
   assert.match(contact, /first_utm_source/);
   assert.match(contact, /gclid/);
-  assert.match(contact, /<option value="digitalAudit">Website Review<\/option>/);
+  assert.match(contact, /<option value="dataAnalytics">Data &amp; Analytics<\/option>/);
+  assert.match(contact, /name="businessWebsite"/);
+  assert.match(contact, /name="preferredTimeline"/);
 
-  assert.match(englishHome, /package=digitalAudit/);
+  assert.match(englishHome, /Discuss Your Project/);
   assert.match(portfolio, /shopify/i);
   assert.match(portfolio, /package=digitalAudit(?:&amp;|&#38;)project=/);
 });
@@ -371,9 +352,7 @@ test("localized package labels do not leak English package names in Hungarian UI
   const hungarianHome = await readDistFile("hu/index.html");
   const hungarianContact = await readDistFile("hu/contact/index.html");
 
-  assert.match(hungarianHome, /Digitális alapcsomag/);
-  assert.match(hungarianHome, /Növekedési csomag/);
-  assert.match(hungarianHome, /AI\/adat fejlesztés/);
+  assert.doesNotMatch(hungarianHome, /CHF\s*990|data-package-price/);
   assert.match(hungarianHome, /package=digitalAudit/);
   assert.match(hungarianContact, /<option value="digitalAudit">Weboldal-áttekintés<\/option>/);
   assert.match(hungarianContact, /<option value="digitalFoundation">Digitális alapcsomag<\/option>/);

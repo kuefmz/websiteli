@@ -1,5 +1,4 @@
 ---
-import ThemeToggle from "./ThemeToggle.astro";
 import { getLocalizedPath, localeCodes, pageNavKeys } from "../content/locales";
 
 interface Props {
@@ -21,40 +20,17 @@ const nav = content?.nav ?? {
   about: "About",
   contact: "Contact",
 };
-const headerCtaCopy: Record<string, { pricing: string; review: string }> = {
-  en: { pricing: "Pricing", review: "Get a free website review" },
-  de: { pricing: "Preise", review: "Kostenlosen Website-Check anfragen" },
-  hu: { pricing: "Árak", review: "Ingyenes weboldal-áttekintés" },
-  pl: { pricing: "Cennik", review: "Bezpłatny przegląd strony" },
-  es: { pricing: "Precios", review: "Revisión web gratuita" },
-  fr: { pricing: "Tarifs", review: "Revue de site gratuite" },
-  it: { pricing: "Prezzi", review: "Revisione gratuita del sito" },
-  cz: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
-  sk: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
-  pt: { pricing: "Preços", review: "Revisão gratuita do site" },
-  da: { pricing: "Priser", review: "Gratis website-gennemgang" },
-  nl: { pricing: "Prijzen", review: "Gratis websitecheck" },
-  ja: { pricing: "料金", review: "無料Webサイトレビュー" },
-};
-const headerCta = headerCtaCopy[locale] ?? headerCtaCopy.en;
-const marketScanLabels: Record<string, string> = {
-  en: "Market Scan",
-  de: "Market Scan",
-  fr: "Analyse de marché",
-  it: "Market Scan",
-  es: "Análisis de mercado",
-};
-const marketScanLabel = marketScanLabels[locale] ?? "Market Scan";
-const navItems = [
-  { label: nav.services ?? "Services", href: `/${locale}/services-pricing/#problems` },
-  { label: nav.portfolio ?? "Portfolio", href: `/${locale}/portfolio/` },
-  ...(["en", "de", "fr", "it", "es"].includes(locale) ? [{ label: marketScanLabel, href: `/${locale}/market-scan/` }] : []),
-  { label: headerCta.pricing, href: `/${locale}/services-pricing/#pricing` },
-  { label: nav.partners ?? "Partners", href: `/${locale}/partners/` },
-  { label: nav.blog ?? "Blog", href: `/${locale}/blog/` },
-  { label: nav.about, href: `/${locale}/about/` },
+const navItems = locale === 'en' ? [
+ {label:'Home',href:'/en/'}, {label:'Expertise',href:'/en/services-pricing/'},
+ {label:'Our Approach',href:'/en/#approach'}, {label:'Selected Work',href:'/en/portfolio/'},
+ {label:'About',href:'/en/about/'}, {label:'Contact',href:'/en/contact/'}
+] : [
+ {label:nav.home ?? 'Home',href:`/${locale}/`},
+ {label:nav.services ?? 'Services',href:`/${locale}/services-pricing/`},
+ {label:nav.portfolio ?? 'Portfolio',href:`/${locale}/portfolio/`},
+ {label:nav.about,href:`/${locale}/about/`}, {label:nav.contact,href:`/${locale}/contact/`}
 ];
-const quoteHref = `/${locale}/contact/?package=digitalAudit&project=website-review&intent=website_review`;
+const quoteHref = `/${locale}/contact/`;
 const switchPage = page === "home" || page in pageNavKeys ? page : "home";
 const languageLinkByLocale = new Map(languageLinks.map((item) => [item.locale, item.href]));
 const headerLabels = {
@@ -78,7 +54,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
 <header class="site-header" data-header>
   <a class="brand" href={`/${locale}/`} aria-label={headerCopy.home}>
     <span class="brand-mark"><img src="/assets/websiteli-logo.png" alt="" width="36" height="36" /></span>
-    <span>websiteli.ch</span>
+    <span>Websiteli<span class="brand-period">.</span></span>
   </a>
 
   <nav class="desktop-nav" aria-label={headerCopy.mainNav}>
@@ -96,8 +72,8 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
         }
       </div>
     </div>
-    <ThemeToggle locale={locale} />
-    <a class="header-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Header website review">{headerCta.review}</a>
+
+    <a class="header-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Header website review">{locale === 'en' ? "Let's Talk" : nav.contact}</a>
     <button class="menu-toggle" type="button" aria-label={headerCopy.openMenu} aria-expanded="false" data-menu-toggle>
       <span></span>
       <span></span>
@@ -110,7 +86,7 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
   <div class="mobile-languages">
     {localeCodes.map((code) => <a href={languageLinkByLocale.get(code) ?? getLocalizedPath(code, switchPage as any)}>{code.toUpperCase()}</a>)}
   </div>
-  <a class="mobile-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Mobile website review">{headerCta.review}</a>
+  <a class="mobile-quote" href={quoteHref} data-track-event="website_review_cta_click" data-track-label="Mobile website review">{locale === 'en' ? "Let's Talk" : nav.contact}</a>
 </nav>
 
 <script>
@@ -125,11 +101,9 @@ const headerCopy = headerLabels[locale as keyof typeof headerLabels] ?? headerLa
 
     const currentScrollY = window.scrollY;
     const isScrolled = currentScrollY > 12;
-    const isScrollingDown = currentScrollY > lastScrollY;
-    const menuIsOpen = mobileNav?.classList.contains("is-open");
 
     header.classList.toggle("is-scrolled", isScrolled);
-    header.classList.toggle("is-hidden", isScrolled && isScrollingDown && !menuIsOpen);
+    header.classList.remove("is-hidden");
 
     lastScrollY = Math.max(currentScrollY, 0);
     ticking = false;

@@ -1,11 +1,11 @@
 ---
 import { germanPortfolioCopy } from "../content/germanPortfolio";
+import PremiumHome from "./PremiumHome.astro";
 import FAQ from "./FAQ.astro";
-import { pricing } from "../config/pricing";
-import { getPackageLabels } from "../config/packageLabels";
 import { getConversionHomeContent } from "../content/home";
 import { getFeaturedPortfolioProjects, realPortfolioProjects } from "../content/portfolio";
 import { getWebsiteUseCaseForProject } from "../content/websiteUseCases";
+import { getLocaleContent } from "../content/locales";
 import type { LocaleCode } from "../content/locales";
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const home = getConversionHomeContent(locale);
+const localeContent = getLocaleContent(locale);
 const featuredProjects = getFeaturedPortfolioProjects(5).map(project => locale === "de" ? { ...project, ...germanPortfolioCopy[project.slug] } : project);
 const featuredProjectCards = featuredProjects.map((project) => ({
   project,
@@ -34,8 +35,6 @@ const portfolioHref = `/${locale}/portfolio/`;
 const workHref = "#work";
 const pricingHref = `/${locale}/services-pricing/#pricing`;
 const partnersHref = `/${locale}/partners/`;
-const swissPricing = pricing.CH;
-const packageLabels = getPackageLabels(locale);
 
 function localizedHref(href?: string) {
   if (!href) return undefined;
@@ -47,9 +46,6 @@ function serviceHref(slug?: string) {
   return slug ? `/${locale}/services/${slug}/` : `/${locale}/services-pricing/`;
 }
 
-function formatChf(amount: number) {
-  return `${locale === "de" ? "ab" : "from"} ${swissPricing.symbol} ${new Intl.NumberFormat(locale === "de" ? "de-CH" : "en-US", { maximumFractionDigits: 0 }).format(amount)}`;
-}
 
 function shortProjectName(name: string) {
   if (name === "Semantic Web Science Association") return "SWSA";
@@ -71,14 +67,14 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
 }
 ---
 
-<main class="conversion-home">
+{locale === "en" ? <PremiumHome /> : (<main class="conversion-home">
   <section class="conversion-hero section-shell" id="home">
     <div class="conversion-hero-copy">
       <p class="eyebrow">{home.hero.eyebrow}</p>
       <h1>{home.hero.title}</h1>
       <p class="hero-text">{home.hero.text}</p>
       <p class="hero-secondary">{home.hero.secondary}</p>
-      <p class="hero-price-signal">{home.hero.priceSignal}</p>
+
       <div class="hero-actions">
         <a class="button primary" href={locale === "de" ? "/de/contact/?package=digitalFoundation&intent=website_quote" : auditHref} data-track-event="quote_cta_click" data-track-label="Hero quote">{locale === "de" ? "Kostenlose Offerte anfragen" : home.hero.secondaryCta}</a>
         <a class="button secondary" href={workHref} data-track-event="portfolio_cta_click" data-track-label="Hero see work">{home.hero.primaryCta}</a>
@@ -220,34 +216,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
     </div>
   </section>
 
-  <section class="pricing-snapshot-band" id="pricing">
-    <div class="section-shell pricing-snapshot-inner">
-      <div class="section-heading">
-        <p class="eyebrow">{home.pricing.eyebrow}</p>
-        <h2>{home.pricing.title}</h2>
-        <p>{home.pricing.text}</p>
-      </div>
-      <div class="pricing-snapshot-grid">
-        {Object.entries(home.pricing.plans).map(([packageKey, plan]) => {
-          const amount = swissPricing.packages[packageKey as keyof typeof swissPricing.packages]?.from;
-          const packageLabel = packageLabels[packageKey as keyof typeof packageLabels] ?? plan.title;
-          return (
-            <article class="pricing-snapshot-card" data-package-card={packageKey}>
-              <h3>{packageLabel}</h3>
-              <p class="plan-price" data-package-price={packageKey}>{typeof amount === "number" ? formatChf(amount) : home.pricing.customQuote}</p>
-              <p>{plan.text}</p>
-            </article>
-          );
-        })}
-        <article class="pricing-snapshot-card maintenance-card">
-          <h3>{packageLabels.websiteMaintenance}</h3>
-          <p class="plan-price">{home.pricing.customQuote}</p>
-          <p>{home.pricing.maintenance.text}</p>
-        </article>
-      </div>
-      <a class="button primary" href={pricingHref} data-track-event="pricing_cta_click" data-track-label="Homepage compare packages">{home.pricing.compare}</a>
-    </div>
-  </section>
+  <section class="section-shell consultation-note" id="pricing"><span id="packages"></span><p class="eyebrow">{localeContent.contact.eyebrow}</p><h2>{localeContent.contact.title}</h2><p>{localeContent.contact.text}</p><a class="button primary" href={`/${locale}/contact/`}>{localeContent.contact.button}</a></section>
 
   <section class="section-shell section-block" id="process">
     <div class="section-heading">
@@ -338,7 +307,7 @@ function displayProjectImageAlt(project: { name: string; imageAlt?: string }) {
     </div>
     <a class="button primary" href={auditHref} data-track-event="market_scan_home_cta_click" data-track-label="Homepage final Market Scan">{home.finalCta.cta}</a>
   </section>
-</main>
+</main>)}
 
 <script>
   window.trackWebsiteliEvent?.("homepage_view", {

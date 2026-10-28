@@ -53,6 +53,11 @@ jobs:
           PUBLIC_MARKET_SCAN_API_URL: ${{ vars.PUBLIC_MARKET_SCAN_API_URL || secrets.PUBLIC_MARKET_SCAN_API_URL }}
         run: npm run build
 
+      - name: Verify public content and consultation form
+        run: |
+          node scripts/audit-redesign.mjs
+          node scripts/test-consultation-form.mjs
+
       - name: Verify GitHub Pages build output
         run: |
           test -d dist || (echo "dist/ was not created" && exit 1)

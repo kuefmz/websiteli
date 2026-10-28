@@ -13,7 +13,6 @@ const { name, price, priceKey, items, highlight = false } = Astro.props;
 <article class:list={["pricing-card", { featured: highlight }]}>
   {highlight && <p class="card-badge">Popular start</p>}
   <h3>{name}</h3>
-  <p class="plan-price" data-price-key={priceKey}>{price}</p>
   <ul>
     {items.map((item) => <li>{item}</li>)}
   </ul>

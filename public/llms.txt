@@ -1,6 +1,6 @@
 # Websiteli
 
-Websiteli is a Swiss-based digital service helping small businesses create professional websites, improve their online presence, capture leads, and add practical automation.
+Websiteli is a founder-led Swiss digital consultancy combining bespoke websites, intelligent automation, data engineering and connected systems.
 
 Website: https://websiteli.ch
 Contact: info@websiteli.ch
@@ -52,7 +52,7 @@ The launch guide explains what the scanner checks, how market findings are filte
 
 ## Target customers
 
-Websiteli mainly helps small businesses, local businesses, freelancers, consultants, restaurants, cafés, shops, service providers, and growing businesses that need a clearer and more professional online presence.
+Websiteli works with professional-service businesses, executive-search and recruitment firms, boutique consultancies, growing startups and established companies seeking digital transformation.
 
 ## Key value proposition
 
@@ -61,7 +61,7 @@ Websiteli helps businesses turn their online presence into a practical customer 
 ## Important pages
 
 - Home: https://websiteli.ch/
-- Services & Pricing: https://websiteli.ch/services
+- Expertise: https://websiteli.ch/services
 - Portfolio: https://websiteli.ch/portfolio
 - Blog: https://websiteli.ch/blog
 - Contact: https://websiteli.ch/contact

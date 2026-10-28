@@ -1,0 +1,10 @@
+---
+const { locale = 'en' } = Astro.props;
+const services = [
+ {name:'Digital Experiences',text:'Premium websites and digital platforms designed to communicate credibility, strengthen your brand, and create meaningful customer experiences.',items:['Website strategy','Bespoke web design','Website development','User experience optimization','Conversion-focused improvements'],link:'business-websites',cta:'Explore Digital Experiences'},
+ {name:'Intelligent Automation',text:'Thoughtful automation solutions that simplify operations, connect systems, and reduce repetitive work.',items:['Workflow automation','AI-assisted processes','API integrations','Internal business tools','Process optimization'],link:'business-automation',cta:'Explore Automation'},
+ {name:'Data & Insights',text:'Reliable data infrastructure and meaningful reporting that support informed business decisions.',items:['Data engineering','Analytics implementation','Reporting dashboards','Data integrations','Performance measurement'],link:'data-dashboards',cta:'Explore Data Solutions'},
+ {name:'Digital Partnership',text:'Long-term technical support and continuous improvement for businesses seeking a reliable digital partner.',items:['Website maintenance','Performance monitoring','Ongoing optimization','Technical advisory','Digital systems support'],link:'website-maintenance',cta:'Explore Partnership'}
+];
+---
+<section class="premium-expertise" id="expertise"><span id="services" class="anchor-marker" aria-hidden="true"></span><div class="section-shell"><div class="premium-section-heading"><p class="eyebrow">Our expertise</p><h2>Considered Solutions.<br/><em>Exceptional Execution.</em></h2></div><div class="expertise-rows">{services.map((service,i)=><article><span class="index">0{i+1}</span><h3>{service.name}</h3><div><p>{service.text}</p><a class="text-link" href={`/${locale}/services/${service.link}/`}>{service.cta} <span aria-hidden="true">↗</span></a></div><ul>{service.items.map(item=><li>{item}</li>)}</ul></article>)}</div></div></section>

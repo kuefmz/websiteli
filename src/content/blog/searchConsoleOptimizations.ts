@@ -34,7 +34,7 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
       description:
         "Website lifespan statistics and practical redesign signals for 2026. Learn when age matters, what to measure, and when a business website actually needs rebuilding.",
       tags: ["website lifespan statistics", "website redesign", "website lifecycle", "website statistics", "website maintenance"],
-      appendBody: `## Do you need a redesign or just focused improvements?\n\nWebsite age alone is not a reason to rebuild. A redesign becomes more defensible when the site is difficult to update, performs poorly, no longer matches the offer, loses search visibility or makes enquiries harder than they should be.\n\nIf you are deciding between incremental fixes and a rebuild, compare Websiteli's [business website service](/en/services/business-websites/), [website redesign service](/en/services/website-redesign/) and [website pricing](/en/services-pricing/).`,
+      appendBody: `## Do you need a redesign or just focused improvements?\n\nWebsite age alone is not a reason to rebuild. A redesign becomes more defensible when the site is difficult to update, performs poorly, no longer matches the offer, loses search visibility or makes enquiries harder than they should be.\n\nIf you are deciding between incremental fixes and a rebuild, compare Websiteli's [business website service](/en/services/business-websites/), [website redesign service](/en/services/website-redesign/) and [digital expertise](/en/services-pricing/).`,
     },
     "scope-internal-ai-assistant-pilot": {
       title: "How to Scope an Internal AI Assistant Pilot for a Small Business",
@@ -74,11 +74,11 @@ const optimizations: Partial<Record<LocaleCode, Record<string, SearchConsoleOpti
       appendBody: `## Use AI for speed, not as a substitute for the business system\n\nAI can accelerate copy drafts, layouts and repetitive implementation. The final website still needs accurate business information, analytics, search foundations, reliable forms, ownership and a structure that can evolve with the company.\n\nWebsiteli's [business website service](/en/services/business-websites/) combines those foundations with automation and AI only where they add real value.`,
     },
     "website-cost-switzerland": {
-      title: "Website Cost in Switzerland 2026: What Small Businesses Should Budget",
+      title: "Planning a Business Website in Switzerland",
       description:
         "What does a website cost in Switzerland in 2026? See the main cost drivers for small-business websites, what should be included, and how to compare quotes.",
       tags: ["website cost Switzerland", "web design Switzerland", "website price Switzerland", "small business website", "Swiss web design"],
-      appendBody: `## Compare scope, not only the headline price\n\nA useful quote should make ownership, page scope, forms, analytics, SEO foundations, launch support and ongoing costs explicit. A cheaper starting number can become more expensive if essential work is excluded.\n\nFor a concrete reference point, see [Websiteli website packages and pricing](/en/services-pricing/) and examples of [websites we've built](/en/portfolio/).`,
+      appendBody: `## Compare scope, not only the headline price\n\nA useful quote should make ownership, page scope, forms, analytics, SEO foundations, launch support and ongoing costs explicit. Clarify essential work, responsibilities and ongoing support before agreeing the scope.\n\nFor a concrete reference point, see [Websiteli digital expertise](/en/services-pricing/) and examples of [websites we've built](/en/portfolio/).`,
     },
     "ai-chatbot-vs-internal-ai-assistant": {
       title: "AI Chatbot vs Internal AI Assistant: Which Does Your Business Need?",

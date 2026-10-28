@@ -1,0 +1,13 @@
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reduce.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        if (!reduce.matches) entry.target.animate([{opacity:0.7,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:450,easing:'ease-out'});
+        observer.unobserve(entry.target);
+      }
+    },{threshold:0.12});
+    document.querySelectorAll('.premium-intro, .expertise-rows article, .premium-stages article, .premium-projects article').forEach(el => observer.observe(el));
+  }
+</script>

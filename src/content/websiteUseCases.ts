@@ -297,15 +297,15 @@ export const websiteUseCases: WebsiteUseCase[] = [
     shortTitle: "Small business",
     metaTitle: "Small Business Website Design - Websiteli",
     metaDescription:
-      "See Websiteli's own website as a real example of a small-business website system with services, pricing, portfolio proof, SEO and contact paths.",
+      "See Websiteli's own website as a real example of a small-business website system with services, consultation paths, portfolio proof, SEO and contact paths.",
     heroText:
       "A small-business website should explain the offer, build trust and turn interested visitors into useful conversations. Websiteli's own website is the real project behind this use case.",
     projectIntro:
-      "Websiteli shows how a service business can combine clear positioning, portfolio proof, pricing signals, SEO content and contact paths into one owned website.",
+      "Websiteli shows how a service business can combine clear positioning, portfolio proof, consultation paths, SEO content and contact paths into one owned website.",
     needsTitle: "What small businesses need from a website",
     needs: [
       "A homepage that explains the offer without forcing visitors to guess.",
-      "Service pages, pricing signals and proof that reduce friction before contact.",
+      "Service pages, consultation paths and proof that reduce friction before contact.",
       "SEO foundations and internal links that help the right pages get discovered.",
       "Forms, analytics and maintenance so the website keeps supporting the business.",
     ],
@@ -341,9 +341,9 @@ export const websiteUseCases: WebsiteUseCase[] = [
           "Start with the homepage, core services, proof, contact path, analytics and SEO basics. Extra pages can come after the first useful structure is live.",
       },
       {
-        question: "Can Websiteli show pricing before a consultation?",
+        question: "How does Websiteli scope an engagement?",
         answer:
-          "Yes. Starting prices are visible, while the final quote depends on pages, languages, content, integrations and launch support.",
+          "We discuss your objectives, pages, languages, content, integrations and support requirements, then prepare a tailored proposal.",
       },
       {
         question: "Can the same website later support automation or AI tools?",

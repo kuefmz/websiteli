@@ -77,8 +77,8 @@ const defaultFaqs = [
     answer: `Yes. Websiteli scopes ${service.title.toLowerCase()} around the workflow, budget and team capacity of the business, then starts with the smallest useful version before expanding.`,
   },
   {
-    question: `What does ${service.shortTitle.toLowerCase()} cost?`,
-    answer: service.investment,
+    question: "How is the engagement scoped?",
+    answer: "We discuss your objectives, existing systems and delivery requirements before agreeing a tailored scope and proposal.",
   },
 ];
 const serviceFaqs = detail?.faqs ?? defaultFaqs;
@@ -96,13 +96,6 @@ const schema = [
     },
     areaServed: ["Switzerland", "Europe", "International"],
     description: service.description,
-    offers: {
-      "@type": "Offer",
-      name: packageLabels[service.packageKey] ?? service.title,
-      priceCurrency: "CHF",
-      description: service.investment,
-      availability: "https://schema.org/InStock",
-    },
   },
   {
     "@context": "https://schema.org",
@@ -149,11 +142,6 @@ const schema = [
           applicationCategory: "BusinessApplication",
           operatingSystem: "Web",
           description: service.description,
-          offers: {
-            "@type": "Offer",
-            priceCurrency: "CHF",
-            description: service.investment,
-          },
         },
       ]
     : []),
@@ -186,7 +174,7 @@ const schema = [
       <p>{detail?.intro ?? service.description}</p>
       <div class="button-row">
         <a class="button primary" href={contactHref} data-track-event="service_cta_click" data-track-label={service.slug}>{primaryCtaLabel}</a>
-        <a class="button secondary" href={pricingHref}>Compare packages</a>
+        <a class="button secondary" href={pricingHref}>Explore our expertise</a>
       </div>
     </section>
 
@@ -368,10 +356,10 @@ const schema = [
 
     <section class="section-shell detail-grid compact-top">
       <article class="detail-panel">
-        <p class="eyebrow">Pricing guidance</p>
-        <h2>{packageKeys.includes(service.packageKey) ? packageLabels[service.packageKey] : "Project scope"}</h2>
-        <p>{service.investment}</p>
-        <a href={pricingHref}>See pricing structure</a>
+        <p class="eyebrow">Your requirements</p>
+        <h2>A considered scope.</h2>
+        <p>Every engagement begins with understanding your objectives, systems and priorities. We agree the scope, delivery plan and responsibilities before implementation.</p>
+        <a href={contactHref}>Request a consultation ↗</a>
       </article>
       <article class="detail-panel">
         <p class="eyebrow">Internal links</p>
