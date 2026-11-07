@@ -8,7 +8,7 @@ import PackageCard from "./PackageCard.astro";
 import PartnersPage from "./PartnersPage.astro";
 import ProcessStep from "./ProcessStep.astro";
 import { portfolioConcepts, realPortfolioProjects } from "../content/portfolio";
-import { packageKeyByName, pricing } from "../config/pricing";
+import { packageKeyByName } from "../config/pricing";
 import { getPackageLabels } from "../config/packageLabels";
 import { getBlogIndexContent, getBlogPosts, getMarketKeywords } from "../content/blog";
 import { getFeaturedServices, getServiceCategoryServices } from "../content/services";
@@ -33,10 +33,6 @@ const packageLabels = getPackageLabels(locale);
 const websiteReviewHref = `${contactHref}?package=digitalAudit&project=website-review&intent=website_review`;
 const serviceCategoryContent = getServiceCategoryServices();
 const featuredServices = getFeaturedServices();
-const swissPricing = pricing.CH;
-function formatChf(amount: number) {
-  return `from ${swissPricing.symbol} ${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(amount)}`;
-}
 const processSteps = [
   {
     title: "Audit",
@@ -163,24 +159,21 @@ const portfolioUi = portfolioPageCopy[locale] ?? portfolioPageCopy.en;
       <section class="pricing-page-overview" id="pricing">
         <div class="section-shell pricing-page-overview-inner">
           <div class="section-heading">
-            <p class="eyebrow">Pricing</p>
-            <h2>Starting prices you can understand before you contact us.</h2>
-            <p>Exact scope depends on pages, content, languages, integrations and launch support, but the starting point should be visible.</p>
+            <p class="eyebrow">Project scope</p>
+            <h2>Find the right starting point for your project.</h2>
+            <p>Your quote reflects the pages, content, languages, integrations and launch support you need.</p>
           </div>
           <div class="pricing-snapshot-grid">
             <article class="pricing-snapshot-card" data-package-card="digitalFoundation">
               <h3>{packageLabels.digitalFoundation}</h3>
-              <p class="plan-price" data-package-price="digitalFoundation">{formatChf(swissPricing.packages.digitalFoundation.from)}</p>
               <p>For a professional website foundation, contact form, analytics, Search Console and SEO basics.</p>
             </article>
             <article class="pricing-snapshot-card" data-package-card="growthSetup">
               <h3>{packageLabels.growthSetup}</h3>
-              <p class="plan-price" data-package-price="growthSetup">{formatChf(swissPricing.packages.growthSetup.from)}</p>
               <p>For more pages, lead capture, bookings, Google Business support and conversion tracking.</p>
             </article>
             <article class="pricing-snapshot-card" data-package-card="aiDataUpgrade">
               <h3>{packageLabels.aiDataUpgrade}</h3>
-              <p class="plan-price" data-package-price="aiDataUpgrade">{formatChf(swissPricing.packages.aiDataUpgrade.from)}</p>
               <p>For automation, AI helpers, dashboards or custom workflows after the website foundation is clear.</p>
             </article>
             <article class="pricing-snapshot-card ownership-card">

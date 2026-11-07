@@ -1,5 +1,4 @@
 ---
-import { pricing } from "../config/pricing";
 
 interface Props {
   locale?: "en" | "de";
@@ -7,7 +6,6 @@ interface Props {
 
 const { locale = "en" } = Astro.props;
 const isGerman = locale === "de";
-const chPricing = pricing.CH;
 const endpoint = "https://script.google.com/macros/s/AKfycbyAMZy4vPe56lUmFA8-Q_MDJ-AS4aJJb0vOeiViGPneWtkYn9LKXla2BmSWflsvuE-lyw/exec";
 const privacyPolicyVersion = "2026-06-24";
 
@@ -146,19 +144,16 @@ const copy = isGerman
 const recommendationPackages = {
   digitalFoundation: {
     name: "Digital Foundation",
-    price: `${chPricing.symbol} ${chPricing.packages.digitalFoundation.from.toLocaleString("en-US")}`,
     en: "Best when the website itself needs clearer positioning, stronger trust signals or a modern conversion-focused rebuild.",
     de: "Ideal, wenn die Website selbst klarer positioniert, vertrauenswürdiger oder conversion-stärker aufgebaut werden muss.",
   },
   growthSetup: {
     name: "Growth Setup",
-    price: `${chPricing.symbol} ${chPricing.packages.growthSetup.from.toLocaleString("en-US")}`,
     en: "Best when the website needs better lead capture, analytics, SEO foundations and a clearer path from visitor to enquiry.",
     de: "Ideal, wenn Lead-Erfassung, Analytics, SEO-Grundlagen und der Weg vom Besucher zur Anfrage verbessert werden sollen.",
   },
   aiDataUpgrade: {
     name: "AI/Data Upgrade",
-    price: `${chPricing.symbol} ${chPricing.packages.aiDataUpgrade.from.toLocaleString("en-US")}`,
     en: "Best when the website works, but lead handling, follow-up or repetitive business tasks still depend too heavily on manual work.",
     de: "Ideal, wenn die Website funktioniert, aber Lead-Bearbeitung, Follow-up oder wiederkehrende Aufgaben noch zu manuell sind.",
   },
@@ -267,7 +262,6 @@ const languageLinks = {
           <p class="eyebrow">{copy.recommendationEyebrow}</p>
           <div class="recommendation-title">
             <h3 data-rec-name>Growth Setup</h3>
-            <span>{copy.from} <strong data-rec-price></strong></span>
           </div>
           <p data-rec-text></p>
         </div>
@@ -495,13 +489,11 @@ const languageLinks = {
       const score = root.querySelector("[data-score]");
       const domainLabel = root.querySelector("[data-website-domain]");
       const recName = root.querySelector("[data-rec-name]");
-      const recPrice = root.querySelector("[data-rec-price]");
       const recText = root.querySelector("[data-rec-text]");
 
       if (score) score.textContent = String(diagnosis.score);
       if (domainLabel) domainLabel.textContent = domain;
       if (recName) recName.textContent = rec.name;
-      if (recPrice) recPrice.textContent = rec.price;
       if (recText) recText.textContent = locale === "de" ? rec.de : rec.en;
 
       Object.entries(diagnosis.statuses).forEach(([module, status]) => {

@@ -1,0 +1,125 @@
+<script is:inline>
+(() => {
+  function getAttribution() {
+    return window.websiteliGetAttribution?.() || {};
+  }
+
+  function getAnalyticsAttributionParams(attribution = getAttribution()) {
+    return window.websiteliGetAnalyticsAttributionParams?.(attribution) || {};
+  }
+
+  function hasAttribution(attribution) {
+    return window.websiteliHasAttribution?.(attribution) || false;
+  }
+
+  function updateInquiryFields() {
+    const url = new URL(window.location.href);
+    const packageSelect = document.querySelector("[data-package-select]");
+    const selectedPackage = packageSelect instanceof HTMLSelectElement ? packageSelect.value : url.searchParams.get("package") || "";
+    const relatedDemo = url.searchParams.get("demo") || "";
+    const relatedProject = url.searchParams.get("project") || "";
+    const sourcePage = url.searchParams.get("sourcePage") || window.location.pathname;
+    const inquiryIntent = url.searchParams.get("intent") || "";
+    const attribution = getAttribution();
+
+    document.querySelectorAll("[data-pricing-field]").forEach((field) => {
+      if (!(field instanceof HTMLInputElement)) return;
+
+      const key = field.dataset.pricingField;
+      const utmKey = field.dataset.utmKey;
+
+      if (utmKey) {
+        field.value = attribution[utmKey] || "";
+        return;
+      }
+
+      const values = {
+        packageKey: selectedPackage,
+        relatedDemo,
+        relatedProject,
+        sourcePage,
+        inquiryIntent,
+        sourcePath: window.location.pathname,
+        currentUrl: window.location.href,
+        referrer: document.referrer,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+      };
+
+      if (key in values) field.value = values[key];
+    });
+  }
+
+  window.websiteliUpdateInquiryFields = updateInquiryFields;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const currentAttribution = window.websiteliGetCurrentAttribution?.() || {};
+    if (hasAttribution(currentAttribution)) {
+      const currentAttributionParams = getAnalyticsAttributionParams(currentAttribution);
+
+      window.trackWebsiteliEvent?.("utm_detected", {
+        event_category: "attribution",
+        event_label: currentAttribution.utm_campaign || currentAttribution.utm_source || currentAttribution.gclid || "campaign",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        ...currentAttributionParams,
+      });
+
+      window.trackWebsiteliEvent?.("campaign_landing", {
+        event_category: "attribution",
+        event_label: currentAttribution.utm_campaign || currentAttribution.utm_source || currentAttribution.gclid || "campaign",
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        ...currentAttributionParams,
+      });
+    }
+
+    const packageSelect = document.querySelector("[data-package-select]");
+    const linkedPackage = new URL(window.location.href).searchParams.get("package");
+    if (packageSelect instanceof HTMLSelectElement && Array.from(packageSelect.options).some((option) => option.value === linkedPackage)) {
+      packageSelect.value = linkedPackage;
+    }
+    updateInquiryFields();
+
+    document.querySelectorAll("[data-package-select]").forEach((select) => {
+      select.addEventListener("change", updateInquiryFields);
+    });
+
+    document.querySelectorAll("[data-package-cta]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const packageKey = link.dataset.packageKey;
+
+        window.trackWebsiteliEvent?.("package_cta_click", {
+          package_key: packageKey,
+          locale: document.documentElement.lang,
+          source_path: window.location.pathname,
+        });
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      const seenPackages = new Set();
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+
+            const packageKey = entry.target.dataset.packageCard;
+            if (!packageKey || seenPackages.has(packageKey)) return;
+            seenPackages.add(packageKey);
+
+            window.trackWebsiteliEvent?.("package_view", {
+              package_key: packageKey,
+              locale: document.documentElement.lang,
+              source_path: window.location.pathname,
+            });
+          });
+        },
+        { threshold: 0.45 },
+      );
+
+      document.querySelectorAll("[data-package-card]").forEach((card) => observer.observe(card));
+    }
+  });
+})();
+</script>

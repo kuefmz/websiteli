@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import AnalyticsRuntime from "../components/AnalyticsRuntime.astro";
 import AttributionRuntime from "../components/AttributionRuntime.astro";
 import ExitIntentFeedback from "../components/ExitIntentFeedback.astro";
-import PricingRuntime from "../components/PricingRuntime.astro";
+import InquiryRuntime from "../components/InquiryRuntime.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -248,6 +248,6 @@ const structuredData = [
     <slot />
     <Footer content={content} locale={locale} />
     <ExitIntentFeedback locale={locale} />
-    <PricingRuntime />
+    <InquiryRuntime />
   </body>
 </html>

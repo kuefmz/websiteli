@@ -263,9 +263,9 @@ const formUi = content?.ui?.form ?? {
 
     event.preventDefault();
 
-    const detectedCountry = getFormString(formData, "country") || window.websiteliPricing?.country || "";
-    const detectedCurrency = getFormString(formData, "currency") || window.websiteliPricing?.currency || "";
-    const detectedMarket = getFormString(formData, "pricingMarket") || window.websiteliPricing?.pricingMarket || "";
+    const detectedCountry = getFormString(formData, "country") || "";
+    const detectedCurrency = getFormString(formData, "currency") || "";
+    const detectedMarket = getFormString(formData, "pricingMarket") || "";
     const need = getFormString(formData, "project");
     const utm = getUtm(formData);
     const payload = {

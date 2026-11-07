@@ -5,7 +5,6 @@ import { test } from "node:test";
 
 const distDir = join(process.cwd(), "dist");
 const attributionRuntimePath = join(process.cwd(), "src/components/AttributionRuntime.astro");
-const pricingRuntimePath = join(process.cwd(), "src/components/PricingRuntime.astro");
 const layoutPath = join(process.cwd(), "src/layouts/Layout.astro");
 
 async function collectFiles(dir) {
@@ -112,12 +111,12 @@ function getStructuredData(html) {
   return JSON.parse(match[1]);
 }
 
-test("localized pages include the browser pricing runtime", async () => {
+test("localized pages include inquiry attribution without browser pricing", async () => {
   const englishHome = await readDistFile("en/index.html");
 
   assert.match(englishHome, /websiteli_attribution/);
   assert.match(englishHome, /localStorage/);
-  assert.match(englishHome, /window\.websiteliGetPricingForCountry/);
+  assert.match(englishHome, /window\.websiteliUpdateInquiryFields/);
   assert.match(englishHome, /utm_detected/);
   assert.match(englishHome, /campaign_landing/);
   assert.match(englishHome, /websiteliShowAttribution/);
@@ -161,9 +160,8 @@ test("pricing source of truth contains supported markets and packages", async ()
   assert.equal(typeof source.CH.packages.aiDataUpgrade.from, "number");
 });
 
-test("pricing resolves from IP lookups without a user-facing market selector", async () => {
+test("published pages omit service rates and browser pricing lookups", async () => {
   const attribution = await readFile(attributionRuntimePath, "utf8");
-  const source = await readFile(pricingRuntimePath, "utf8");
   const layout = await readFile(layoutPath, "utf8");
   const files = await collectFiles(distDir);
   const frontendFiles = files.filter((file) => /\.(html|js)$/.test(file));
@@ -179,34 +177,29 @@ test("pricing resolves from IP lookups without a user-facing market selector", a
   assert.match(attribution, /source: attribution\.utm_source/);
   assert.match(attribution, /medium: attribution\.utm_medium/);
   assert.match(attribution, /campaign: attribution\.utm_campaign/);
-  assert.match(source, /api\.country\.is/);
-  assert.match(source, /ipapi\.co/);
-  assert.match(source, /geojs\.io/);
-  assert.match(source, /cloudflare-trace/);
-  assert.match(source, /Promise\.all/);
   const analytics = await readFile(join(process.cwd(), "public/analytics-runtime.js"), "utf8");
   assert.match(layout, /AnalyticsRuntime/);
   assert.match(analytics, /G-TGZY875FGJ/);
   assert.match(analytics, /analytics_storage: 'denied'/);
   assert.match(analytics, /page_location: window.location.origin/);
-  assert.match(source, /swiss-german-market/);
-  assert.doesNotMatch(source, /data-market-select|market_change_select/);
-  assert.doesNotMatch(combined, /["']websiteli_market["']/);
+  assert.doesNotMatch(combined, /pricingData|websiteliGetPricingForCountry|data-package-price|api\.country\.is|ipapi\.co|geojs\.io/);
+  const publicPrices = /CHF\s*\d[\d’',.]*(?!\d)|(?:€|£|\$)\s*\d[\d,.]*|\b\d[\d’',.]*\s*CHF\b/gi;
+  for (const file of files.filter((file) => /\.(html|svg|txt)$/.test(file))) {
+    const copy = await readFile(file, "utf8");
+    const text = file.endsWith("/partners/index.html") ? copy.replace(/CHF 100\b/g, "") : copy;
+    assert.deepEqual(text.match(publicPrices), null, relative(distDir, file));
+  }
 });
 
-test("EU countries and unknown countries map to the correct fallback markets", async () => {
-  const source = await readFile(pricingRuntimePath, "utf8");
+test("source configuration retains supported country codes", async () => {
   const pricingConfig = await readFile(join(process.cwd(), "src/config/pricing.ts"), "utf8");
 
-  assert.match(source, /getPricingMarketForCountry/);
-  assert.match(source, /pricingData\.euCountryCodes\.includes/);
-  assert.match(source, /return "DEFAULT"/);
   assert.match(pricingConfig, /"CZ"/);
   assert.match(pricingConfig, /"DK"/);
   assert.match(pricingConfig, /"PT"/);
 });
 
-test("lead forms receive pricing, source, demo, and project metadata", async () => {
+test("lead forms preserve source, demo, and project metadata", async () => {
   const englishHome = await readDistFile("en/index.html");
   const contact = await readDistFile("en/contact/index.html");
   const portfolio = await readDistFile("en/portfolio/index.html");

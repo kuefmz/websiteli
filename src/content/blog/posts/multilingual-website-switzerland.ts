@@ -178,7 +178,7 @@ Check that every language version shows the same:
 - form questions;
 - confirmation messages.
 
-This is especially important when a site promotes fixed packages. Websiteli offers landing pages from CHF 990, Growth Setup from CHF 1'990 and AI/Data Upgrade from CHF 3'290. These details should remain consistent everywhere they appear.
+This is especially important when a website describes services. Capabilities, scope and consultation routes should remain consistent across languages.
 
 ## Use AI as a translation assistant
 
@@ -261,7 +261,7 @@ It is successful when customers in each target market understand the offer, trus
 
 For Swiss small businesses, the best multilingual strategy is focused, consistent and maintainable.
 
-Websiteli builds multilingual business websites, landing pages, automation and practical AI solutions. Landing pages start from CHF 990, Growth Setup from CHF 1'990 and AI/Data Upgrade from CHF 3'290.`
+Websiteli builds multilingual business websites, landing pages, automation and practical AI solutions, with a tailored proposal for each engagement.`
     }
   }
 } satisfies BlogPostSource;

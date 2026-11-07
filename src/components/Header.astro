@@ -21,20 +21,20 @@ const nav = content?.nav ?? {
   about: "About",
   contact: "Contact",
 };
-const headerCtaCopy: Record<string, { pricing: string; review: string }> = {
-  en: { pricing: "Pricing", review: "Get a free website review" },
-  de: { pricing: "Preise", review: "Kostenlosen Website-Check anfragen" },
-  hu: { pricing: "Árak", review: "Ingyenes weboldal-áttekintés" },
-  pl: { pricing: "Cennik", review: "Bezpłatny przegląd strony" },
-  es: { pricing: "Precios", review: "Revisión web gratuita" },
-  fr: { pricing: "Tarifs", review: "Revue de site gratuite" },
-  it: { pricing: "Prezzi", review: "Revisione gratuita del sito" },
-  cz: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
-  sk: { pricing: "Ceny", review: "Bezplatná kontrola webu" },
-  pt: { pricing: "Preços", review: "Revisão gratuita do site" },
-  da: { pricing: "Priser", review: "Gratis website-gennemgang" },
-  nl: { pricing: "Prijzen", review: "Gratis websitecheck" },
-  ja: { pricing: "料金", review: "無料Webサイトレビュー" },
+const headerCtaCopy: Record<string, { packages: string; review: string }> = {
+  en: { packages: "Packages", review: "Get a free website review" },
+  de: { packages: "Pakete", review: "Kostenlosen Website-Check anfragen" },
+  hu: { packages: "Csomagok", review: "Ingyenes weboldal-áttekintés" },
+  pl: { packages: "Pakiety", review: "Bezpłatny przegląd strony" },
+  es: { packages: "Paquetes", review: "Revisión web gratuita" },
+  fr: { packages: "Formules", review: "Revue de site gratuite" },
+  it: { packages: "Pacchetti", review: "Revisione gratuita del sito" },
+  cz: { packages: "Balíčky", review: "Bezplatná kontrola webu" },
+  sk: { packages: "Balíky", review: "Bezplatná kontrola webu" },
+  pt: { packages: "Pacotes", review: "Revisão gratuita do site" },
+  da: { packages: "Pakker", review: "Gratis website-gennemgang" },
+  nl: { packages: "Pakketten", review: "Gratis websitecheck" },
+  ja: { packages: "プラン", review: "無料Webサイトレビュー" },
 };
 const headerCta = headerCtaCopy[locale] ?? headerCtaCopy.en;
 const marketScanLabels: Record<string, string> = {
@@ -49,7 +49,7 @@ const navItems = [
   { label: nav.services ?? "Services", href: `/${locale}/services-pricing/#problems` },
   { label: nav.portfolio ?? "Portfolio", href: `/${locale}/portfolio/` },
   ...(["en", "de", "fr", "it", "es"].includes(locale) ? [{ label: marketScanLabel, href: `/${locale}/market-scan/` }] : []),
-  { label: headerCta.pricing, href: `/${locale}/services-pricing/#pricing` },
+  { label: headerCta.packages, href: `/${locale}/services-pricing/#pricing` },
   { label: nav.partners ?? "Partners", href: `/${locale}/partners/` },
   { label: nav.blog ?? "Blog", href: `/${locale}/blog/` },
   { label: nav.about, href: `/${locale}/about/` },
