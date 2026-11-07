@@ -30,16 +30,16 @@ const references = [
 
 const translations: BlogPostSource["translations"] = {
   en: {
-    title: "Planning a Business Website in Switzerland",
+    title: "Business Website Cost in Switzerland: 2026 Pricing Guide",
     description: "A practical 2026 Swiss website cost guide for small businesses, including price drivers, realistic budgets, and how to compare offers.",
     category: "Website Pricing",
-    tags: ["website cost switzerland", "website price", "business website cost", "Swiss website pricing", "website cost guide"],
+    tags: ["website cost switzerland", "website price", "affordable website", "business website cost", "Swiss website pricing", "website cost guide"],
     language: "en",
     readingTime: "8 min read",
     audience: "Swiss small business owners planning a website budget",
     excerpt: "Website cost in Switzerland depends on scope, content, design, integrations, and ongoing maintenance. This guide explains the main cost drivers and how to compare offers.",
     summary: [
-      "Every project is scoped around your requirements. We agree deliverables, responsibilities and a tailored proposal after an initial consultation.",
+      "Websiteli's Swiss packages currently start from CHF 990 for Digital Foundation, CHF 1'990 for Growth Setup, CHF 3'290 for AI/Data Upgrade, and CHF 50 per month for maintenance.",
       "Final cost depends on pages, content, design, SEO setup, analytics, forms, integrations, multilingual work, and support.",
       "The best comparison is not only price; compare deliverables, ownership, launch support, and maintenance.",
     ],
@@ -47,7 +47,7 @@ const translations: BlogPostSource["translations"] = {
       "Start with scope and business goal before comparing prices.",
       "Check whether content, SEO, mobile performance, analytics, forms, ownership, and support are included.",
       "Budget for maintenance after launch.",
-      "Choose a maintainable system that can evolve with your business.",
+      "Choose a package that can grow instead of a cheap setup that needs rebuilding soon.",
     ],
     chatGptPrompts: [
       "Estimate a realistic Swiss website budget for my business based on this article.",
@@ -58,7 +58,7 @@ const translations: BlogPostSource["translations"] = {
     faqs: [
       {
         question: "How much does a business website cost in Switzerland?",
-        answer: "Every project is scoped around your requirements. We agree deliverables, responsibilities and a tailored proposal after an initial consultation.",
+        answer: "For Websiteli's current Swiss packages, Digital Foundation starts from CHF 990, Growth Setup from CHF 1'990, AI/Data Upgrade from CHF 3'290, and maintenance from CHF 50 per month. Final cost depends on scope.",
       },
       {
         question: "What affects website price the most?",
@@ -71,10 +71,14 @@ const translations: BlogPostSource["translations"] = {
     ],
     body: `## The short answer
 
-Your website should be scoped around its business purpose, content and technical requirements.
+Website cost in Switzerland depends on scope. For Websiteli's current Swiss pricing, the main packages start at:
 
+- Digital Foundation: from CHF 990
+- Growth Setup: from CHF 1'990
+- AI/Data Upgrade: from CHF 3'290
+- Website maintenance: from CHF 50 per month in Switzerland
 
-Websiteli prepares tailored proposals following a consultation. Explore our [expertise](https://websiteli.ch/en/services-pricing/) and discuss your goals with us.
+These are starting prices from the Websiteli services and pricing page, not a promise that every project fits the same number ([Websiteli](https://websiteli.ch/en/services-pricing/)). The right website price depends on what the website must do for the business.
 
 ## Why website prices vary
 
@@ -96,9 +100,9 @@ Most website cost comes from:
 
 Google's SEO starter guide explains the value of clear, helpful content and search-friendly structure ([Google Search Central](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)). Web Vitals also give site owners a way to evaluate user experience quality ([web.dev](https://web.dev/articles/vitals)).
 
-## What a considered website should include
+## What an affordable website should include
 
-A maintainable business website should include:
+Affordable should not mean fragile. A practical website should still include:
 
 - mobile-friendly design
 - clear page structure
@@ -130,20 +134,20 @@ A simple local business may need a focused foundation website. A business that w
 
 ## Conclusion
 
-A considered scope gives the business a clear, trustworthy, maintainable website with the right foundation for growth.`,
+The smartest Swiss website budget is not always the cheapest offer. It is the scope that gives the business a clear, trustworthy, maintainable website with the right foundation for growth.`,
   },
   de: makeTranslation({
     language: "de",
     title: "Wie viel kostet eine Business-Website in der Schweiz?",
     description: "Ein praktischer Schweizer Kostenleitfaden für KMU-Websites: Preistreiber, Budget und Angebotsvergleich.",
     category: "Website-Preise",
-    tags: ["Website Kosten Schweiz", "Website Preis", "Business-Website Kosten", "Schweizer Website Preise", "Website Kostenleitfaden"],
+    tags: ["Website Kosten Schweiz", "Website Preis", "bezahlbare Website", "Business-Website Kosten", "Schweizer Website Preise", "Website Kostenleitfaden"],
     readingTime: "8 Min. Lesezeit",
     audience: "Schweizer KMU, die ein Website-Budget planen",
     excerpt: "Website-Kosten in der Schweiz hängen von Umfang, Inhalt, Design, Integrationen und Wartung ab.",
     body: `## Die kurze Antwort
 
-Jedes Projekt wird anhand Ihrer Anforderungen geplant. Nach einem persönlichen Gespräch erhalten Sie eine individuelle Offerte mit klaren Leistungen und Verantwortlichkeiten.
+Die Kosten einer Business-Website in der Schweiz hängen vom Umfang ab. Bei Websiteli starten die Schweizer Pakete derzeit bei CHF 990 für Digital Foundation, CHF 1'990 für Growth Setup, CHF 3'290 für AI/Data Upgrade und CHF 50 pro Monat für Wartung.
 
 ## Warum Preise variieren
 
@@ -182,7 +186,7 @@ Das beste Budget ist nicht zwingend das niedrigste. Entscheidend ist ein klarer 
     excerpt: "A svájci weboldal ára a terjedelemtől, tartalomtól, dizájntól, integrációktól és karbantartástól függ.",
     body: `## Rövid válasz
 
-Minden projektet az Ön igényei alapján tervezünk meg. Az első egyeztetés után egyedi ajánlatot készítünk, világos feladatokkal és felelősségi körökkel.
+Egy céges weboldal ára Svájcban a terjedelemtől függ. A Websiteli svájci csomagjai jelenleg CHF 990-től, CHF 1'990-től, CHF 3'290-től, a karbantartás pedig CHF 50/hótól indul.
 
 ## Miért eltérőek az árak
 
@@ -221,7 +225,7 @@ Nem mindig a legolcsóbb ajánlat a legjobb. A jó költségvetés olyan webolda
     excerpt: "Koszt strony w Szwajcarii zależy od zakresu, treści, projektu, integracji i utrzymania.",
     body: `## Krótka odpowiedź
 
-Każdy projekt planujemy na podstawie potrzeb firmy. Po wstępnej rozmowie przygotowujemy indywidualną ofertę z jasno określonym zakresem i odpowiedzialnością.
+Koszt strony firmowej w Szwajcarii zależy od zakresu. Pakiety Websiteli zaczynają się obecnie od CHF 990, CHF 1'990 i CHF 3'290, a utrzymanie od CHF 50 miesięcznie.
 
 ## Dlaczego ceny się różnią
 
@@ -260,7 +264,7 @@ Najlepszy wybór to nie zawsze najniższa cena, ale zakres, który wspiera zaufa
     excerpt: "El coste de una web en Suiza depende de alcance, contenido, diseño, integraciones y mantenimiento.",
     body: `## Respuesta breve
 
-Cada proyecto se define según sus necesidades. Tras una primera consulta, preparamos una propuesta a medida con entregables y responsabilidades claros.
+El coste de una web de negocio en Suiza depende del alcance. Los paquetes suizos de Websiteli empiezan actualmente desde CHF 990, CHF 1'990 y CHF 3'290, con mantenimiento desde CHF 50 al mes.
 
 ## Por qué varían los precios
 
@@ -299,7 +303,7 @@ La mejor opción no siempre es la más barata, sino la que crea una base clara, 
     excerpt: "Le coût d'un site en Suisse dépend du périmètre, du contenu, du design, des intégrations et de la maintenance.",
     body: `## Réponse courte
 
-Chaque projet est défini selon vos besoins. Après un premier échange, nous préparons une proposition sur mesure avec des livrables et des responsabilités clairement définis.
+Le prix d'un site d'entreprise en Suisse dépend du périmètre. Les offres suisses Websiteli commencent actuellement à CHF 990, CHF 1'990 et CHF 3'290, avec maintenance dès CHF 50 par mois.
 
 ## Pourquoi les prix varient
 
@@ -338,7 +342,7 @@ Le meilleur budget n'est pas forcément le plus bas, mais celui qui crée une ba
     excerpt: "Il costo di un sito in Svizzera dipende da ambito, contenuti, design, integrazioni e manutenzione.",
     body: `## Risposta breve
 
-Ogni progetto viene definito in base alle vostre esigenze. Dopo un primo confronto, prepariamo una proposta su misura con attività e responsabilità chiare.
+Il costo di un sito aziendale in Svizzera dipende dall'ambito. I pacchetti Websiteli per la Svizzera partono da CHF 990, CHF 1'990 e CHF 3'290, con manutenzione da CHF 50 al mese.
 
 ## Perché i prezzi variano
 
@@ -377,7 +381,7 @@ La scelta migliore non è sempre la più economica, ma quella che crea una base 
     excerpt: "Cena webu ve Švýcarsku závisí na rozsahu, obsahu, designu, integracích a údržbě.",
     body: `## Krátká odpověď
 
-Každý projekt plánujeme podle vašich potřeb. Po úvodní konzultaci připravíme individuální nabídku s jasným rozsahem a odpovědnostmi.
+Cena firemního webu ve Švýcarsku závisí na rozsahu. Balíčky Websiteli pro Švýcarsko aktuálně začínají na CHF 990, CHF 1'990 a CHF 3'290, údržba od CHF 50 měsíčně.
 
 ## Proč se ceny liší
 
@@ -416,7 +420,7 @@ Nejlepší rozpočet není vždy nejnižší cena, ale rozsah, který vytvoří 
     excerpt: "Cena webu vo Švajčiarsku závisí od rozsahu, obsahu, dizajnu, integrácií a údržby.",
     body: `## Krátka odpoveď
 
-Každý projekt plánujeme podľa vašich potrieb. Po úvodnej konzultácii pripravíme individuálnu ponuku s jasným rozsahom a zodpovednosťami.
+Cena firemného webu vo Švajčiarsku závisí od rozsahu. Balíčky Websiteli pre Švajčiarsko aktuálne začínajú na CHF 990, CHF 1'990 a CHF 3'290, údržba od CHF 50 mesačne.
 
 ## Prečo sa ceny líšia
 
@@ -455,7 +459,7 @@ Najlepší rozpočet nie je vždy najnižšia cena, ale rozsah, ktorý vytvorí 
     excerpt: "O custo de um site na Suíça depende de escopo, conteúdo, design, integrações e manutenção.",
     body: `## Resposta curta
 
-Cada projeto é definido de acordo com as suas necessidades. Após uma primeira conversa, preparamos uma proposta à medida, com entregas e responsabilidades claras.
+O custo de um site empresarial na Suíça depende do escopo. Os pacotes Websiteli para a Suíça começam atualmente em CHF 990, CHF 1'990 e CHF 3'290, com manutenção desde CHF 50 por mês.
 
 ## Porque os preços variam
 
@@ -494,7 +498,7 @@ A melhor escolha nem sempre é a mais barata, mas a que cria uma base clara, con
     excerpt: "Prisen på et website i Schweiz afhænger af scope, indhold, design, integrationer og vedligehold.",
     body: `## Kort svar
 
-Hvert projekt planlægges ud fra jeres behov. Efter en indledende samtale udarbejder vi et individuelt tilbud med klare leverancer og ansvarsområder.
+Prisen på et virksomhedswebsite i Schweiz afhænger af omfanget. Websitelis schweiziske pakker starter aktuelt fra CHF 990, CHF 1'990 og CHF 3'290, med vedligehold fra CHF 50 pr. måned.
 
 ## Hvorfor priser varierer
 
@@ -533,7 +537,7 @@ Det bedste budget er ikke altid den laveste pris, men den løsning, der skaber e
     excerpt: "Websitekosten in Zwitserland hangen af van scope, content, design, integraties en onderhoud.",
     body: `## Kort antwoord
 
-We stemmen elk project af op uw behoeften. Na een eerste gesprek ontvangt u een voorstel op maat met duidelijke werkzaamheden en verantwoordelijkheden.
+De kosten van een bedrijfswebsite in Zwitserland hangen af van de scope. Websiteli-pakketten voor Zwitserland starten momenteel vanaf CHF 990, CHF 1'990 en CHF 3'290, met onderhoud vanaf CHF 50 per maand.
 
 ## Waarom prijzen verschillen
 
@@ -572,7 +576,7 @@ De beste keuze is niet altijd de laagste prijs, maar de scope die een duidelijke
     excerpt: "スイスでのサイト費用は、範囲、コンテンツ、デザイン、連携、保守によって変わります。",
     body: `## 短い答え
 
-お客様の要件に合わせて各プロジェクトを計画します。初回のご相談後、成果物と責任範囲を明確にした個別のご提案を作成します。
+スイスでのビジネスサイト費用は範囲によって変わります。Websiteliのスイス向けパッケージは現在、CHF 990、CHF 1'990、CHF 3'290から、保守は月額CHF 50からです。
 
 ## なぜ価格が変わるのか
 
@@ -749,14 +753,14 @@ function makeTranslation(
 
 export default {
   slug: "website-cost-switzerland",
-  title: "Planning a Business Website in Switzerland",
+  title: "Business Website Cost in Switzerland: 2026 Pricing Guide",
   language: "en",
   description: "A practical 2026 Swiss website cost guide for small businesses, including price drivers, realistic budgets, and how to compare offers.",
-  tags: ["website cost switzerland", "website price", "business website cost", "Swiss website pricing", "website cost guide"],
+  tags: ["website cost switzerland", "website price", "affordable website", "business website cost", "Swiss website pricing", "website cost guide"],
   published: true,
   status: "published",
   image: "/assets/blog/website-cost-switzerland.webp",
-  imageAlt: "Planning a Swiss business website: scope, technical requirements and maintenance.",
+  imageAlt: "Swiss business website pricing guide showing package scope, CHF starting prices, and maintenance factors.",
   author: "Websiteli",
   date: "2026-07-03",
   publishDate: "2026-07-03",

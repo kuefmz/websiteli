@@ -27,10 +27,8 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build and verify consultancy redesign
-        run: |
-          npm run test:redesign
-          node scripts/test-pricing.mjs
+      - name: Build static site
+        run: npm run build
 
       - name: Verify audit and market scan output
         run: |
